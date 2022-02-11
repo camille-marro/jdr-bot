@@ -123,4 +123,7 @@ function getValeurComp (mode, value, comp) {
 }
 // mode 1 -> nom
 // mode 0 -> ID
-client.login ("OTI5MzkzMTY0OTcwNzc4NzA1.Ydmq1Q.rQx2MrowBCMy81GsQvwoH9ghpiA");
+
+
+import {token} from './token';
+client.login (token);
