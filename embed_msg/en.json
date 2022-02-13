@@ -1,0 +1,99 @@
+[
+  {
+    "name": "msgSyntaxErrorEmbed",
+    "color": "#ff0000",
+    "title": "Rolling dices",
+    "description" : "Results of the rolled dice(s) by the bot",
+    "field" : [
+      {
+        "name": "Syntax error",
+        "value": "roll [x]d[y] \n with : x number of rolls and y number of dices faces"
+      }
+    ]
+  },
+  {
+    "name": "msgRolledDiceEmbed",
+    "color": "#005522",
+    "title": "Rolling dices",
+    "description" : "Results of the rolled dice(s) by the bot",
+    "field" : [
+      {
+        "name": "!strMain",
+        "value": "!strSum"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "Rolls list",
+        "value": "!strRollsList",
+        "inline": true
+      },
+      {
+        "name": "Average",
+        "value": "!average.toString()",
+        "inline": true
+      }
+    ]
+  },
+  {
+    "name": "msgRefreshDBEmbed",
+    "color": "!color",
+    "title": "Refreshing database",
+    "description": "Refreshing database's data",
+    "field": [
+      {
+        "name": "Actualisation status",
+        "value": "!status"
+      }
+    ]
+  },
+  {
+    "name": "msgPersonagesInfosEmbed",
+    "color": "#005522",
+    "title": "Personage infos",
+    "description": "Getting personages infos with his name or ID",
+    "fields": [
+      {
+        "name": "!strName",
+        "value": "!strRace"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "Agility - Intelligence - Strength - Charisma",
+        "value": "!strComp",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "!mag_name",
+        "value": "!mag",
+        "inline": true
+      },
+      {
+        "name": "Backlash :",
+        "value": "!counter",
+        "inline": true
+      }
+    ]
+  },
+  {
+    "name": "msgPersonagesInfosErrorEmbed",
+    "color": "#ff0000",
+    "title": "Personage infomations",
+    "description": "Getting personages infos with his name or ID",
+    "fields": [
+      {
+        "name": "Error during the process",
+        "value": "Please enter an existing and valid character name or ID"
+      }
+    ]
+  }
+]

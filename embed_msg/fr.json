@@ -1,0 +1,99 @@
+[
+  {
+    "name": "msgSyntaxErrorEmbed",
+    "color": "#ff0000",
+    "title": "Lancés de dés",
+    "description" : "Résultats du ou des lancers de dés fait par le bot",
+    "field" : [
+      {
+        "name": "Erreur de syntaxe",
+        "value": "lance [x]d[y] \n avec : x le nombre de lancers et y le nombre de face du dé"
+      }
+    ]
+  },
+  {
+    "name": "msgRolledDiceEmbed",
+    "color": "#005522",
+    "title": "Lancés de dés",
+    "description" : "Résultats du ou des lancers de dés fait par le bot",
+    "field" : [
+      {
+        "name": "!strMain",
+        "value": "!strSum"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "Liste des jets",
+        "value": "!strRollsList",
+        "inline": true
+      },
+      {
+        "name": "Moyenne",
+        "value": "!average.toString()",
+        "inline": true
+      }
+    ]
+  },
+  {
+    "name": "msgRefreshDBEmbed",
+    "color": "!color",
+    "title": "Actualisation base de données",
+    "description": "Actualisation des données de la base de données",
+    "field": [
+      {
+        "name": "Statut de l'actualisation",
+        "value": "!status"
+      }
+    ]
+  },
+  {
+    "name": "msgPersonagesInfosEmbed",
+    "color": "#005522",
+    "title": "Informations personnage",
+    "description": "Récupère les informations d'un personnage avec son nom ou son ID",
+    "fields": [
+      {
+        "name": "!strName",
+        "value": "!strRace"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "Agilité - Intelligence - Force - Charisme",
+        "value": "!strComp",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "!mag_name",
+        "value": "!mag",
+        "inline": true
+      },
+      {
+        "name": "Contrecoup :",
+        "value": "!counter",
+        "inline": true
+      }
+    ]
+  },
+  {
+    "name": "msgPersonagesInfosErrorEmbed",
+    "color": "#ff0000",
+    "title": "Infos personnage",
+    "description": "Récupère les informations d'un personnage avec son nom ou son ID",
+    "fields": [
+      {
+        "name": "Erreur dans la récupération d'informations",
+        "value": "Veuillez saisir un identifiant ou un nom de personnage existant et valide."
+      }
+    ]
+  }
+]
