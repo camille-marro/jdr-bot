@@ -75,7 +75,7 @@ client.on("message", message => {
             }
 
             average = average / list.length;
-            const resultEmbed = new MessageEmbed()
+            const msgRolledDiceEmbed = new MessageEmbed()
                 .setColor("#005522")
                 .setTitle("Rolling dices")
                 .setDescription("Results of the rolled dice(s) by the bot")
@@ -86,7 +86,7 @@ client.on("message", message => {
                     {name: 'Average', value: average.toString(), inline: true},
                 );
 
-            message.channel.send({embeds: [resultEmbed]});
+            message.channel.send({embeds: [msgRolledDiceEmbed]});
         } //DONE
         if (msg.indexOf("reload") === 1) {
             connection.query("SELECT * FROM Personnage", function (err, result, fields) {
@@ -102,7 +102,7 @@ client.on("message", message => {
                         return;
                     }
                     console.log("personnage.json reloaded.")
-                    const resultEmbed = new MessageEmbed()
+                    const msgRefreshDBEmbed = new MessageEmbed()
                         .setColor(color)
                         .setTitle("Refreshing database")
                         .setDescription("Refreshing database's data")
@@ -110,7 +110,7 @@ client.on("message", message => {
                             {name: 'Actualisation status', value: status},
                         );
 
-                    message.channel.send({embeds: [resultEmbed]});
+                    message.channel.send({embeds: [msgRefreshDBEmbed]});
                 });
             });
 
@@ -138,9 +138,9 @@ client.on("message", message => {
                     let strRace = race + " - " + glods;
                     let strComp = ":person_doing_cartwheel: " + agi + " - :brain: " + int + " - :muscle: " + force + " - :lips: " + cha;
 
-                    const resultEmbed = new MessageEmbed()
+                    const msgPersonagesInfosEmbed = new MessageEmbed()
                         .setColor("#005522")
-                        .setTitle("Infos personnage")
+                        .setTitle("Personage infos")
                         .setDescription("Récupère les informations d'un personnage avec son nom ou son ID")
                         .setFields(
                             {
@@ -171,13 +171,13 @@ client.on("message", message => {
                                 inline: true
                             }
                         );
-                    message.channel.send({embeds: [resultEmbed]});
+                    message.channel.send({embeds: [msgPersonagesInfosEmbed]});
                     return;
                 }
             }
-            const resultEmbed = new MessageEmbed()
+            const msgPersonagesInfosErrorEmbed = new MessageEmbed()
                 .setColor("#ff0000")
-                .setTitle("Personages infos")
+                .setTitle("Personage informations")
                 .setDescription("Getting personages infos with his name or ID")
                 .setFields(
                     {
@@ -185,7 +185,7 @@ client.on("message", message => {
                         value: "Please enter an existing and valid character name or ID"
                     },
                 );
-            message.channel.send({embeds: [resultEmbed]});
+            message.channel.send({embeds: [msgPersonagesInfosErrorEmbed]});
         }
     }
 })
