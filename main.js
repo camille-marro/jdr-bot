@@ -20,94 +20,94 @@ connection.connect(function(err) {
     if (err) {
         return console.error('error: ' + err.message);
     }
-    console.log('Connecté à la base de données.');
+    console.log('Connected to database.');
 });
 
 client.on("ready", function() {
-    console.log("Connecté au serveur Discord.");
+    console.log("Connected to Discord server.");
 })
 
 client.on("message", message => {
     let msg = message.content
     if (msg.indexOf(config['prefix']) === 0 ) {
-        if (msg.indexOf("lance") === 1) {
-            const msgErreurSyntaxeEmbed = new MessageEmbed()
+        if (msg.indexOf("roll") === 1) {
+            const msgSyntaxErrorEmbed = new MessageEmbed()
                 .setColor("#ff0000")
-                .setTitle("Lancés de dés")
-                .setDescription("Résultats du ou des lancers de dés fait par le bot")
+                .setTitle("Rolling dices")
+                .setDescription("Results of the rolled dice(s) by the bot")
                 .setFields(
                     {
-                        name: 'Erreur de syntaxe',
-                        value: 'lance [x]d[y] \n avec : x le nombre de lancers et y le nombre de face du dé'
+                        name: 'Syntax error',
+                        value: 'roll [x]d[y] \n with : x number of rolls and y number of dices faces'
                     }
                 );
 
             let options = msg.split(" ");
             console.log(options);
             if (options.length == 1) {
-                message.channel.send({embeds: [msgErreurSyntaxeEmbed]});
+                message.channel.send({embeds: [msgSyntaxErrorEmbed]});
                 return;
             }
 
             let values = options[1].split("d");
 
             if (values[0] == '' || values[1] == '') {
-                message.channel.send({embeds: [msgErreurSyntaxeEmbed]});
+                message.channel.send({embeds: [msgSyntaxErrorEmbed]});
                 return;
             }
 
             let list = [];
-            let somme = 0;
+            let sum = 0;
 
             for (let i = 0; i < values[0]; i++) {
-                let nombre = Math.floor(Math.random() * parseInt(values[1])) + 1;
-                list.push(nombre);
-                somme += nombre;
+                let number = Math.floor(Math.random() * parseInt(values[1])) + 1;
+                list.push(number);
+                sum += number;
             }
 
-            let strMain = 'Lancement de ' + values[0] + ' dé(s) ' + values[1];
-            let strSomme = 'Somme : ' + somme;
-            let strListeJets = list.toString();
+            let strMain = 'Rolling ' + values[0] + ' dice(s) ' + values[1];
+            let strSum = 'Sum : ' + sum;
+            let strRollsList = list.toString();
 
-            let moyenne = 0;
+            let average = 0;
             for (let i = 0; i < list.length; i++) {
-                moyenne += list[i];
+                average += list[i];
             }
 
-            moyenne = moyenne / list.length;
+            average = average / list.length;
             const resultEmbed = new MessageEmbed()
                 .setColor("#005522")
-                .setTitle("Lancés de dés")
-                .setDescription("Résultats du ou des lancers de dés fait par le bot")
+                .setTitle("Rolling dices")
+                .setDescription("Results of the rolled dice(s) by the bot")
                 .setFields(
-                    {name: strMain, value: strSomme},
-                    {name: '\u200B', value: '\u200B'}, //saut de ligne
-                    {name: 'Liste des jets', value: strListeJets, inline: true},
-                    {name: 'Moyenne', value: moyenne.toString(), inline: true},
+                    {name: strMain, value: strSum},
+                    {name: '\u200B', value: '\u200B'},
+                    {name: 'Rolls list', value: strRollsList, inline: true},
+                    {name: 'Average', value: average.toString(), inline: true},
                 );
 
             message.channel.send({embeds: [resultEmbed]});
         } //DONE
-        if (msg.indexOf("recharge") === 1) {
+        if (msg.indexOf("reload") === 1) {
             connection.query("SELECT * FROM Personnage", function (err, result, fields) {
-                if (err) return console.error("CHIBRE - " + error.message);
+                if (err) return console.error(error.message);
                 let resultStr = JSON.stringify(result);
                 fs.writeFile("personnage.json", resultStr, function (err, result) {
-                    let status = "Réussite :)";
+                    let status = "Successful :)";
                     let color = "#005522";
                     if (err) {
                         console.error(err);
-                        status = "Echec :(";
+                        status = "Failure :(";
                         color = "#ff0000";
                         return;
                     }
-                    console.log("personnage.json actualisé :)")
+                    console.log("personnage.json reloaded.")
                     const resultEmbed = new MessageEmbed()
                         .setColor(color)
-                        .setTitle("Actualisation BDD")
-                        .setDescription("Actualisation des données de la BDD")
+                        .setTitle("Refreshing database")
+                        .setDescription("Refreshing database's data")
                         .setFields(
-                            {name: 'Statut de l\'actualisation', value: status},
+                            {name: 'Actualisation status', value: status},
                         );
 
                     message.channel.send({embeds: [resultEmbed]});
@@ -117,23 +117,23 @@ client.on("message", message => {
         }
         if (msg.indexOf("infos") === 1) {
             let options = msg.split(" ");
-            let rawperso = fs.readFileSync("personnage.json")
-            let personnages = JSON.parse(rawperso);
+            let rawPersonages = fs.readFileSync("personnage.json")
+            let personages = JSON.parse(rawPersonages);
 
             let name = options[1];
-            for (let i = 0; i < personnages.length; i++) {
-                if (personnages[i]['nom'] == name || personnages[i]['ID'] == name) {
-                    let strName = "Informations de " + personnages[i]['nom'];
+            for (let i = 0; i < personages.length; i++) {
+                if (personages[i]['nom'] == name || personages[i]['ID'] == name) {
+                    let strName = "Informations de " + personages[i]['nom'];
 
-                    let race = personnages[i]['race'].toString();
-                    let agi = personnages[i]['agi'].toString();
-                    let int = personnages[i]['int'].toString();
-                    let force = personnages[i]['for'].toString();
-                    let cha = personnages[i]['cha'].toString();
-                    let mag_name = "Magie : " + personnages[i]['mag_name'].toString();
-                    let mag = ":sparkles: " + personnages[i]['mag'].toString()
-                    let counter = personnages[i]['mag_counter'].toString();
-                    let glods = personnages[i]['glods'].toString() + " glods";
+                    let race = personages[i]['race'].toString();
+                    let agi = personages[i]['agi'].toString();
+                    let int = personages[i]['int'].toString();
+                    let force = personages[i]['for'].toString();
+                    let cha = personages[i]['cha'].toString();
+                    let mag_name = "Magie : " + personages[i]['mag_name'].toString();
+                    let mag = ":sparkles: " + personages[i]['mag'].toString()
+                    let counter = personages[i]['mag_counter'].toString();
+                    let glods = personages[i]['glods'].toString() + " glods";
 
                     let strRace = race + " - " + glods;
                     let strComp = ":person_doing_cartwheel: " + agi + " - :brain: " + int + " - :muscle: " + force + " - :lips: " + cha;
@@ -177,12 +177,12 @@ client.on("message", message => {
             }
             const resultEmbed = new MessageEmbed()
                 .setColor("#ff0000")
-                .setTitle("Infos personnage")
-                .setDescription("Récupère les informations d'un personnage avec son nom ou son ID")
+                .setTitle("Personages infos")
+                .setDescription("Getting personages infos with his name or ID")
                 .setFields(
                     {
-                        name: "Erreur dans la récupération d'informations",
-                        value: "Veuillez saisir un identifiant ou un nom de personnage existant et valide."
+                        name: "Error during the process",
+                        value: "Please enter an existing and valid character name or ID"
                     },
                 );
             message.channel.send({embeds: [resultEmbed]});
