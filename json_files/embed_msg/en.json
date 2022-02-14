@@ -95,5 +95,64 @@
         "value": "Please enter an existing and valid character name or ID"
       }
     ]
+  },
+  "msgConfigLangSuccessEmbed" :
+  {
+    "color": "#005522",
+    "title": "Configuration change",
+    "description": "Change the bot configuration",
+    "field": [
+      {
+        "name": "Successful change there is the new configuration",
+        "value": "!strConfig"
+      }
+    ]
+  },
+  "msgConfigLangErrorEmbed":
+  {
+    "color": "#ff0000",
+    "title": "Configuration change",
+    "description": "Change the bot configuration",
+    "field": [
+      {
+        "name": "Syntax error",
+        "value": "config [param] [value]",
+        "inline": true
+      },
+      {
+        "name": "prefix",
+        "value": "a character ($ by default)",
+        "inline": true
+      },
+      {
+        "name": "lang",
+        "value": "fr, en",
+        "inline": true
+      }
+    ]
+  },
+  "msgConfigLangErrorLangEmbed" :
+  {
+    "color": "#ff0000",
+    "title": "Configuration change",
+    "description": "Change the bot configuration",
+    "field": [
+      {
+        "name": "Error during the language change",
+        "value": "There are the available languages : en, fr"
+      }
+    ]
+  },
+  "msgConfigLangErrorLangEmbed":
+  {
+    "color": "#ff0000",
+    "title": "Configuration change",
+    "description": "Change the bot configuration",
+    "field": [
+      {
+        "name": "Error during the prefix change",
+        "value": "The prefix cannot be null"
+      }
+    ]
   }
 }

@@ -95,5 +95,64 @@
         "value": "Veuillez saisir un identifiant ou un nom de personnage existant et valide."
       }
     ]
+  },
+  "msgConfigLangSuccessEmbed" :
+  {
+    "color": "#005522",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Changement réussi voici la nouvelle configuration",
+        "value": "!strConfig"
+      }
+    ]
+  },
+  "msgConfigLangErrorEmbed":
+  {
+    "color": "#ff0000",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Erreur de syntaxe",
+        "value": "config [param] [value]",
+        "inline": true
+      },
+      {
+        "name": "prefix",
+        "value": "un caractère ($ par défaut)",
+        "inline": true
+      },
+      {
+        "name": "lang",
+        "value": "fr, en",
+        "inline": true
+      }
+    ]
+  },
+  "msgConfigLangErrorLangEmbed" :
+  {
+    "color": "#ff0000",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Erreur dans le changement de langue",
+        "value": "Voici les langues disponibles : en, fr"
+      }
+    ]
+  },
+  "msgConfigLangErrorLangEmbed":
+  {
+    "color": "#ff0000",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Erreur dans le changement de préfixe",
+        "value": "Le préfixe ne peut pas être nul"
+      }
+    ]
   }
 }
