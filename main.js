@@ -8,9 +8,7 @@ let mysql = require('mysql');
 
 const client = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
-const rawConfig = require('./config.js');
-const config = rawConfig['config'];
-const language = config['lang'];
+let config = require('./config.js');
 console.log("Current config :");
 console.log(config);
 
@@ -34,21 +32,21 @@ client.on("ready", function() {
 
 client.on("message", message => {
     let msg = message.content
-    if (msg.indexOf(config['prefix']) === 0 ) {
-        let rawJSONEmbed = fs.readFileSync("json_files/embed_msg/" + language + ".json");
+    if (msg.indexOf(config['config']['prefix']) === 0 ) {
+        let rawJSONEmbed = fs.readFileSync("json_files/embed_msg/" + config['config']['lang'] + ".json");
         let JSONEmbed = JSON.parse(rawJSONEmbed);
 
         if (msg.indexOf("roll") === 1) {
             let msgSyntaxErrorEmbed = createEmbed(JSONEmbed['msgSyntaxErrorEmbed']['color'], JSONEmbed['msgSyntaxErrorEmbed']['title'], JSONEmbed['msgSyntaxErrorEmbed']['description'], JSONEmbed['msgSyntaxErrorEmbed']['field'], []);
             let options = msg.split(" ");
-            if (options.length == 1) {
+            if (options.length === 1) {
                 message.channel.send({embeds: [msgSyntaxErrorEmbed]});
                 return;
             }
 
             let values = options[1].split("d");
 
-            if (values[0] == '' || values[1] == '') {
+            if (values[0] === '' || values[1] === '') {
                 message.channel.send({embeds: [msgSyntaxErrorEmbed]});
                 return;
             }
@@ -109,7 +107,7 @@ client.on("message", message => {
 
             let name = options[1];
             for (let i = 0; i < personages.length; i++) {
-                if (personages[i]['nom'] == name || personages[i]['ID'] == name) {
+                if (personages[i]['nom'] === name || personages[i]['ID'] === name) {
                     let strName = "Informations de " + personages[i]['nom'];
 
                     let race = personages[i]['race'].toString();
@@ -141,6 +139,47 @@ client.on("message", message => {
             let msgPersonagesInfosErrorEmbed = createEmbed(JSONEmbed['msgPersonagesInfosErrorEmbed']['color'], JSONEmbed['msgPersonagesInfosErrorEmbed']['title'], JSONEmbed['msgPersonagesInfosErrorEmbed']['description'], JSONEmbed['msgPersonagesInfosErrorEmbed']['field'], [])
             message.channel.send({embeds: [msgPersonagesInfosErrorEmbed]});
         } //DONE
+        if (msg.indexOf("config") === 1) {
+            let options = msg.split(" ")
+            console.log(options);
+            if (options[1] === "lang") {
+                if (options[2] === "fr" || options[2] === "en") {
+                    config['config']['lang'] = options[2];
+                    let JSONConfig = JSON.stringify(config['config']);
+                    fs.writeFileSync("json_files/config.json", JSONConfig);
+
+                    let embedOptions = [];
+                    embedOptions['!strConfig'] = "prefix : " + config['config']['prefix'] + " - lang : " + config['config']['lang'];
+
+                    let msgConfigLangSuccessEmbed = createEmbed(JSONEmbed['msgConfigLangSuccessEmbed']['color'], JSONEmbed['msgConfigLangSuccessEmbed']['title'], JSONEmbed['msgConfigLangSuccessEmbed']['description'], JSONEmbed['msgConfigLangSuccessEmbed']['field'], embedOptions)
+                    message.channel.send({embeds: [msgConfigLangSuccessEmbed]});
+                } else {
+                    let msgConfigLangErrorLangEmbed = createEmbed(JSONEmbed['msgConfigLangErrorLangEmbed']['color'], JSONEmbed['msgConfigLangErrorLangEmbed']['title'], JSONEmbed['msgConfigLangErrorLangEmbed']['description'], JSONEmbed['msgConfigLangErrorLangEmbed']['field'], [])
+                    message.channel.send({embeds: [msgConfigLangErrorLangEmbed]});
+                }
+            }
+            else if (options[1] === "prefix") {
+                if (options[2] === undefined) {
+                    let msgConfigLangErrorLangEmbed = createEmbed(JSONEmbed['msgConfigLangErrorLangEmbed']['color'], JSONEmbed['msgConfigLangErrorLangEmbed']['title'], JSONEmbed['msgConfigLangErrorLangEmbed']['description'], JSONEmbed['msgConfigLangErrorLangEmbed']['field'], [])
+                    message.channel.send({embeds: [msgConfigLangErrorLangEmbed]});
+                    return;
+                }
+                config['config']['prefix'] = options[2];
+                let JSONConfig = JSON.stringify(config['config']);
+                fs.writeFileSync("json_files/config.json", JSONConfig);
+
+                let embedOptions = [];
+                embedOptions['!strConfig'] = "prefix : " + config['config']['prefix'] + " - lang : " + config['config']['lang'];
+
+                let msgConfigLangSuccessEmbed = createEmbed(JSONEmbed['msgConfigLangSuccessEmbed']['color'], JSONEmbed['msgConfigLangSuccessEmbed']['title'], JSONEmbed['msgConfigLangSuccessEmbed']['description'], JSONEmbed['msgConfigLangSuccessEmbed']['field'], embedOptions)
+                message.channel.send({embeds: [msgConfigLangSuccessEmbed]});
+            }
+            else {
+                let msgConfigLangErrorEmbed = createEmbed(JSONEmbed['msgConfigLangErrorEmbed']['color'], JSONEmbed['msgConfigLangErrorEmbed']['title'], JSONEmbed['msgConfigLangErrorEmbed']['description'], JSONEmbed['msgConfigLangErrorEmbed']['field'], [])
+                message.channel.send({embeds: [msgConfigLangErrorEmbed]});
+                console.log("msgConfigLangErrorLangEmbed");
+            }
+        }
     }
 })
 
