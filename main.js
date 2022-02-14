@@ -1,33 +1,27 @@
 const Discord = require('discord.js');
 const {Intents} = require("discord.js");
-const {MessageEmbed} = require('discord.js');
 
 const token = require('./token.js');
+const connection = require('./assets/db_connect.js');
 let fs = require('fs');
-let mysql = require('mysql');
 
 const client = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+
+let createEmbed = require('./assets/createEmbed.js');
 
 let config = require('./config.js');
 console.log("Current config :");
 console.log(config);
 
-let connection = mysql.createConnection({
-    host: 'mysql-camille-marro.alwaysdata.net',
-    user: '232065_bot-jdr',
-    password: 'CbVru8A34',
-    database: 'camille-marro_bdd'
-});
+// let connection = mysql.createConnection({
+//     host: 'mysql-camille-marro.alwaysdata.net',
+//     user: '232065_bot-jdr',
+//     password: 'CbVru8A34',
+//     database: 'camille-marro_bdd'
+// });
 /*@TODO : essayer de passer la gestion de la bdd dans un fichier externe
     avec genre exports. Aller voir comment faire maybe
 */
-
-connection.connect(function(err) {
-    if (err) {
-        return console.error('error: ' + err.message);
-    }
-    console.log('Connected to database');
-});
 
 client.on("ready", function() {
     console.log("Connected to Discord server");
@@ -189,43 +183,8 @@ client.on("message", message => {
         if (msg.indexOf("help") === 1) {
             let msgHelpEmbed = createEmbed(JSONEmbed['msgHelpEmbed']['color'], JSONEmbed['msgHelpEmbed']['title'], JSONEmbed['msgHelpEmbed']['description'], JSONEmbed['msgHelpEmbed']['field'], [])
             message.channel.send({embeds: [msgHelpEmbed]});
-        }
-
-        //@TODO : commande help
+        } //DONE
     }
 })
-
-//@TODO: peut etre essayer de passer la fonction dans un autre fichier ? genre assets ?
-function createEmbed(color, title, description, fields, values) {
-    let msgEmbed = new MessageEmbed();
-
-    if (color !== "") {
-        if (color.indexOf("!") === 0) msgEmbed.setColor(values[color]);
-        else msgEmbed.setColor(color);
-    }
-    else msgEmbed.setColor("#555555");
-
-    if (title !== "") {
-        if (title.indexOf("!") === 0) msgEmbed.setTitle(values[title]);
-        else msgEmbed.setTitle(title.toString());
-    }
-    else msgEmbed.setTitle("Default");
-
-    if (description !== "") {
-        if (description.indexOf("!") === 0) msgEmbed.setDescription(values[description])
-        else msgEmbed.setDescription(description);
-    }
-    else msgEmbed.setDescription("Default description");
-
-    if (values !== undefined) {
-        for (let i = 0; i < fields.length; i++) {
-            if (fields[i]['name'].indexOf("!") === 0) fields[i]['name'] = values[fields[i]['name']];
-            if (fields[i]['value'].indexOf("!") === 0) fields[i]['value'] = values[fields[i]['value']];
-            msgEmbed.addFields(fields[i]);
-        }
-    }
-
-    return msgEmbed;
-}
 
 client.login (token.token);
