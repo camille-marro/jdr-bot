@@ -1,13 +1,18 @@
 const Discord = require('discord.js');
 const {Intents} = require("discord.js");
 const {MessageEmbed} = require('discord.js');
+
 const token = require('./token.js');
 let fs = require('fs');
 let mysql = require('mysql');
+
 const client = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 const rawConfig = require('./config.js');
 const config = rawConfig['config'];
+const language = config['lang'];
+console.log("Current config :");
+console.log(config);
 
 let connection = mysql.createConnection({
     host: 'mysql-camille-marro.alwaysdata.net',
@@ -20,30 +25,22 @@ connection.connect(function(err) {
     if (err) {
         return console.error('error: ' + err.message);
     }
-    console.log('Connected to database.');
+    console.log('Connected to database');
 });
 
 client.on("ready", function() {
-    console.log("Connected to Discord server.");
+    console.log("Connected to Discord server");
 })
 
 client.on("message", message => {
     let msg = message.content
     if (msg.indexOf(config['prefix']) === 0 ) {
-        if (msg.indexOf("roll") === 1) {
-            const msgSyntaxErrorEmbed = new MessageEmbed()
-                .setColor("#ff0000")
-                .setTitle("Rolling dices")
-                .setDescription("Results of the rolled dice(s) by the bot")
-                .setFields(
-                    {
-                        name: 'Syntax error',
-                        value: 'roll [x]d[y] \n with : x number of rolls and y number of dices faces'
-                    }
-                );
+        let rawJSONEmbed = fs.readFileSync("json_files/embed_msg/" + language + ".json");
+        let JSONEmbed = JSON.parse(rawJSONEmbed);
 
+        if (msg.indexOf("roll") === 1) {
+            let msgSyntaxErrorEmbed = createEmbed(JSONEmbed['msgSyntaxErrorEmbed']['color'], JSONEmbed['msgSyntaxErrorEmbed']['title'], JSONEmbed['msgSyntaxErrorEmbed']['description'], JSONEmbed['msgSyntaxErrorEmbed']['field'], []);
             let options = msg.split(" ");
-            console.log(options);
             if (options.length == 1) {
                 message.channel.send({embeds: [msgSyntaxErrorEmbed]});
                 return;
@@ -75,16 +72,12 @@ client.on("message", message => {
             }
 
             average = average / list.length;
-            const msgRolledDiceEmbed = new MessageEmbed()
-                .setColor("#005522")
-                .setTitle("Rolling dices")
-                .setDescription("Results of the rolled dice(s) by the bot")
-                .setFields(
-                    {name: strMain, value: strSum},
-                    {name: '\u200B', value: '\u200B'},
-                    {name: 'Rolls list', value: strRollsList, inline: true},
-                    {name: 'Average', value: average.toString(), inline: true},
-                );
+            let embedOptions = [];
+            embedOptions['!strMain'] = strMain;
+            embedOptions['!strSum'] = strSum;
+            embedOptions['!strRollsList'] = strRollsList;
+            embedOptions['!average'] = average.toString();
+            let msgRolledDiceEmbed = createEmbed(JSONEmbed['msgRolledDiceEmbed']['color'], JSONEmbed['msgRolledDiceEmbed']['title'], JSONEmbed['msgRolledDiceEmbed']['description'], JSONEmbed['msgRolledDiceEmbed']['field'], embedOptions)
 
             message.channel.send({embeds: [msgRolledDiceEmbed]});
         } //DONE
@@ -101,23 +94,17 @@ client.on("message", message => {
                         color = "#ff0000";
                         return;
                     }
-                    console.log("personnage.json reloaded.")
-                    const msgRefreshDBEmbed = new MessageEmbed()
-                        .setColor(color)
-                        .setTitle("Refreshing database")
-                        .setDescription("Refreshing database's data")
-                        .setFields(
-                            {name: 'Actualisation status', value: status},
-                        );
+                    console.log("personnage.json reloaded.");
 
+                    let msgRefreshDBEmbed = createEmbed(JSONEmbed['msgRefreshDBEmbed']['color'], JSONEmbed['msgRefreshDBEmbed']['title'], JSONEmbed['msgRefreshDBEmbed']['description'], JSONEmbed['msgRefreshDBEmbed']['field'], [])
                     message.channel.send({embeds: [msgRefreshDBEmbed]});
                 });
             });
 
-        }
+        } //DONE
         if (msg.indexOf("infos") === 1) {
             let options = msg.split(" ");
-            let rawPersonages = fs.readFileSync("personnage.json")
+            let rawPersonages = fs.readFileSync("json_files/personnage.json")
             let personages = JSON.parse(rawPersonages);
 
             let name = options[1];
@@ -138,56 +125,55 @@ client.on("message", message => {
                     let strRace = race + " - " + glods;
                     let strComp = ":person_doing_cartwheel: " + agi + " - :brain: " + int + " - :muscle: " + force + " - :lips: " + cha;
 
-                    const msgPersonagesInfosEmbed = new MessageEmbed()
-                        .setColor("#005522")
-                        .setTitle("Personage infos")
-                        .setDescription("Récupère les informations d'un personnage avec son nom ou son ID")
-                        .setFields(
-                            {
-                                name: strName,
-                                value: strRace
-                            },
-                            {
-                                name: "\u200B",
-                                value: "\u200B"
-                            },
-                            {
-                                name: 'Agilité - Intelligence - Force - Charisme',
-                                value: strComp,
-                                inline: true
-                            },
-                            {
-                                name: "\u200B",
-                                value: "\u200B"
-                            },
-                            {
-                                name: mag_name,
-                                value: mag,
-                                inline: true
-                            },
-                            {
-                                name: 'Contrecoup :',
-                                value: counter,
-                                inline: true
-                            }
-                        );
+                    let embedOptions = [];
+                    embedOptions['!strName'] = strName;
+                    embedOptions['!strRace'] = strRace;
+                    embedOptions['!strComp'] = strComp;
+                    embedOptions['!mag_name'] = mag_name;
+                    embedOptions['!mag'] = mag;
+                    embedOptions['!counter'] = counter;
+
+                    let msgPersonagesInfosEmbed = createEmbed(JSONEmbed['msgPersonagesInfosEmbed']['color'], JSONEmbed['msgPersonagesInfosEmbed']['title'], JSONEmbed['msgPersonagesInfosEmbed']['description'], JSONEmbed['msgPersonagesInfosEmbed']['field'], embedOptions)
                     message.channel.send({embeds: [msgPersonagesInfosEmbed]});
                     return;
                 }
             }
-            const msgPersonagesInfosErrorEmbed = new MessageEmbed()
-                .setColor("#ff0000")
-                .setTitle("Personage informations")
-                .setDescription("Getting personages infos with his name or ID")
-                .setFields(
-                    {
-                        name: "Error during the process",
-                        value: "Please enter an existing and valid character name or ID"
-                    },
-                );
+            let msgPersonagesInfosErrorEmbed = createEmbed(JSONEmbed['msgPersonagesInfosErrorEmbed']['color'], JSONEmbed['msgPersonagesInfosErrorEmbed']['title'], JSONEmbed['msgPersonagesInfosErrorEmbed']['description'], JSONEmbed['msgPersonagesInfosErrorEmbed']['field'], [])
             message.channel.send({embeds: [msgPersonagesInfosErrorEmbed]});
-        }
+        } //DONE
     }
 })
+
+function createEmbed(color, title, description, fields, values) {
+    let msgEmbed = new MessageEmbed();
+
+    if (color !== "") {
+        if (color.indexOf("!") === 0) msgEmbed.setColor(values[color]);
+        else msgEmbed.setColor(color);
+    }
+    else msgEmbed.setColor("#555555");
+
+    if (title !== "") {
+        if (title.indexOf("!") === 0) msgEmbed.setTitle(values[title]);
+        else msgEmbed.setTitle(title.toString());
+    }
+    else msgEmbed.setTitle("Default");
+
+    if (description !== "") {
+        if (description.indexOf("!") === 0) msgEmbed.setDescription(values[description])
+        else msgEmbed.setDescription(description);
+    }
+    else msgEmbed.setDescription("Default description");
+
+    if (values !== undefined) {
+        for (let i = 0; i < fields.length; i++) {
+            if (fields[i]['name'].indexOf("!") === 0) fields[i]['name'] = values[fields[i]['name']];
+            if (fields[i]['value'].indexOf("!") === 0) fields[i]['value'] = values[fields[i]['value']];
+            msgEmbed.addFields(fields[i]);
+        }
+    }
+
+    return msgEmbed;
+}
 
 client.login (token.token);
