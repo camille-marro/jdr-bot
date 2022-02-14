@@ -84,17 +84,21 @@ client.on("message", message => {
                 if (err) return console.error(error.message);
                 let resultStr = JSON.stringify(result);
                 fs.writeFile("personnage.json", resultStr, function (err, result) {
-                    let status = "Successful :)";
-                    let color = "#005522";
+                    let embedOptions = [];
+                    embedOptions['!color'] = "#005522";
+                    if (config['config']['lang'] === "en") {
+                        embedOptions['!status'] = "Successful :)";
+                    } else {
+                        embedOptions['!status'] = "Réussite :)";
+                    }
+
                     if (err) {
                         console.error(err);
-                        status = "Failure :(";
-                        color = "#ff0000";
                         return;
                     }
                     console.log("personnage.json reloaded.");
 
-                    let msgRefreshDBEmbed = createEmbed(JSONEmbed['msgRefreshDBEmbed']['color'], JSONEmbed['msgRefreshDBEmbed']['title'], JSONEmbed['msgRefreshDBEmbed']['description'], JSONEmbed['msgRefreshDBEmbed']['field'], [])
+                    let msgRefreshDBEmbed = createEmbed(JSONEmbed['msgRefreshDBEmbed']['color'], JSONEmbed['msgRefreshDBEmbed']['title'], JSONEmbed['msgRefreshDBEmbed']['description'], JSONEmbed['msgRefreshDBEmbed']['field'], embedOptions)
                     message.channel.send({embeds: [msgRefreshDBEmbed]});
                 });
             });
