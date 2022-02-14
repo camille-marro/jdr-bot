@@ -1,6 +1,6 @@
-[
+{
+  "msgSyntaxErrorEmbed":
   {
-    "name": "msgSyntaxErrorEmbed",
     "color": "#ff0000",
     "title": "Lancés de dés",
     "description" : "Résultats du ou des lancers de dés fait par le bot",
@@ -11,8 +11,8 @@
       }
     ]
   },
+  "msgRolledDiceEmbed":
   {
-    "name": "msgRolledDiceEmbed",
     "color": "#005522",
     "title": "Lancés de dés",
     "description" : "Résultats du ou des lancers de dés fait par le bot",
@@ -32,13 +32,13 @@
       },
       {
         "name": "Moyenne",
-        "value": "!average.toString()",
+        "value": "!average",
         "inline": true
       }
     ]
   },
+  "msgRefreshDBEmbed":
   {
-    "name": "msgRefreshDBEmbed",
     "color": "!color",
     "title": "Actualisation base de données",
     "description": "Actualisation des données de la base de données",
@@ -49,12 +49,12 @@
       }
     ]
   },
+  "msgPersonagesInfosEmbed":
   {
-    "name": "msgPersonagesInfosEmbed",
     "color": "#005522",
     "title": "Informations personnage",
     "description": "Récupère les informations d'un personnage avec son nom ou son ID",
-    "fields": [
+    "field": [
       {
         "name": "!strName",
         "value": "!strRace"
@@ -84,16 +84,16 @@
       }
     ]
   },
+  "msgPersonagesInfosErrorEmbed" :
   {
-    "name": "msgPersonagesInfosErrorEmbed",
     "color": "#ff0000",
     "title": "Infos personnage",
     "description": "Récupère les informations d'un personnage avec son nom ou son ID",
-    "fields": [
+    "field": [
       {
         "name": "Erreur dans la récupération d'informations",
         "value": "Veuillez saisir un identifiant ou un nom de personnage existant et valide."
       }
     ]
   }
-]
+}

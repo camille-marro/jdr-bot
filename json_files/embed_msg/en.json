@@ -1,6 +1,6 @@
-[
+{
+  "msgSyntaxErrorEmbed":
   {
-    "name": "msgSyntaxErrorEmbed",
     "color": "#ff0000",
     "title": "Rolling dices",
     "description" : "Results of the rolled dice(s) by the bot",
@@ -11,8 +11,8 @@
       }
     ]
   },
+  "msgRolledDiceEmbed":
   {
-    "name": "msgRolledDiceEmbed",
     "color": "#005522",
     "title": "Rolling dices",
     "description" : "Results of the rolled dice(s) by the bot",
@@ -37,8 +37,8 @@
       }
     ]
   },
+  "msgRefreshDBEmbed":
   {
-    "name": "msgRefreshDBEmbed",
     "color": "!color",
     "title": "Refreshing database",
     "description": "Refreshing database's data",
@@ -49,12 +49,12 @@
       }
     ]
   },
+  "msgPersonagesInfosEmbed":
   {
-    "name": "msgPersonagesInfosEmbed",
     "color": "#005522",
     "title": "Personage infos",
     "description": "Getting personages infos with his name or ID",
-    "fields": [
+    "field": [
       {
         "name": "!strName",
         "value": "!strRace"
@@ -84,16 +84,16 @@
       }
     ]
   },
+  "msgPersonagesInfosErrorEmbed":
   {
-    "name": "msgPersonagesInfosErrorEmbed",
     "color": "#ff0000",
     "title": "Personage infomations",
     "description": "Getting personages infos with his name or ID",
-    "fields": [
+    "field": [
       {
         "name": "Error during the process",
         "value": "Please enter an existing and valid character name or ID"
       }
     ]
   }
-]
+}
