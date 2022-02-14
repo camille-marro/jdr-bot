@@ -141,7 +141,6 @@ client.on("message", message => {
         } //DONE
         if (msg.indexOf("config") === 1) {
             let options = msg.split(" ")
-            console.log(options);
             if (options[1] === "lang") {
                 if (options[2] === "fr" || options[2] === "en") {
                     config['config']['lang'] = options[2];
