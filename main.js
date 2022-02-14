@@ -159,8 +159,8 @@ client.on("message", message => {
             }
             else if (options[1] === "prefix") {
                 if (options[2] === undefined) {
-                    let msgConfigLangErrorLangEmbed = createEmbed(JSONEmbed['msgConfigLangErrorLangEmbed']['color'], JSONEmbed['msgConfigLangErrorLangEmbed']['title'], JSONEmbed['msgConfigLangErrorLangEmbed']['description'], JSONEmbed['msgConfigLangErrorLangEmbed']['field'], [])
-                    message.channel.send({embeds: [msgConfigLangErrorLangEmbed]});
+                    let msgConfigLangErrorPrefixEmbed = createEmbed(JSONEmbed['msgConfigLangErrorPrefixEmbed']['color'], JSONEmbed['msgConfigLangErrorPrefixEmbed']['title'], JSONEmbed['msgConfigLangErrorPrefixEmbed']['description'], JSONEmbed['msgConfigLangErrorPrefixEmbed']['field'], [])
+                    message.channel.send({embeds: [msgConfigLangErrorPrefixEmbed]});
                     return;
                 }
                 config['config']['prefix'] = options[2];
@@ -178,7 +178,7 @@ client.on("message", message => {
                 message.channel.send({embeds: [msgConfigLangErrorEmbed]});
                 console.log("msgConfigLangErrorLangEmbed");
             }
-        }
+        } //DONE
     }
 })
 
