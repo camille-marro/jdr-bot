@@ -32,7 +32,7 @@
       },
       {
         "name": "Average",
-        "value": "!average.toString()",
+        "value": "!average",
         "inline": true
       }
     ]
