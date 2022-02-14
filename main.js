@@ -18,6 +18,9 @@ let connection = mysql.createConnection({
     password: 'CbVru8A34',
     database: 'camille-marro_bdd'
 });
+/*@TODO : essayer de passer la gestion de la bdd dans un fichier externe
+    avec genre exports. Aller voir comment faire maybe
+*/
 
 connection.connect(function(err) {
     if (err) {
@@ -94,6 +97,7 @@ client.on("message", message => {
 
                     if (err) {
                         console.error(err);
+                        //@TODO: passer les options en objet pour gérer l'erreur (dans le embed msg)
                         return;
                     }
                     console.log("personnage.json reloaded.");
@@ -103,7 +107,7 @@ client.on("message", message => {
                 });
             });
 
-        } //DONE
+        } //NOT-YET DONE - 1 TODO
         if (msg.indexOf("infos") === 1) {
             let options = msg.split(" ");
             let rawPersonages = fs.readFileSync("json_files/personnage.json")
@@ -180,12 +184,18 @@ client.on("message", message => {
             else {
                 let msgConfigLangErrorEmbed = createEmbed(JSONEmbed['msgConfigLangErrorEmbed']['color'], JSONEmbed['msgConfigLangErrorEmbed']['title'], JSONEmbed['msgConfigLangErrorEmbed']['description'], JSONEmbed['msgConfigLangErrorEmbed']['field'], [])
                 message.channel.send({embeds: [msgConfigLangErrorEmbed]});
-                console.log("msgConfigLangErrorLangEmbed");
             }
         } //DONE
+        if (msg.indexOf("help") === 1) {
+            let msgHelpEmbed = createEmbed(JSONEmbed['msgHelpEmbed']['color'], JSONEmbed['msgHelpEmbed']['title'], JSONEmbed['msgHelpEmbed']['description'], JSONEmbed['msgHelpEmbed']['field'], [])
+            message.channel.send({embeds: [msgHelpEmbed]});
+        }
+
+        //@TODO : commande help
     }
 })
 
+//@TODO: peut etre essayer de passer la fonction dans un autre fichier ? genre assets ?
 function createEmbed(color, title, description, fields, values) {
     let msgEmbed = new MessageEmbed();
 

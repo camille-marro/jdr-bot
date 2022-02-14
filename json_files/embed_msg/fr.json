@@ -154,5 +154,81 @@
         "value": "Le préfixe ne peut pas être nul"
       }
     ]
+  },
+  "msgHelpEmbed":
+  {
+    "color": "#ab57d4",
+    "title": "Help",
+    "description": "Résumé des commandes et de leurs utilisations",
+    "field": [
+      {
+        "name": "roll [nb_lancers]d[nb_faces]",
+        "value": "Lancer des dés de plusieurs faces"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "nb_lancers",
+        "value": "Nombre de lancers à faire",
+        "inline": true
+      },
+      {
+        "name": "nb_faces",
+        "value": "Nombre de faces du dés",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "infos [nom]",
+        "value": "Récupère les informations sur un personnage avec son nom ou son ID"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "nom",
+        "value": "Nom ou ID du personnage",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "reload",
+        "value": "Actualise les données de la base de données"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "config [param] [valeur]",
+        "value": "Change la configuration de paramètres"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "param",
+        "value": "Paramètre à modifier",
+        "inline": true
+      },
+      {
+        "name": "valeur",
+        "value": "Valeur de la modification",
+        "inline": true
+      }
+    ]
   }
 }

@@ -154,5 +154,81 @@
         "value": "The prefix cannot be null"
       }
     ]
+  },
+  "msgHelpEmbed":
+  {
+    "color": "#ab57d4",
+    "title": "Help",
+    "description": "Summary of the commands and their uses",
+    "field": [
+      {
+        "name": "roll [nb_rolls]d[nb_faces]",
+        "value": "Results of the rolled dice(s) by the bot"
+      },
+      {
+        "name": "Parameters",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "nb_rolls",
+        "value": "Number of rolls to do",
+        "inline": true
+      },
+      {
+        "name": "nb_faces",
+        "value": "Number of faces of the dices",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "infos [name]",
+        "value": "Getting personages infos with his name or ID"
+      },
+      {
+        "name": "Parameters",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "name",
+        "value": "Name or ID of the personage",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "reload",
+        "value": "Refreshing database's data"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "config [param] [value]",
+        "value": "Change the bot configuration"
+      },
+      {
+        "name": "Parameters",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "param",
+        "value": "Parameter to modify",
+        "inline": true
+      },
+      {
+        "name": "value",
+        "value": "Modification value",
+        "inline": true
+      }
+    ]
   }
 }
