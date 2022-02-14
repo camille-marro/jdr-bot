@@ -15,10 +15,10 @@ It have to look like this :
 const mysql = require("mysql");
 
 let connection = mysql.createConnection({
-    host: 'mysql-camille-marro.alwaysdata.net',
-    user: '232065_bot-jdr',
-    password: 'CbVru8A34',
-    database: 'camille-marro_bdd'
+    host: 'HOST',
+    user: 'USER',
+    password: 'PASSWORD',
+    database: 'DATABASE'
 });
 
 connection.connect(function(err) {
