@@ -1,8 +1,8 @@
-#Jdr-bot
+# Jdr-bot
 
-##Discord bot that can help you to play RPG Games
+## Discord bot that can help you to play RPG Games
 
-###First of all
+### First of all
 You need to create a token.js file were you put the token liked to your bot.
 token.js need to look like :
 
@@ -31,7 +31,7 @@ connection.connect(function(err) {
 
 module.exports = connection;
 ```
-###Available commands for now 
+### Available commands for now 
 roll : to roll dices\
 infos : to get information about personages with his name or ID\
 reload : to reload the database infos\
