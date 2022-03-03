@@ -1,27 +1,16 @@
 const Discord = require('discord.js');
 const {Intents} = require("discord.js");
 
-const token = require('./token.js');
+const token = require('./assets/token.js');
 const connection = require('./assets/db_connect.js');
+const createEmbed = require('./assets/createEmbed.js');
 let fs = require('fs');
 
 const client = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
-let createEmbed = require('./assets/createEmbed.js');
-
-let config = require('./config.js');
+let config = require('./assets/config.js');
 console.log("Current config :");
 console.log(config);
-
-// let connection = mysql.createConnection({
-//     host: 'mysql-camille-marro.alwaysdata.net',
-//     user: '232065_bot-jdr',
-//     password: 'CbVru8A34',
-//     database: 'camille-marro_bdd'
-// });
-/*@TODO : essayer de passer la gestion de la bdd dans un fichier externe
-    avec genre exports. Aller voir comment faire maybe
-*/
 
 client.on("ready", function() {
     console.log("Connected to Discord server");
@@ -102,7 +91,7 @@ client.on("message", message => {
             });
 
         } //NOT-YET DONE - 1 TODO
-        if (msg.indexOf("infos") === 1) {
+        if (msg.indexOf("infos") === 1) { //@TODO : issue avec les id des persos
             let options = msg.split(" ");
             let rawPersonages = fs.readFileSync("json_files/personnage.json")
             let personages = JSON.parse(rawPersonages);
@@ -140,8 +129,8 @@ client.on("message", message => {
             }
             let msgPersonagesInfosErrorEmbed = createEmbed(JSONEmbed['msgPersonagesInfosErrorEmbed']['color'], JSONEmbed['msgPersonagesInfosErrorEmbed']['title'], JSONEmbed['msgPersonagesInfosErrorEmbed']['description'], JSONEmbed['msgPersonagesInfosErrorEmbed']['field'], [])
             message.channel.send({embeds: [msgPersonagesInfosErrorEmbed]});
-        } //DONE
-        if (msg.indexOf("config") === 1) {
+        } //DONE - 1 TODO
+        if (msg.indexOf("config") === 1) { //@TODO : check que prefix est de longueur 1
             let options = msg.split(" ")
             if (options[1] === "lang") {
                 if (options[2] === "fr" || options[2] === "en") {
@@ -179,12 +168,14 @@ client.on("message", message => {
                 let msgConfigLangErrorEmbed = createEmbed(JSONEmbed['msgConfigLangErrorEmbed']['color'], JSONEmbed['msgConfigLangErrorEmbed']['title'], JSONEmbed['msgConfigLangErrorEmbed']['description'], JSONEmbed['msgConfigLangErrorEmbed']['field'], [])
                 message.channel.send({embeds: [msgConfigLangErrorEmbed]});
             }
-        } //DONE
+        } //DONE - 1 TODO
         if (msg.indexOf("help") === 1) {
             let msgHelpEmbed = createEmbed(JSONEmbed['msgHelpEmbed']['color'], JSONEmbed['msgHelpEmbed']['title'], JSONEmbed['msgHelpEmbed']['description'], JSONEmbed['msgHelpEmbed']['field'], [])
             message.channel.send({embeds: [msgHelpEmbed]});
         } //DONE
     }
+
+    //@TODO move all commands into specifics files
 })
 
 client.login (token.token);
