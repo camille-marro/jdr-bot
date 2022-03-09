@@ -11,7 +11,7 @@ const token = 'TOKEN'
 exports.token = token
 ```
 You also need to connect the database via an external file named db_connect.js in assets directory\
-It have to look like this :
+It has to look like this :
 ```js
 const mysql = require("mysql");
 
