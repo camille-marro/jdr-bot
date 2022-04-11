@@ -6,7 +6,7 @@ const connection = require('./assets/db_connect.js');
 const createEmbed = require('./assets/createEmbed.js');
 let fs = require('fs');
 
-const client = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] });
 
 let config = require('./assets/config.js');
 console.log("Current config :");
@@ -16,8 +16,8 @@ client.on("ready", function() {
     console.log("Connected to Discord server");
 })
 
-client.on("message", message => {
-    let msg = message.content
+client.on("messageCreate", message => {
+    let msg = message.content;
     if (msg.indexOf(config['config']['prefix']) === 0 ) {
         let rawJSONEmbed = fs.readFileSync("json_files/embed_msg/" + config['config']['lang'] + ".json");
         let JSONEmbed = JSON.parse(rawJSONEmbed);
@@ -174,8 +174,84 @@ client.on("message", message => {
             message.channel.send({embeds: [msgHelpEmbed]});
         } //DONE
     }
+})
 
-    //@TODO move all commands into specifics files
+//@TODO move all commands into specifics files
+
+client.on("voiceStateUpdate", (oldUser, newUser) => {
+    let newChan = newUser.voiceChannel;
+    let userId = newUser.id;
+
+    // channels "tunnel secret" qui permettent de sortir dans un autre tunnel random
+    let tunnels = client.channels.cache.filter(channel => channel.name === 'tunnel secret E');
+    let userTunnel = tunnels.find(channel => channel.id === newUser.channelId);
+    if (userTunnel) {
+        console.log ("|- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") entered in a secret tunnel.");
+        let listTunnel = [];
+        let tunnelSorties = client.channels.cache.filter(channel => channel.name === 'tunnel secret S');
+        tunnelSorties.forEach((value, key) => {
+            if (value.id !== userTunnel.id) {
+                listTunnel.push(value);
+            }
+        });
+        newUser.setChannel(listTunnel[Math.floor(Math.random()*listTunnel.length)])
+            .then (() => {
+                console.log ("|-- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") get moved to an other secret tunnel.");
+            })
+            .catch(() => {
+                console.log ("|-- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") didn't get moved.");
+            });
+    }
+
+    // channel "exit" qui kick du serv quand on rentre dedans
+    if (newUser.channelId === '961727519608963082') {
+        //console.log (newUser);
+        console.log("|- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") entered in the devil channel.")
+        let channel = client.channels.cache.find(channel => channel.name === 'conseil-du-sucre');
+        //console.log("|- user : " + newUser.member.user.username + " joined channel named : " + newUser. + " (#" + newUser.channelId + ")");
+        newUser.member.kick({reason: 'PAS DE PO :('})
+            .then (() => {
+                channel.send('@here : <@' + newUser.member.user.id + "> est allé dans le salon du démon. AHAHAHAH CETTE SALE MERDE");
+                console.log ("|-- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") get kicked.");
+            })
+            .catch(() => {
+                channel.send('<@' + newUser.member.user.id + "> est un sombre fils de pute, les analyses sont formelles.");
+                console.log ("|-- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") didn't get kicked.");
+            });
+    }
+
+    // channel "filet de sécurité qui empeche d'en sortir"
+    if (oldUser.channelId === '961727070092791828') {
+        newUser.setChannel(client.channels.cache.find(channel => channel.id === '961727070092791828'))
+            .then (() => {
+                console.log ("|- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") is back in the safety net.");
+            })
+            .catch(() => {
+                console.log ("|- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") disconnected.");
+            });
+        //console.log(client.channels.cache.find(channel => channel.name === 'The Mistery Machine'));
+        //client.channels.cache.find(channel => channel.name === 'The Mistery Machine').setPosition(5);
+    }
+
+    if (newUser.channelId === '513090608047325184') {
+        let channel = client.channels.cache.find(channel => channel.id === '513090608047325184')//.setPosition(Math.floor(Math.random()*client.channels.cache.filter(channels => channels.guildId === '370599964033679371'.length)));
+        let pos = channel.rawPosition;
+        let nbVocalChannels = client.channels.cache.filter(channels => channels.guildId === '370599964033679371' && channels.type === 'GUILD_VOICE').size;
+        let newPos = Math.floor(Math.random()*nbVocalChannels);
+        let channelText = client.channels.cache.find(channel => channel.name === 'conseil-du-sucre');
+
+        console.log("|- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") entered the mystery machine.");
+
+        channel.setPosition(newPos)
+            .then(() => {
+                console.log("|-- moved mystery machine from #" + pos + " to #" + newPos + ".");
+                channelText.send(':red_car: VROUM VOURM :red_car:, <@' + newUser.member.user.id + "> a prit la mystery machine pour aller découvrir le monde    !");
+            })
+            .catch(() => {
+                console.log("|-- mystery machine didn't move.");
+            })
+    }
+    //console.log(oldUser);
 })
 
 client.login (token.token);
