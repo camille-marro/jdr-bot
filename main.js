@@ -232,7 +232,8 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
         //console.log(client.channels.cache.find(channel => channel.name === 'The Mistery Machine'));
         //client.channels.cache.find(channel => channel.name === 'The Mistery Machine').setPosition(5);
     }
-
+    
+    // channel mystery machine qui tansporte le channel aléatoirement dans le serveur
     if (newUser.channelId === '513090608047325184') {
         let channel = client.channels.cache.find(channel => channel.id === '513090608047325184')//.setPosition(Math.floor(Math.random()*client.channels.cache.filter(channels => channels.guildId === '370599964033679371'.length)));
         let pos = channel.rawPosition;
@@ -251,7 +252,26 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
                 console.log("|-- mystery machine didn't move.");
             })
     }
-    //console.log(oldUser);
+
+    // quand un mec rentre dans le channel grand baton ca disconnect un des mecs dans le filet de sécurité
+    if (newUser.channelId === '961727121888247878') {
+        let users =  newUser.guild.channels.cache.find(channel => channel.id === '961727070092791828').members
+        let rand = Math.floor(Math.random()*users.size);
+        let i = 0;
+        users.forEach((value,key) => {
+            if (i == rand) {
+                console.log("|- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") tried to help someone in the safety net.");
+                value.voice.disconnect()
+                    .then(() => {
+                        console.log("|-- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") helped " + value.user.username + "(#" + value.user.id + ").");
+                    })
+                    .catch(() => {
+                        console.log("|-- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") cannot help " + value.user.username + "(#" + value.user.id + ").");
+                    })
+            }
+            i++;
+       });
+    }
 })
 
 client.login (token.token);
