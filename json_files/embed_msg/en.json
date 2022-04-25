@@ -167,8 +167,7 @@
       }
     ]
   },
-  "msgHelpEmbed":
-  {
+  "msgHelpEmbed": {
     "color": "#ab57d4",
     "title": "Help",
     "description": "Summary of the commands and their uses",
@@ -214,6 +213,72 @@
         "name": "value",
         "value": "Modification value",
         "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "config print",
+        "value": "Print the current configuration of the bot"
+      }
+    ]
+  },
+  "msgPrintConfigEmbed":
+  {
+    "color": "#ab57d4",
+    "title": "Print configuration",
+    "description": "Print the current config of the bot",
+    "field" : [
+      {
+        "name": "prefix",
+        "value": "!prefix",
+        "inline" : true
+      },
+      {
+        "name": "lang",
+        "value": "!lang",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "vocal channels",
+        "value": "name of the vocal channels"
+      },
+      {
+        "name": "secret tunnel entrace",
+        "value": "!secret_tunnel_E",
+        "inline": true
+      },
+      {
+        "name": "secret tunnel exit",
+        "value": "!secret_tunnel_S",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "crused channel",
+        "value": "!kick_channel",
+        "inline": true
+      },
+      {
+        "name": "safety net",
+        "value": "!safety_net_channel",
+        "inline": true
+      },
+      {
+        "name": "mystery machine",
+        "value": "!mystery_machine"
+      },
+      {
+        "name": "BONG channel",
+        "value": "!bong_channel"
       }
     ]
   }
