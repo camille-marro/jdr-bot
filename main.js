@@ -4,14 +4,11 @@ const {Intents} = require("discord.js");
 const token = require('./assets/token.js');
 const connection = require('./assets/db_connect.js');
 const createEmbed = require('./assets/createEmbed.js');
+let config = require('./assets/config.js');
 
 let fs = require('fs');
 
 const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] });
-
-let config = require('./assets/config.js');
-//console.log("Current config :");
-//console.log(config);
 
 client.on("ready", function() {
     console.log("Connected to Discord server");
@@ -163,6 +160,12 @@ client.on("messageCreate", message => {
         }*/ //DONE - 1 TODO
         if (msg.indexOf("config") === 1) { //@TODO :
             let options = msg.split(" ")
+            if (options[1] === "print") {
+                //print config
+                config.printConfigEmbed(message.channel);
+                config.printConfig();
+                return;
+            }
             if (options[1] === "lang") {
                 if (options[2] === "fr" || options[2] === "en") {
                     config['config']['lang'] = options[2];
@@ -211,7 +214,6 @@ client.on("messageCreate", message => {
 })
 
 //@TODO move all commands into specifics files
-
 client.on("voiceStateUpdate", (oldUser, newUser) => {
     let newChan = newUser.voiceChannel;
     let userId = newUser.id;
@@ -238,7 +240,7 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
     }
 
     // channel "exit" qui kick du serv quand on rentre dedans
-    if (newUser.channelId === '961727519608963082') {
+    if (newUser.channelId === config['config']['voice channels']['kick channel']['id']) {
         //console.log (newUser);
         console.log("|- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") entered in the devil channel.")
         let channel = client.channels.cache.find(channel => channel.name === 'conseil-du-sucre');
@@ -255,8 +257,8 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
     }
 
     // channel "filet de sécurité qui empeche d'en sortir"
-    if (oldUser.channelId === '961727070092791828') {
-        newUser.setChannel(client.channels.cache.find(channel => channel.id === '961727070092791828'))
+    if (oldUser.channelId === config['config']['voice channels']['safety net']['id']) {
+        newUser.setChannel(client.channels.cache.find(channel => channel.id === config['config']['voice channels']['safety net']['id']))
             .then (() => {
                 console.log ("|- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") is back in the safety net.");
             })
@@ -268,8 +270,8 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
     }
     
     // channel mystery machine qui tansporte le channel aléatoirement dans le serveur
-    if (newUser.channelId === '513090608047325184') {
-        let channel = client.channels.cache.find(channel => channel.id === '513090608047325184')//.setPosition(Math.floor(Math.random()*client.channels.cache.filter(channels => channels.guildId === '370599964033679371'.length)));
+    if (newUser.channelId === config['config']['voice channels']['mystery machine']['id']) {
+        let channel = client.channels.cache.find(channel => channel.id === config['config']['voice channels']['mystery machine']['id'])//.setPosition(Math.floor(Math.random()*client.channels.cache.filter(channels => channels.guildId === '370599964033679371'.length)));
         let pos = channel.rawPosition;
         let nbVocalChannels = client.channels.cache.filter(channels => channels.guildId === '370599964033679371' && channels.type === 'GUILD_VOICE').size;
         let newPos = Math.floor(Math.random()*nbVocalChannels);
@@ -288,8 +290,8 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
     }
 
     // quand un mec rentre dans le channel grand baton ca disconnect un des mecs dans le filet de sécurité
-    if (newUser.channelId === '961727121888247878') {
-        let users =  newUser.guild.channels.cache.find(channel => channel.id === '961727070092791828').members
+    if (newUser.channelId === config['config']['voice channels']['bong']['id']) {
+        let users =  newUser.guild.channels.cache.find(channel => channel.id === config['config']['voice channels']['bong']['id']).members
         let rand = Math.floor(Math.random()*users.size);
         let i = 0;
         users.forEach((value,key) => {
