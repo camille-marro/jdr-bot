@@ -5,9 +5,17 @@ let rawConfig = fs.readFileSync("json_files/config.json");
 const config = JSON.parse(rawConfig);
 
 function printConfig () {
+    console.log("----------------");
     console.log("Configuration : ")
     console.log("- prefix : " + config['prefix']);
     console.log("- language : " + config['lang']);
+    console.log("- voice channels :");
+    console.log("-- secret tunnel E : " + config['voice channels']['secret tunnel']['E']['name']);
+    console.log("-- secret tunnel S : " + config['voice channels']['secret tunnel']['S']['name']);
+    console.log("-- kick channel : " + config['voice channels']['kick channel']['name']);
+    console.log("-- safety net : " + config['voice channels']['safety net']['name']);
+    console.log("-- mystery machine : " + config['voice channels']['mystery machine']['name']);
+    console.log("-- bong channel: " + config['voice channels']['bong']['name']);
     console.log("----------------");
 }
 
@@ -28,8 +36,6 @@ function printConfigEmbed (channel) {
 
     let msgPrintConfigEmbed = createEmbed(JSONEmbed['msgPrintConfigEmbed']['color'], JSONEmbed['msgPrintConfigEmbed']['title'], JSONEmbed['msgPrintConfigEmbed']['description'], JSONEmbed['msgPrintConfigEmbed']['field'], embedOptions);
     channel.send({embeds: [msgPrintConfigEmbed]});
-
-    console.log("config embed");
 }
 
 function changeConfig(newConfig) {
