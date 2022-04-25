@@ -116,8 +116,7 @@
     "field": [
       {
         "name": "Syntax error",
-        "value": "config [param] [value]",
-        "inline": true
+        "value": "config [param] [value]"
       },
       {
         "name": "prefix",
@@ -127,6 +126,11 @@
       {
         "name": "lang",
         "value": "fr, en",
+        "inline": true
+      },
+      {
+        "name": "print",
+        "value": "print",
         "inline": true
       }
     ]
