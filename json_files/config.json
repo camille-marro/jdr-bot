@@ -1,1 +1,36 @@
-{"prefix":"$","lang":"fr"}
+{
+  "prefix":"$",
+  "lang":"fr",
+  "voice channels": {
+    "secret tunnel": {
+      "E": {
+        "id": "",
+        "name": "tunnel secret E"
+      },
+      "S": {
+        "name": "tunnel secret S",
+        "ids": [
+          "961726386328989746",
+          "962406833421680681",
+          "963080455182237716"
+        ]
+      }
+    },
+    "kick channel": {
+      "id": "961727519608963082",
+      "name": "vide"
+    },
+    "safety net": {
+      "id": "961727070092791828",
+      "name": "filet de sécurité"
+    },
+    "mystery machine": {
+      "id": "513090608047325184",
+      "name": "The Mystery Machine"
+    },
+    "bong": {
+      "id": "961727121888247878",
+      "name": "très grand bâton"
+    }
+  }
+}
