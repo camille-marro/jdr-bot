@@ -4,16 +4,18 @@ const {Intents} = require("discord.js");
 const token = require('./assets/token.js');
 const connection = require('./assets/db_connect.js');
 const createEmbed = require('./assets/createEmbed.js');
+
 let fs = require('fs');
 
 const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] });
 
 let config = require('./assets/config.js');
-console.log("Current config :");
-console.log(config);
+//console.log("Current config :");
+//console.log(config);
 
 client.on("ready", function() {
     console.log("Connected to Discord server");
+     config.printConfig(config.config);
 })
 
 client.on("messageCreate", message => {
@@ -27,13 +29,41 @@ client.on("messageCreate", message => {
             let options = msg.split(" ");
             if (options.length === 1) {
                 message.channel.send({embeds: [msgSyntaxErrorEmbed]});
+                console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
+                console.log("|-- syntax error");
+                console.log("|-- " + message.content);
                 return;
             }
 
+            //check si options[1] contient un d avant de faire ça :
+            if (!options[1].includes("d")) {
+                message.channel.send({embeds: [msgSyntaxErrorEmbed]});
+                console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
+                console.log("|-- " + "syntax error");
+                console.log("|-- " + message.content);
+                return;
+            }
             let values = options[1].split("d");
 
             if (values[0] === '' || values[1] === '') {
                 message.channel.send({embeds: [msgSyntaxErrorEmbed]});
+                console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
+                console.log("|-- " + "syntax error");
+                console.log("|-- " + message.content);
+                return;
+            }
+
+            //check si values[0] et values[1] sont au bon format c'est à dire des chiffres
+            let checkFormat = /^[0-9]+$/gm;
+            let checkFormat2 = /^[0-9]+$/gm;
+            let check = checkFormat.test(values[0]);
+            let check2 = checkFormat2.test(values[1]);
+
+            if (!check || !check2) {
+                message.channel.send({embeds: [msgSyntaxErrorEmbed]});
+                console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
+                console.log("|-- " + "syntax error");
+                console.log("|-- " + message.content);
                 return;
             }
 
@@ -64,8 +94,9 @@ client.on("messageCreate", message => {
             let msgRolledDiceEmbed = createEmbed(JSONEmbed['msgRolledDiceEmbed']['color'], JSONEmbed['msgRolledDiceEmbed']['title'], JSONEmbed['msgRolledDiceEmbed']['description'], JSONEmbed['msgRolledDiceEmbed']['field'], embedOptions)
 
             message.channel.send({embeds: [msgRolledDiceEmbed]});
+            console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") rolled dices (" + values[0] + "d" + values[1] + ").");
         } //DONE
-        if (msg.indexOf("reload") === 1) {
+        /*if (msg.indexOf("reload") === 1) {
             connection.query("SELECT * FROM Personnage", function (err, result, fields) {
                 if (err) return console.error(error.message);
                 let resultStr = JSON.stringify(result);
@@ -90,8 +121,8 @@ client.on("messageCreate", message => {
                 });
             });
 
-        } //NOT-YET DONE - 1 TODO
-        if (msg.indexOf("infos") === 1) { //@TODO : issue avec les id des persos
+        }*/ //NOT-YET DONE - 1 TODO
+        /*if (msg.indexOf("infos") === 1) { //@TODO : issue avec les id des persos
             let options = msg.split(" ");
             let rawPersonages = fs.readFileSync("json_files/personnage.json")
             let personages = JSON.parse(rawPersonages);
@@ -129,14 +160,13 @@ client.on("messageCreate", message => {
             }
             let msgPersonagesInfosErrorEmbed = createEmbed(JSONEmbed['msgPersonagesInfosErrorEmbed']['color'], JSONEmbed['msgPersonagesInfosErrorEmbed']['title'], JSONEmbed['msgPersonagesInfosErrorEmbed']['description'], JSONEmbed['msgPersonagesInfosErrorEmbed']['field'], [])
             message.channel.send({embeds: [msgPersonagesInfosErrorEmbed]});
-        } //DONE - 1 TODO
-        if (msg.indexOf("config") === 1) { //@TODO : check que prefix est de longueur 1
+        }*/ //DONE - 1 TODO
+        if (msg.indexOf("config") === 1) { //@TODO :
             let options = msg.split(" ")
             if (options[1] === "lang") {
                 if (options[2] === "fr" || options[2] === "en") {
                     config['config']['lang'] = options[2];
-                    let JSONConfig = JSON.stringify(config['config']);
-                    fs.writeFileSync("json_files/config.json", JSONConfig);
+                    config.changeConfig(config.config);
 
                     let embedOptions = [];
                     embedOptions['!strConfig'] = "prefix : " + config['config']['prefix'] + " - lang : " + config['config']['lang'];
@@ -154,9 +184,13 @@ client.on("messageCreate", message => {
                     message.channel.send({embeds: [msgConfigLangErrorPrefixEmbed]});
                     return;
                 }
+                if (options[2].length > 1) {
+                    let msgConfigLangErrorPrefixLengthEmbed= createEmbed(JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['color'], JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['title'], JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['description'], JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['field'], [])
+                    message.channel.send({embeds: [msgConfigLangErrorPrefixLengthEmbed]});
+                    return;
+                }
                 config['config']['prefix'] = options[2];
-                let JSONConfig = JSON.stringify(config['config']);
-                fs.writeFileSync("json_files/config.json", JSONConfig);
+                config.changeConfig(config.config);
 
                 let embedOptions = [];
                 embedOptions['!strConfig'] = "prefix : " + config['config']['prefix'] + " - lang : " + config['config']['lang'];
@@ -168,7 +202,7 @@ client.on("messageCreate", message => {
                 let msgConfigLangErrorEmbed = createEmbed(JSONEmbed['msgConfigLangErrorEmbed']['color'], JSONEmbed['msgConfigLangErrorEmbed']['title'], JSONEmbed['msgConfigLangErrorEmbed']['description'], JSONEmbed['msgConfigLangErrorEmbed']['field'], [])
                 message.channel.send({embeds: [msgConfigLangErrorEmbed]});
             }
-        } //DONE - 1 TODO
+        } //DONE - 0 TODO
         if (msg.indexOf("help") === 1) {
             let msgHelpEmbed = createEmbed(JSONEmbed['msgHelpEmbed']['color'], JSONEmbed['msgHelpEmbed']['title'], JSONEmbed['msgHelpEmbed']['description'], JSONEmbed['msgHelpEmbed']['field'], [])
             message.channel.send({embeds: [msgHelpEmbed]});
