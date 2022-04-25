@@ -166,7 +166,7 @@ client.on("messageCreate", message => {
                 config.printConfig();
                 return;
             }
-            if (options[1] === "lang") {
+            else if (options[1] === "lang") {
                 if (options[2] === "fr" || options[2] === "en") {
                     config['config']['lang'] = options[2];
                     config.changeConfig(config.config);
@@ -201,6 +201,101 @@ client.on("messageCreate", message => {
                 let msgConfigLangSuccessEmbed = createEmbed(JSONEmbed['msgConfigLangSuccessEmbed']['color'], JSONEmbed['msgConfigLangSuccessEmbed']['title'], JSONEmbed['msgConfigLangSuccessEmbed']['description'], JSONEmbed['msgConfigLangSuccessEmbed']['field'], embedOptions)
                 message.channel.send({embeds: [msgConfigLangSuccessEmbed]});
             }
+            else if (options[1] === "channels") {
+                if (options[2] === "secret_tunnel") {
+                    if (options[3] === "E") {
+                        for (let i = 5; i < options.length; i++) {
+                            options[4] += " " + options[i];
+                        }
+                        let new_channel = message.guild.channels.cache.find(channel => channel.name === options[4]);
+                        if (new_channel) {
+                            config['config']['voice channels']['secret tunnel']['E']['name'] = new_channel.name;
+                            config['config']['voice channels']['secret tunnel']['E']['id'] = new_channel.id;
+                            config.changeConfig(config.config);
+                            return;
+                        } else {
+                            console.log("channel existe pas starf");
+                            return;
+                        }
+                    } else if (options[3] === "S") {
+                        for (let i = 5; i < options.length; i++) {
+                            options[4] += " " + options[i];
+                        }
+                        let new_channel = message.guild.channels.cache.filter(channel => channel.name === options[4]);
+                        let new_channel_ids = [];
+
+                        new_channel.forEach((channel) => {
+                            config['config']['voice channels']['secret tunnel']['S']['name'] = channel.name;
+                           new_channel_ids.push(channel.id.toString());
+                        });
+                        config['config']['voice channels']['secret tunnel']['S']['ids'] = new_channel_ids;
+                        config.changeConfig(config.config);
+                        return;
+                    } else {
+                        console.log("yapo");
+                        return;
+                    }
+                } else if (options[2] === "kick_channel") {
+                    for (let i = 4; i < options.length; i++) {
+                        options[3] += " " + options[i];
+                    }
+                    let new_channel = message.guild.channels.cache.find(channel => channel.name === options[3]);
+                    if (new_channel) {
+                        config['config']['voice channels']['kick channel']['name'] = new_channel.name;
+                        config['config']['voice channels']['kick channel']['id'] = new_channel.id;
+                        config.changeConfig(config.config);
+                        return;
+                    } else {
+                        console.log("channel existe pas starf");
+                        return;
+                    }
+                } else if (options[2] === "safety_net") {
+                    for (let i = 4; i < options.length; i++) {
+                        options[3] += " " + options[i];
+                    }
+                    let new_channel = message.guild.channels.cache.find(channel => channel.name === options[3]);
+                    if (new_channel) {
+                        config['config']['voice channels']['safety net']['name'] = new_channel.name;
+                        config['config']['voice channels']['safety net']['id'] = new_channel.id;
+                        config.changeConfig(config.config);
+                        return;
+                    } else {
+                        console.log("channel existe pas starf");
+                        return;
+                    }
+                } else if (options[2] === "mystery_machine") {
+                    for (let i = 4; i < options.length; i++) {
+                        options[3] += " " + options[i];
+                    }
+                    let new_channel = message.guild.channels.cache.find(channel => channel.name === options[3]);
+                    if (new_channel) {
+                        config['config']['voice channels']['mystery machine']['name'] = new_channel.name;
+                        config['config']['voice channels']['mystery machine']['id'] = new_channel.id;
+                        config.changeConfig(config.config);
+                        return;
+                    } else {
+                        console.log("channel existe pas starf");
+                        return;
+                    }
+                } else if (options[2] === "bong_channel") {
+                    for (let i = 4; i < options.length; i++) {
+                        options[3] += " " + options[i];
+                    }
+                    let new_channel = message.guild.channels.cache.find(channel => channel.name === options[3]);
+                    if (new_channel) {
+                        config['config']['voice channels']['bong']['name'] = new_channel.name;
+                        config['config']['voice channels']['bong']['id'] = new_channel.id;
+                        config.changeConfig(config.config);
+                        return;
+                    } else {
+                        console.log("channel existe pas starf");
+                        return;
+                    }
+                } else {
+                    // pas de channel encore créé :/
+                    console.log("yapo");
+                }
+            }
             else {
                 let msgConfigLangErrorEmbed = createEmbed(JSONEmbed['msgConfigLangErrorEmbed']['color'], JSONEmbed['msgConfigLangErrorEmbed']['title'], JSONEmbed['msgConfigLangErrorEmbed']['description'], JSONEmbed['msgConfigLangErrorEmbed']['field'], [])
                 message.channel.send({embeds: [msgConfigLangErrorEmbed]});
@@ -213,18 +308,17 @@ client.on("messageCreate", message => {
     }
 })
 
-//@TODO move all commands into specifics files
 client.on("voiceStateUpdate", (oldUser, newUser) => {
     let newChan = newUser.voiceChannel;
     let userId = newUser.id;
 
     // channels "tunnel secret" qui permettent de sortir dans un autre tunnel random
-    let tunnels = client.channels.cache.filter(channel => channel.name === 'tunnel secret E');
+    let tunnels = client.channels.cache.filter(channel => channel.name === config['config']['voice channels']['secret tunnel']['E']['name']);
     let userTunnel = tunnels.find(channel => channel.id === newUser.channelId);
     if (userTunnel) {
         console.log ("|- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") entered in a secret tunnel.");
         let listTunnel = [];
-        let tunnelSorties = client.channels.cache.filter(channel => channel.name === 'tunnel secret S');
+        let tunnelSorties = client.channels.cache.filter(channel => channel.name === config['config']['voice channels']['secret tunnel']['S']['name']);
         tunnelSorties.forEach((value, key) => {
             if (value.id !== userTunnel.id) {
                 listTunnel.push(value);
@@ -237,6 +331,7 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
             .catch(() => {
                 console.log ("|-- " + newUser.member.user.username + "(#" + newUser.member.user.id + ") didn't get moved.");
             });
+        return;
     }
 
     // channel "exit" qui kick du serv quand on rentre dedans
