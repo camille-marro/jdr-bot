@@ -164,10 +164,12 @@ client.on("messageCreate", message => {
                 //print config
                 config.printConfigEmbed(message.channel);
                 config.printConfig();
+                console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") printed config");
                 return;
             }
             else if (options[1] === "lang") {
                 if (options[2] === "fr" || options[2] === "en") {
+                    let prevLang = config['config']['lang'];
                     config['config']['lang'] = options[2];
                     config.changeConfig(config.config);
 
@@ -176,22 +178,27 @@ client.on("messageCreate", message => {
 
                     let msgConfigLangSuccessEmbed = createEmbed(JSONEmbed['msgConfigLangSuccessEmbed']['color'], JSONEmbed['msgConfigLangSuccessEmbed']['title'], JSONEmbed['msgConfigLangSuccessEmbed']['description'], JSONEmbed['msgConfigLangSuccessEmbed']['field'], embedOptions)
                     message.channel.send({embeds: [msgConfigLangSuccessEmbed]});
+                    console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") changed language from " + prevLang + " to " + config['config']['lang']);
                 } else {
                     let msgConfigLangErrorLangEmbed = createEmbed(JSONEmbed['msgConfigLangErrorLangEmbed']['color'], JSONEmbed['msgConfigLangErrorLangEmbed']['title'], JSONEmbed['msgConfigLangErrorLangEmbed']['description'], JSONEmbed['msgConfigLangErrorLangEmbed']['field'], [])
                     message.channel.send({embeds: [msgConfigLangErrorLangEmbed]});
+                    console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change language");
                 }
             }
             else if (options[1] === "prefix") {
                 if (options[2] === undefined) {
                     let msgConfigLangErrorPrefixEmbed = createEmbed(JSONEmbed['msgConfigLangErrorPrefixEmbed']['color'], JSONEmbed['msgConfigLangErrorPrefixEmbed']['title'], JSONEmbed['msgConfigLangErrorPrefixEmbed']['description'], JSONEmbed['msgConfigLangErrorPrefixEmbed']['field'], [])
                     message.channel.send({embeds: [msgConfigLangErrorPrefixEmbed]});
+                    console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change prefix with an empty one");
                     return;
                 }
                 if (options[2].length > 1) {
                     let msgConfigLangErrorPrefixLengthEmbed= createEmbed(JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['color'], JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['title'], JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['description'], JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['field'], [])
                     message.channel.send({embeds: [msgConfigLangErrorPrefixLengthEmbed]});
+                    console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change prefix with a too long one");
                     return;
                 }
+                let prevPrefix = config['config']['prefix'];
                 config['config']['prefix'] = options[2];
                 config.changeConfig(config.config);
 
@@ -200,6 +207,7 @@ client.on("messageCreate", message => {
 
                 let msgConfigLangSuccessEmbed = createEmbed(JSONEmbed['msgConfigLangSuccessEmbed']['color'], JSONEmbed['msgConfigLangSuccessEmbed']['title'], JSONEmbed['msgConfigLangSuccessEmbed']['description'], JSONEmbed['msgConfigLangSuccessEmbed']['field'], embedOptions)
                 message.channel.send({embeds: [msgConfigLangSuccessEmbed]});
+                console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") chhanged prefix from " + prevPrefix + " to " + config['config']['prefix']);
             }
             else if (options[1] === "channels") {
                 if (options[2] === "secret_tunnel") {
@@ -209,12 +217,17 @@ client.on("messageCreate", message => {
                         }
                         let new_channel = message.guild.channels.cache.find(channel => channel.name === options[4]);
                         if (new_channel) {
+                            let prevName = config['config']['voice channels']['secret tunnel']['E']['name'];
+                            let prevID = config['config']['voice channels']['secret tunnel']['E']['id'];
                             config['config']['voice channels']['secret tunnel']['E']['name'] = new_channel.name;
                             config['config']['voice channels']['secret tunnel']['E']['id'] = new_channel.id;
                             config.changeConfig(config.config);
+                            console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") changed secret tunnel entrace");
+                            console.log("|-- from " + prevName + "(#" + prevID + ") for " + config['config']['voice channels']['secret tunnel']['E']['name'] + "(#" + config['config']['voice channels']['secret tunnel']['E']['id'] + ")");
                             return;
                         } else {
-                            console.log("channel existe pas starf");
+                            //console.log("channel existe pas starf");
+                            console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change secret tunnel entrace with an unexisting channel");
                             return;
                         }
                     } else if (options[3] === "S") {
@@ -222,17 +235,25 @@ client.on("messageCreate", message => {
                             options[4] += " " + options[i];
                         }
                         let new_channel = message.guild.channels.cache.filter(channel => channel.name === options[4]);
+                        if (new_channel.size == 0) {
+                            console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change secret tunnel exit with an unexisting channel");
+                            return
+                        }
                         let new_channel_ids = [];
-
+                        let prevName = config['config']['voice channels']['secret tunnel']['S']['name'];
+                        let prevIDs = config['config']['voice channels']['secret tunnel']['S']['ids'];
                         new_channel.forEach((channel) => {
                             config['config']['voice channels']['secret tunnel']['S']['name'] = channel.name;
                            new_channel_ids.push(channel.id.toString());
                         });
                         config['config']['voice channels']['secret tunnel']['S']['ids'] = new_channel_ids;
                         config.changeConfig(config.config);
+                        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") change secret tunnel exit");
+                        console.log("|-- from " + prevName + "(" + prevIDs + ")");
+                        console.log("|-- for " + config['config']['voice channels']['secret tunnel']['S']['name'] + " (" + config['config']['voice channels']['secret tunnel']['S']['ids'] + ")");
                         return;
                     } else {
-                        console.log("yapo");
+                        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change secrets tunnels");
                         return;
                     }
                 } else if (options[2] === "kick_channel") {
@@ -241,12 +262,17 @@ client.on("messageCreate", message => {
                     }
                     let new_channel = message.guild.channels.cache.find(channel => channel.name === options[3]);
                     if (new_channel) {
+                        let prevName = config['config']['voice channels']['kick channel']['name'];
+                        let prevID = config['config']['voice channels']['kick channel']['id'];
                         config['config']['voice channels']['kick channel']['name'] = new_channel.name;
                         config['config']['voice channels']['kick channel']['id'] = new_channel.id;
                         config.changeConfig(config.config);
+                        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") changed kick channel");
+                        console.log("|-- from " + prevName + "(#" + prevID + ") to " + config['config']['voice channels']['kick channel']['name'] + "(#" + config['config']['voice channels']['kick channel']['id'] + ")");
                         return;
                     } else {
-                        console.log("channel existe pas starf");
+                        //console.log("channel existe pas starf");
+                        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change kick channel with an unexisting channel");
                         return;
                     }
                 } else if (options[2] === "safety_net") {
@@ -255,12 +281,17 @@ client.on("messageCreate", message => {
                     }
                     let new_channel = message.guild.channels.cache.find(channel => channel.name === options[3]);
                     if (new_channel) {
+                        let prevName = config['config']['voice channels']['safety net']['name'];
+                        let prevID = config['config']['voice channels']['safety net']['id'];
                         config['config']['voice channels']['safety net']['name'] = new_channel.name;
                         config['config']['voice channels']['safety net']['id'] = new_channel.id;
                         config.changeConfig(config.config);
+                        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") change safety net");
+                        console.log("|-- from " + prevName + "(#" + prevID + ") to " + config['config']['voice channels']['safety net']['name'] + "(#" + config['config']['voice channels']['safety net']['id'] + ")");
                         return;
                     } else {
-                        console.log("channel existe pas starf");
+                        //console.log("channel existe pas starf");
+                        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change safety net with an unexisting channel");
                         return;
                     }
                 } else if (options[2] === "mystery_machine") {
@@ -269,12 +300,17 @@ client.on("messageCreate", message => {
                     }
                     let new_channel = message.guild.channels.cache.find(channel => channel.name === options[3]);
                     if (new_channel) {
+                        let prevName = config['config']['voice channels']['mystery machine']['name'];
+                        let prevID = config['config']['voice channels']['mystery machine']['id'];
                         config['config']['voice channels']['mystery machine']['name'] = new_channel.name;
                         config['config']['voice channels']['mystery machine']['id'] = new_channel.id;
                         config.changeConfig(config.config);
+                        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") change mystery machine");
+                        console.log("|-- from " + prevName + "(#" + prevID + ") to " + config['config']['voice channels']['mystery machine']['name'] + "(#" + config['config']['voice channels']['mystery machine']['id'] + ")");
                         return;
                     } else {
-                        console.log("channel existe pas starf");
+                        //console.log("channel existe pas starf");
+                        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to mystery machine net with an unexisting channel");
                         return;
                     }
                 } else if (options[2] === "bong_channel") {
@@ -283,27 +319,34 @@ client.on("messageCreate", message => {
                     }
                     let new_channel = message.guild.channels.cache.find(channel => channel.name === options[3]);
                     if (new_channel) {
+                        let prevName = config['config']['voice channels']['bong']['name'];
+                        let prevID = config['config']['voice channels']['bong']['id'];
                         config['config']['voice channels']['bong']['name'] = new_channel.name;
                         config['config']['voice channels']['bong']['id'] = new_channel.id;
                         config.changeConfig(config.config);
+                        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") change bong");
+                        console.log("|-- from " + prevName + "(#" + prevID + ") to " + config['config']['voice channels']['bong']['name'] + "(#" + config['config']['voice channels']['bong']['id'] + ")");
                         return;
                     } else {
-                        console.log("channel existe pas starf");
+                        //console.log("channel existe pas starf");
+                        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change bong with an unexisting channel");
                         return;
                     }
                 } else {
                     // pas de channel encore créé :/
-                    console.log("yapo");
+                    //console.log("yapo");
+                    console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change an unexisting voice channel");
                 }
-            }
-            else {
+            } else {
                 let msgConfigLangErrorEmbed = createEmbed(JSONEmbed['msgConfigLangErrorEmbed']['color'], JSONEmbed['msgConfigLangErrorEmbed']['title'], JSONEmbed['msgConfigLangErrorEmbed']['description'], JSONEmbed['msgConfigLangErrorEmbed']['field'], [])
                 message.channel.send({embeds: [msgConfigLangErrorEmbed]});
+                console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change configuration");
             }
         } //DONE - 0 TODO
         if (msg.indexOf("help") === 1) {
             let msgHelpEmbed = createEmbed(JSONEmbed['msgHelpEmbed']['color'], JSONEmbed['msgHelpEmbed']['title'], JSONEmbed['msgHelpEmbed']['description'], JSONEmbed['msgHelpEmbed']['field'], [])
             message.channel.send({embeds: [msgHelpEmbed]});
+            console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for help");
         } //DONE
     }
 })
