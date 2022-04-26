@@ -42,8 +42,8 @@ function changeConfig(newConfig) {
     let JSONConfig = JSON.stringify(newConfig);
     fs.writeFileSync("json_files/config.json", JSONConfig);
 
-    console.log("|- changing configuration for : ");
-    printConfig();
+    //console.log("|- changing configuration for : ");
+    //printConfig();
 }
 
 module.exports = {
