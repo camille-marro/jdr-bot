@@ -286,5 +286,53 @@
         "value": "!bong_channel"
       }
     ]
+  },
+  "msgSyntaxErrorConfigVoiceChannelsEmbed":
+  {
+    "color": "#ff0000",
+    "title":"Configuration des salons vocaux",
+    "description": "Configuration des différents salons vocaux",
+    "field": [
+      {
+        "name": "Erreur de syntaxe",
+        "value": "config channels [channel_type] [new_channel_name]"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "channel_type",
+        "value": "type du salon à éditer, pour en savoir plus utiliser la command help voice_channels"
+      },
+      {
+        "name": "secret_tunnel",
+        "value": "config channels secret_tunnel [E/S] [nom_nouveau_salon]"
+      },
+      {
+        "name": "kick_channel",
+        "value": "config channels kick_channel [nom_nouveau_salon]"
+      },
+      {
+        "name": "safety_net",
+        "value": "config channels safety_net [nom_nouveau_salon]"
+      },
+      {
+        "name": "bong_channel",
+        "value": "config channels bong_channel [nom_nouveau_salon]"
+      }
+    ]
+  },
+  "msgSuccessConfigVoiceChannelsEmbed":
+  {
+    "color": "#005522",
+    "title":"Configuration des salons vocaux",
+    "description": "Configuration des différents salons vocaux",
+    "field": [
+      {
+        "name": "!str1",
+        "value": "!str2"
+      }
+    ]
   }
 }

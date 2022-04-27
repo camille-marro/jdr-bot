@@ -285,5 +285,52 @@
         "value": "!bong_channel"
       }
     ]
+  },"msgSyntaxErrorConfigVoiceChannelsEmbed":
+{
+  "color": "#ff0000",
+  "title":"Voice channels configuration",
+  "description": "Changing voice channels configuration",
+  "field": [
+    {
+      "name": "Syntax error",
+      "value": "config channels [channel_type] [new_channel_name]"
+    },
+    {
+      "name": "\u200B",
+      "value": "\u200B"
+    },
+    {
+      "name": "channel_type",
+      "value": "type of the channel to edit, to know more use command help voice_channels"
+    },
+    {
+      "name": "secret_tunnel",
+      "value": "config channels secret_tunnel [E/S] [new_channel_name]"
+    },
+    {
+      "name": "kick_channel",
+      "value": "config channels kick_channel [new_channel_name]"
+    },
+    {
+      "name": "safety_net",
+      "value": "config channels safety_net [new_channel_name]"
+    },
+    {
+      "name": "bong_channel",
+      "value": "config channels bong_channel [new_channel_name]"
+    }
+  ]
+},
+  "msgSuccessConfigVoiceChannelsEmbed":
+  {
+    "color": "#005522",
+    "title":"Voice channels configuration",
+    "description": "Changing voice channels configuration",
+    "field": [
+      {
+        "name": "!str1",
+        "value": "!str2"
+      }
+    ]
   }
 }
