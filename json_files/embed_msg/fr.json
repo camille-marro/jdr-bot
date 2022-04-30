@@ -334,5 +334,36 @@
         "value": "!str2"
       }
     ]
+  },
+  "msgRollHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Lancés de dés",
+    "description" : "Résultats du ou des lancers de dés fait par le bot",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "roll [nb_des]d[nb_faces]"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "nb_des",
+        "value": "Nombre de dés à lancer",
+        "inline": true
+      },
+      {
+        "name": "nb_faces",
+        "value": "Nombre de face du ou des dés",
+        "inline": true
+      },
+      {
+        "name": "Exemple de commande",
+        "value": "roll 1d6"
+      }
+    ]
   }
 }

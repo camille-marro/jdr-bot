@@ -332,5 +332,36 @@
         "value": "!str2"
       }
     ]
+  },
+  "msgRollHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Rolling dices",
+    "description" : "Results of the rolled dice(s) by the bot",
+    "field": [
+      {
+        "name": "Command syntax",
+        "value": "roll [nb_des]d[nb_faces]"
+      },
+      {
+        "name": "Parameters",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "nb_des",
+        "value": "Number of dice to roll",
+        "inline": true
+      },
+      {
+        "name": "nb_faces",
+        "value": "Number of faces for the dice",
+        "inline": true
+      },
+      {
+        "name": "Example",
+        "value": "roll 1d6"
+      }
+    ]
   }
 }

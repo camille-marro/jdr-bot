@@ -24,6 +24,14 @@ client.on("messageCreate", message => {
         if (msg.indexOf("roll") === 1) {
             let msgSyntaxErrorEmbed = createEmbed(JSONEmbed['msgSyntaxErrorEmbed']['color'], JSONEmbed['msgSyntaxErrorEmbed']['title'], JSONEmbed['msgSyntaxErrorEmbed']['description'], JSONEmbed['msgSyntaxErrorEmbed']['field'], []);
             let options = msg.split(" ");
+
+            if (options[1] === "help") {
+                let msgRollHelpEmbed = createEmbed(JSONEmbed['msgRollHelpEmbed']['color'], JSONEmbed['msgRollHelpEmbed']['title'], JSONEmbed['msgRollHelpEmbed']['description'], JSONEmbed['msgRollHelpEmbed']['field'], []);
+                message.channel.send({embeds: [msgRollHelpEmbed]});
+                console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for roll command.");
+                return;
+            }
+
             if (options.length === 1) {
                 message.channel.send({embeds: [msgSyntaxErrorEmbed]});
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
@@ -438,7 +446,8 @@ client.on("messageCreate", message => {
                     let msgSyntaxErrorConfigVoiceChannelsEmbed = createEmbed(JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['color'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['title'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['description'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['field'], [])
                     message.channel.send({embeds: [msgSyntaxErrorConfigVoiceChannelsEmbed]});
                 }
-            } else {
+            }
+            else {
                 let msgConfigLangErrorEmbed = createEmbed(JSONEmbed['msgConfigLangErrorEmbed']['color'], JSONEmbed['msgConfigLangErrorEmbed']['title'], JSONEmbed['msgConfigLangErrorEmbed']['description'], JSONEmbed['msgConfigLangErrorEmbed']['field'], [])
                 message.channel.send({embeds: [msgConfigLangErrorEmbed]});
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change configuration");
