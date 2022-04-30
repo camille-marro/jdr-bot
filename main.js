@@ -531,7 +531,7 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
 
     // quand un mec rentre dans le channel grand baton ca disconnect un des mecs dans le filet de sécurité
     if (newUser.channelId === config['config']['voice channels']['bong']['id']) {
-        let users =  newUser.guild.channels.cache.find(channel => channel.id === config['config']['voice channels']['bong']['id']).members
+        let users =  newUser.guild.channels.cache.find(channel => channel.id === config['config']['voice channels']['safety net']['id']).members
         let rand = Math.floor(Math.random()*users.size);
         let i = 0;
         users.forEach((value,key) => {
