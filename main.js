@@ -15,13 +15,6 @@ client.on("ready", function() {
      config.printConfig(config.config);
 })
 
-let loadcommands = require ("./assets/laod-commands.js")();
-let commands = [];
-commands = loadcommands.loadCommands().then(() => {
-        console.log("Commands loaded : ")
-        console.log(commands);
-}).catch(() => {});
-
 client.on("messageCreate", message => {
     let msg = message.content;
     let prefix = config['config']['prefix'];
