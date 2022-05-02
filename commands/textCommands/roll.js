@@ -1,6 +1,6 @@
 let fs = require('fs');
-let config = require('../assets/config.js');
-const createEmbed = require('../assets/createEmbed.js');
+let config = require('../../assets/config.js');
+const createEmbed = require('../../assets/createEmbed.js');
 
 function roll (message) {
     let rawJSONEmbed = fs.readFileSync('C:/Users/Asus PC/Documents/bot discord/json_files/embed_msg/' + config['config']['lang'] + ".json");
