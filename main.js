@@ -16,6 +16,12 @@ client.on("ready", function() {
 
 client.on("messageCreate", message => {
     let msg = message.content;
+    if (msg.toLowerCase().endsWith("quoi") || msg.toLowerCase().endsWith("quoi ?")) {
+        message.channel.send("feur ! AHAH TROP MARRANT");
+    }
+    if (msg.toLowerCase().endsWith("oui") || msg.toLowerCase().endsWith("oui ?")) {
+        message.channel.send("stiti AHAH TROP MARRANT");
+    }
     let prefix = config['config']['prefix'];
     let args = msg.split(" ")
     switch(args[0]) {
