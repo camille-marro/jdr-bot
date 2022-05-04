@@ -360,5 +360,3 @@ function configCommand (message) {
 module.exports = {
     configCommand
 }
-
-//@TODO : tranduire les messages en anglais a partir de msgConfigChannelsSTHelpEmbed
