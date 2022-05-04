@@ -365,5 +365,307 @@
         "value": "roll 1d6"
       }
     ]
+  },
+  "msgConfigHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "config [thing_to_modify] [options]*"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "thing_to_modify",
+        "value": "paramètre à modifier (voir plus bas)",
+        "inline": true
+      },
+      {
+        "name": "options",
+        "value": "options à ajouter selon la modification",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "thing_to_modify",
+        "value": "valeur possible du paramètre"
+      },
+      {
+        "name": "lang",
+        "value": "paramètre pour modifier la langue du bot",
+        "inline": true
+      },
+      {
+        "name": "prefix",
+        "value": "paramètre pour modifier le préfixe du bot",
+        "inline": true
+      },
+      {
+        "name": "channels",
+        "value": "paramètre pour modifier les salons vocaux",
+        "inline": true
+      },
+      {
+        "name": "Plus d'informations",
+        "value": "pour plus d'information utiliser la commande : \"config [thing_to_modify] help\""
+      }
+    ]
+  },
+  "msgConfigPrintHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Affichage configuration",
+    "description": "Affichage de la configuration courante du bot",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "config print"
+      },
+      {
+        "name": "Description de la commande",
+        "value": "Commande pour afficher la configuration acutelle du bot"
+      }
+    ]
+  },
+  "msgConfigLangHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "config lang [langue]"
+      },
+      {
+        "name": "Description de la commande",
+        "value": "Commande pour changer la langue utilisée bot"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B"
+      },
+      {
+        "name": "langue",
+        "value": "langue à utiliser, soit fr soit en"
+      }
+    ]
+  },
+  "msgConfigPrefixHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "config prefix [prefixe]"
+      },
+      {
+        "name": "Description de la commande",
+        "value": "Commande pour changer le prefixe utilisé bot"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B"
+      },
+      {
+        "name": "prefixe",
+        "value": "prefixe à utiliser, doit être un caractère par défaut : $"
+      }
+    ]
+  },
+  "msgConfigChannelsHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "config channels [channel_to_modify] [options]*"
+      },
+      {
+        "name": "Description de la commande",
+        "value": "Commande pour changer les salons vocaux surveillés par le bot"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B"
+      },
+      {
+        "name": "channel_to_modify",
+        "value": "salon à modifier, voici la liste des valeurs possibles : secret_tunnel, kick_channel, safety_net, mystery_machine, bong_channel",
+        "inline": true
+      },
+      {
+        "name": "options",
+        "value": "options à ajouter selon la commande",
+        "inline": true
+      },
+      {
+        "name": "Plus d'informations",
+        "value": "Pour plus d'informations utiliser la commande : \"config channels [channel_to_modify] help\""
+      }
+    ]
+  },
+  "msgConfigChannelsSTHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "config channels secret_tunnel [E/S] [new_channel]"
+      },
+      {
+        "name": "Description de la commande",
+        "value": "Les salons \"tunnel secret\" permettent de se téléporter dans le serveur. En allant dans le salon d'entrée, l'utilisateur est envoyé dans un des salons de sorties"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B"
+      },
+      {
+        "name": "E/S",
+        "value": "E : pour modifier le salon d'entrée\nS : pour modifier le/les salon(s) de sortie",
+        "inline": true
+      },
+      {
+        "name": "new_channel",
+        "value": "nom du nouveau salon à utiliser",
+        "inline": true
+      },
+      {
+        "name": "Plus d'informations",
+        "value": "Pour plus d'informations utiliser la commande : \"config print\""
+      }
+    ]
+  },
+  "msgConfigChannelsKCHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "config channels kick_channel [new_channel]"
+      },
+      {
+        "name": "Description de la commande",
+        "value": "Le salon \"kick_channel\" kick l'utilisateur du serveur dès qu'il rentre dedans"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B"
+      },
+      {
+        "name": "new_channel",
+        "value": "nom du nouveau salon à utiliser",
+        "inline": true
+      },
+      {
+        "name": "Plus d'informations",
+        "value": "Pour plus d'informations utiliser la commande : \"config print\""
+      }
+    ]
+  },
+  "msgConfigChannelsSNHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "config channels safety_net [new_channel]"
+      },
+      {
+        "name": "Description de la commande",
+        "value": "Le salon \"safety_net\" empêche l'utilisateur de sortir du salon sauf s'il se déconnecte"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B"
+      },
+      {
+        "name": "new_channel",
+        "value": "nom du nouveau salon à utiliser",
+        "inline": true
+      },
+      {
+        "name": "Plus d'informations",
+        "value": "Pour plus d'informations utiliser la commande : \"config print\""
+      }
+    ]
+  },
+  "msgConfigChannelsMMHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "config channels mystery_machine [new_channel]"
+      },
+      {
+        "name": "Description de la commande",
+        "value": "Le salon \"mystery_machine\" se déplace dans le serveur quand un utilisateur rentre dedans"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B"
+      },
+      {
+        "name": "new_channel",
+        "value": "nom du nouveau salon à utiliser",
+        "inline": true
+      },
+      {
+        "name": "Plus d'informations",
+        "value": "Pour plus d'informations utiliser la commande : \"config print\""
+      }
+    ]
+  },
+  "msgConfigChannelsBCHelpEmbed":
+  {
+    "color": "#005522",
+    "title": "Changement configuration",
+    "description": "Change la configuration du bot",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "config channels bong_channel [new_channel]"
+      },
+      {
+        "name": "Description de la commande",
+        "value": "Le salon \"bong_channel\" déconnecte un utilisateur dans le salon \"safety_net\" quand un utilisateur rentre dadans"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B"
+      },
+      {
+        "name": "new_channel",
+        "value": "nom du nouveau salon à utiliser",
+        "inline": true
+      },
+      {
+        "name": "Plus d'informations",
+        "value": "Pour plus d'informations utiliser la commande : \"config print\""
+      }
+    ]
   }
 }

@@ -3,7 +3,6 @@ const {Intents} = require("discord.js");
 
 const token = require('./assets/token.js');
 const connection = require('./assets/db_connect.js');
-const createEmbed = require('./assets/createEmbed.js');
 let config = require('./assets/config.js');
 
 let fs = require('fs');
@@ -21,19 +20,19 @@ client.on("messageCreate", message => {
     let args = msg.split(" ")
     switch(args[0]) {
         case (prefix + "help"):
-            let help = require('./commands/help.js');
+            let help = require('./commands/textCommands/help.js');
             help.help(message);
             break;
         case (prefix + "ping"):
-            let ping = require('./commands/ping.js');
+            let ping = require('./commands/textCommands/ping.js');
             ping.ping(message.channel);
             break;
         case (prefix + "roll"):
-            let roll = require('./commands/roll.js');
+            let roll = require('./commands/textCommands/roll.js');
             roll.roll(message);
             break;
         case (prefix + "config"):
-            let configCommand = require('./commands/config.js');
+            let configCommand = require('./commands/textCommands/config.js');
             configCommand.configCommand(message);
             break;
     }
@@ -77,3 +76,10 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
 })
 
 client.login (token.token);
+
+//@TODO : ajouter un truc pour sauvegarder la config en fonction du serveur
+// genre en mode guildID.json dans un dossier config
+// et ca charge cette config pour le serveur dans chaque fichier de commande
+//
+// quand le bot détecte un message ou un voiceState il doit charger la config en fonction de message.guildID
+// ca peut faire ramer ??? peut être essayer de charger la config qu'une seule fois ?
