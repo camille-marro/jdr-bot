@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "discord.js": "^13.5.1",
+    "dotenv": "^16.0.0",
     "mysql": "^2.18.1"
   },
   "name": "bot-discord",
@@ -12,8 +13,17 @@
   "keywords": [],
   "author": "Camille MARRO",
   "license": "ISC",
-  "description": "",
+  "description": "You need to create a token.js file were you put the token liked to your bot.\r token.js need to look like :",
   "engines": {
     "node": "17.3.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camille-marro/jdr-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/camille-marro/jdr-bot/issues"
+  },
+  "homepage": "https://github.com/camille-marro/jdr-bot#readme"
 }
