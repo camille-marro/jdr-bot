@@ -516,155 +516,153 @@
       }
     ]
   },
-
-
   "msgConfigChannelsSTHelpEmbed":
   {
     "color": "#005522",
-    "title": "Changement configuration",
-    "description": "Change la configuration du bot",
+    "title": "Configuration change",
+    "description": "Change the bot configuration",
     "field": [
       {
-        "name": "Syntaxe de la commande",
+        "name": "Command syntax",
         "value": "config channels secret_tunnel [E/S] [new_channel]"
       },
       {
-        "name": "Description de la commande",
-        "value": "Les salons \"tunnel secret\" permettent de se téléporter dans le serveur. En allant dans le salon d'entrée, l'utilisateur est envoyé dans un des salons de sorties"
+        "name": "Command description",
+        "value": "Channels \"secret tunnel\" allow to teleport in the server. By going in the entrance server, you are teleported to one of the exit"
       },
       {
-        "name": "Paramètres",
+        "name": "Parameters",
         "value": "\u200B"
       },
       {
         "name": "E/S",
-        "value": "E : pour modifier le salon d'entrée\nS : pour modifier le/les salon(s) de sortie",
+        "value": "E : to modify the entrance channel\nS : to modify the exit channel",
         "inline": true
       },
       {
         "name": "new_channel",
-        "value": "nom du nouveau salon à utiliser",
+        "value": "name of the new channel to use",
         "inline": true
       },
       {
-        "name": "Plus d'informations",
-        "value": "Pour plus d'informations utiliser la commande : \"config print\""
+        "name": "More information",
+        "value": "For more information use : \"config print\""
       }
     ]
   },
   "msgConfigChannelsKCHelpEmbed":
   {
     "color": "#005522",
-    "title": "Changement configuration",
-    "description": "Change la configuration du bot",
+    "title": "Configuration change",
+    "description": "Change the bot configuration",
     "field": [
       {
-        "name": "Syntaxe de la commande",
+        "name": "Command syntax",
         "value": "config channels kick_channel [new_channel]"
       },
       {
         "name": "Description de la commande",
-        "value": "Le salon \"kick_channel\" kick l'utilisateur du serveur dès qu'il rentre dedans"
+        "value": "The channel \"kick_channel\" kick the user as soon as he get in it"
       },
       {
-        "name": "Paramètres",
+        "name": "Parameters",
         "value": "\u200B"
       },
       {
         "name": "new_channel",
-        "value": "nom du nouveau salon à utiliser",
+        "value": "name of the new channel to use",
         "inline": true
       },
       {
-        "name": "Plus d'informations",
-        "value": "Pour plus d'informations utiliser la commande : \"config print\""
+        "name": "More information",
+        "value": "For more information use : \"config print\""
       }
     ]
   },
   "msgConfigChannelsSNHelpEmbed":
   {
     "color": "#005522",
-    "title": "Changement configuration",
-    "description": "Change la configuration du bot",
+    "title": "Configuration change",
+    "description": "Change the bot configuration",
     "field": [
       {
-        "name": "Syntaxe de la commande",
+        "name": "Command syntax",
         "value": "config channels safety_net [new_channel]"
       },
       {
-        "name": "Description de la commande",
-        "value": "Le salon \"safety_net\" empêche l'utilisateur de sortir du salon sauf s'il se déconnecte"
+        "name": "Command description",
+        "value": "The channel \"safety_net\" don't let the user leave the channel unless he disconnects"
       },
       {
-        "name": "Paramètres",
+        "name": "Parameters",
         "value": "\u200B"
       },
       {
         "name": "new_channel",
-        "value": "nom du nouveau salon à utiliser",
+        "value": "name of the new channel to use",
         "inline": true
       },
       {
-        "name": "Plus d'informations",
-        "value": "Pour plus d'informations utiliser la commande : \"config print\""
+        "name": "More information",
+        "value": "For more information use : \"config print\""
       }
     ]
   },
   "msgConfigChannelsMMHelpEmbed":
   {
     "color": "#005522",
-    "title": "Changement configuration",
-    "description": "Change la configuration du bot",
+    "title": "Configuration change",
+    "description": "Change the bot configuration",
     "field": [
       {
-        "name": "Syntaxe de la commande",
+        "name": "Command syntax",
         "value": "config channels mystery_machine [new_channel]"
       },
       {
-        "name": "Description de la commande",
-        "value": "Le salon \"mystery_machine\" se déplace dans le serveur quand un utilisateur rentre dedans"
+        "name": "Command description",
+        "value": "The channel \"mystery_machine\" moves in the server when an user get in it"
       },
       {
-        "name": "Paramètres",
+        "name": "Parameters",
         "value": "\u200B"
       },
       {
         "name": "new_channel",
-        "value": "nom du nouveau salon à utiliser",
+        "value": "name of the new channel to use",
         "inline": true
       },
       {
-        "name": "Plus d'informations",
-        "value": "Pour plus d'informations utiliser la commande : \"config print\""
+        "name": "More information",
+        "value": "For more information use : \"config print\""
       }
     ]
   },
   "msgConfigChannelsBCHelpEmbed":
   {
     "color": "#005522",
-    "title": "Changement configuration",
-    "description": "Change la configuration du bot",
+    "title": "Configuration change",
+    "description": "Change the bot configuration",
     "field": [
       {
-        "name": "Syntaxe de la commande",
+        "name": "Command syntax",
         "value": "config channels bong_channel [new_channel]"
       },
       {
-        "name": "Description de la commande",
-        "value": "Le salon \"bong_channel\" déconnecte un utilisateur dans le salon \"safety_net\" quand un utilisateur rentre dadans"
+        "name": "Command description",
+        "value": "The channel \"bong_channel\" disconnects an user in the \"safety_net\" channel when someone get in it"
       },
       {
-        "name": "Paramètres",
+        "name": "Parameters",
         "value": "\u200B"
       },
       {
         "name": "new_channel",
-        "value": "nom du nouveau salon à utiliser",
+        "value": "name of the new channel to use",
         "inline": true
       },
       {
-        "name": "Plus d'informations",
-        "value": "Pour plus d'informations utiliser la commande : \"config print\""
+        "name": "More information",
+        "value": "For more information use : \"config print\""
       }
     ]
   }
