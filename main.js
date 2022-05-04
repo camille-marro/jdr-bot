@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const {Intents} = require("discord.js");
+require('dotenv').config();
 
 const token = require('./assets/token.js');
 const connection = require('./assets/db_connect.js');
@@ -20,8 +21,9 @@ client.on("messageCreate", message => {
         message.channel.send("feur ! AHAH TROP MARRANT");
     }
     if (msg.toLowerCase().endsWith("oui") || msg.toLowerCase().endsWith("oui ?")) {
-        message.channel.send("stiti AHAH TROP MARRANT");
+        message.channel.send("ghour AHAH TROP MARRANT");
     }
+
     let prefix = config['config']['prefix'];
     let args = msg.split(" ")
     switch(args[0]) {
@@ -81,7 +83,7 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
     }
 })
 
-client.login (token.token);
+client.login (process.env.BOT_TOKEN);
 
 //@TODO : ajouter un truc pour sauvegarder la config en fonction du serveur
 // genre en mode guildID.json dans un dossier config
