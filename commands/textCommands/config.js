@@ -1,9 +1,11 @@
 let fs = require('fs');
+let path = require('path');
+
 let config = require('../../assets/config.js');
 const createEmbed = require('../../assets/createEmbed.js');
 
 function configCommand (message) {
-    let rawJSONEmbed = fs.readFileSync('C:/Users/Asus PC/Documents/bot discord/json_files/embed_msg/' + config['config']['lang'] + ".json");
+    let rawJSONEmbed = fs.readFileSync(path.resolve(__dirname, '../../json_files/embed_msg/' + config['config']['lang'] + '.json'));
     let JSONEmbed = JSON.parse(rawJSONEmbed);
 
     let msg = message.content;

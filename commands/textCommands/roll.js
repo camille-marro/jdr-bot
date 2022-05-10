@@ -1,10 +1,10 @@
 let fs = require('fs');
 let config = require('../../assets/config.js');
 const createEmbed = require('../../assets/createEmbed.js');
+const path = require("path");
 
 function roll (message) {
-    let rawJSONEmbed = fs.readFileSync('C:/Users/Asus PC/Documents/bot discord/json_files/embed_msg/' + config['config']['lang'] + ".json");
-    let JSONEmbed = JSON.parse(rawJSONEmbed);
+    let rawJSONEmbed = fs.readFileSync(path.resolve(__dirname, '../../json_files/embed_msg/' + config['config']['lang'] + '.json'));let JSONEmbed = JSON.parse(rawJSONEmbed);
 
     let msg = message.content;
     let msgSyntaxErrorEmbed = createEmbed(JSONEmbed['msgSyntaxErrorEmbed']['color'], JSONEmbed['msgSyntaxErrorEmbed']['title'], JSONEmbed['msgSyntaxErrorEmbed']['description'], JSONEmbed['msgSyntaxErrorEmbed']['field'], []);
