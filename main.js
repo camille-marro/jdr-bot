@@ -82,9 +82,7 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
         bong.bong(newUser);
     }
 })
-
 client.login (process.env.BOT_TOKEN);
-
 //@TODO : ajouter un truc pour sauvegarder la config en fonction du serveur
 // genre en mode guildID.json dans un dossier config
 // et ca charge cette config pour le serveur dans chaque fichier de commande
