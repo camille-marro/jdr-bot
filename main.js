@@ -3,7 +3,6 @@ const {Intents} = require("discord.js");
 require('dotenv').config();
 
 const token = require('./assets/token.js');
-const connection = require('./assets/db_connect.js');
 let config = require('./assets/config.js');
 
 let fs = require('fs');
