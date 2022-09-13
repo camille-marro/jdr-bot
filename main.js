@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 const {Intents} = require("discord.js");
 require('dotenv').config();
 
-const token = require('./assets/token.js');
 let config = require('./assets/config.js');
 
 let fs = require('fs');
@@ -54,6 +53,10 @@ client.on("messageCreate", message => {
             let configCommand = require('./commands/textCommands/config.js');
             configCommand.configCommand(message);
             break;
+        case (prefix + "ub"):
+            let ub = require('./commands/textCommands/ub.js');
+            ub.ub(message);
+            break;
     }
 })
 
@@ -93,6 +96,7 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
         bong.bong(newUser);
     }
 })
+
 client.login (process.env.BOT_TOKEN);
 //@TODO : ajouter un truc pour sauvegarder la config en fonction du serveur
 // genre en mode guildID.json dans un dossier config

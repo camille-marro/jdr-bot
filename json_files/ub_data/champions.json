@@ -1,0 +1,485 @@
+[
+   {
+   "name": "aatrox"
+   },
+   {
+   "name": "ahri"
+   },
+   {
+   "name": "akali"
+   },
+   {
+   "name": "akshan"
+   },
+   {
+   "name": "alistar"
+   },
+   {
+   "name": "amumu"
+   },
+   {
+   "name": "anivia"
+   },
+   {
+   "name": "annie"
+   },
+   {
+   "name": "aphelios"
+   },
+   {
+   "name": "ashe"
+   },
+   {
+   "name": "aurelion sol"
+   },
+   {
+   "name": "azir"
+   },
+   {
+   "name": "bard"
+   },
+   {
+   "name": "bel'veth"
+   },
+   {
+   "name": "blitzcrank"
+   },
+   {
+   "name": "brand"
+   },
+   {
+   "name": "braum"
+   },
+   {
+   "name": "caitlyn"
+   },
+   {
+   "name": "camille"
+   },
+   {
+   "name": "cassiopeia"
+   },
+   {
+   "name": "cho'gath"
+   },
+   {
+   "name": "corki"
+   },
+   {
+   "name": "darius"
+   },
+   {
+   "name": "diana"
+   },
+   {
+   "name": "dr. mundo"
+   },
+   {
+   "name": "draven"
+   },
+   {
+   "name": "ekko"
+   },
+   {
+   "name": "elise"
+   },
+   {
+   "name": "evelynn"
+   },
+   {
+   "name": "ezreal"
+   },
+   {
+   "name": "fiddlesticks"
+   },
+   {
+   "name": "fiora"
+   },
+   {
+   "name": "fizz"
+   },
+   {
+   "name": "galio"
+   },
+   {
+   "name": "gangplank"
+   },
+   {
+   "name": "garen"
+   },
+   {
+   "name": "gnar"
+   },
+   {
+   "name": "gragas"
+   },
+   {
+   "name": "graves"
+   },
+   {
+   "name": "gwen"
+   },
+   {
+   "name": "hecarim"
+   },
+   {
+   "name": "heimerdinger"
+   },
+   {
+   "name": "illaoi"
+   },
+   {
+   "name": "irelia"
+   },
+   {
+   "name": "ivern"
+   },
+   {
+   "name": "janna"
+   },
+   {
+   "name": "jarvan IV"
+   },
+   {
+   "name": "jax"
+   },
+   {
+   "name": "jayce"
+   },
+   {
+   "name": "jhin"
+   },
+   {
+   "name": "jinx"
+   },
+   {
+   "name": "kai'sa"
+   },
+   {
+   "name": "kalista"
+   },
+   {
+   "name": "karma"
+   },
+   {
+   "name": "karthus"
+   },
+   {
+   "name": "kassadin"
+   },
+   {
+   "name": "katarina"
+   },
+   {
+   "name": "kayle"
+   },
+   {
+   "name": "kayn"
+   },
+   {
+   "name": "kennen"
+   },
+   {
+   "name": "kha'zix"
+   },
+   {
+   "name": "kindred"
+   },
+   {
+   "name": "kled"
+   },
+   {
+   "name": "kog'maw"
+   },
+   {
+   "name": "leblanc"
+   },
+   {
+   "name": "lee sin"
+   },
+   {
+   "name": "leona"
+   },
+   {
+   "name": "lillia"
+   },
+   {
+   "name": "lissandra"
+   },
+   {
+   "name": "lucian"
+   },
+   {
+   "name": "lulu"
+   },
+   {
+   "name": "lux"
+   },
+   {
+   "name": "maitre yi"
+   },
+   {
+   "name": "malphite"
+   },
+   {
+   "name": "malzahar"
+   },
+   {
+   "name": "maokai"
+   },
+   {
+   "name": "miss fortune"
+   },
+   {
+   "name": "mordekaiser"
+   },
+   {
+   "name": "morgana"
+   },
+   {
+   "name": "nami"
+   },
+   {
+   "name": "nasus"
+   },
+   {
+   "name": "nautilus"
+   },
+   {
+   "name": "neeko"
+   },
+   {
+   "name": "nidalee"
+   },
+   {
+   "name": "nilah"
+   },
+   {
+   "name": "nocturne"
+   },
+   {
+   "name": "nunu et willump"
+   },
+   {
+   "name": "olaf"
+   },
+   {
+   "name": "orianna"
+   },
+   {
+   "name": "ornn"
+   },
+   {
+   "name": "pantheon"
+   },
+   {
+   "name": "poppy"
+   },
+   {
+   "name": "pyke"
+   },
+   {
+   "name": "qiyana"
+   },
+   {
+   "name": "quinn"
+   },
+   {
+   "name": "rakan"
+   },
+   {
+   "name": "rammus"
+   },
+   {
+   "name": "rek'sai"
+   },
+   {
+   "name": "rell"
+   },
+   {
+   "name": "renata glasc"
+   },
+   {
+   "name": "renekton"
+   },
+   {
+   "name": "rengar"
+   },
+   {
+   "name": "riven"
+   },
+   {
+   "name": "rumble"
+   },
+   {
+   "name": "ryze"
+   },
+   {
+   "name": "samira"
+   },
+   {
+   "name": "sejuani"
+   },
+   {
+   "name": "senna"
+   },
+   {
+   "name": "séraphine"
+   },
+   {
+   "name": "sett"
+   },
+   {
+   "name": "shaco"
+   },
+   {
+   "name": "shen"
+   },
+   {
+   "name": "shyvana"
+   },
+   {
+   "name": "singed"
+   },
+   {
+   "name": "sion"
+   },
+   {
+   "name": "sivir"
+   },
+   {
+   "name": "skarner"
+   },
+   {
+   "name": "sona"
+   },
+   {
+   "name": "soraka"
+   },
+   {
+   "name": "swain"
+   },
+   {
+   "name": "sylas"
+   },
+   {
+   "name": "syndra"
+   },
+   {
+   "name": "tahm kench"
+   },
+   {
+   "name": "taliyah"
+   },
+   {
+   "name": "talon"
+   },
+   {
+   "name": "taric"
+   },
+   {
+   "name": "teemo"
+   },
+   {
+   "name": "thresh"
+   },
+   {
+   "name": "tristana"
+   },
+   {
+   "name": "trundle"
+   },
+   {
+   "name": "tryndamere"
+   },
+   {
+   "name": "twisted fate"
+   },
+   {
+   "name": "twitch"
+   },
+   {
+   "name": "udyr"
+   },
+   {
+   "name": "urgot"
+   },
+   {
+   "name": "varus"
+   },
+   {
+   "name": "vayne"
+   },
+   {
+   "name": "veigar"
+   },
+   {
+   "name": "vel'koz"
+   },
+   {
+   "name": "vex"
+   },
+   {
+   "name": "vi"
+   },
+   {
+   "name": "viego"
+   },
+   {
+   "name": "viktor"
+   },
+   {
+   "name": "vladimir"
+   },
+   {
+   "name": "volibear"
+   },
+   {
+   "name": "warwick"
+   },
+   {
+   "name": "wukong"
+   },
+   {
+   "name": "xayah"
+   },
+   {
+   "name": "xerath"
+   },
+   {
+   "name": "win zhao"
+   },
+   {
+   "name": "yasuo"
+   },
+   {
+   "name": "yone"
+   },
+   {
+   "name": "yorick"
+   },
+   {
+   "name": "yuumi"
+   },
+   {
+   "name": "zac"
+   },
+   {
+   "name": "zed"
+   },
+   {
+   "name": "zeri"
+   },
+   {
+   "name": "ziggs"
+   },
+   {
+   "name": "zilean"
+   },
+   {
+   "name": "zoe"
+   },
+   {
+   "name": "zyra"
+   }
+]
