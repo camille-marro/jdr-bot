@@ -34,6 +34,39 @@ function ub (message) {
     let rawJSONRunes = fs.readFileSync(path.resolve(__dirname, '../../json_files/ub_data/runes.json'));
     let JSONRunes = JSON.parse(rawJSONRunes);
 
+    if (options[1] === "stuff") {
+        let item1NB = Math.floor(Math.random() * 25);
+        let item2NB = Math.floor(Math.random() * 62);
+        let item3NB = Math.floor(Math.random() * 62);
+        let item4NB = Math.floor(Math.random() * 62);
+        let item5NB = Math.floor(Math.random() * 62);
+        let bootNB = Math.floor(Math.random() * 7);
+
+        while (item2NB == item3NB || item2NB == item4NB || item2NB == item5NB || item3NB == item4NB || item3NB == item5NB || item4NB == item5NB) {
+            item2NB = Math.floor(Math.random() * 62);
+            item3NB = Math.floor(Math.random() * 62);
+            item4NB = Math.floor(Math.random() * 62);
+            item5NB = Math.floor(Math.random() * 62);
+        }
+
+        let boot = JSONItems["boots"][bootNB]["name"];
+        let mythic = JSONItems["mythics"][item1NB]["name"];
+        let legendary1 = JSONItems["legendaries"][item2NB]["name"];
+        let legendary2 = JSONItems["legendaries"][item3NB]["name"];
+        let legendary3 = JSONItems["legendaries"][item4NB]["name"];
+        let legendary4 = JSONItems["legendaries"][item5NB]["name"];
+
+        console.log("|- selected boot : " + JSONItems["boots"][bootNB]["name"] + "(#" + bootNB + ")");
+        console.log("|- selected mythic : " + JSONItems["mythics"][item1NB]["name"] + "(#" + item1NB + ")");
+        console.log("|- selected legendary 1 : " + JSONItems["legendaries"][item2NB]["name"] + "(#" + item2NB + ")");
+        console.log("|- selected legendary 2 : " + JSONItems["legendaries"][item3NB]["name"] + "(#" + item3NB + ")");
+        console.log("|- selected legendary 3 : " + JSONItems["legendaries"][item4NB]["name"] + "(#" + item4NB + ")");
+        console.log("|- selected legendary 4 : " + JSONItems["legendaries"][item5NB]["name"] + "(#" + item5NB + ")");
+
+        message.channel.send("Stuff :\n" + mythic + "\n" + boot + "\n" + legendary1 + "\n" + legendary2 + "\n" + legendary3 + "\n" + legendary4);
+        return;
+    }
+
     //console.log(JSONRunes);
     //console.log(JSONRunes[4]["subs-2"][2]["name"]);
 
