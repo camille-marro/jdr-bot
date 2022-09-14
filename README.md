@@ -2,7 +2,7 @@
 
 ## Discord bot for fun and testing dev skills
 
-### First of all
+### For a personal use
 You need to create a .env file were you put the token liked to your bot.
 .env need to look like this :
 
