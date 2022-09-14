@@ -1,0 +1,246 @@
+[
+  {
+    "name": "Précision",
+    "main": [
+      {
+        "name": "Conquérant"
+      },
+      {
+        "name": "Jeu de jambes"
+      },
+      {
+        "name": "Tempo mortel"
+      },
+      {
+        "name": "Attaque soutenue"
+      }
+    ],
+    "subs-1": [
+      {
+        "name": "Surchage de PV"
+      },
+      {
+        "name": "Triomphe"
+      },
+      {
+        "name": "Présence d'esprit"
+      }
+    ],
+    "subs-2": [
+      {
+        "name": "Alacrité"
+      },
+      {
+        "name": "Ténacité"
+      },
+      {
+        "name": "Sangsue"
+      }
+    ],
+    "subs-3": [
+      {
+        "name": "Coup de grâce"
+      },
+      {
+        "name": "Abattage"
+      },
+      {
+        "name": "Baround d'honneur"
+      }
+    ]
+  },
+  {
+    "name": "Volonté",
+    "main": [
+      {
+        "name": "Poigne de l'immortel"
+      },
+      {
+        "name": "Après coup"
+      },
+      {
+        "name": "Gardien"
+      }
+    ],
+    "subs-1": [
+      {
+        "name": "Démolition"
+      },
+      {
+        "name": "Fontaine de vie"
+      },
+      {
+        "name": "Coup de bouclier"
+      }
+    ],
+    "subs-2": [
+      {
+        "name": "Conditionnement"
+      },
+      {
+        "name": "Second souffle"
+      },
+      {
+        "name": "Plaque d'os"
+      }
+    ],
+    "subs-3": [
+      {
+        "name": "Surcroissance"
+      },
+      {
+        "name": "Revitalisation"
+      },
+      {
+        "name": "Inébranlable"
+      }
+    ]
+  },
+  {
+    "name": "Inspiration",
+    "main": [
+      {
+        "name": "Optimisation glaciale"
+      },
+      {
+        "name": "Grimoire déchaîné"
+      },
+      {
+        "name": "Premier coup"
+      }
+    ],
+    "subs-1": [
+      {
+        "name": "Canalisation Hextech"
+      },
+      {
+        "name": "Chaussures magiques"
+      },
+      {
+        "name": "Timing parfait"
+      }
+    ],
+    "subs-2": [
+      {
+        "name": "Marché du futur"
+      },
+      {
+        "name": "Désintégrateur de sbires"
+      },
+      {
+        "name": "Livraison de biscuits"
+      }
+    ],
+    "subs-3": [
+      {
+        "name": "Savoir cosmique"
+      },
+      {
+        "name": "Vitesse d'approche"
+      },
+      {
+        "name": "Philtre de chronodistortion"
+      }
+    ]
+  },
+  {
+    "name": "Domination",
+    "main": [
+      {
+        "name": "Electrocution"
+      },
+      {
+        "name": "Prédateur"
+      },
+      {
+        "name": "Moisson noire"
+      },
+      {
+        "name": "Déluge de lames"
+      }
+    ],
+    "subs-1": [
+      {
+        "name": "Coup bas"
+      },
+      {
+        "name": "Goût du sang"
+      },
+      {
+        "name": "Ruée offensive"
+      }
+    ],
+    "subs-2": [
+      {
+        "name": "Balise zombie"
+      },
+      {
+        "name": "Poro fantôme"
+      },
+      {
+        "name": "Arracheur d'oeil"
+      }
+    ],
+    "subs-3": [
+      {
+        "name": "Chasseur de trésors"
+      },
+      {
+        "name": "Châsseur ingénieux"
+      },
+      {
+        "name": "Chasseur acharné"
+      },
+      {
+        "name": "Chasseur ultime"
+      }
+    ]
+  },
+  {
+    "name": "Sorcellerie",
+    "main": [
+      {
+        "name": "Invocation d'Aery"
+      },
+      {
+        "name": "Comète arcanique"
+      },
+      {
+        "name": "Rush phasique"
+      }
+    ],
+    "subs-1": [
+      {
+        "name": "Orbe anti-magie"
+      },
+      {
+        "name": "Ruban de mana"
+      },
+      {
+        "name": "Manteau nuageux"
+      }
+    ],
+    "subs-2": [
+      {
+        "name": "Transcendance"
+      },
+      {
+        "name": "Célérité"
+      },
+      {
+        "name": "Concentration absolue"
+      }
+    ],
+    "subs-3": [
+      {
+        "name": "Brûlure"
+      },
+      {
+        "name": "Marche sur l'eau"
+      },
+      {
+        "name": "Tempête menaçante"
+      }
+    ]
+  }
+]
