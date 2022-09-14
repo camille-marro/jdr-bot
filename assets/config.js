@@ -34,7 +34,7 @@ function printConfigEmbed (channel) {
     embedOptions['!bong_channel'] = config['voice channels']['bong']['name'];
 
 
-    let msgPrintConfigEmbed = createEmbed(JSONEmbed['msgPrintConfigEmbed']['color'], JSONEmbed['msgPrintConfigEmbed']['title'], JSONEmbed['msgPrintConfigEmbed']['description'], JSONEmbed['msgPrintConfigEmbed']['field'], embedOptions);
+    let msgPrintConfigEmbed = createEmbed(JSONEmbed['msgPrintConfigEmbed']['color'], JSONEmbed['msgPrintConfigEmbed']['title'], JSONEmbed['msgPrintConfigEmbed']['thumbnail'], JSONEmbed['msgPrintConfigEmbed']['description'], JSONEmbed['msgPrintConfigEmbed']['field'], embedOptions);
     channel.send({embeds: [msgPrintConfigEmbed]});
 }
 

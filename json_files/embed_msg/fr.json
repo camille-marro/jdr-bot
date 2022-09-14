@@ -3,6 +3,7 @@
   {
     "color": "#ff0000",
     "title": "Lancés de dés",
+    "thumbnail": "",
     "description" : "Résultats du ou des lancers de dés fait par le bot",
     "field" : [
       {
@@ -15,6 +16,7 @@
   {
     "color": "#005522",
     "title": "Lancés de dés",
+    "thumbnail": "",
     "description" : "Résultats du ou des lancers de dés fait par le bot",
     "field" : [
       {
@@ -41,6 +43,7 @@
   {
     "color": "!color",
     "title": "Actualisation base de données",
+    "thumbnail": "",
     "description": "Actualisation des données de la base de données",
     "field": [
       {
@@ -53,6 +56,7 @@
   {
     "color": "#005522",
     "title": "Informations personnage",
+    "thumbnail": "",
     "description": "Récupère les informations d'un personnage avec son nom ou son ID",
     "field": [
       {
@@ -88,6 +92,7 @@
   {
     "color": "#ff0000",
     "title": "Infos personnage",
+    "thumbnail": "",
     "description": "Récupère les informations d'un personnage avec son nom ou son ID",
     "field": [
       {
@@ -100,6 +105,7 @@
   {
     "color": "#005522",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -112,6 +118,7 @@
   {
     "color": "#ff0000",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -139,6 +146,7 @@
   {
     "color": "#ff0000",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -151,6 +159,7 @@
   {
     "color": "#ff0000",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -163,6 +172,7 @@
   {
     "color": "#ff0000",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -175,6 +185,7 @@
   {
     "color": "#ab57d4",
     "title": "Help",
+    "thumbnail": "",
     "description": "Résumé des commandes et de leurs utilisations",
     "field": [
       {
@@ -226,6 +237,24 @@
       {
         "name": "config print",
         "value": "Affiche la configuration courante du bot"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "ub [role]",
+        "value": "Lance une partie d'Ultimate Bravery"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "role",
+        "value": "role à jouer : support, jungle, lane",
+        "inline": true
       }
     ]
   },
@@ -233,6 +262,7 @@
   {
     "color": "#ab57d4",
     "title": "Affichage configuration",
+    "thumbnail": "",
     "description": "Affichage de la configuration courante du bot",
     "field" : [
       {
@@ -291,6 +321,7 @@
   {
     "color": "#ff0000",
     "title":"Configuration des salons vocaux",
+    "thumbnail": "",
     "description": "Configuration des différents salons vocaux",
     "field": [
       {
@@ -327,6 +358,7 @@
   {
     "color": "#005522",
     "title":"Configuration des salons vocaux",
+    "thumbnail": "",
     "description": "Configuration des différents salons vocaux",
     "field": [
       {
@@ -339,6 +371,7 @@
   {
     "color": "#005522",
     "title": "Lancés de dés",
+    "thumbnail": "",
     "description" : "Résultats du ou des lancers de dés fait par le bot",
     "field": [
       {
@@ -370,6 +403,7 @@
   {
     "color": "#005522",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -424,6 +458,7 @@
   {
     "color": "#005522",
     "title": "Affichage configuration",
+    "thumbnail": "",
     "description": "Affichage de la configuration courante du bot",
     "field": [
       {
@@ -440,6 +475,7 @@
   {
     "color": "#005522",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -464,6 +500,7 @@
   {
     "color": "#005522",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -488,6 +525,7 @@
   {
     "color": "#005522",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -522,6 +560,7 @@
   {
     "color": "#005522",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -556,6 +595,7 @@
   {
     "color": "#005522",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -585,6 +625,7 @@
   {
     "color": "#005522",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -614,6 +655,7 @@
   {
     "color": "#005522",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -643,6 +685,7 @@
   {
     "color": "#005522",
     "title": "Changement configuration",
+    "thumbnail": "",
     "description": "Change la configuration du bot",
     "field": [
       {
@@ -655,7 +698,8 @@
       },
       {
         "name": "Paramètres",
-        "value": "\u200B"
+        "value": "\u200B",
+        "inline": true
       },
       {
         "name": "new_channel",
@@ -665,6 +709,33 @@
       {
         "name": "Plus d'informations",
         "value": "Pour plus d'informations utiliser la commande : \"config print\""
+      }
+    ]
+  },
+  "msgRollUBEmbed":
+  {
+    "color": "#005522",
+    "title": "Ultimate Bravery",
+    "thumbnail": "https://camille-marro.com/images/patrick.png",
+    "description": "Lance une partie d'Ultimate Bravery",
+    "field": [
+      {
+        "name": "Syntaxe de la commande",
+        "value": "ub [role]"
+      },
+      {
+        "name": "Description de la commande",
+        "value": "Choisit pour vous un champion avec un stuff et des runes completement aléatoire."
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "role",
+        "value": "role à jouer : support, jungle, lane",
+        "inline": true
       }
     ]
   }

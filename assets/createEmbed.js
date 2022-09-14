@@ -1,6 +1,6 @@
 const {MessageEmbed} = require("discord.js");
 
-let createEmbed = function (color, title, description, fields, values) {
+let createEmbed = function (color, title, thumbnail, description, fields, values) {
     let msgEmbed = new MessageEmbed();
 
     if (color !== "") {
@@ -15,8 +15,14 @@ let createEmbed = function (color, title, description, fields, values) {
     }
     else msgEmbed.setTitle("Default");
 
+    if (thumbnail !== "") {
+        if (thumbnail.indexOf("!") === 0) msgEmbed.setThumbnail(values[thumbnail]);
+        else msgEmbed.setThumbnail(thumbnail);
+    }
+    else msgEmbed.setThumbnail();
+
     if (description !== "") {
-        if (description.indexOf("!") === 0) msgEmbed.setDescription(values[description])
+        if (description.indexOf("!") === 0) msgEmbed.setDescription(values[description]);
         else msgEmbed.setDescription(description);
     }
     else msgEmbed.setDescription("Default description");

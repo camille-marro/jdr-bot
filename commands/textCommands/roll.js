@@ -7,11 +7,11 @@ function roll (message) {
     let rawJSONEmbed = fs.readFileSync(path.resolve(__dirname, '../../json_files/embed_msg/' + config['config']['lang'] + '.json'));let JSONEmbed = JSON.parse(rawJSONEmbed);
 
     let msg = message.content;
-    let msgSyntaxErrorEmbed = createEmbed(JSONEmbed['msgSyntaxErrorEmbed']['color'], JSONEmbed['msgSyntaxErrorEmbed']['title'], JSONEmbed['msgSyntaxErrorEmbed']['description'], JSONEmbed['msgSyntaxErrorEmbed']['field'], []);
+    let msgSyntaxErrorEmbed = createEmbed(JSONEmbed['msgSyntaxErrorEmbed']['color'], JSONEmbed['msgSyntaxErrorEmbed']['title'], JSONEmbed['msgSyntaxErrorEmbed']['thumbnail'], JSONEmbed['msgSyntaxErrorEmbed']['description'], JSONEmbed['msgSyntaxErrorEmbed']['field'], []);
     let options = msg.split(" ");
 
     if (options[1] === "help") {
-        let msgRollHelpEmbed = createEmbed(JSONEmbed['msgRollHelpEmbed']['color'], JSONEmbed['msgRollHelpEmbed']['title'], JSONEmbed['msgRollHelpEmbed']['description'], JSONEmbed['msgRollHelpEmbed']['field'], []);
+        let msgRollHelpEmbed = createEmbed(JSONEmbed['msgRollHelpEmbed']['color'], JSONEmbed['msgRollHelpEmbed']['title'], JSONEmbed['msgRollHelpEmbed']['thumbnail'], JSONEmbed['msgRollHelpEmbed']['description'], JSONEmbed['msgRollHelpEmbed']['field'], []);
         message.channel.send({embeds: [msgRollHelpEmbed]});
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for roll command.");
         return;
@@ -81,7 +81,7 @@ function roll (message) {
     embedOptions['!strSum'] = strSum;
     embedOptions['!strRollsList'] = strRollsList;
     embedOptions['!average'] = average.toString();
-    let msgRolledDiceEmbed = createEmbed(JSONEmbed['msgRolledDiceEmbed']['color'], JSONEmbed['msgRolledDiceEmbed']['title'], JSONEmbed['msgRolledDiceEmbed']['description'], JSONEmbed['msgRolledDiceEmbed']['field'], embedOptions)
+    let msgRolledDiceEmbed = createEmbed(JSONEmbed['msgRolledDiceEmbed']['color'], JSONEmbed['msgRolledDiceEmbed']['title'], JSONEmbed['msgRolledDiceEmbed']['thumbnail'], JSONEmbed['msgRolledDiceEmbed']['description'], JSONEmbed['msgRolledDiceEmbed']['field'], embedOptions)
 
     message.channel.send({embeds: [msgRolledDiceEmbed]});
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") rolled dices (" + values[0] + "d" + values[1] + ").");

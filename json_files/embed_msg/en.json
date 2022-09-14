@@ -3,6 +3,7 @@
   {
     "color": "#ff0000",
     "title": "Rolling dices",
+    "thumbnail": "",
     "description" : "Results of the rolled dice(s) by the bot",
     "field" : [
       {
@@ -15,6 +16,7 @@
   {
     "color": "#005522",
     "title": "Rolling dices",
+    "thumbnail": "",
     "description" : "Results of the rolled dice(s) by the bot",
     "field" : [
       {
@@ -41,6 +43,7 @@
   {
     "color": "!color",
     "title": "Refreshing database",
+    "thumbnail": "",
     "description": "Refreshing database's data",
     "field": [
       {
@@ -53,6 +56,7 @@
   {
     "color": "#005522",
     "title": "Personage infos",
+    "thumbnail": "",
     "description": "Getting personages infos with his name or ID",
     "field": [
       {
@@ -88,6 +92,7 @@
   {
     "color": "#ff0000",
     "title": "Personage infomations",
+    "thumbnail": "",
     "description": "Getting personages infos with his name or ID",
     "field": [
       {
@@ -100,6 +105,7 @@
   {
     "color": "#005522",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -112,6 +118,7 @@
   {
     "color": "#ff0000",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -139,6 +146,7 @@
   {
     "color": "#ff0000",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -151,6 +159,7 @@
   {
     "color": "#ff0000",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -163,6 +172,7 @@
   {
     "color": "#ff0000",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -174,6 +184,7 @@
   "msgHelpEmbed": {
     "color": "#ab57d4",
     "title": "Help",
+    "thumbnail": "",
     "description": "Summary of the commands and their uses",
     "field": [
       {
@@ -225,6 +236,24 @@
       {
         "name": "config print",
         "value": "Print the current configuration of the bot"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "ub [role]",
+        "value": "Start a game of Ultimate Bravery"
+      },
+      {
+        "name": "Parameters",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "role",
+        "value": "role to play : support, jungle, lane",
+        "inline": true
       }
     ]
   },
@@ -232,6 +261,7 @@
   {
     "color": "#ab57d4",
     "title": "Print configuration",
+    "thumbnail": "",
     "description": "Print the current config of the bot",
     "field" : [
       {
@@ -289,6 +319,7 @@
 {
   "color": "#ff0000",
   "title":"Voice channels configuration",
+  "thumbnail": "",
   "description": "Changing voice channels configuration",
   "field": [
     {
@@ -325,6 +356,7 @@
   {
     "color": "#005522",
     "title":"Voice channels configuration",
+    "thumbnail": "",
     "description": "Changing voice channels configuration",
     "field": [
       {
@@ -337,6 +369,7 @@
   {
     "color": "#005522",
     "title": "Rolling dices",
+    "thumbnail": "",
     "description" : "Results of the rolled dice(s) by the bot",
     "field": [
       {
@@ -368,6 +401,7 @@
   {
     "color": "#005522",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -422,6 +456,7 @@
   {
     "color": "#005522",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -438,6 +473,7 @@
   {
     "color": "#005522",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -462,6 +498,7 @@
   {
     "color": "#005522",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -486,6 +523,7 @@
   {
     "color": "#005522",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -520,6 +558,7 @@
   {
     "color": "#005522",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -554,6 +593,7 @@
   {
     "color": "#005522",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -583,6 +623,7 @@
   {
     "color": "#005522",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -612,6 +653,7 @@
   {
     "color": "#005522",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {
@@ -641,6 +683,7 @@
   {
     "color": "#005522",
     "title": "Configuration change",
+    "thumbnail": "",
     "description": "Change the bot configuration",
     "field": [
       {

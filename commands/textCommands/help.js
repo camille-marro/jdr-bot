@@ -7,7 +7,7 @@ function help (message) {
     let rawJSONEmbed = fs.readFileSync(path.resolve(__dirname, '../../json_files/embed_msg/' + config['config']['lang'] + '.json'));
     let JSONEmbed = JSON.parse(rawJSONEmbed);
 
-    let msgHelpEmbed = createEmbed(JSONEmbed['msgHelpEmbed']['color'], JSONEmbed['msgHelpEmbed']['title'], JSONEmbed['msgHelpEmbed']['description'], JSONEmbed['msgHelpEmbed']['field'], [])
+    let msgHelpEmbed = createEmbed(JSONEmbed['msgHelpEmbed']['color'], JSONEmbed['msgHelpEmbed']['title'], JSONEmbed['msgHelpEmbed']['thumbnail'], JSONEmbed['msgHelpEmbed']['description'], JSONEmbed['msgHelpEmbed']['field'], [])
     message.channel.send({embeds: [msgHelpEmbed]});
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for help");
 }
