@@ -4,7 +4,7 @@
 
 ### For a personal use
 You need to create a .env file were you put the token linked to your bot.\
-Your .env need to look like this :
+Your .env file need to look like this :
 
 ```js
 BOT_TOKEN="YOUR_TOKEN"
