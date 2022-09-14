@@ -3,8 +3,8 @@
 ## Discord bot for fun and testing dev skills
 
 ### For a personal use
-You need to create a .env file were you put the token liked to your bot.
-.env need to look like this :
+You need to create a .env file were you put the token linked to your bot.\
+Your .env need to look like this :
 
 ```js
 BOT_TOKEN="YOUR_TOKEN"
@@ -17,5 +17,5 @@ config : to change some parameters\
 help: list the commands and explains them\
 ub : to start a game of ultimate bravery for League of Legends
 
-there is also actions with voice channels, you can use ```config channels help``` to get more information about that.
+There are also actions with voice channels, you can use ```config channels help``` to get more information about that.
 
