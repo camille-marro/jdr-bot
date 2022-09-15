@@ -15,3 +15,8 @@ function safetyNet (client, newUser) {
 module.exports = {
     safetyNet
 }
+
+/*
+@TODO : check pas juste un event mais que quand un mec déco
+genre la quand tu fais un stream il spam le console log back in safety net
+ */
