@@ -34,7 +34,11 @@ function ub (message) {
     let rawJSONRunes = fs.readFileSync(path.resolve(__dirname, '../../json_files/ub_data/runes.json'));
     let JSONRunes = JSON.parse(rawJSONRunes);
 
-    if (options[1] === "stuff") {
+    console.log("|- Loading summoners ...");
+    let rawJSONSum = fs.readFileSync(path.resolve(__dirname, '../../json_files/ub_data/summoners.json'));
+    let JSONSum = JSON.parse(rawJSONSum);
+
+    if (options[1] === "stuff" || options[1] === "item") {
         let item1NB = Math.floor(Math.random() * 25);
         let item2NB = Math.floor(Math.random() * 62);
         let item3NB = Math.floor(Math.random() * 62);
@@ -56,24 +60,48 @@ function ub (message) {
         let legendary3 = JSONItems["legendaries"][item4NB]["name"];
         let legendary4 = JSONItems["legendaries"][item5NB]["name"];
 
-        console.log("|- selected boot : " + JSONItems["boots"][bootNB]["name"] + "(#" + bootNB + ")");
-        console.log("|- selected mythic : " + JSONItems["mythics"][item1NB]["name"] + "(#" + item1NB + ")");
-        console.log("|- selected legendary 1 : " + JSONItems["legendaries"][item2NB]["name"] + "(#" + item2NB + ")");
-        console.log("|- selected legendary 2 : " + JSONItems["legendaries"][item3NB]["name"] + "(#" + item3NB + ")");
-        console.log("|- selected legendary 3 : " + JSONItems["legendaries"][item4NB]["name"] + "(#" + item4NB + ")");
-        console.log("|- selected legendary 4 : " + JSONItems["legendaries"][item5NB]["name"] + "(#" + item5NB + ")");
+        console.log("|- selected boot : " + boot + "(#" + bootNB + ")");
+        console.log("|- selected mythic : " + mythic + "(#" + item1NB + ")");
+        console.log("|- selected legendary 1 : " + legendary1 + "(#" + item2NB + ")");
+        console.log("|- selected legendary 2 : " + legendary2 + "(#" + item3NB + ")");
+        console.log("|- selected legendary 3 : " + legendary3 + "(#" + item4NB + ")");
+        console.log("|- selected legendary 4 : " + legendary4 + "(#" + item5NB + ")");
 
-        message.channel.send("Stuff :\n" + mythic + "\n" + boot + "\n" + legendary1 + "\n" + legendary2 + "\n" + legendary3 + "\n" + legendary4);
+        //message.channel.send("**Mythique  : **" + mythic + "\nBottes : " + boot + "\nAutres items :\n" + legendary1 + "\n" + legendary2 + "\n" + legendary3 + "\n" + legendary4);
+
+        let embedOptions = [];
+        embedOptions['!mythic'] = mythic;
+        embedOptions['!boots'] = boot;
+        embedOptions['!legendary1'] = legendary1;
+        embedOptions['!legendary2'] = legendary2;
+        embedOptions['!legendary3'] = legendary3;
+        embedOptions['!legendary4'] = legendary4;
+        let msgUBStuffEmbed = createEmbed(JSONEmbed['msgUBStuffEmbed']['color'], JSONEmbed['msgUBStuffEmbed']['title'], JSONEmbed['msgUBStuffEmbed']['thumbnail'], JSONEmbed['msgUBStuffEmbed']['description'], JSONEmbed['msgUBStuffEmbed']['field'], embedOptions)
+
+        message.channel.send({embeds: [msgUBStuffEmbed]});
         return;
     }
 
-    //console.log(JSONRunes);
-    //console.log(JSONRunes[4]["subs-2"][2]["name"]);
+    if (options[1] === "champ" || options[1] === "champion") {
+        let champNB = Math.floor(Math.random() * 161);
+        message.channel.send("Champion à jouer : " + JSONChampions[champNB]["name"].charAt(0).toUpperCase() + JSONChampions[champNB]["name"].slice(1));
+        console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
+
+        let embedOptions = [];
+        embedOptions['!image'] = JSONChampions[champNB]["image"];
+        embedOptions['!champion'] = JSONChampions[champNB]["name"].charAt(0).toUpperCase() + JSONChampions[champNB]["name"].slice(1);
+        let msgUBChampEmbed = createEmbed(JSONEmbed['msgUBChampEmbed']['color'], JSONEmbed['msgUBChampEmbed']['title'], JSONEmbed['msgUBChampEmbed']['thumbnail'], JSONEmbed['msgUBChampEmbed']['description'], JSONEmbed['msgUBChampEmbed']['field'], embedOptions)
+        message.channel.send({embeds: [msgUBChampEmbed]});
+
+        return;
+    }
 
     let champNB = Math.floor(Math.random() * 161);
     console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
 
     let strStart = "";
+    let summoners1NB = Math.floor(Math.random() * 8);
+    let summoners2NB = Math.floor(Math.random() * 8);
     if (options[1] === "support") {
         message.channel.send("Rôle support !");
         let starterNB = Math.floor(Math.random() * 4);
@@ -85,6 +113,7 @@ function ub (message) {
         let starterNB = Math.floor(Math.random() * 2);
         strStart = JSONStarters["jungle"][starterNB]["name"];
         console.log("|- selected starter : " + JSONStarters["jungle"][starterNB]["name"] + "(#" + starterNB + ")");
+        summoners1NB = 8;
     }
     else {
         message.channel.send("Rôle top, mid, adc !");
@@ -120,6 +149,8 @@ function ub (message) {
     console.log("|- selected legendary 2 : " + JSONItems["legendaries"][item3NB]["name"] + "(#" + item3NB + ")");
     console.log("|- selected legendary 3 : " + JSONItems["legendaries"][item4NB]["name"] + "(#" + item4NB + ")");
     console.log("|- selected legendary 4 : " + JSONItems["legendaries"][item5NB]["name"] + "(#" + item5NB + ")");
+    console.log("|- selected summoner 1: " + JSONSum[summoners1NB]["name"] + "(#" + summoners1NB + ")");
+    console.log("|- selected summoner 2: " + JSONSum[summoners2NB]["name"] + "(#" + summoners2NB + ")");
 
     let majCatNB = Math.floor(Math.random() * 5);
     let majRuneNB = Math.floor(Math.random() * JSONRunes[majCatNB]["main"].length);
@@ -184,8 +215,30 @@ function ub (message) {
             console.log("|- selected second sub rune 2 : " + secMinRune2 + "(#" + secMinRune2NB + ")");
             break;
     }
+
+    let embedOptions = [];
+    embedOptions['!champion'] = JSONChampions[champNB]["name"].charAt(0).toUpperCase() + JSONChampions[champNB]["name"].slice(1);
+    embedOptions['!image'] = JSONChampions[champNB]["image"];
+    embedOptions['!starter'] = strStart;
+    embedOptions['!mythic'] = mythic;
+    embedOptions['!boots'] = boot;
+    embedOptions['!legendary1'] = legendary1;
+    embedOptions['!legendary2'] = legendary2;
+    embedOptions['!legendary3'] = legendary3;
+    embedOptions['!legendary4'] = legendary4;
+    embedOptions['!mainRune'] = majRune;
+    embedOptions['!minRune1'] = minRune1;
+    embedOptions['!minRune2'] = minRune2;
+    embedOptions['!minRune3'] = minRune3;
+    embedOptions['!secMinRune1'] = secMinRune1;
+    embedOptions['!secMinRune2'] = secMinRune2;
+    embedOptions['!summoner1'] = JSONSum[summoners1NB]["name"];
+    embedOptions['!summoner2'] = JSONSum[summoners2NB]["name"];
+    let msgUBEmbed = createEmbed(JSONEmbed['msgUBEmbed']['color'], JSONEmbed['msgUBEmbed']['title'], JSONEmbed['msgUBEmbed']['thumbnail'], JSONEmbed['msgUBEmbed']['description'], JSONEmbed['msgUBEmbed']['field'], embedOptions)
+
+    message.channel.send({embeds: [msgUBEmbed]});
     
-    message.channel.send("Vous devez jouer : " + JSONChampions[champNB]["name"].charAt(0).toUpperCase() + JSONChampions[champNB]["name"].slice(1) + "\n" + "Votre premier item sera : " + strStart + "\n\n Bottes : " + boot + "\n Mythique : " + mythic + "\n\n" + legendary1 + "\n" + legendary2 + "\n" + legendary3 + "\n" + legendary4 + "\n\nVotre rune principale est : " + majRune + "\n\nVos autres runes seront : \n" + minRune1 + "\n" + minRune2 + "\n" + minRune3 + "\n\nLe deuxième arbre sera :\n" + secMinRune1 + "\n" + secMinRune2);
+    //message.channel.send("Vous devez jouer : " + JSONChampions[champNB]["name"].charAt(0).toUpperCase() + JSONChampions[champNB]["name"].slice(1) + "\n" + "Votre premier item sera : " + strStart + "\n\n Bottes : " + boot + "\n Mythique : " + mythic + "\n\n" + legendary1 + "\n" + legendary2 + "\n" + legendary3 + "\n" + legendary4 + "\n\nVotre rune principale est : " + majRune + "\n\nVos autres runes seront : \n" + minRune1 + "\n" + minRune2 + "\n" + minRune3 + "\n\nLe deuxième arbre sera :\n" + secMinRune1 + "\n" + secMinRune2);
 }
 
 module.exports = {

@@ -738,5 +738,159 @@
         "inline": true
       }
     ]
+  },
+  "msgUBStuffEmbed":
+  {
+    "color": "#34e8eb",
+    "title": "Ultimate Bravery",
+    "thumbnail": "",
+    "description": "Lance une partie d'Ultimate Bravery",
+    "field": [
+      {
+        "name": "Item mythique",
+        "value": "!mythic",
+        "inline": true
+      },
+      {
+        "name": "Bottes",
+        "value": "!boots",
+        "inline": true
+      },
+      {
+        "name": "Item légendaire 1",
+        "value": "!legendary1",
+        "inline": true
+      },
+      {
+        "name": "Item légendaire 2",
+        "value": "!legendary2",
+        "inline": true
+      },
+      {
+        "name": "Item légendaire 3",
+        "value": "!legendary3",
+        "inline": true
+      },
+      {
+        "name": "Item légendaire 4",
+        "value": "!legendary4",
+        "inline": true
+      }
+    ]
+  },
+  "msgUBChampEmbed":
+  {
+    "color": "#34e8eb",
+    "title": "Ultimate Bravery",
+    "thumbnail": "!image",
+    "description": "Lance une partie d'Ultimate Bravery",
+    "field": [
+      {
+        "name": "Champion",
+        "value": "!champion",
+        "inline": true
+      }
+    ]
+  },
+  "msgUBEmbed":
+  {
+    "color": "#34e8eb",
+    "title": "Ultimate Bravery",
+    "thumbnail": "!image",
+    "description": "Lance une partie d'Ultimate Bravery",
+    "field": [
+      {
+        "name": "Champion",
+        "value": "!champion",
+        "inline": true
+      },
+      {
+        "name": "Premier item",
+        "value": "!starter",
+        "inline": true
+      },
+      {
+        "name": "Bottes",
+        "value": "!boots",
+        "inline": true
+      },
+      {
+        "name": "Mythique",
+        "value": "!mythic",
+        "inline": true
+      },
+      {
+        "name": "Summoner 1",
+        "value": "!summoner1",
+        "inline": true
+      },
+      {
+        "name": "Summoner 2",
+        "value": "!summoner2",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "Legendaire 1",
+        "value": "!legendary1",
+        "inline": true
+      },
+      {
+        "name": "Legendaire 2",
+        "value": "!legendary2",
+        "inline": true
+      },
+      {
+        "name": "Legendaire 3",
+        "value": "!legendary3",
+        "inline": true
+      },
+      {
+        "name": "Legendaire 4",
+        "value": "!legendary4",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "Rune principale",
+        "value": "!mainRune"
+      },
+      {
+        "name": "Rune mineure 1",
+        "value": "!minRune1",
+        "inline": true
+      },
+      {
+        "name": "Rune mineure 2",
+        "value": "!minRune2",
+        "inline": true
+      },
+      {
+        "name": "Rune mineure 3",
+        "value": "!minRune3",
+        "inline": true
+      },
+      {
+        "name": "Deuxième arbre",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "Rune 1",
+        "value": "secMinRune1",
+        "inline": true
+      },
+      {
+        "name": "Rune 2",
+        "value": "secMinRune2",
+        "inline": true
+      }
+    ]
   }
 }

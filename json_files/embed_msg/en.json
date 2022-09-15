@@ -708,5 +708,148 @@
         "value": "For more information use : \"config print\""
       }
     ]
-  }
+  },
+  "msgUBStuffEmbed":
+  {
+    "color": "#34e8eb",
+    "title": "Ultimate Bravery",
+    "thumbnail": "",
+    "description": "Start a game of Ultimate Bravery",
+    "field": [
+      {
+        "name": "Mythic item",
+        "value": "!mythic",
+        "inline": true
+      },
+      {
+        "name": "Boots",
+        "value": "!boots",
+        "inline": true
+      },
+      {
+        "name": "Legendaries items",
+        "value": "\u200B"
+      },
+      {
+        "name": "Item 1",
+        "value": "!legendary1",
+        "inline": true
+      },
+      {
+        "name": "Item 2",
+        "value": "!legendary2",
+        "inline": true
+      },
+      {
+        "name": "Item 3",
+        "value": "!legendary3",
+        "inline": true
+      },
+      {
+        "name": "Item 4",
+        "value": "!legendary4",
+        "inline": true
+      }
+    ]
+  },"msgUBEmbed":
+{
+  "color": "#34e8eb",
+  "title": "Ultimate Bravery",
+  "thumbnail": "!image",
+  "description": "Start a game of Ultimate Bravery",
+  "field": [
+    {
+      "name": "Champion",
+      "value": "!champion",
+      "inline": true
+    },
+    {
+      "name": "First item",
+      "value": "!starter",
+      "inline": true
+    },
+    {
+      "name": "Boots",
+      "value": "!boots",
+      "inline": true
+    },
+    {
+      "name": "Mythic",
+      "value": "!mythic",
+      "inline": true
+    },
+    {
+      "name": "Summoner 1",
+      "value": "!summoner1",
+      "inline": true
+    },
+    {
+      "name": "Summoner 2",
+      "value": "!summoner2",
+      "inline": true
+    },
+    {
+      "name": "\u200B",
+      "value": "\u200B"
+    },
+    {
+      "name": "Legendary 1",
+      "value": "!legendary1",
+      "inline": true
+    },
+    {
+      "name": "Legendary 2",
+      "value": "!legendary2",
+      "inline": true
+    },
+    {
+      "name": "Legendary 3",
+      "value": "!legendary3",
+      "inline": true
+    },
+    {
+      "name": "Legendary 4",
+      "value": "!legendary4",
+      "inline": true
+    },
+    {
+      "name": "\u200B",
+      "value": "\u200B"
+    },
+    {
+      "name": "Main rune",
+      "value": "!mainRune"
+    },
+    {
+      "name": "Minor rune 1",
+      "value": "!minRune1",
+      "inline": true
+    },
+    {
+      "name": "Minor rune 2",
+      "value": "!minRune2",
+      "inline": true
+    },
+    {
+      "name": "Minor rune 3",
+      "value": "!minRune3",
+      "inline": true
+    },
+    {
+      "name": "Second tree",
+      "value": "\u200B",
+      "inline": true
+    },
+    {
+      "name": "Rune 1",
+      "value": "secMinRune1",
+      "inline": true
+    },
+    {
+      "name": "Rune 2",
+      "value": "secMinRune2",
+      "inline": true
+    }
+  ]
+}
 }
