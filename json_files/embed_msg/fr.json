@@ -883,12 +883,12 @@
       },
       {
         "name": "Rune 1",
-        "value": "secMinRune1",
+        "value": "!secMinRune1",
         "inline": true
       },
       {
         "name": "Rune 2",
-        "value": "secMinRune2",
+        "value": "!secMinRune2",
         "inline": true
       }
     ]
