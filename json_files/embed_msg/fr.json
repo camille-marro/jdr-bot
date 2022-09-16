@@ -830,6 +830,10 @@
         "inline": true
       },
       {
+        "name": "Sort à maxer",
+        "value": "!maxSpell"
+      },
+      {
         "name": "\u200B",
         "value": "\u200B"
       },

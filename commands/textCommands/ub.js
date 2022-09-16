@@ -216,6 +216,23 @@ function ub (message) {
             break;
     }
 
+    let maxSpellNB = Math.floor(Math.random() * 3);
+    let maxSpell;
+    switch (maxSpellNB) {
+        case (0):
+            maxSpell = "A";
+            console.log("|- selected second max spell : A (#" + maxSpellNB + ")");
+            break;
+        case (1):
+            maxSpell = "Z";
+            console.log("|- selected second max spell : Z (#" + maxSpellNB + ")");
+            break;
+        case (2):
+            maxSpell = "E";
+            console.log("|- selected second max spell : E (#" + maxSpellNB + ")");
+            break;
+    }
+
     let embedOptions = [];
     embedOptions['!champion'] = JSONChampions[champNB]["name"].charAt(0).toUpperCase() + JSONChampions[champNB]["name"].slice(1);
     embedOptions['!image'] = JSONChampions[champNB]["image"];
@@ -234,11 +251,11 @@ function ub (message) {
     embedOptions['!secMinRune2'] = secMinRune2;
     embedOptions['!summoner1'] = JSONSum[summoners1NB]["name"];
     embedOptions['!summoner2'] = JSONSum[summoners2NB]["name"];
+    embedOptions['!maxSpell'] = maxSpell;
     let msgUBEmbed = createEmbed(JSONEmbed['msgUBEmbed']['color'], JSONEmbed['msgUBEmbed']['title'], JSONEmbed['msgUBEmbed']['thumbnail'], JSONEmbed['msgUBEmbed']['description'], JSONEmbed['msgUBEmbed']['field'], embedOptions)
 
     message.channel.send({embeds: [msgUBEmbed]});
-    
-    //message.channel.send("Vous devez jouer : " + JSONChampions[champNB]["name"].charAt(0).toUpperCase() + JSONChampions[champNB]["name"].slice(1) + "\n" + "Votre premier item sera : " + strStart + "\n\n Bottes : " + boot + "\n Mythique : " + mythic + "\n\n" + legendary1 + "\n" + legendary2 + "\n" + legendary3 + "\n" + legendary4 + "\n\nVotre rune principale est : " + majRune + "\n\nVos autres runes seront : \n" + minRune1 + "\n" + minRune2 + "\n" + minRune3 + "\n\nLe deuxième arbre sera :\n" + secMinRune1 + "\n" + secMinRune2);
+
 }
 
 module.exports = {
