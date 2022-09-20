@@ -253,7 +253,7 @@
       },
       {
         "name": "role",
-        "value": "role à jouer : support, jungle, lane",
+        "value": "role à jouer : top, jungle, mid, adc, support",
         "inline": true
       }
     ]
@@ -716,7 +716,7 @@
   {
     "color": "#005522",
     "title": "Ultimate Bravery",
-    "thumbnail": "https://camille-marro.com/images/patrick.png",
+    "thumbnail": "",
     "description": "Lance une partie d'Ultimate Bravery",
     "field": [
       {
@@ -734,7 +734,7 @@
       },
       {
         "name": "role",
-        "value": "role à jouer : support, jungle, lane",
+        "value": "role à jouer : top, jungle, mid, adc, support",
         "inline": true
       }
     ]
