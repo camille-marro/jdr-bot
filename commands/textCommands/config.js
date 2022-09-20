@@ -347,13 +347,13 @@ function configCommand (message) {
         }
     }
     else if (options[1] === "help") {
-        let msgConfigHelpEmbed = createEmbed(JSONEmbed['msgConfigHelpEmbed']['color'], JSONEmbed['msgConfigHelpEmbed']['title'], JSONEmbed['msgConfigHelpEmbed']['description'], JSONEmbed['msgConfigHelpEmbed']['thumbnail'], JSONEmbed['msgConfigHelpEmbed']['field'], []);
+        let msgConfigHelpEmbed = createEmbed(JSONEmbed['msgConfigHelpEmbed']['color'], JSONEmbed['msgConfigHelpEmbed']['title'],  JSONEmbed['msgConfigHelpEmbed']['thumbnail'], JSONEmbed['msgConfigHelpEmbed']['description'], JSONEmbed['msgConfigHelpEmbed']['field'], []);
         message.channel.send({embeds: [msgConfigHelpEmbed]});
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for config command.");
         return;
     }
     else {
-        let msgConfigLangErrorEmbed = createEmbed(JSONEmbed['msgConfigLangErrorEmbed']['color'], JSONEmbed['msgConfigLangErrorEmbed']['title'], JSONEmbed['msgConfigLangErrorEmbed']['description'], JSONEmbed['msgConfigLangErrorEmbed']['thumbnail'], JSONEmbed['msgConfigLangErrorEmbed']['field'], [])
+        let msgConfigLangErrorEmbed = createEmbed(JSONEmbed['msgConfigLangErrorEmbed']['color'], JSONEmbed['msgConfigLangErrorEmbed']['title'], JSONEmbed['msgConfigLangErrorEmbed']['thumbnail'], JSONEmbed['msgConfigLangErrorEmbed']['description'], JSONEmbed['msgConfigLangErrorEmbed']['field'], [])
         message.channel.send({embeds: [msgConfigLangErrorEmbed]});
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change configuration");
     }
