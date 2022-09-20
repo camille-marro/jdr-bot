@@ -96,30 +96,60 @@ function ub (message) {
         return;
     }
 
+
     let champNB = Math.floor(Math.random() * 161);
-    console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
 
     let strStart = "";
     let summoners1NB = Math.floor(Math.random() * 8);
     let summoners2NB = Math.floor(Math.random() * 8);
     if (options[1] === "support") {
-        message.channel.send("Rôle support !");
         let starterNB = Math.floor(Math.random() * 4);
         strStart = JSONStarters["support"][starterNB]["name"];
         console.log("|- selected starter : " + JSONStarters["support"][starterNB]["name"] + "(#" + starterNB + ")");
+        
+        while (JSONChampions[champNB]["lane"].indexOf("support") == -1) {
+            champNB = Math.floor(Math.random() * 161);
+        }
+        console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
     }
     else if (options[1] === "jungle") {
-        message.channel.send("Rôle jungle !");
         let starterNB = Math.floor(Math.random() * 2);
         strStart = JSONStarters["jungle"][starterNB]["name"];
         console.log("|- selected starter : " + JSONStarters["jungle"][starterNB]["name"] + "(#" + starterNB + ")");
+        
         summoners1NB = 8;
-    }
-    else {
-        message.channel.send("Rôle top, mid, adc !");
+        
+        while (JSONChampions[champNB]["lane"].indexOf("jungle") == -1) {
+            champNB = Math.floor(Math.random() * 161);
+        }
+        console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
+    } else if (options[1] === "mid") {
         let starterNB = Math.floor(Math.random() * 5);
         strStart = JSONStarters["lane"][starterNB]["name"];
         console.log("|- selected starter : " + JSONStarters["lane"][starterNB]["name"] + "(#" + starterNB + ")");
+        
+        while (JSONChampions[champNB]["lane"].indexOf("mid") == -1) {
+            champNB = Math.floor(Math.random() * 161);
+        }
+        console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
+    } else if (options[1] === "top") {
+        let starterNB = Math.floor(Math.random() * 5);
+        strStart = JSONStarters["lane"][starterNB]["name"];
+        console.log("|- selected starter : " + JSONStarters["lane"][starterNB]["name"] + "(#" + starterNB + ")");
+        
+        while (JSONChampions[champNB]["lane"].indexOf("top") == -1) {
+            champNB = Math.floor(Math.random() * 161);
+        }
+        console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
+    } else if (options[1] === "adc") {
+        let starterNB = Math.floor(Math.random() * 5);
+        strStart = JSONStarters["lane"][starterNB]["name"];
+        console.log("|- selected starter : " + JSONStarters["lane"][starterNB]["name"] + "(#" + starterNB + ")");
+        
+        while (JSONChampions[champNB]["lane"].indexOf("adc") == -1) {
+            champNB = Math.floor(Math.random() * 161);
+        }
+        console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
     }
 
     let item1NB = Math.floor(Math.random() * 25);
