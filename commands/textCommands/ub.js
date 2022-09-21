@@ -150,6 +150,10 @@ function ub (message) {
             champNB = Math.floor(Math.random() * 161);
         }
         console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
+    } else {
+        let starterNB = Math.floor(Math.random() * 5);
+        strStart = JSONStarters["lane"][starterNB]["name"];
+        console.log("|- selected starter : " + JSONStarters["lane"][starterNB]["name"] + "(#" + starterNB + ")");
     }
 
     let item1NB = Math.floor(Math.random() * 25);
