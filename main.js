@@ -9,6 +9,7 @@ const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD
 client.on("ready", function() {
     console.log("Connected to Discord server");
      config.printConfig(config.config);
+     console.log(client);
 })
 
 client.on("messageCreate", message => {
