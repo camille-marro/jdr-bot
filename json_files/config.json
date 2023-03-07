@@ -1,1 +1,36 @@
-{"prefix":"$","lang":"fr","voice channels":{"secret tunnel":{"E":{"id":"961726530332024972","name":"tunnel secret E"},"S":{"name":"tunnel secret S","ids":["963080455182237716","962406833421680681","961726386328989746"]}},"kick channel":{"id":"783786015600541758","name":"vide"},"safety net":{"id":"961727070092791828","name":"filet de sécurité"},"mystery machine":{"id":"513090608047325184","name":"The Mystery Machine"},"bong":{"id":"961727121888247878","name":"très grand bâton"}}}
+{
+    "prefix": "!",
+    "lang": "fr",
+    "voice channels": {
+        "secret tunnel": {
+            "E": {
+                "id": "961726530332024972",
+                "name": "tunnel secret E"
+            },
+            "S": {
+                "name": "tunnel secret S",
+                "ids": [
+                    "963080455182237716",
+                    "962406833421680681",
+                    "961726386328989746"
+                ]
+            }
+        },
+        "kick channel": {
+            "id": "783786015600541758",
+            "name": "vide"
+        },
+        "safety net": {
+            "id": "961727070092791828",
+            "name": "filet de sécurité"
+        },
+        "mystery machine": {
+            "id": "513090608047325184",
+            "name": "The Mystery Machine"
+        },
+        "bong": {
+            "id": "961727121888247878",
+            "name": "très grand bâton"
+        }
+    }
+}
