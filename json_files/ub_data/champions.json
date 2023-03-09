@@ -254,6 +254,11 @@
       "image": "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blta2cba784d9fad4b8/5db05fce89fb926b491ed817/RiotX_ChampionList_jinx.jpg?quality=90&width=250",
       "lane": "adc"
    },
+    {
+        "name": "k'sante",
+        "image": "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt15d3facea57e5b7e/634613111338101198fce129/K_Sante-Base-Splash.jpg?quality=90&width=250",
+        "lane": "top"
+    },
    {
       "name": "kai'sa",
       "image": "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blte38dc660dfe79204/5db05fce2dc72966da74670c/RiotX_ChampionList_kaisa.jpg?quality=90&width=250",
