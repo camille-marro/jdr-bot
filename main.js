@@ -8,8 +8,6 @@ const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD
 client.on("ready", function() {
     console.log("Connected to Discord server");
     config.printConfig(config.config);
-    // const play = require('play-dl');
-    // play.authorization();
 })
 
 client.on("messageCreate", message => {
