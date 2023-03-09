@@ -5,23 +5,11 @@ require('dotenv').config();
 let config = require('./assets/config.js');
 
 const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] });
-
-/* USED FOR HEROKU DEPLOYMENT */
-var express = require('express');
-var app = express();
-app.set('port', (process.env.PORT || 5000));
-//For avoidong Heroku $PORT error
-app.get('/', function(request, response) {
-    var result = 'App is running'
-    response.send(result);
-}).listen(app.get('port'), function() {
-    console.log('App is running, server is listening on port ', app.get('port'));
-});
-
 client.on("ready", function() {
     console.log("Connected to Discord server");
-     config.printConfig(config.config);
-     console.log(client);
+    config.printConfig(config.config);
+    // const play = require('play-dl');
+    // play.authorization();
 })
 
 client.on("messageCreate", message => {
@@ -48,6 +36,10 @@ client.on("messageCreate", message => {
         case (prefix + "ub"):
             let ub = require('./commands/textCommands/ub.js');
             ub.ub(message);
+            break;
+        case (prefix + "play"):
+            let playAudio = require("./commands/textCommands/play");
+            playAudio.playAudio(message);
             break;
     }
 })
