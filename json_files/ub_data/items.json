@@ -1,292 +1,291 @@
 {
-  "mythics":[
-    {
-      "name": "Couronne de la Reine brisée"
-    },
-    {
-      "name": "Pourfendeur divin"
-    },
-    {
-      "name": "Epée vespérale de Draktharr"
-    },
-    {
-      "name": "Eclipse"
-    },
-    {
-      "name": "Linceul de la congruence"
-    },
-    {
-      "name": "Gel éternel"
-    },
-    {
-      "name": "Gantelet givrant"
-    },
-    {
-      "name": "Force du vent"
-    },
-    {
-      "name": "Eviscérateur"
-    },
-    {
-      "name": "Ceinture-roquette Hextech"
-    },
-    {
-      "name": "Arc-bouclier immortel"
-    },
-    {
-      "name": "Mandat impérial"
-    },
-    {
-      "name": "Tueur de kraken"
-    },
-    {
-      "name": "Afflication de Liandry"
-    },
-    {
-      "name": "Médaillon de l'Iron Solari"
-    },
-    {
-      "name": "Tempete de Luden"
-    },
-    {
-      "name": "Régénérateur de pierre de lune"
-    },
-    {
-      "name": "Moissoneur nocturne"
-    },
-    {
-      "name": "Griffes du rodeur"
-    },
-    {
-      "name": "Créateur de failles"
-    },
-    {
-      "name": "Chant de guerre du Shurelya"
-    },
-    {
-      "name": "Estropilleur"
-    },
-    {
-      "name": "Egide solaire"
-    },
-    {
-      "name": "Force de la trinité"
-    },
-    {
-      "name": "Chimico-scaphandre turbo"
-    }
-  ],
-  "legendaries":[
+    "mythics":[
+        {
+            "name": "Couronne de la Reine brisée"
+        },
+        {
+            "name": "Pourfendeur divin"
+        },
+        {
+            "name": "Epée vespérale de Draktharr"
+        },
+        {
+            "name": "Eclipse"
+        },
+        {
+            "name": "Linceul de la congruence"
+        },
+        {
+            "name": "Gel éternel"
+        },
+        {
+            "name": "Gantelet givrant"
+        },
+        {
+            "name": "Force du vent"
+        },
+        {
+            "name": "Eviscérateur"
+        },
+        {
+            "name": "Ceinture-roquette Hextech"
+        },
+        {
+            "name": "Arc-bouclier immortel"
+        },
+        {
+            "name": "Mandat impérial"
+        },
+        {
+            "name": "Tueur de kraken"
+        },
+        {
+            "name": "Afflication de Liandry"
+        },
+        {
+            "name": "Médaillon de l'Iron Solari"
+        },
+        {
+            "name": "Tempete de Luden"
+        },
+        {
+            "name": "Régénérateur de pierre de lune"
+        },
+        {
+            "name": "Moissoneur nocturne"
+        },
+        {
+            "name": "Griffes du rodeur"
+        },
+        {
+            "name": "Créateur de failles"
+        },
+        {
+            "name": "Chant de guerre du Shurelya"
+        },
+        {
+            "name": "Estropilleur"
+        },
+        {
+            "name": "Egide solaire"
+        },
+        {
+            "name": "Force de la trinité"
+        }
+    ],
+    "legendaries":[
+        {
+            "name": "Masque abyssal"
+        },
+        {
+            "name": "Chimico-scaphandre turbo"
+        },
+        {
+            "name": "Chaines de l'anathème"
+        },
+        {
+            "name": "Baton de l'archange"
+        },
+        {
+            "name": "Encensoir ardent"
+        },
+        {
+            "name": "Arc axiomatique"
+        },
+        {
+            "name": "Voile de la banshee"
+        },
+        {
+            "name": "Couperet noir"
+        },
+        {
+            "name": "Lame du roi déchu"
+        },
+        {
+            "name": "Soif de sang"
+        },
+        {
+            "name": "Epée dentelée chimico-punk"
+        },
+        {
+            "name": "Volonté cosmique"
+        },
+        {
+            "name": "Plaque du mort"
+        },
+        {
+            "name": "Danse de la mort"
+        },
+        {
+            "name": "Etreinte démoniaque"
+        },
+        {
+            "name": "Manteau de la nuit"
+        },
+        {
+            "name": "Faux spectrale"
+        },
+        {
+            "name": "Approche de l'hiver"
+        },
+        {
+            "name": "Force de la nature"
+        },
+        {
+            "name": "Coeur gelé"
+        },
+        {
+            "name": "Lithoplastron de gargouille"
+        },
+        {
+            "name": "Ange gardien"
+        },
+        {
+            "name": "Lame enragée de Guinsoo"
+        },
+        {
+            "name": "Concentration lointaine"
+        },
+        {
+            "name": "Brise-coques"
+        },
+        {
+            "name": "Lame d'infini"
+        },
+        {
+            "name": "Voeu du chevalier"
+        },
+        {
+            "name": "Fléau de liche"
+        },
+        {
+            "name": "Salutations de Dominik"
+        },
+        {
+            "name": "Manamune"
+        },
+        {
+            "name": "Gueule de Malmortius"
+        },
+        {
+            "name": "Voleur d'ames de Mejai"
+        },
+        {
+            "name": "Cimetière mercuriel"
+        },
+        {
+            "name": "Bénédiction de Mikael"
+        },
+        {
+            "name": "Morellonomicon"
+        },
+        {
+            "name": "Rappel mortel"
+        },
+        {
+            "name": "Dent de Nashor"
+        },
+        {
+            "name": "Prestelames de Navori"
+        },
+        {
+            "name": "Danseur fantôme"
+        },
+        {
+            "name": "Coiffe de Rabadon"
+        },
+        {
+            "name": "Présage de Randuin"
+        },
+        {
+            "name": "Canon ultrarapide"
+        },
+        {
+            "name": "Hydre vorace"
+        },
+        {
+            "name": "Redemption"
+        },
+        {
+            "name": "Ouragan de Runnan"
+        },
+        {
+            "name": "Sceptre de Rylai"
+        },
+        {
+            "name": "Crochet de serpent"
+        },
+        {
+            "name": "Rancunde de Serylda"
+        },
+        {
+            "name": "Flamme-ombre"
+        },
+        {
+            "name": "Aube de Haut-Lac-d'Argent"
+        },
+        {
+            "name": "Visage spirituel"
+        },
+        {
+            "name": "Gantelet de Sterak"
+        },
+        {
+            "name": "Lame tempête"
+        },
+        {
+            "name": "Collecteur"
+        },
+        {
+            "name": "Cotte épineuse"
+        },
+        {
+            "name": "Hydre titanesque"
+        },
+        {
+            "name": "Glaive d'ombre"
+        },
+        {
+            "name": "Bâton du vide"
+        },
+        {
+            "name": "Armure de Warmog"
+        },
+        {
+            "name": "Au bout du rouleau"
+        },
+        {
+            "name": "Lâme spectre de Youmuu"
+        },
+        {
+            "name": "Convergence de Zeke"
+        },
+        {
+            "name": "Sablier de Zhonya"
+        }
+    ],
+    "boots":[
 
-    {
-      "name": "Masque abyssal"
-    },
-    {
-      "name": "Chaines de l'anathème"
-    },
-    {
-      "name": "Baton de l'archange"
-    },
-    {
-      "name": "Encensoir ardent"
-    },
-    {
-      "name": "Arc axiomatique"
-    },
-    {
-      "name": "Voile de la banshee"
-    },
-    {
-      "name": "Couperet noir"
-    },
-    {
-      "name": "Lame du roi déchu"
-    },
-    {
-      "name": "Soif de sang"
-    },
-    {
-      "name": "Epée dentelée chimico-punk"
-    },
-    {
-      "name": "Volonté cosmique"
-    },
-    {
-      "name": "Plaque du mort"
-    },
-    {
-      "name": "Danse de la mort"
-    },
-    {
-      "name": "Etreinte démoniaque"
-    },
-    {
-      "name": "Manteau de la nuit"
-    },
-    {
-      "name": "Faux spectrale"
-    },
-    {
-      "name": "Approche de l'hiver"
-    },
-    {
-      "name": "Force de la nature"
-    },
-    {
-      "name": "Coeur gelé"
-    },
-    {
-      "name": "Lithoplastron de gargouille"
-    },
-    {
-      "name": "Ange gardien"
-    },
-    {
-      "name": "Lame enragée de Guinsoo"
-    },
-    {
-      "name": "Concentration lointaine"
-    },
-    {
-      "name": "Brise-coques"
-    },
-    {
-      "name": "Lame d'infini"
-    },
-    {
-      "name": "Voeu du chevalier"
-    },
-    {
-      "name": "Fléau de liche"
-    },
-    {
-      "name": "Salutations de Dominik"
-    },
-    {
-      "name": "Manamune"
-    },
-    {
-      "name": "Gueule de Malmortius"
-    },
-    {
-      "name": "Voleur d'ames de Mejai"
-    },
-    {
-      "name": "Cimetière mercuriel"
-    },
-    {
-      "name": "Bénédiction de Mikael"
-    },
-    {
-      "name": "Morellonomicon"
-    },
-    {
-      "name": "Rappel mortel"
-    },
-    {
-      "name": "Dent de Nashor"
-    },
-    {
-      "name": "Prestelames de Navori"
-    },
-    {
-      "name": "Danseur fantôme"
-    },
-    {
-      "name": "Coiffe de Rabadon"
-    },
-    {
-      "name": "Présage de Randuin"
-    },
-    {
-      "name": "Canon ultrarapide"
-    },
-    {
-      "name": "Hydre vorace"
-    },
-    {
-      "name": "Redemption"
-    },
-    {
-      "name": "Ouragan de Runnan"
-    },
-    {
-      "name": "Sceptre de Rylai"
-    },
-    {
-      "name": "Crochet de serpent"
-    },
-    {
-      "name": "Rancunde de Serylda"
-    },
-    {
-      "name": "Flamme-ombre"
-    },
-    {
-      "name": "Aube de Haut-Lac-d'Argent"
-    },
-    {
-      "name": "Visage spirituel"
-    },
-    {
-      "name": "Gantelet de Sterak"
-    },
-    {
-      "name": "Lame tempête"
-    },
-    {
-      "name": "Collecteur"
-    },
-    {
-      "name": "Cotte épineuse"
-    },
-    {
-      "name": "Hydre titanesque"
-    },
-    {
-      "name": "Glaive d'ombre"
-    },
-    {
-      "name": "Bâton du vide"
-    },
-    {
-      "name": "Armure de Warmog"
-    },
-    {
-      "name": "Au bout du rouleau"
-    },
-    {
-      "name": "Lâme spectre de Youmuu"
-    },
-    {
-      "name": "Convergence de Zeke"
-    },
-    {
-      "name": "Sablier de Zhonya"
-    }
-  ],
-  "boots":[
-
-    {
-      "name": "Bottes de célérité"
-    },
-    {
-      "name": "Sandales de mercure"
-    },
-    {
-      "name": "Jambières du berzerker"
-    },
-    {
-      "name": "Chaussures de sorcier"
-    },
-    {
-      "name": "Coques en acier"
-    },
-    {
-      "name": "Bottes de mobilité"
-    },
-    {
-      "name": "Bottes de lucidité"
-    }
-  ]
+        {
+            "name": "Bottes de célérité"
+        },
+        {
+            "name": "Sandales de mercure"
+        },
+        {
+            "name": "Jambières du berzerker"
+        },
+        {
+            "name": "Chaussures de sorcier"
+        },
+        {
+            "name": "Coques en acier"
+        },
+        {
+            "name": "Bottes de mobilité"
+        },
+        {
+            "name": "Bottes de lucidité"
+        }
+    ]
 }
