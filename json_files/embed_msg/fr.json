@@ -721,7 +721,7 @@
     "field": [
       {
         "name": "Syntaxe de la commande",
-        "value": "ub [role]"
+        "value": "ub [options]"
       },
       {
         "name": "Description de la commande",
@@ -733,10 +733,15 @@
         "inline": true
       },
       {
-        "name": "role",
+        "name": "options",
         "value": "role à jouer : top, jungle, mid, adc, support",
         "inline": true
-      }
+      },
+        {
+            "name": "options",
+            "value": "champ : pour n'avoir qu'un seul champion",
+            "inline": true
+        }
     ]
   },
   "msgUBStuffEmbed":
@@ -896,5 +901,32 @@
         "inline": true
       }
     ]
+  },
+  "msgPlayHelpEmbed":
+  {
+      "color" : "#005522",
+      "title": "Play Audio",
+      "thumbnail": "",
+      "description": "Joue l'audio d'une video youtube",
+      "field": [
+          {
+              "name": "Sytaxe de la commande",
+              "value": "play [url]"
+          },
+          {
+              "name": "Description de la commande",
+              "value": "Joue l'audio d'une video youtube à partir de son URL"
+          },
+          {
+              "name": "Paramètres",
+              "value": "\u200B",
+              "inline": true
+          },
+          {
+              "name": "url",
+              "value": "url de la video à jouer",
+              "inline": true
+          }
+      ]
   }
 }
