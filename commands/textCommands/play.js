@@ -8,7 +8,7 @@ const path = require("path");
 let config = require('../../assets/config.js');
 const createEmbed = require('../../assets/createEmbed.js');
 
-async function play(message, queue) {
+async function play(message, queue, queueInfos) {
     let msg = message.content;
     let channel = message.member.voice.channel;
     let options = msg.split(" ");
@@ -24,6 +24,8 @@ async function play(message, queue) {
             return;
         }
         let stream = await play_dl.stream(yt_link, {discordPlayerCompatibility: true}); // on associe le lien au stream pour créer la musique plus tard
+        let videosInfos = await play_dl.video_basic_info(yt_link);
+        let musicTitle = videosInfos["video_details"]["title"];
 
         /* On crée le player pour lire et jouer les musiques*/
         let player = createAudioPlayer({
@@ -44,7 +46,7 @@ async function play(message, queue) {
 
         let resource = createAudioResource(stream.stream, {inputType: stream.type})
         if (exist) {
-            addToQueue(resource, queue);
+            addToQueue(resource, musicTitle, queue, queueInfos);
             return;
         } else {
             player.play(resource);
@@ -53,11 +55,7 @@ async function play(message, queue) {
 
         /* Quand le bot arrive en IDLE il joue la prochaine musique si elle existe */
         player.on(AudioPlayerStatus.Idle, () => {
-            console.log("IDLE | ETAT DE LA QUEUE : ");
-            console.log(queue);
-            let nextResource = getNextResource(queue);
-            console.log("AFTER GET NEXT RESOURCE | ETAT DE LA QUEUE : ");
-            console.log(queue);
+            let nextResource = getNextResource(queue, queueInfos);
             if (nextResource) {
                 /* On joue la musique */
                 player.play(nextResource);
@@ -97,16 +95,14 @@ function connect(message) {
     )
 }
 
-function getNextResource(queue) {
-    console.log("BEFORE GET NEXT RESOURCE | ETAT DE LA QUEUE : ");
-    console.log(queue);
+function getNextResource(queue, queueInfos) {
+    queueInfos.shift();
     return (queue.shift())
 }
 
-function addToQueue(newResource, queue) {
+function addToQueue(newResource, musicTitle, queue, queueInfos) {
     queue.push(newResource);
-    console.log("ADD TO QUEUE | ETAT DE LA QUEUE : ")
-    console.log(queue)
+    queueInfos.push(musicTitle);
 }
 
 function sendHelp(message) {
