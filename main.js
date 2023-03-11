@@ -49,6 +49,13 @@ client.on("messageCreate", message => {
     }
 })
 
+/*
+* @TODO :
+* skip
+* stop
+* resume
+* ajout role auto quand un mec join
+* */
 client.on("voiceStateUpdate", (oldUser, newUser) => {
     let newChan = newUser.voiceChannel;
     let userId = newUser.id;
@@ -87,9 +94,3 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
 })
 
 client.login (process.env.BOT_TOKEN);
-//@TODO : ajouter un truc pour sauvegarder la config en fonction du serveur
-// genre en mode guildID.json dans un dossier config
-// et ca charge cette config pour le serveur dans chaque fichier de commande
-//
-// quand le bot détecte un message ou un voiceState il doit charger la config en fonction de message.guildID
-// ca peut faire ramer ??? peut être essayer de charger la config qu'une seule fois ?
