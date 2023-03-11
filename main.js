@@ -3,6 +3,7 @@ const {Intents} = require("discord.js");
 require('dotenv').config();
 
 let config = require('./assets/config.js');
+let queue = [];
 
 const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] });
 client.on("ready", function() {
@@ -37,7 +38,7 @@ client.on("messageCreate", message => {
             break;
         case (prefix + "play"):
             let playAudio = require("./commands/textCommands/play");
-            playAudio.playAudio(message);
+            playAudio.play(message, queue);
             break;
     }
 })
