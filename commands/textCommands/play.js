@@ -16,16 +16,35 @@ async function play(message, queue, queueInfos) {
     if (options[1] === "help") {
         sendHelp(message);
     } else {
-        /* On vérifie si le lien est dans le bon format */
-        let yt_link = options[1];
-        let pattern = /^https:\/\/www\.youtube\.com\/watch\?v=[a-zA-Z0-9_-]{11}$/;
-        if (!pattern.test(yt_link)) {
-            console.log("ce n'est pas un lien vers une vidéo yt, lien donné : " + yt_link);
-            return;
+        let link = options[1];
+        let youtubePattern = /^(https?:\/\/)?(www\.)?(youtu\.be\/|youtube\.com\/watch\?v=)[\w-]{11}$/;
+        let spotifyPattern = /^https:\/\/open\.spotify\.com\/track\/([a-zA-Z0-9]+)$/;
+
+        let stream;
+        let musicTitle;
+
+        if (youtubePattern.test(link)) {
+            stream = await play_dl.stream(link, {discordPlayerCompatibility: true}); // on associe le lien au stream pour créer la musique plus tard
+            let videosInfos = await play_dl.video_basic_info(ylink);
+            musicTitle = videosInfos["video_details"]["title"];
+        } else if (spotifyPattern.test(link)) {
+            let spotify = await play_dl.spotify(link);
+            let query = spotify.name + " ";
+            spotify.artists.forEach(artist => query += (artist.name + " "));
+            let search = await play_dl.search(query, {limit : 1});
+            stream = await play_dl.stream(search[0].url);
+            musicTitle = search[0].title;
+        } else {
+            let query = "";
+            for (let i = 1; i < options.length; i++) {
+                query += (" " + options[i]);
+            }
+            let search = await play_dl.search(query, {limit : 1});
+            console.log(query);
+            stream = await play_dl.stream(search[0].url);
+            musicTitle = search[0].title;
         }
-        let stream = await play_dl.stream(yt_link, {discordPlayerCompatibility: true}); // on associe le lien au stream pour créer la musique plus tard
-        let videosInfos = await play_dl.video_basic_info(yt_link);
-        let musicTitle = videosInfos["video_details"]["title"];
+
 
         /* On crée le player pour lire et jouer les musiques*/
         let player = createAudioPlayer({
@@ -39,6 +58,7 @@ async function play(message, queue, queueInfos) {
         let exist = false;
         if (getVoiceConnection(channel.guildId) === undefined) {
             connection = connect(message);
+            console.log("|- the bot just connected to the channel (#" + channel.id + ") named : " + channel.name + ".");
         } else {
             connection = getVoiceConnection(channel.guildId);
             exist = true;
@@ -47,10 +67,14 @@ async function play(message, queue, queueInfos) {
         let resource = createAudioResource(stream.stream, {inputType: stream.type})
         if (exist) {
             addToQueue(resource, musicTitle, queue, queueInfos);
+            console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") added a music to the queue.");
+            message.channel.send("Ajout de " + musicTitle + " à la queue");
             return;
         } else {
             player.play(resource);
             connection.subscribe(player);
+            console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") start a new music : " + musicTitle);
+            message.channel.send("Lecture de : " + musicTitle);
         }
 
         /* Quand le bot arrive en IDLE il joue la prochaine musique si elle existe */
@@ -60,8 +84,10 @@ async function play(message, queue, queueInfos) {
                 /* On joue la musique */
                 player.play(nextResource);
                 connection.subscribe(player);
+                console.log("|- the bot strated the next music.");
             } else {
                 connection.destroy();
+                console.log("|- the bot left the channel because there was no more music to play.");
             }
         });
 
