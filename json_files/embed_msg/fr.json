@@ -928,5 +928,12 @@
               "inline": true
           }
       ]
-  }
+  },
+    "msgQueueEmbed":
+    {
+        "color" : "#34e8eb",
+        "title": "Queue",
+        "thumbnail": "",
+        "description": "Affiche la file de musique à jouer"
+    }
 }

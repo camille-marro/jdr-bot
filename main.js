@@ -3,7 +3,6 @@ const {Intents} = require("discord.js");
 require('dotenv').config();
 
 let config = require('./assets/config.js');
-const playAudio = require("./commands/textCommands/play");
 let queue = [];
 let queueInfos = [];
 
@@ -44,7 +43,7 @@ client.on("messageCreate", message => {
             break;
         case (prefix + "queue"):
             let queueCommand = require("./commands/textCommands/queue");
-            queueCommand.printQueue(message, queueInfos);
+            queueInfos = queueCommand.printQueue(message, queueInfos);
             break;
     }
 })
