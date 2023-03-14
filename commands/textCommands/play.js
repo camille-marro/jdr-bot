@@ -1,6 +1,5 @@
 const play_dl = require('play-dl');
 const { createAudioPlayer, createAudioResource , StreamType, demuxProbe, joinVoiceChannel, NoSubscriberBehavior, AudioPlayerStatus, VoiceConnectionStatus, getVoiceConnection } = require('@discordjs/voice');
-const { OpusEncoder } = require('@discordjs/opus');
 
 const fs = require("fs");
 const path = require("path");
@@ -86,7 +85,7 @@ async function play(message, queue, queueInfos) {
                 connection.subscribe(player);
                 console.log("|- the bot strated the next music.");
             } else {
-                connection.destroy();
+                connection.destroy(); // le mettre en try catch
                 console.log("|- the bot left the channel because there was no more music to play.");
             }
         });
@@ -140,6 +139,30 @@ function sendHelp(message) {
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for play command.");
 }
 
+function skip (message, queue, queueInfos) {
+    let nextResource = getNextResource(queue, queueInfos);
+
+    let connection = getVoiceConnection(message.channel.guildId);
+    let player = createAudioPlayer({
+        behaviors: {
+            noSubscriber: NoSubscriberBehavior.Play
+        }
+    });
+
+    player.play(nextResource);
+    connection.subscribe(player);
+    console.log("|- the bot strated the next music.");
+
+    message.channel.send("musique passée, début de la prochaine !");
+}
+
+function stop (message) {
+    let connection = getVoiceConnection(message.channel.guildId);
+    connection.destroy();
+    console.log("|- stoping music");
+    message.channel.send("ok c'est bon j'arrete");
+}
+
 module.exports = {
-    play
+    play, skip, stop
 }

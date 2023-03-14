@@ -45,13 +45,19 @@ client.on("messageCreate", message => {
             let queueCommand = require("./commands/textCommands/queue");
             queueInfos = queueCommand.printQueue(message, queueInfos);
             break;
+        case (prefix + "skip"):
+            let skip = require("./commands/textCommands/play");
+            skip.skip(message, queue, queueInfos);
+            break;
+        case (prefix + "stop"):
+            let stop = require("./commands/textCommands/play");
+            stop.stop(message);
+            break;
     }
 })
 
 /*
 * @TODO :
-* skip
-* stop
 * resume
 * ajout role auto quand un mec join
 * */
