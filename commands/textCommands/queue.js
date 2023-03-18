@@ -3,7 +3,19 @@ const createEmbed = require('../../assets/createEmbed.js');
 const fs = require("fs");
 const path = require("path");
 
-function printQueue(message, queueInfos) {
+function queue (message, queue) {
+        let msg = message.content;
+        let options = msg.split(" ");
+
+        if (options[1] === "remove") {
+            queue = queueRemove(message, queue);
+        } else {
+            queue = printQueue(message, queue);
+        }
+        return queue;
+}
+
+function printQueue(message, queue) {
     let rawJSONEmbed = fs.readFileSync(path.resolve(__dirname, '../../json_files/embed_msg/' + config['config']['lang'] + '.json'));
     let JSONEmbed = JSON.parse(rawJSONEmbed);
 
@@ -15,29 +27,32 @@ function printQueue(message, queueInfos) {
         message.channel.send({embeds: [msgQueueHelpEmbed]});
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for queue command.");
     } else if (options [1] === "clear") {
-        queueInfos = [];
-        queueInfos.length = 0;
-        printQueueLocal(message, queueInfos);
+        queue = [];
+        printQueueLocal(message, queue);
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") cleared the queue.");
-    } else {
-        printQueueLocal(message, queueInfos);
+    } else if (options [1] === "remove") {
+        queue = queueRemove(message, queue);
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") removed a song from the queue.");
+    }
+    else {
+        printQueueLocal(message, queue);
     }
 
-    return queueInfos;
+    return queue;
 }
 
-function printQueueLocal (message, queueInfos) {
+function printQueueLocal (message, queue) {
     let rawJSONEmbed = fs.readFileSync(path.resolve(__dirname, '../../json_files/embed_msg/' + config['config']['lang'] + '.json'));
     let JSONEmbed = JSON.parse(rawJSONEmbed);
 
     let embedFields = [];
 
-    if (queueInfos.length === 0) {
+    if (queue.length === 0) {
         embedFields.push({"name": "Musique dans la queue :", "value": "La queue est vide :)"})
     } else {
-        for (let i = 0; i < queueInfos.length; i++) {
+        for (let i = 0; i < queue.length; i++) {
             let str = "Musique " + (i+1);
-            embedFields.push({"name" : str, "value": queueInfos[i].toString()});
+            embedFields.push({"name" : str, "value": queue[i]["infos"].toString()});
         }
     }
 
@@ -46,8 +61,29 @@ function printQueueLocal (message, queueInfos) {
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") print the queue.");
 }
 
+function queueRemove (message, queue) {
+    let msg = message.content;
+    let options = msg.split(" ");
+
+    if (options[2] === "help") {
+
+    } else {
+        //verif si c'est un nombre
+        if (!Number.isInteger(options[2])) {
+            // ce n'est pas un entier
+        } else if (options[2] < 1 || options[2] > queue.length) {
+            // nombre invalide
+        } else {
+            queue.splice(options[2] - 1,1);
+            console.log("|- music n°" + options[2] + " removed from queue");
+        }
+    }
+
+    return queue;
+}
+
 module.exports = {
-    printQueue
+    queue
 }
 
 /*

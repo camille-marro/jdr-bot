@@ -7,7 +7,7 @@ const path = require("path");
 let config = require('../../assets/config.js');
 const createEmbed = require('../../assets/createEmbed.js');
 
-async function play(message, queue, queueInfos) {
+async function play(message, queue) {
     let msg = message.content;
     let channel = message.member.voice.channel;
     let options = msg.split(" ");
@@ -65,7 +65,7 @@ async function play(message, queue, queueInfos) {
 
         let resource = createAudioResource(stream.stream, {inputType: stream.type})
         if (exist) {
-            addToQueue(resource, musicTitle, queue, queueInfos);
+            addToQueue(resource, musicTitle, queue);
             console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") added a music to the queue.");
             message.channel.send("Ajout de " + musicTitle + " à la queue");
             return;
@@ -78,15 +78,19 @@ async function play(message, queue, queueInfos) {
 
         /* Quand le bot arrive en IDLE il joue la prochaine musique si elle existe */
         player.on(AudioPlayerStatus.Idle, () => {
-            let nextResource = getNextResource(queue, queueInfos);
+            let nextResource = getNextResource(queue);
             if (nextResource) {
                 /* On joue la musique */
                 player.play(nextResource);
                 connection.subscribe(player);
                 console.log("|- the bot strated the next music.");
             } else {
-                connection.destroy(); // le mettre en try catch
-                console.log("|- the bot left the channel because there was no more music to play.");
+                try {
+                    connection.destroy();
+                    console.log("|- the bot left the channel because there was no more music to play.");
+                } catch (e) {
+                    console.log("|- " + e);
+                }
             }
         });
 
@@ -120,14 +124,15 @@ function connect(message) {
     )
 }
 
-function getNextResource(queue, queueInfos) {
-    queueInfos.shift();
-    return (queue.shift())
+function getNextResource(queue) {
+    // @TODO : verif que la queue est pas vide
+    let music = queue.shift();
+    return (music["resource"]);
 }
 
-function addToQueue(newResource, musicTitle, queue, queueInfos) {
-    queue.push(newResource);
-    queueInfos.push(musicTitle);
+function addToQueue(newResource, musicTitle, queue) {
+    queue.push({"resource" : newResource, "infos" : musicTitle});
+    return queue;
 }
 
 function sendHelp(message) {
@@ -139,8 +144,8 @@ function sendHelp(message) {
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for play command.");
 }
 
-function skip (message, queue, queueInfos) {
-    let nextResource = getNextResource(queue, queueInfos);
+function skip (message, queue) {
+    let nextResource = getNextResource(queue);
 
     let connection = getVoiceConnection(message.channel.guildId);
     let player = createAudioPlayer({
