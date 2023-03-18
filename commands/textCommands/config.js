@@ -119,13 +119,11 @@ function configCommand (message) {
 
                     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") changed secret tunnel entrace");
                     console.log("|-- from " + prevName + "(#" + prevID + ") for " + config['config']['voice channels']['secret tunnel']['E']['name'] + "(#" + config['config']['voice channels']['secret tunnel']['E']['id'] + ")");
-                    return;
                 } else {
                     //console.log("channel existe pas starf");
                     let msgSyntaxErrorConfigVoiceChannelsEmbed = createEmbed(JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['color'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['title'],  JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['thumbnail'],JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['description'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['field'], [])
                     message.channel.send({embeds: [msgSyntaxErrorConfigVoiceChannelsEmbed]});
                     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change secret tunnel entrace with an unexisting channel");
-                    return;
                 }
             }
             else if (options[3] === "S") {
@@ -164,13 +162,11 @@ function configCommand (message) {
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") change secret tunnel exit");
                 console.log("|-- from " + prevName + "(" + prevIDs + ")");
                 console.log("|-- for " + config['config']['voice channels']['secret tunnel']['S']['name'] + " (" + config['config']['voice channels']['secret tunnel']['S']['ids'] + ")");
-                return;
             }
             else {
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change secrets tunnels");
                 let msgSyntaxErrorConfigVoiceChannelsEmbed = createEmbed(JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['color'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['title'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['thumbnail'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['description'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['field'], [])
                 message.channel.send({embeds: [msgSyntaxErrorConfigVoiceChannelsEmbed]});
-                return;
             }
         }
         else if (options[2] === "kick_channel") {
@@ -206,13 +202,11 @@ function configCommand (message) {
 
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") changed kick channel");
                 console.log("|-- from " + prevName + "(#" + prevID + ") to " + config['config']['voice channels']['kick channel']['name'] + "(#" + config['config']['voice channels']['kick channel']['id'] + ")");
-                return;
             } else {
                 //console.log("channel existe pas starf");
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change kick channel with an unexisting channel");
                 let msgSyntaxErrorConfigVoiceChannelsEmbed = createEmbed(JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['color'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['title'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['thumbnail'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['description'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['field'], [])
                 message.channel.send({embeds: [msgSyntaxErrorConfigVoiceChannelsEmbed]});
-                return;
             }
         }
         else if (options[2] === "safety_net") {
@@ -247,13 +241,11 @@ function configCommand (message) {
 
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") change safety net");
                 console.log("|-- from " + prevName + "(#" + prevID + ") to " + config['config']['voice channels']['safety net']['name'] + "(#" + config['config']['voice channels']['safety net']['id'] + ")");
-                return;
             } else {
                 //console.log("channel existe pas starf");
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change safety net with an unexisting channel");
                 let msgSyntaxErrorConfigVoiceChannelsEmbed = createEmbed(JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['color'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['title'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['thumbnail'],JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['description'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['field'], [])
                 message.channel.send({embeds: [msgSyntaxErrorConfigVoiceChannelsEmbed]});
-                return;
             }
         }
         else if (options[2] === "mystery_machine") {
@@ -289,13 +281,11 @@ function configCommand (message) {
 
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") change mystery machine");
                 console.log("|-- from " + prevName + "(#" + prevID + ") to " + config['config']['voice channels']['mystery machine']['name'] + "(#" + config['config']['voice channels']['mystery machine']['id'] + ")");
-                return;
             } else {
                 //console.log("channel existe pas starf");
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to mystery machine net with an unexisting channel");
                 let msgSyntaxErrorConfigVoiceChannelsEmbed = createEmbed(JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['color'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['title'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['thumbnail'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['description'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['field'], [])
                 message.channel.send({embeds: [msgSyntaxErrorConfigVoiceChannelsEmbed]});
-                return;
             }
         }
         else if (options[2] === "bong_channel") {
@@ -331,13 +321,11 @@ function configCommand (message) {
 
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") change bong");
                 console.log("|-- from " + prevName + "(#" + prevID + ") to " + config['config']['voice channels']['bong']['name'] + "(#" + config['config']['voice channels']['bong']['id'] + ")");
-                return;
             } else {
                 //console.log("channel existe pas starf");
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change bong with an unexisting channel");
                 let msgSyntaxErrorConfigVoiceChannelsEmbed = createEmbed(JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['color'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['title'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['thumbnail'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['description'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['field'], [])
                 message.channel.send({embeds: [msgSyntaxErrorConfigVoiceChannelsEmbed]});
-                return;
             }
         }
         else {
@@ -350,7 +338,12 @@ function configCommand (message) {
         let msgConfigHelpEmbed = createEmbed(JSONEmbed['msgConfigHelpEmbed']['color'], JSONEmbed['msgConfigHelpEmbed']['title'],  JSONEmbed['msgConfigHelpEmbed']['thumbnail'], JSONEmbed['msgConfigHelpEmbed']['description'], JSONEmbed['msgConfigHelpEmbed']['field'], []);
         message.channel.send({embeds: [msgConfigHelpEmbed]});
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for config command.");
-        return;
+    }
+    else if (options[1] === "play") {
+        // @TODO : ajouter l'aide pour la commande play
+    }
+    else if (options[1] === "queue") {
+        // @TODO: ajouter l'aide pour la commande queue
     }
     else {
         let msgConfigLangErrorEmbed = createEmbed(JSONEmbed['msgConfigLangErrorEmbed']['color'], JSONEmbed['msgConfigLangErrorEmbed']['title'], JSONEmbed['msgConfigLangErrorEmbed']['thumbnail'], JSONEmbed['msgConfigLangErrorEmbed']['description'], JSONEmbed['msgConfigLangErrorEmbed']['field'], [])
