@@ -24,7 +24,7 @@ async function play(message, queue) {
 
         if (youtubePattern.test(link)) {
             stream = await play_dl.stream(link, {discordPlayerCompatibility: true}); // on associe le lien au stream pour créer la musique plus tard
-            let videosInfos = await play_dl.video_basic_info(ylink);
+            let videosInfos = await play_dl.video_basic_info(link);
             musicTitle = videosInfos["video_details"]["title"];
         } else if (spotifyPattern.test(link)) {
             let spotify = await play_dl.spotify(link);
