@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const {Intents} = require("discord.js");
+const { PermissionsBitField } = require("discord.js");
 require('dotenv').config();
 
 let config = require('./assets/config.js');
