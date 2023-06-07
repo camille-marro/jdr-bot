@@ -1,12 +1,20 @@
-const Discord = require('discord.js');
-const { PermissionsBitField } = require("discord.js");
+const {Client, GatewayIntentBits } = require('discord.js');
+const {Player} = require("discord-player");
 require('dotenv').config();
 
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildVoiceStates
+    ],
+});
+
+let player = Player.singleton(client);
 let config = require('./assets/config.js');
 
-let queue = [];
-
-const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] });
 client.on("ready", function() {
     console.log("Connected to Discord server");
     config.printConfig(config.config);
@@ -38,20 +46,36 @@ client.on("messageCreate", message => {
             ub.ub(message);
             break;
         case (prefix + "play"):
-            let playAudio = require("./commands/textCommands/play");
-            playAudio.play(message, queue);
+            let play = require("./commands/textCommands/music/play");
+            play.play(message);
             break;
         case (prefix + "queue"):
-            let queueCommand = require("./commands/textCommands/queue");
-            queue = queueCommand.queue(message, queue);
+            let queueCommand = require("./commands/textCommands/music/queue");
+            queueCommand.queue(message);
             break;
         case (prefix + "skip"):
-            let skip = require("./commands/textCommands/play");
-            skip.skip(message, queue);
+            let skip = require("./commands/textCommands/music/skip");
+            skip.skip(message);
             break;
         case (prefix + "stop"):
-            let stop = require("./commands/textCommands/play");
+            let stop = require("./commands/textCommands/music/stop");
             stop.stop(message);
+            break;
+        case (prefix + "pause"):
+            let pause = require("./commands/textCommands/music/pause");
+            pause.pause(message);
+            break;
+        case (prefix + "resume"):
+            let resume = require("./commands/textCommands/music/resume");
+            resume.resume(message);
+            break;
+        case (prefix + "loop"):
+            let loop = require("./commands/textCommands/music/loop");
+            loop.loop(message);
+            break;
+        case (prefix + "jdr"):
+            let jdr = require("./commands/textCommands/jdr");
+            jdr.createPerso(message);
             break;
     }
 })
@@ -84,7 +108,7 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
         let safetyNet = require('./commands/voiceCommands/safety-net.js');
         safetyNet.safetyNet(client, newUser);
     } else
-    
+
     // channel mystery machine qui tansporte le channel aléatoirement dans le serveur
     if (newUser.channelId === config['config']['voice channels']['mystery machine']['id']) {
         let mysteryMachine = require('./commands/voiceCommands/mystery-machine.js');
