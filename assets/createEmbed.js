@@ -1,7 +1,7 @@
-const {MessageEmbed} = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 let createEmbed = function (color, title, thumbnail, description, fields, values) {
-    let msgEmbed = new MessageEmbed();
+    let msgEmbed = new EmbedBuilder;
 
     if (color !== "") {
         if (color.indexOf("!") === 0) msgEmbed.setColor(values[color]);
