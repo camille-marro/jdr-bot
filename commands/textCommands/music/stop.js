@@ -11,6 +11,22 @@ function stop (message) {
 
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for the music to stop.");
 
+    if (!message.member.voice.channel) {
+        msgEmbed.addFields({ name : "Action impossible", value: "Vous devez être dans un salon vocal"});
+        msgEmbed.setColor("#ff0000");
+        message.channel.send({embeds: [msgEmbed]});
+        console.log("|-- action is impossible : not in a voice channel.");
+        return;
+    }
+
+    if (message.guild.members.me.voice.channelId && (message.member.voice.channelId !== message.guild.members.me.voice.channelId)) {
+        msgEmbed.addFields({ name : "Action impossible", value: "Vous devez être dans le même salon vocal que le bot"});
+        msgEmbed.setColor("#ff0000");
+        message.channel.send({embeds: [msgEmbed]});
+        console.log("|-- action is impossible : not in same voice channel.");
+        return;
+    }
+
     if (!serverQueue) {
         console.log("|-- action is impossible : queue doesn't exist.");
         msgEmbed.addFields({ name : "Action impossible", value: "Aucune musique n'est jouée"});

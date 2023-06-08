@@ -11,12 +11,28 @@ function loop(message) {
 
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") try to loop or stop the loop on the queue.");
 
+    if (!message.member.voice.channel) {
+        msgEmbed.addFields({ name : "Action impossible", value: "Vous devez être dans un salon vocal"});
+        msgEmbed.setColor("#ff0000");
+        message.channel.send({embeds: [msgEmbed]});
+        console.log("|-- action is impossible : not in a voice channel.");
+        return;
+    }
+
+    if (message.guild.members.me.voice.channelId && (message.member.voice.channelId !== message.guild.members.me.voice.channelId)) {
+        msgEmbed.addFields({ name : "Action impossible", value: "Vous devez être dans le même salon vocal que le bot"});
+        msgEmbed.setColor("#ff0000");
+        message.channel.send({embeds: [msgEmbed]});
+        console.log("|-- action is impossible : not in same voice channel.");
+        return;
+    }
+
     if (!serverQueue) {
         msgEmbed.addFields({ name : "Action impossible", value: "La queue est vide"});
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : queue is empty.");
-        return
+        return;
     }
 
     if (serverQueue.repeatMode === 0) {
