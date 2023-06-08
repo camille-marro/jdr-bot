@@ -6,15 +6,17 @@ function roll (message) {
 
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor("#005522");
-    msgEmbed.setTitle("Lancés de dés");
-    msgEmbed.setDescription("Résultats du ou des lancers de dés fait par le bot");
+    msgEmbed.setTitle("Lancé de dés");
+    msgEmbed.setDescription("Lancer des dés de plusieurs faces");
 
     if (options[1] === "help") {
-        msgEmbed.addFields({ name : "Syntaxe de la commande", value: "roll [nb_des]d[nb_faces]"});
+        msgEmbed.addFields({name : "Syntaxe de la commande", value: "roll [nb_lancers]d[nb_faces]"});
         msgEmbed.addFields({name : "Paramètres", value: " ", inline: true});
-        msgEmbed.addFields({name : "nb_des", value: "Nombre de dés à lancer", inline: true});
+        msgEmbed.addFields({name : "nb_lancers", value: "Nombre de lancé à faire", inline: true});
         msgEmbed.addFields({name : "nb_faces", value: "Nombre de faces du dé", inline: true});
-        msgEmbed.addFields({name : "Exemple de commande", value: "roll 1d100"});
+        msgEmbed.addFields({name : "Exemple de commande", value: "roll 3d6"});
+        msgEmbed.addFields({name : " ", value: " "});
+        msgEmbed.addFields({name : "Description", value: "La commande affiche la liste des tirages dans l'ordre ainsi que la moyenne des jets."})
         msgEmbed.setColor("#6e0e91");
         message.channel.send({embeds: [msgEmbed]});
 

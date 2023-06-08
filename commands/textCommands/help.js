@@ -14,7 +14,7 @@ function help (message) {
         msgEmbed.setDescription("Lancer des dés de plusieurs faces");
         msgEmbed.addFields({name: "Syntaxe de la commande", value: "roll [nb_lancers]d[nb_faces]"});
         msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
-        msgEmbed.addFields({name: "nb_lancers", value: "Nombre de lancer à faire", inline: true});
+        msgEmbed.addFields({name: "nb_lancers", value: "Nombre de lancé à faire", inline: true});
         msgEmbed.addFields({name: "nb_faces", value: "Nombre de faces du dé", inline: true});
         msgEmbed.addFields({name: "Exemple de commande", value: "roll 3d6"});
         msgEmbed.setFooter({text : "Pour plus d'informations utiliser la commande \"roll help\""});
