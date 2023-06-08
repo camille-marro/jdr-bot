@@ -123,8 +123,9 @@ function help (message) {
         msgEmbed.addFields({name: "ping", value: "pong"});
         msgEmbed.addFields({name: "help [commande:optionnel]", value: "Afficher ce texte"});
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"help [commande]\""});
-        message.channel.send({embeds: [msgEmbed]});
     }
+
+    message.channel.send({embeds: [msgEmbed]});
 }
 
 module.exports = {
