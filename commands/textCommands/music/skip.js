@@ -13,6 +13,17 @@ function skip(message) {
     msgEmbed.setTitle("Lecture de sons");
     msgEmbed.setDescription("Permet la lecture de son");
 
+    if (args[1] === "help") {
+        msgEmbed.setColor("#6e0e91");
+        msgEmbed.addFields({name : "Syntaxe de la commande", value: "skip [indice:optionnel]"});
+        msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
+        msgEmbed.addFields({name: "indice:optionnel", value: "Indice de la musique à jouer", inline: true});
+        msgEmbed.addFields({name : "Description de la commande", value: "Permet de passer la musique ou de passer à une musique spécifique"});
+        message.channel.send({embeds: [msgEmbed]});
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for skip command.");
+        return;
+    }
+
     if (!message.member.voice.channel) {
         msgEmbed.addFields({ name : "Action impossible", value: "Vous devez être dans un salon vocal"});
         msgEmbed.setColor("#ff0000");

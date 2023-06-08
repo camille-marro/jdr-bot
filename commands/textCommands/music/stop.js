@@ -11,6 +11,16 @@ function stop (message) {
 
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for the music to stop.");
 
+    let args = message.content.split(" ");
+    if (args[1] === "help") {
+        msgEmbed.setColor("#6e0e91");
+        msgEmbed.addFields({name : "Syntaxe de la commande", value: "stop"});
+        msgEmbed.addFields({name : "Description de la commande", value: "Permet d'arrêter la lecture"});
+        message.channel.send({embeds: [msgEmbed]});
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for stop command.");
+        return;
+    }
+
     if (!message.member.voice.channel) {
         msgEmbed.addFields({ name : "Action impossible", value: "Vous devez être dans un salon vocal"});
         msgEmbed.setColor("#ff0000");

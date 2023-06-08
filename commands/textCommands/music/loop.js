@@ -9,6 +9,16 @@ function loop(message) {
     msgEmbed.setTitle("Lecture de sons");
     msgEmbed.setDescription("Permet la lecture de son");
 
+    let args = message.content.split(" ");
+    if (args[1] === "help") {
+        msgEmbed.setColor("#6e0e91");
+        msgEmbed.addFields({name : "Syntaxe de la commande", value: "loop"});
+        msgEmbed.addFields({name : "Description de la commande", value: "Permet d'activer ou désactiver la lecture en boucle de la queue"});
+        message.channel.send({embeds: [msgEmbed]});
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for loop command.");
+        return;
+    }
+
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") try to loop or stop the loop on the queue.");
 
     if (!message.member.voice.channel) {

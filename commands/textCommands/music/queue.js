@@ -10,6 +10,16 @@ function queue(message) {
     msgEmbed.setTitle("Lecture de sons");
     msgEmbed.setDescription("Permet la lecture de son");
 
+    let args = message.content.split(" ");
+    if (args[1] === "help") {
+        msgEmbed.setColor("#6e0e91");
+        msgEmbed.addFields({name : "Syntaxe de la commande", value: "queue"});
+        msgEmbed.addFields({name : "Description de la commande", value: "Permet de voir le contenu de la queue"});
+        message.channel.send({embeds: [msgEmbed]});
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for queue command.");
+        return;
+    }
+
     if(!serverQueue) {
         msgEmbed.addFields({ name : "Action impossible", value: "La queue n'existe pas"});
         msgEmbed.setColor("#ff0000");

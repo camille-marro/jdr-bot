@@ -11,6 +11,16 @@ function pause(message) {
     msgEmbed.setTitle("Lecture de sons");
     msgEmbed.setDescription("Permet la lecture de son");
 
+    let args = message.content.split(" ");
+    if (args[1] === "help") {
+        msgEmbed.setColor("#6e0e91");
+        msgEmbed.addFields({name : "Syntaxe de la commande", value: "pause"});
+        msgEmbed.addFields({name : "Description de la commande", value: "Permet de mettre en pause la lecture"});
+        message.channel.send({embeds: [msgEmbed]});
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for pause command.");
+        return;
+    }
+
     if (!message.member.voice.channel) {
         msgEmbed.addFields({ name : "Action impossible", value: "Vous devez être dans un salon vocal"});
         msgEmbed.setColor("#ff0000");
