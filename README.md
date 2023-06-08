@@ -1,6 +1,6 @@
 # Jdr-bot
 
-## Discord bot for fun and testing dev skills
+## Discord bot for fun
 
 ### For a personal use
 You need to create a .env file were you put the token linked to your bot.\
@@ -16,38 +16,68 @@ roll : to roll dices\
 config : to change some parameters\
 help: list the commands and explains them\
 ub : to start a game of ultimate bravery for League of Legends\
-play : play a youtube video to your channel
+play : play a youtube video on your voice channel\
+stop : stop the playing\
+pause : pause the playing\
+resume : resume the playing\
+queue : print the queue\
+loop : activate or disable a loop on the queue
 
-There are also actions with voice channels, you can use ```config channels help``` to get more information about that.
+There are also actions with voice channels, you can use `config channels help` to get more information about that.
 
-### How to use ```play``` commands
+## Comment installer le bot
+### Installer node sur le pc
+Aller sur le lien suivant : https://nodejs.org/download/release/v16.20.0/ \
+Télécharger le ficher `node-v16.20.0-x64.msi`\
+Installer node (il faut juste cliquer sur le fichier et suivre les instructions)
+### Installer les fichiers du bot
+Sur GitHub cliquer sur `<> Code` et `Download ZIP`\
+Mettre l'archive dans un dossier et l'extraire (clique droit -> extraire ici)
 
-#### First method
-Create a directory named ```.data``` with a ```youtube.data``` file in it.\
-The file should look like this : 
+### Ajouter les fichiers manquant du bot
+Dans le dossier principal (là où il ya les fichiers `assets` `commands` `json_files` `main.js`) créer un fichier appelé `.env`\
+Faire clique droit sur le fichier puis modifier (ça doit ouvrir le bloc note ou un truc de traitement de texte)\
+Ajouter le texte suivant :
+```plain text
+BOT_TOKEN="TOKEN"
 ```
-{
-    "cookie": {
-        ...
-    },
-    "file": true
-}
-```
-To fill up the cookie section you need to go on a Youtube video. Then open the developper console (F12)\
-Search for the Network tab and look at the first row. The name should be something like : ```watch?v=***```\
-Open it and fin the Request Headers, it should look like this : 
-```
-:authority: www.youtube.com
-:method: GET
-:path: /watch?v=***
+Remplacer `TOKEN` par le texte que j'ai mis dans le channel `#installer-bot` sur Discord
+
+### Installer les extensions pour faire marcher le bot
+Revenir sur le dossier et faire clique droit puis propriété\
+Copier la ligne `Emplacement`\
+Ensuite ouvrir l'application `CMD` ou `Invite de commandes` de windows (touche windows puis chercher cmd)\
+Faire la suite de commande suivante : 
+`cd emplacement` remplacer emplacement par ce que vous avez copié juste avant (l'emplacement du dossier contenant l'archive et maintenant tous les fichiers du bot)\
+`npm install` : ça peut prendre du temps, mais il faut juste attendre
+
+### Créer le fichier pour lancer le bot d'un clique
+Ensuite n'importe où il faut créer un fichier avec le nom que vous voulez, mais l'extension `.bat` exemple : un fichier appelé `bot.bat`\
+Faire clique droit sur le fichier puis modifier (ça doit ouvrir le bloc note ou un truc de traitement de texte)\
+Ajouter ce code dans le fichier en remplaçant `emplacement` par ce que vous avez copié tout à l'heure
+```plain text
+@echo off
+cd emplacement
+start cmd /k node main.js
 ```
 
-find the cookie sections and copy paste it to your cookie section
+### Lancer le bot
+Pour lancer le bot si vous avez tout bien fait il suffit de double-cliquer sur le fichier `machin.bat`\
+Ça devrait ouvrir une console où après quelques secondes vous avez ce texte qui s'affiche :
+```plain text
+Connected to Discord server
+----------------
+Configuration :
+- prefix : *
+- language : fr
+- voice channels :
+-- secret tunnel E : tunnel secret E    
+-- secret tunnel S : tunnel secret S    
+-- kick channel : vide
+-- safety net : filet de sécurité       
+-- mystery machine : The Mystery Machine
+-- bong channel: très grand bâton       
+----------------
 
-#### Second method
-Create a file or a section like this : 
-```js
-const play = require('play-dl');
-play.authorization();
 ```
-Then follow the instructions. To find the cookies information just check the first method.
+Vous pouvez maintenant utiliser le bot librement sur discord
