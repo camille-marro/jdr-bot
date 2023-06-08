@@ -11,6 +11,7 @@ function ping (message) {
 
     if (args[1] === "help") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for pong command");
+        msgEmbed.setColor("#6e0e91");
         msgEmbed.addFields({name: "Syntaxe de la commande", value: "ping"});
         msgEmbed.addFields({name: "Exemple de commande", value: "ping"});
     } else {
