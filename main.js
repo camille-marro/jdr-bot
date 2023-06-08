@@ -31,7 +31,7 @@ client.on("messageCreate", message => {
             break;
         case (prefix + "ping"):
             let ping = require('./commands/textCommands/ping.js');
-            ping.ping(message.channel);
+            ping.ping(message);
             break;
         case (prefix + "roll"):
             let roll = require('./commands/textCommands/roll.js');
