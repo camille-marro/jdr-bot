@@ -5,6 +5,11 @@ async function play(message) {
     const player = useMasterPlayer();
     await player.extractors.loadDefault();
 
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#23bb95");
+    msgEmbed.setTitle("Lecture de sons");
+    msgEmbed.setDescription("Permet la lecture de son");
+
     let msg = message.content;
     let args = msg.split(" ");
 
@@ -15,15 +20,18 @@ async function play(message) {
 
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to play this music : " + query);
 
+    if (query === "") {
+        console.log("|-- action is impossible : no query given")
+        msgEmbed.addFields({ name : "Action impossible", value: "Vous devez fournir un lien ou des mots clés pour la recherche"});
+        msgEmbed.setColor("#ff0000");
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
     let voiceChannel = message.member.voice.channel;
 
     let url = await player.search(query);
     await player.play(voiceChannel, url, {leaveOnEmpty: true});
-
-    let msgEmbed = new EmbedBuilder();
-    msgEmbed.setColor("#23bb95");
-    msgEmbed.setTitle("Lecture de sons");
-    msgEmbed.setDescription("Permet la lecture de son");
 
     if (args[1] === "help") {
         msgEmbed.setColor("#6e0e91");
