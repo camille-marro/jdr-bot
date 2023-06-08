@@ -1,25 +1,32 @@
-let fs = require('fs');
-let config = require('../../assets/config.js');
-const createEmbed = require('../../assets/createEmbed.js');
-const path = require("path");
+const { EmbedBuilder } = require('discord.js');
 
 function roll (message) {
-    let rawJSONEmbed = fs.readFileSync(path.resolve(__dirname, '../../json_files/embed_msg/' + config['config']['lang'] + '.json'));
-    let JSONEmbed = JSON.parse(rawJSONEmbed);
-
     let msg = message.content;
-    let msgSyntaxErrorEmbed = createEmbed(JSONEmbed['msgSyntaxErrorEmbed']['color'], JSONEmbed['msgSyntaxErrorEmbed']['title'], JSONEmbed['msgSyntaxErrorEmbed']['thumbnail'], JSONEmbed['msgSyntaxErrorEmbed']['description'], JSONEmbed['msgSyntaxErrorEmbed']['field'], []);
     let options = msg.split(" ");
 
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#005522");
+    msgEmbed.setTitle("Lancés de dés");
+    msgEmbed.setDescription("Résultats du ou des lancers de dés fait par le bot");
+
     if (options[1] === "help") {
-        let msgRollHelpEmbed = createEmbed(JSONEmbed['msgRollHelpEmbed']['color'], JSONEmbed['msgRollHelpEmbed']['title'], JSONEmbed['msgRollHelpEmbed']['thumbnail'], JSONEmbed['msgRollHelpEmbed']['description'], JSONEmbed['msgRollHelpEmbed']['field'], []);
-        message.channel.send({embeds: [msgRollHelpEmbed]});
+        msgEmbed.addFields({ name : "Syntaxe de la commande", value: "roll [nb_des]d[nb_faces]"});
+        msgEmbed.addFields({name : "Paramètres", value: " ", inline: true});
+        msgEmbed.addFields({name : "nb_des", value: "Nombre de dés à lancer", inline: true});
+        msgEmbed.addFields({name : "nb_faces", value: "Nombre de faces du dé", inline: true});
+        msgEmbed.addFields({name : "Exemple de commande", value: "roll 1d100"});
+        msgEmbed.setColor("#6e0e91");
+        message.channel.send({embeds: [msgEmbed]});
+
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for roll command.");
         return;
     }
 
     if (options.length === 1) {
-        message.channel.send({embeds: [msgSyntaxErrorEmbed]});
+        msgEmbed.addFields({name : "Erreur de syntaxe", value:"roll [x]d[y] \n avec : x le nombre de lancers et y le nombre de face du dé"});
+        msgEmbed.setColor("#ff0000");
+        message.channel.send({embeds: [msgEmbed]});
+
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
         console.log("|-- syntax error");
         console.log("|-- " + message.content);
@@ -28,7 +35,10 @@ function roll (message) {
 
     //check si options[1] contient un d avant de faire ça :
     if (!options[1].includes("d")) {
-        message.channel.send({embeds: [msgSyntaxErrorEmbed]});
+        msgEmbed.addFields({name : "Erreur de syntaxe", value:"roll [x]d[y] \n avec : x le nombre de lancers et y le nombre de face du dé"});
+        msgEmbed.setColor("#ff0000");
+        message.channel.send({embeds: [msgEmbed]});
+
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
         console.log("|-- " + "syntax error");
         console.log("|-- " + message.content);
@@ -37,7 +47,10 @@ function roll (message) {
     let values = options[1].split("d");
 
     if (values[0] === '' || values[1] === '') {
-        message.channel.send({embeds: [msgSyntaxErrorEmbed]});
+        msgEmbed.addFields({name : "Erreur de syntaxe", value:"roll [x]d[y] \n avec : x le nombre de lancers et y le nombre de face du dé"});
+        msgEmbed.setColor("#ff0000");
+        message.channel.send({embeds: [msgEmbed]});
+
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
         console.log("|-- " + "syntax error");
         console.log("|-- " + message.content);
@@ -51,7 +64,10 @@ function roll (message) {
     let check2 = checkFormat2.test(values[1]);
 
     if (!check || !check2) {
-        message.channel.send({embeds: [msgSyntaxErrorEmbed]});
+        msgEmbed.addFields({name : "Erreur de syntaxe", value:"roll [x]d[y] \n avec : x le nombre de lancers et y le nombre de face du dé"});
+        msgEmbed.setColor("#ff0000");
+        message.channel.send({embeds: [msgEmbed]});
+
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
         console.log("|-- " + "syntax error");
         console.log("|-- " + message.content);
@@ -67,24 +83,20 @@ function roll (message) {
         sum += number;
     }
 
-    let strMain = 'Rolling ' + values[0] + ' dice(s) ' + values[1];
-    let strSum = 'Sum : ' + sum;
     let strRollsList = list.toString();
-
     let average = 0;
     for (let i = 0; i < list.length; i++) {
         average += list[i];
     }
 
     average = average / list.length;
-    let embedOptions = [];
-    embedOptions['!strMain'] = strMain;
-    embedOptions['!strSum'] = strSum;
-    embedOptions['!strRollsList'] = strRollsList;
-    embedOptions['!average'] = average.toString();
-    let msgRolledDiceEmbed = createEmbed(JSONEmbed['msgRolledDiceEmbed']['color'], JSONEmbed['msgRolledDiceEmbed']['title'], JSONEmbed['msgRolledDiceEmbed']['thumbnail'], JSONEmbed['msgRolledDiceEmbed']['description'], JSONEmbed['msgRolledDiceEmbed']['field'], embedOptions)
 
-    message.channel.send({embeds: [msgRolledDiceEmbed]});
+    msgEmbed.addFields({name : `Tirage de ${values[0]} dé(s) ${values[1]}`, value: `Somme des lancés : ${sum}`});
+    msgEmbed.addFields({name : " ", value:" "});
+    msgEmbed.addFields({name : "Liste des jets", value: strRollsList, inline: true});
+    msgEmbed.addFields({name : "Moyenne", value:average.toPrecision(3).toString(), inline: true});
+    message.channel.send({embeds: [msgEmbed]});
+
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") rolled dices (" + values[0] + "d" + values[1] + ").");
 }
 module.exports = {
