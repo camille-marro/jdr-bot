@@ -27,7 +27,7 @@ There are also actions with voice channels, you can use `config channels help` t
 
 ## Comment installer le bot
 ### Installer node sur le pc
-Télécharger le ficher `node-v16.20.0-x64.msi` (lien juste en dessous)\
+Télécharger le ficher `node-v16.20.0-x64.msi` (lien juste en dessous) :\
 https://nodejs.org/download/release/v16.20.0/node-v16.20.0-x86.msi \
 Installer node (il faut juste cliquer sur le fichier et suivre les instructions)
 ### Installer les fichiers du bot
