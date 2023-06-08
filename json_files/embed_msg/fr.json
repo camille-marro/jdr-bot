@@ -8,7 +8,7 @@
     "field" : [
       {
         "name": "Erreur de syntaxe",
-        "value": "lance [x]d[y] \n avec : x le nombre de lancers et y le nombre de face du dé"
+        "value": "roll [x]d[y] \n avec : x le nombre de lancers et y le nombre de face du dé"
       }
     ]
   },
