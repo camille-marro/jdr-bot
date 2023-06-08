@@ -1,4 +1,5 @@
 const { useMasterPlayer } = require('discord-player');
+const { EmbedBuilder } = require('discord.js');
 
 async function play(message) {
     const player = useMasterPlayer();
@@ -19,13 +20,22 @@ async function play(message) {
     let url = await player.search(query);
     await player.play(voiceChannel, url, {leaveOnEmpty: true});
 
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#23bb95");
+    msgEmbed.setTitle("Lecture de sons");
+    msgEmbed.setDescription("Permet la lecture de son");
+
     if (url._data.playlist) {
-        message.channel.send("La playlist : " + url._data.playlist.title + " - " + url._data.playlist.author + " a été ajouté à la queue.");
-        console.log("|-- playlist found ! Playlist added to the queue.");
+        msgEmbed.addFields({ name:"Playlist ajoutée à la queue", value: url._data.playlist.title, inline: true});
+        msgEmbed.addFields({ name:"Auteur(s)", value: url._data.playlist.author, inline: true});
+        console.log("|-- playlist found ! Playlist added to the queue : " + url._data.playlist.title + " - " + url._data.playlist.author + ".");
     } else {
-        message.channel.send("La musique : " + url._data.tracks[0].title + " - " + url._data.tracks[0].author + " a été ajouté à la queue.")
-        console.log("|-- track found ! Track added to the queue.");
+        msgEmbed.addFields({ name:"Musique ajoutée à la queue", value: url._data.tracks[0].title, inline: true});
+        msgEmbed.addFields({ name:"Auteur(s)", value: url._data.tracks[0].author, inline: true});
+        console.log("|-- track found ! Track added to the queue : " + url._data.tracks[0].title + " - " + url._data.tracks[0].author + ".");
     }
+
+    message.channel.send({embeds: [msgEmbed]});
 }
 
 module.exports = {

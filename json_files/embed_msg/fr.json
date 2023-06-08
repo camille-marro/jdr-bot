@@ -39,68 +39,6 @@
       }
     ]
   },
-  "msgRefreshDBEmbed":
-  {
-    "color": "!color",
-    "title": "Actualisation base de données",
-    "thumbnail": "",
-    "description": "Actualisation des données de la base de données",
-    "field": [
-      {
-        "name": "Statut de l'actualisation",
-        "value": "!status"
-      }
-    ]
-  },
-  "msgPersonagesInfosEmbed":
-  {
-    "color": "#005522",
-    "title": "Informations personnage",
-    "thumbnail": "",
-    "description": "Récupère les informations d'un personnage avec son nom ou son ID",
-    "field": [
-      {
-        "name": "!strName",
-        "value": "!strRace"
-      },
-      {
-        "name": "\u200B",
-        "value": "\u200B"
-      },
-      {
-        "name": "Agilité - Intelligence - Force - Charisme",
-        "value": "!strComp",
-        "inline": true
-      },
-      {
-        "name": "\u200B",
-        "value": "\u200B"
-      },
-      {
-        "name": "!mag_name",
-        "value": "!mag",
-        "inline": true
-      },
-      {
-        "name": "Contrecoup :",
-        "value": "!counter",
-        "inline": true
-      }
-    ]
-  },
-  "msgPersonagesInfosErrorEmbed" :
-  {
-    "color": "#ff0000",
-    "title": "Infos personnage",
-    "thumbnail": "",
-    "description": "Récupère les informations d'un personnage avec son nom ou son ID",
-    "field": [
-      {
-        "name": "Erreur dans la récupération d'informations",
-        "value": "Veuillez saisir un identifiant ou un nom de personnage existant et valide."
-      }
-    ]
-  },
   "msgConfigLangSuccessEmbed" :
   {
     "color": "#005522",
@@ -252,9 +190,85 @@
         "inline": true
       },
       {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
         "name": "role",
         "value": "role à jouer : top, jungle, mid, adc, support",
         "inline": true
+      },
+      {
+        "name": "play [lien/recherche]",
+        "value": "Permet la lecture d'un son à partir d'un lien ou d'un recherche sur Youtube"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "lien/recherche",
+        "value": "lien youtube ou mots clés de la recherche",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "pause",
+        "value": "Permet de mettre en pause lecture d'un son"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "resume",
+        "value": "Permet de reprendre la lecture d'un son"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "stop",
+        "value": "Permet d'arrêter la lecture d'un son"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "skip [indice]",
+        "value": "Permet de passer la lecture d'un son ou de passer à un son spécifique de la queue"
+      },
+      {
+        "name": "Paramètres",
+        "value": "\u200B",
+        "inline": true
+      },
+      {
+        "name": "indice : optionnel",
+        "value": "indice de la musique à jouer",
+        "inline": true
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "loop",
+        "value": "Permet d'activer ou désactiver la lecture en boucle de la queue"
+      },
+      {
+        "name": "\u200B",
+        "value": "\u200B"
+      },
+      {
+        "name": "queue",
+        "value": "Permet de voir la queue de musique à jouer"
       }
     ]
   },
