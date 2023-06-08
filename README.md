@@ -35,7 +35,7 @@ Sur GitHub cliquer sur `<> Code` et `Download ZIP`\
 Mettre l'archive dans un dossier et l'extraire (clique droit -> extraire ici)
 
 ### Ajouter les fichiers manquant du bot
-Dans le dossier principal (là où il ya les fichiers `assets` `commands` `json_files` `main.js`) créer un fichier appelé `.env`\
+Dans le dossier principal (là où il ya les fichiers `assets`, `commands`, `json_files`, `main.js`) créer un fichier appelé `.env`\
 Faire clique droit sur le fichier puis modifier (ça doit ouvrir le bloc note ou un truc de traitement de texte)\
 Ajouter le texte suivant :
 ```plain text
