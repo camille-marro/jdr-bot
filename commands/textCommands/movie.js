@@ -31,7 +31,7 @@ function setFilm(message) {
     msgEmbed.setColor("#d5a32a");
     msgEmbed.setTitle("Liste de films");
     msgEmbed.setDescription("Propose un film aléatoire parmis le TOP 3 de chaque utilisateurs");
-    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande film help"});
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"film help\""});
 
 
     if (args[3] <= 0 || args[3] > 3) {
@@ -171,7 +171,7 @@ function film(message) {
     msgEmbed.setColor("#d5a32a");
     msgEmbed.setTitle("Liste de films");
     msgEmbed.setDescription("Propose un film aléatoire parmis le TOP 3 de chaque utilisateurs");
-    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande film help"});
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"film help\""});
 
     if (filmsData === []) {
         msgEmbed.addFields({name: "Erreur de récupération", value: "Aucun film n'a été soumis"})
@@ -201,7 +201,7 @@ function getFilm(message) {
     msgEmbed.setColor("#d5a32a");
     msgEmbed.setTitle("Liste de films");
     msgEmbed.setDescription("Propose un film aléatoire parmis le TOP 3 de chaque utilisateurs");
-    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande film help"});
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"film help\""});
 
     let id;
     if (args[2]) {
@@ -248,7 +248,7 @@ function help(message) {
     msgEmbed.setColor("#6e0e91");
     msgEmbed.setTitle("Liste de films");
     msgEmbed.setDescription("Propose un film aléatoire parmis le TOP 3 de chaque utilisateurs");
-    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande film help"});
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"film help\""});
 
     msgEmbed.addFields({name: "Syntaxe de la commande", value: "film [commande] [options]"});
     msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});

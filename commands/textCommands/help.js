@@ -107,6 +107,14 @@ function help (message) {
         msgEmbed.addFields({name: "Syntaxe de la commande", value: "ping"});
         msgEmbed.addFields({name: "Exemple de commande", value: "ping"});
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"ping help\""});
+    } else if (args[1] === "film") {
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for film command");
+
+        msgEmbed.setTitle("Help - film");
+        msgEmbed.setDescription("Propose un film aléatoire parmis le TOP 3 de chaque utilisateurs");
+        msgEmbed.addFields({name: "Syntaxe de la commande", value: "film [commande:optionnel] [options:optionnel]"});
+        msgEmbed.addFields({name: "Exemple de commande", value: "film"});
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"film help\""});
     } else {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for help");
 
@@ -121,6 +129,7 @@ function help (message) {
         msgEmbed.addFields({name: "loop", value: "Activer ou désactiver la lecture en boucle de la queue"});
         msgEmbed.addFields({name: "queue", value: "Afficher la queue"});
         msgEmbed.addFields({name: "ping", value: "pong"});
+        msgEmbed.addFields({name: "film", value: "Propose un film aléatoire parmis le TOP 3 de chaque utilisateurs"});
         msgEmbed.addFields({name: "help [commande:optionnel]", value: "Afficher ce texte"});
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"help [commande]\""});
     }
