@@ -8,6 +8,7 @@ function stop (message) {
     msgEmbed.setColor("#23bb95");
     msgEmbed.setTitle("Lecture de sons");
     msgEmbed.setDescription("Permet la lecture de son");
+    msgEmbed.setFooter({text:"Pour plus d'informations utiliser la commande \"stop help\""});
 
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for the music to stop.");
 
