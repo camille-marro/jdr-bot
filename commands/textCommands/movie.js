@@ -30,11 +30,10 @@ function setFilm(message) {
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor("#d5a32a");
     msgEmbed.setTitle("Liste de films");
-    msgEmbed.setDescription("Propose un film aléatoire parmis le TOP 3 de chaque utilisateurs");
+    msgEmbed.setDescription("Propose un film aléatoire parmis le TOP 3 de chaque utilisateur");
     msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"film help\""});
 
-
-    if (args[3] <= 0 || args[3] > 3) {
+    if (args[3] <= 0 || args[3] > 3 || isNaN(parseInt(args[3]))) {
         console.log("|-- wrong index given : " + args[3] + ", index must be between 1 and 3");
 
         msgEmbed.setColor("#ff0000");
