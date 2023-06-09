@@ -141,3 +141,4 @@ dist
 
 #sensible datas
 .data
+json_files/films.json
