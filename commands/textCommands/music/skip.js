@@ -12,6 +12,7 @@ function skip(message) {
     msgEmbed.setColor("#23bb95");
     msgEmbed.setTitle("Lecture de sons");
     msgEmbed.setDescription("Permet la lecture de son");
+    msgEmbed.setFooter({text:"Pour plus d'informations utiliser la commande \"skip help\""});
 
     if (args[1] === "help") {
         msgEmbed.setColor("#6e0e91");

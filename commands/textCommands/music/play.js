@@ -9,6 +9,7 @@ async function play(message) {
     msgEmbed.setColor("#23bb95");
     msgEmbed.setTitle("Lecture de sons");
     msgEmbed.setDescription("Permet la lecture de son");
+    msgEmbed.setFooter({text:"Pour plus d'informations utiliser la commande \"play help\""});
 
     let msg = message.content;
     let args = msg.split(" ");
@@ -20,19 +21,6 @@ async function play(message) {
 
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to play this music : " + query);
 
-    if (query === "") {
-        console.log("|-- action is impossible : no query given")
-        msgEmbed.addFields({ name : "Action impossible", value: "Vous devez fournir un lien ou des mots clés pour la recherche"});
-        msgEmbed.setColor("#ff0000");
-        message.channel.send({embeds: [msgEmbed]});
-        return;
-    }
-
-    let voiceChannel = message.member.voice.channel;
-
-    let url = await player.search(query);
-    await player.play(voiceChannel, url, {leaveOnEmpty: true});
-
     if (args[1] === "help") {
         msgEmbed.setColor("#6e0e91");
         msgEmbed.addFields({name : "Syntaxe de la commande", value: "play [lien/mots clés"});
@@ -42,7 +30,24 @@ async function play(message) {
         message.channel.send({embeds: [msgEmbed]});
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for play command.");
         return;
+    } else if (query === "") {
+        console.log("|-- action is impossible : no query given")
+        msgEmbed.addFields({ name : "Action impossible", value: "Vous devez fournir un lien ou des mots clés pour la recherche"});
+        msgEmbed.setColor("#ff0000");
+        message.channel.send({embeds: [msgEmbed]});
+        return;
     }
+
+    if (!message.member.voice.channel) {
+        console.log("|-- action is impossible : user not in a voice channel")
+        msgEmbed.addFields({ name : "Action impossible", value: "Vous devez être dans un salon vocal pour utiliser cette commande"});
+        msgEmbed.setColor("#ff0000");
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
+    let url = await player.search(query);
+    await player.play(voiceChannel, url, {leaveOnEmpty: true});
 
     if (url._data.playlist) {
         msgEmbed.addFields({ name:"Playlist ajoutée à la queue", value: url._data.playlist.title, inline: true});

@@ -8,6 +8,7 @@ function loop(message) {
     msgEmbed.setColor("#23bb95");
     msgEmbed.setTitle("Lecture de sons");
     msgEmbed.setDescription("Permet la lecture de son");
+    msgEmbed.setFooter({text:"Pour plus d'informations utiliser la commande \"loop help\""});
 
     let args = message.content.split(" ");
     if (args[1] === "help") {
