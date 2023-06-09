@@ -115,6 +115,14 @@ function help (message) {
         msgEmbed.addFields({name: "Syntaxe de la commande", value: "film [commande:optionnel] [options:optionnel]"});
         msgEmbed.addFields({name: "Exemple de commande", value: "film"});
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"film help\""});
+    } else if (args[1] === "meme") {
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for meme command");
+
+        msgEmbed.setTitle("Help - film");
+        msgEmbed.setDescription("Montre un meme stocké par les utilisateurs");
+        msgEmbed.addFields({name: "Syntaxe de la commande", value: "meme [add:optionnel] [lien:optionnel]"});
+        msgEmbed.addFields({name: "Exemple de commande", value: "meme"});
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"meme help\""});
     } else {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for help");
 
@@ -130,6 +138,7 @@ function help (message) {
         msgEmbed.addFields({name: "queue", value: "Afficher la queue"});
         msgEmbed.addFields({name: "ping", value: "pong"});
         msgEmbed.addFields({name: "film", value: "Propose un film aléatoire parmis le TOP 3 de chaque utilisateurs"});
+        msgEmbed.addFields({name: "meme", value: "Montre un meme stocké par les utilisateurs"});
         msgEmbed.addFields({name: "help [commande:optionnel]", value: "Afficher ce texte"});
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"help [commande]\""});
     }

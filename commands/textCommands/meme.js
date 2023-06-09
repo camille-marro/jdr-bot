@@ -123,10 +123,13 @@ function execute (message) {
     let args = message.content.split(" ");
 
     if (args[1] === "add") {
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to add a meme");
         addMeme(message);
     } else if (args[1] === "help") {
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for meme command.");
         help(message);
     } else {
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to watch a meme");
         showMeme(message);
     }
 }
