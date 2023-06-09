@@ -77,6 +77,10 @@ client.on("messageCreate", message => {
             let jdr = require("./commands/textCommands/jdr");
             jdr.createPerso(message);
             break;
+        case (prefix + "film"):
+            let film = require("./commands/textCommands/movie");
+            film.execute(message);
+            break;
     }
 })
 
