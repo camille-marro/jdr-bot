@@ -80,6 +80,19 @@ function addMeme(message) {
         console.log("|-- action is impossible : not a link");
         message.channel.send({embeds: [msgEmbed]});
         return;
+    } else {
+        let stop = false;
+        memesData.forEach(meme => {
+            if (meme['link'] === args[2]) {
+                msgEmbed.addFields({name: "Erreur d'ajout", value: "Le meme existe déjà"});
+                msgEmbed.setColor("#ff0000");
+
+                console.log("|-- action is impossible : meme already exist");
+                stop = !stop;
+                message.channel.send({embeds: [msgEmbed]});
+            }
+        });
+        if (stop) return;
     }
 
     const rawDate = new Date();
