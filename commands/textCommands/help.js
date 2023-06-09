@@ -118,7 +118,7 @@ function help (message) {
     } else if (args[1] === "meme") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for meme command");
 
-        msgEmbed.setTitle("Help - film");
+        msgEmbed.setTitle("Help - meme");
         msgEmbed.setDescription("Montre un meme stocké par les utilisateurs");
         msgEmbed.addFields({name: "Syntaxe de la commande", value: "meme [add:optionnel] [lien:optionnel]"});
         msgEmbed.addFields({name: "Exemple de commande", value: "meme"});
