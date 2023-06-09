@@ -185,6 +185,8 @@ function film(message) {
     let user = Math.floor(Math.random() * filmsData.length);
     let indiceFilm = Math.floor(Math.random() * 3);
 
+    while (filmsData[user]['id'] === message.member.id) user = Math.floor(Math.random() * filmsData.length);
+
     console.log("|-- film fetched : " + filmsData[user]['top'][indiceFilm]['name'] + "submitted by " + filmsData[user]['name'])
 
     msgEmbed.addFields({name: "Film proposé", value: filmsData[user]['top'][indiceFilm]['name'], inline: true});

@@ -14,6 +14,7 @@ const client = new Client({
 
 let player = Player.singleton(client);
 let config = require('./assets/config.js');
+const film = require("./commands/textCommands/movie");
 
 client.on("ready", function() {
     console.log("Connected to Discord server");
@@ -80,6 +81,10 @@ client.on("messageCreate", message => {
         case (prefix + "film"):
             let film = require("./commands/textCommands/movie");
             film.execute(message);
+            break;
+        case (prefix + "meme"):
+            let meme = require("./commands/textCommands/meme");
+            meme.execute(message);
             break;
     }
 })
