@@ -107,7 +107,7 @@ function ub (message) {
         strStart = JSONStarters["support"][starterNB]["name"];
         console.log("|- selected starter : " + JSONStarters["support"][starterNB]["name"] + "(#" + starterNB + ")");
         
-        while (JSONChampions[champNB]["lane"].indexOf("support") == -1) {
+        while (JSONChampions[champNB]["lane"].indexOf("support") === -1) {
             champNB = Math.floor(Math.random() * 161);
         }
         console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
@@ -119,7 +119,7 @@ function ub (message) {
         
         summoners1NB = 8;
         
-        while (JSONChampions[champNB]["lane"].indexOf("jungle") == -1) {
+        while (JSONChampions[champNB]["lane"].indexOf("jungle") === -1) {
             champNB = Math.floor(Math.random() * 161);
         }
         console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
@@ -128,7 +128,7 @@ function ub (message) {
         strStart = JSONStarters["lane"][starterNB]["name"];
         console.log("|- selected starter : " + JSONStarters["lane"][starterNB]["name"] + "(#" + starterNB + ")");
         
-        while (JSONChampions[champNB]["lane"].indexOf("mid") == -1) {
+        while (JSONChampions[champNB]["lane"].indexOf("mid") === -1) {
             champNB = Math.floor(Math.random() * 161);
         }
         console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
@@ -137,7 +137,7 @@ function ub (message) {
         strStart = JSONStarters["lane"][starterNB]["name"];
         console.log("|- selected starter : " + JSONStarters["lane"][starterNB]["name"] + "(#" + starterNB + ")");
         
-        while (JSONChampions[champNB]["lane"].indexOf("top") == -1) {
+        while (JSONChampions[champNB]["lane"].indexOf("top") === -1) {
             champNB = Math.floor(Math.random() * 161);
         }
         console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
@@ -146,7 +146,7 @@ function ub (message) {
         strStart = JSONStarters["lane"][starterNB]["name"];
         console.log("|- selected starter : " + JSONStarters["lane"][starterNB]["name"] + "(#" + starterNB + ")");
         
-        while (JSONChampions[champNB]["lane"].indexOf("adc") == -1) {
+        while (JSONChampions[champNB]["lane"].indexOf("adc") === -1) {
             champNB = Math.floor(Math.random() * 161);
         }
         console.log("|- selected champ : " + JSONChampions[champNB]["name"] + "(#" + champNB + ")");
