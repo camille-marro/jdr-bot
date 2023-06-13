@@ -17,7 +17,7 @@ let config = require('./assets/config.js');
 const film = require("./commands/textCommands/movie");
 
 client.on("ready", function() {
-    console.log("Connected to Discord server");
+    console.log("|- Connected to Discord server");
     config.printConfig(config.config);
 })
 
@@ -76,7 +76,7 @@ client.on("messageCreate", message => {
             break;
         case (prefix + "jdr"):
             let jdr = require("./commands/textCommands/jdr");
-            jdr.createPerso(message);
+            jdr.execute(message);
             break;
         case (prefix + "film"):
             let film = require("./commands/textCommands/movie");
