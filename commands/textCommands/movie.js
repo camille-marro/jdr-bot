@@ -6,14 +6,15 @@ const { EmbedBuilder } = require('discord.js');
 let filmsData;
 
 try {
-    console.log("|-- Loading films' data from films.json ...");
+    console.log("|- Loading films' data from films.json ...");
     const rawFilm = fs.readFileSync(path.resolve(__dirname, "../../json_files/films.json"));
     if (rawFilm.length === 0) {
         console.log("|-- no data found, creating empty array");
         filmsData = [];
     } else {
-        console.log("|-- data found ! fetching data")
+        console.log("|- data found ! fetching data ...");
         filmsData = JSON.parse(rawFilm);
+        console.log("|- film data successfully fetched")
     }
 } catch (err) {
     // le fichier n'existe pas il faut donc le créer
