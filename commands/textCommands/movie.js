@@ -21,7 +21,7 @@ try {
     // creation fichier
     console.log("|-- no file named films.json found");
     console.log("|-- creating file and empty array")
-    fs.writeFileSync(path.resolve(__dirname, "../../json_files/films.json"), []);
+    fs.writeFileSync(path.resolve(__dirname, "../../json_files/films.json"), [].toString());
     filmsData = [];
 }
 
