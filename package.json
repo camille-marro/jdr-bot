@@ -5,12 +5,9 @@
     "discord-player": "^6.3.1",
     "discord.js": "^14.11.0",
     "dotenv": "^16.0.0",
-    "express": "^4.18.1",
     "ffmpeg-static": "^5.1.0",
     "libsodium-wrappers": "^0.7.11",
-    "mysql": "^2.18.1",
     "opusscript": "^0.0.8",
-    "pagination.djs": "^4.0.10",
     "path": "^0.12.7",
     "play-dl": "^1.9.6",
     "ytdl-core": "^4.11.4"
@@ -21,10 +18,10 @@
   "scripts": {
     "start": "node main.js"
   },
-  "keywords": [],
+  "keywords": ["discord", "bot"],
   "author": "Camille MARRO",
   "license": "ISC",
-  "description": "You need to create a token.js file were you put the token liked to your bot.\r token.js need to look like :",
+  "description": "Bot that does things",
   "engines": {
     "node": "17.3.0"
   },
