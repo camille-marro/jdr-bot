@@ -123,6 +123,18 @@ function help (message) {
         msgEmbed.addFields({name: "Syntaxe de la commande", value: "meme [add:optionnel] [lien:optionnel]"});
         msgEmbed.addFields({name: "Exemple de commande", value: "meme"});
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"meme help\""});
+    } else if (args[1] === "rank") {
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for rank command");
+
+        msgEmbed.setTitle("Help - rank");
+        msgEmbed.setDescription("Affiche le rang lol d'un joueur en fonction de son pseudo sur le jeu");
+        msgEmbed.addFields({name : "Syntaxe de la commande", value: "rank [region:euw1]"});
+        msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
+        msgEmbed.addFields({name : "region:euw1", value: "Region dans laquelle chercher le nom d'invocateur. Par défaut : euw1", inline: true});
+        msgEmbed.addFields({name: "Exemple de commande", value: " "});
+        msgEmbed.addFields({name: "sans paramètre", value:"rank InhaleurDeGland", inline: true});
+        msgEmbed.addFields({"name": "avec paramètre", value: "rank na1 Best Hec world", inline: true});
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"rank help\""});
     } else {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for help");
 
@@ -139,6 +151,7 @@ function help (message) {
         msgEmbed.addFields({name: "ping", value: "pong"});
         msgEmbed.addFields({name: "film", value: "Propose un film aléatoire parmis le TOP 3 de chaque utilisateurs"});
         msgEmbed.addFields({name: "meme", value: "Montre un meme stocké par les utilisateurs"});
+        msgEmbed.addFields({name: "rank", value: "Affiche le rang lol d'un joueur en fonction de son pseudo sur le jeu"});
         msgEmbed.addFields({name: "help [commande:optionnel]", value: "Afficher ce texte"});
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"help [commande]\""});
     }

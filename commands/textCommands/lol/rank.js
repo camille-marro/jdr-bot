@@ -1,5 +1,6 @@
 const axios = require('axios');
 const path = require("path");
+
 const { EmbedBuilder } = require('discord.js');
 
 const API_KEY = process.env.API_KEY;
@@ -156,7 +157,7 @@ function help(message) {
     msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
     msgEmbed.addFields({name : "region:euw1", value: "Region dans laquelle chercher le nom d'invocateur. Par défaut : euw1", inline: true});
     msgEmbed.addFields({name : "Description de la commande", value: "Permet d'afficher le rang et diverses informations sur un joueur lol en fonction de son nom d'invocateur."});
-    msgEmbed.addFields({name : "Valeur du paramètre region", value: "br1, eun1, euw1, jp1, kr, la1, la2, na1, oc1, tr1, ru, ph2, sg2, th2, tw2, vn2, americas, asia, europe, sea"});
+    msgEmbed.addFields({name : "Valeurs du paramètre region", value: "br1, eun1, euw1, jp1, kr, la1, la2, na1, oc1, tr1, ru, ph2, sg2, th2, tw2, vn2, americas, asia, europe, sea"});
     message.channel.send({embeds: [msgEmbed]});
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for rank command.");
 }
