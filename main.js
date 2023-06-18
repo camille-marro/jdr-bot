@@ -89,11 +89,6 @@ client.on("messageCreate", message => {
     }
 })
 
-/*
-* @TODO :
-* resume
-* ajout role auto quand un mec join
-* */
 client.on("voiceStateUpdate", (oldUser, newUser) => {
     let newChan = newUser.voiceChannel;
     let userId = newUser.id;
@@ -124,7 +119,7 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
         mysteryMachine.mysteryMachine(client, newUser);
     } else
 
-    // quand un mec rentre dans le channel grand baton ca disconnect un des mecs dans le filet de sécurité
+    // quand un mec rentre dans le channel grand baton ça disconnect un des mecs dans le filet de sécurité
     if (newUser.channelId === config['config']['voice channels']['bong']['id']) {
         let bong = require('./commands/voiceCommands/bong.js');
         bong.bong(newUser);

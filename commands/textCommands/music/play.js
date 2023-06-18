@@ -47,7 +47,7 @@ async function play(message) {
     }
 
     let url = await player.search(query);
-    await player.play(voiceChannel, url, {leaveOnEmpty: true});
+    await player.play(message.member.voice.channel, url, {leaveOnEmpty: true});
 
     if (url._data.playlist) {
         msgEmbed.addFields({ name:"Playlist ajoutée à la queue", value: url._data.playlist.title, inline: true});
