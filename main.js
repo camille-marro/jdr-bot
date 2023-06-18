@@ -86,6 +86,10 @@ client.on("messageCreate", message => {
             let meme = require("./commands/textCommands/meme");
             meme.execute(message);
             break;
+        case (prefix + "rank"):
+            let rank = require("./commands/textCommands/lol/rank");
+            rank.execute(message).then(() => "");
+            break;
     }
 })
 
