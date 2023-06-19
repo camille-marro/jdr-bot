@@ -90,6 +90,10 @@ client.on("messageCreate", message => {
             let rank = require("./commands/textCommands/lol/rank");
             rank.execute(message).then(() => "");
             break;
+        case (prefix + "update"):
+            let update = require("./commands/textCommands/lol/udpate");
+            update.execute(message);
+            break;
     }
 })
 
