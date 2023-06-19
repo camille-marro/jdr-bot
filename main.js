@@ -98,9 +98,6 @@ client.on("messageCreate", message => {
 })
 
 client.on("voiceStateUpdate", (oldUser, newUser) => {
-    let newChan = newUser.voiceChannel;
-    let userId = newUser.id;
-
     // channels "tunnel secret" qui permettent de sortir dans un autre tunnel random
     let tunnels = client.channels.cache.filter(channel => channel.name === config['config']['voice channels']['secret tunnel']['E']['name']);
     let userTunnel = tunnels.find(channel => channel.id === newUser.channelId);
