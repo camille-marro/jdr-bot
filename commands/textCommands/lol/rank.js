@@ -68,7 +68,7 @@ async function rank(message, region) {
         return;
     }
 
-    let winS, winF, totalgamesS, winRS, totalgamesF, winRF, tierS, tierF, rankS, rankF;
+    let winS, winF, totalgamesS, winRS, totalgamesF, winRF, tierS, tierF, rankS, rankF, lpS, lpF;
 
     if (rankedData.data[0].queueType === "RANKED_SOLO_5x5") {
         winS = rankedData.data[0].wins;
@@ -79,6 +79,8 @@ async function rank(message, region) {
         tierS = rankedData.data[0].tier;
         rankS = rankedData.data[0].rank;
 
+        lpS = rankedData.data[0].leaguePoints;
+
         // check if flex q
         if (!rankedData.data[1]) {
             msgEmbed.setThumbnail('attachment://' + "emblem-" + rankedData.data[0].tier.toLowerCase() + ".png");
@@ -86,6 +88,7 @@ async function rank(message, region) {
             msgEmbed.addFields({name:"**Rank en SOLO Q**", value: " "});
             msgEmbed.addFields({name: tierS, value: rankS, inline: true});
             msgEmbed.addFields({name:`${winS} / ${totalgamesS}`, value: `${winRS.toPrecision(4)}% wr`, inline: true});
+            msgEmbed.addFields({name: "LP", value: lpS.toString(), inline: true});
 
             message.channel.send({embeds: [msgEmbed], files: [path.resolve(__dirname, "../../../assets/lol/emblems/emblem-" + tierS.toLowerCase() + ".png")]});
 
@@ -101,6 +104,8 @@ async function rank(message, region) {
 
         tierF = rankedData.data[1].tier;
         rankF = rankedData.data[1].rank;
+
+        lpF = rankedData.data[1].leaguePoints;
     } else {
         winF = rankedData.data[0].wins;
 
@@ -110,6 +115,8 @@ async function rank(message, region) {
         tierF = rankedData.data[0].tier;
         rankF = rankedData.data[0].rank;
 
+        lpF = rankedData.data[0].leaguePoints;
+
         //check if solo q
         if (!rankedData.data[1]) {
             msgEmbed.setThumbnail('attachment://' + "emblem-" + rankedData.data[0].tier.toLowerCase() + ".png");
@@ -117,6 +124,7 @@ async function rank(message, region) {
             msgEmbed.addFields({name:`**Rank en Flex Q**`, value: " "});
             msgEmbed.addFields({name: tierF, value: rankF, inline: true});
             msgEmbed.addFields({name:`${winF} / ${totalgamesF}`, value: `${winRF.toPrecision(4)}% wr`, inline: true});
+            msgEmbed.addFields({name: "LP", value: lpF.toString(), inline: true});
 
             message.channel.send({embeds: [msgEmbed], files: [path.resolve(__dirname, "../../../assets/lol/emblems/emblem-" + tierS.toLowerCase() + ".png")]});
 
@@ -132,15 +140,19 @@ async function rank(message, region) {
 
         tierS = rankedData.data[1].tier;
         rankS = rankedData.data[1].rank;
+
+        lpS = rankedData.data[1].leaguePoints;
     }
 
     msgEmbed.setThumbnail('attachment://' + "emblem-" + rankedData.data[0].tier.toLowerCase() + ".png");
     msgEmbed.addFields({name:"**Rank en SOLO Q**", value: " "});
     msgEmbed.addFields({name: tierS, value: rankS, inline: true});
     msgEmbed.addFields({name:`${winS} / ${totalgamesS}`, value: `${winRS.toPrecision(4)}% wr`, inline: true});
+    msgEmbed.addFields({name: "LP", value: lpS.toString(), inline: true});
     msgEmbed.addFields({name:`**Rank en Flex Q**`, value: " "});
     msgEmbed.addFields({name: tierF, value: rankF, inline: true});
     msgEmbed.addFields({name:`${winF} / ${totalgamesF}`, value: `${winRF.toPrecision(4)}% wr`, inline: true});
+    msgEmbed.addFields({name: "LP", value: lpF.toString(), inline: true});
 
     message.channel.send({embeds: [msgEmbed], files: [path.resolve(__dirname, "../../../assets/lol/emblems/emblem-" + tierS.toLowerCase() + ".png")]});
     console.log("|-- summoner data successfully sent");
