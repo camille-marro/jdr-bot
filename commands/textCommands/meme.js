@@ -1,6 +1,9 @@
 let fs = require('fs');
 const path = require("path");
 
+const cheerio = require('cheerio');
+const axios = require('axios');
+
 const { EmbedBuilder } = require('discord.js');
 
 let memesData;
@@ -24,7 +27,7 @@ try {
     memesData = [];
 }
 
-function showMeme(message) {
+async function showMeme(message) {
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor("#34aec0");
     msgEmbed.setTitle("Meme");
@@ -47,7 +50,40 @@ function showMeme(message) {
     msgEmbed.addFields({name: "Le", value: meme['date'], inline: true});
 
     const regex = /https?:\/\/[^\s/$.?#].[^\s]*/g;
-    if (regex.test(meme['link'])) msgEmbed.setImage(meme['link']);
+    if (regex.test(meme['link'])) {
+        const regexYoutube = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=)|youtu\.be\/)([\w-]{11})$/;
+        const regexTenorGif = /^https?:\/\/tenor\.com\/view\/([a-zA-Z0-9-]+)-(\d+)$/;
+        const imageExtension = /\.(png|gif|jpe?g|bmp|svg|webp)$/i;
+
+        if (regexYoutube.test(meme['link'])) {
+            let args = meme['link'].split('/');
+            let index = args[3].lastIndexOf('=');
+            args[3] = args[3].substring(index + 1);
+            console.log(`|-- youtube video found, thumbnail link : https://img.youtube.com/vi/${args[3]}/hqdefault.jpg`);
+            msgEmbed.setImage(`https://img.youtube.com/vi/${args[3]}/hqdefault.jpg`);
+        } else if (regexTenorGif.test(meme['link'])) {
+            let imageLink;
+            await axios.get(meme['link'])
+                .then(r => {
+                    const html = r.data;
+                    const $ = cheerio.load(html);
+                    const imgTags = $('img');
+
+                    imageLink = $(imgTags[2]).attr('src');
+                    console.log("|-- gif found : " + imageLink);
+                })
+                .catch(e => {
+                    console.log('|-- error : ' + e);
+                });
+            console.log(imageLink);
+            msgEmbed.setImage(imageLink);
+        } else if (imageExtension.test(meme['link'])) {
+            console.log("|-- image found");
+            msgEmbed.setImage(meme['link']);
+        } else {
+            console.log("|-- not a gif or yt video, deleting image preview");
+        }
+    }
 
     message.channel.send({embeds: [msgEmbed]});
 }
@@ -143,7 +179,7 @@ function execute (message) {
         help(message);
     } else {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to watch a meme");
-        showMeme(message);
+        showMeme(message).then(r => "");
     }
 }
 
