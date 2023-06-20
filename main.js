@@ -14,12 +14,25 @@ const client = new Client({
 
 let player = Player.singleton(client);
 let config = require('./assets/config.js');
-const film = require("./commands/textCommands/movie");
+const elochecker = require("./commands/textCommands/lol/elochecker");
 
 client.on("ready", function() {
     console.log("|- Connected to Discord server");
     config.printConfig(config.config);
-})
+
+    // elo checker command each 60 000 ms = 60s = 1m
+    let elochecker = require('./commands/textCommands/lol/elochecker');
+    let currentLiveGames = [];
+    elochecker.execute(currentLiveGames, client);
+    const interval = setInterval(() => {
+        elochecker.execute(currentLiveGames, client)
+            .then((r) => {
+                currentLiveGames = r
+                console.log("|-- successfully fecthed and sent data");
+            });
+    }, 60000);
+
+});
 
 client.on("messageCreate", message => {
     let msg = message.content;
@@ -95,7 +108,7 @@ client.on("messageCreate", message => {
             update.execute(message);
             break;
     }
-})
+});
 
 client.on("voiceStateUpdate", (oldUser, newUser) => {
     // channels "tunnel secret" qui permettent de sortir dans un autre tunnel random
@@ -129,6 +142,6 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
         let bong = require('./commands/voiceCommands/bong.js');
         bong.bong(newUser);
     }
-})
+});
 
 client.login (process.env.BOT_TOKEN);
