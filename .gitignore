@@ -142,3 +142,6 @@ dist
 #sensible datas
 .data
 json_files/films.json
+json_files/lol.json
+commands/textCommands/lol/elochecker.js
+commands/textCommands/jdr.js
