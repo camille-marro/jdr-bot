@@ -17,9 +17,6 @@ let config = require('./assets/config.js');
 const elochecker = require("./commands/textCommands/lol/elochecker");
 
 client.on("ready", function() {
-    console.log("|- Connected to Discord server");
-    config.printConfig(config.config);
-
     // elo checker command each 60 000 ms = 60s = 1m
     let elochecker = require('./commands/textCommands/lol/elochecker');
     let currentLiveGames = [];
@@ -110,6 +107,7 @@ client.on("messageCreate", message => {
     }
 });
 
+/*
 client.on("voiceStateUpdate", (oldUser, newUser) => {
     // channels "tunnel secret" qui permettent de sortir dans un autre tunnel random
     let tunnels = client.channels.cache.filter(channel => channel.name === config['config']['voice channels']['secret tunnel']['E']['name']);
@@ -143,5 +141,14 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
         bong.bong(newUser);
     }
 });
+*/
 
-client.login (process.env.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN)
+    .then(r => {
+        console.log("|- Connected to Discord server");
+        config.printConfig(config.config);
+    })
+    .catch(e => {
+        console.log("|- Can't login verify token");
+        console.error(e);
+    });
