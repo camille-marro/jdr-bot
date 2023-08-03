@@ -9,7 +9,7 @@ const client = new Client({
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildVoiceStates
-    ],
+    ]
 });
 
 let player = Player.singleton(client);
@@ -28,7 +28,6 @@ client.on("ready", function() {
                 console.log("|-- successfully fecthed and sent data");
             });
     }, 60000);
-
 });
 
 client.on("messageCreate", message => {
@@ -58,7 +57,7 @@ client.on("messageCreate", message => {
             break;
         case (prefix + "play"):
             let play = require("./commands/textCommands/music/play");
-            play.play(message);
+            play.play(message).then(() => "");
             break;
         case (prefix + "queue"):
             let queueCommand = require("./commands/textCommands/music/queue");
@@ -123,13 +122,13 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
         kick.kick(client, newUser);
     } else
 
-    // channel "filet de sécurité qui empeche d'en sortir"
+    // channel "filet de sécurité qui empêche d'en sortir"
     if (oldUser.channelId === config['config']['voice channels']['safety net']['id']) {
         let safetyNet = require('./commands/voiceCommands/safety-net.js');
         safetyNet.safetyNet(client, newUser);
     } else
 
-    // channel mystery machine qui tansporte le channel aléatoirement dans le serveur
+    // channel mystery machine qui transporte le channel aléatoirement dans le serveur
     if (newUser.channelId === config['config']['voice channels']['mystery machine']['id']) {
         let mysteryMachine = require('./commands/voiceCommands/mystery-machine.js');
         mysteryMachine.mysteryMachine(client, newUser);
