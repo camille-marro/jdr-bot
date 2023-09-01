@@ -13,16 +13,10 @@
             "name": "Eclipse"
         },
         {
-            "name": "Linceul de la congruence"
-        },
-        {
             "name": "Gel éternel"
         },
         {
             "name": "Gantelet givrant"
-        },
-        {
-            "name": "Force du vent"
         },
         {
             "name": "Eviscérateur"
@@ -31,19 +25,10 @@
             "name": "Ceinture-roquette Hextech"
         },
         {
-            "name": "Arc-bouclier immortel"
-        },
-        {
-            "name": "Mandat impérial"
-        },
-        {
-            "name": "Tueur de kraken"
-        },
-        {
             "name": "Afflication de Liandry"
         },
         {
-            "name": "Médaillon de l'Iron Solari"
+            "name": "Médaillon de l'Egide Solaire"
         },
         {
             "name": "Tempete de Luden"
@@ -53,9 +38,6 @@
         },
         {
             "name": "Moissoneur nocturne"
-        },
-        {
-            "name": "Griffes du rodeur"
         },
         {
             "name": "Créateur de failles"
@@ -77,9 +59,36 @@
         },
         {
             "name": "Force de la trinité"
+        },
+        {
+            "name": "Échos D'Helia"
+        },
+        {
+            "name": "Vertu Radieuse"
+        },
+        {
+            "name": "Linceul de la congruence"
+        },
+        {
+            "name": "Lame enragée de Guinsoo"
+        },
+        {
+            "name": "Force du vent"
+        },
+        {
+            "name": "Prestelames de Navori"
+        },
+        {
+            "name": "Lame d'infini"
+        },
+        {
+            "name": "Lame spectre de Youmuu"
         }
     ],
     "legendaries":[
+        {
+            "name": "Poignard de Statikk"
+        },
         {
             "name": "Masque abyssal"
         },
@@ -147,16 +156,10 @@
             "name": "Ange gardien"
         },
         {
-            "name": "Lame enragée de Guinsoo"
-        },
-        {
             "name": "Concentration lointaine"
         },
         {
             "name": "Brise-coques"
-        },
-        {
-            "name": "Lame d'infini"
         },
         {
             "name": "Voeu du chevalier"
@@ -190,9 +193,6 @@
         },
         {
             "name": "Dent de Nashor"
-        },
-        {
-            "name": "Prestelames de Navori"
         },
         {
             "name": "Danseur fantôme"
@@ -261,13 +261,34 @@
             "name": "Au bout du rouleau"
         },
         {
-            "name": "Lâme spectre de Youmuu"
-        },
-        {
             "name": "Convergence de Zeke"
         },
         {
             "name": "Sablier de Zhonya"
+        },
+        {
+            "name": "Lance de Shojin"
+        },
+        {
+            "name": "Griffes du rôdeur"
+        },
+        {
+            "name": "Tueur de krakens"
+        },
+        {
+            "name": "Arc-bouclier immortel"
+        },
+        {
+            "name": "Mandat impérial"
+        },
+        {
+            "name": "Égide solaire"
+        },
+        {
+            "name": "Bâton des flots"
+        },
+        {
+            "name": "Putrificateur techno-chimique"
         }
     ],
     "boots":[

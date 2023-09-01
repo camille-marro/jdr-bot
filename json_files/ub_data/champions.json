@@ -385,6 +385,11 @@
       "lane": "top support jungle"
    },
    {
+      "name": "milio",
+      "image": "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/bltd121d6fdcdfd3be1/641bae294bda7e23ae9281f9/RiotX_ChampionList_milio.jpg?quality=90&width=250 250w",
+      "lane": "support"
+   },
+   {
       "name": "miss fortune",
       "image": "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/bltf36fa7fd7ecb59fb/5db05fe89481396d6bdd01b8/RiotX_ChampionList_missfortune.jpg?quality=90&width=250",
       "lane": "adc support"
@@ -398,6 +403,11 @@
       "name": "morgana",
       "image": "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/bltc81eece55f126d2d/5db05fe86af83b6d7032c904/RiotX_ChampionList_morgana.jpg?quality=90&width=250",
       "lane": "support jungle"
+   },
+   {
+      "name": "naafiri",
+      "image": "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt08b4cd0a1ca05cd3/64b8cd3bff3e9b769c4d7646/RiotX_ChampionList_naafiri.jpg?quality=90&width=250",
+      "lane": "jungle mid"
    },
    {
       "name": "nami",
