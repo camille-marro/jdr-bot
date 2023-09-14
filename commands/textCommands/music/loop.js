@@ -1,6 +1,8 @@
 const { useQueue } = require('discord-player');
 const { EmbedBuilder } = require('discord.js');
 
+let log = require('../../../assets/log');
+
 function loop(message) {
     let serverQueue = useQueue(message.guild.id);
 
@@ -17,16 +19,19 @@ function loop(message) {
         msgEmbed.addFields({name : "Description de la commande", value: "Permet d'activer ou désactiver la lecture en boucle de la queue"});
         message.channel.send({embeds: [msgEmbed]});
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for loop command.");
+        log.print("asked help for loop command", message.author, message.content);
         return;
     }
 
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") try to loop or stop the loop on the queue.");
+    log.print("try to loop or stop the loop on the queue", message.author, message.content);
 
     if (!message.member.voice.channel) {
         msgEmbed.addFields({ name : "Action impossible", value: "Vous devez être dans un salon vocal"});
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : not in a voice channel.");
+        log.print("action is impossible : not in a voice channel", 1);
         return;
     }
 
@@ -35,6 +40,7 @@ function loop(message) {
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : not in same voice channel.");
+        log.print("action is impossible : not in same voice channel", 1);
         return;
     }
 
@@ -43,6 +49,7 @@ function loop(message) {
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : queue is empty.");
+        log.print("action is impossible : queue is empty", 1);
         return;
     }
 
@@ -50,10 +57,12 @@ function loop(message) {
         serverQueue.setRepeatMode(2);
         msgEmbed.addFields({name : "Statut de la lecture en boucle", value:"Active"});
         console.log("|-- loop started.");
+        log.print("loop started", 1);
     } else {
         serverQueue.setRepeatMode(0);
         msgEmbed.addFields({name : "Statut de la lecture en boucle", value:"Arrêtée"});
-        console.log("|-- loop stoped.");
+        console.log("|-- loop stopped.");
+        log.print("loop stopped", 1);
     }
 
     message.channel.send({embeds: [msgEmbed]});

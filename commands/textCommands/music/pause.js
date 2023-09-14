@@ -1,8 +1,11 @@
 const { useQueue } = require('discord-player');
 const { EmbedBuilder } = require('discord.js');
 
+let log = require('../../../assets/log');
+
 function pause(message) {
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for the music to be paused.");
+    log.print("asked for the music to be paused", message.author, message.content);
 
     let serverQueue = useQueue(message.guild.id);
 
@@ -19,6 +22,7 @@ function pause(message) {
         msgEmbed.addFields({name : "Description de la commande", value: "Permet de mettre en pause la lecture"});
         message.channel.send({embeds: [msgEmbed]});
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for pause command.");
+        log.print("asked help for pause command", message.author, message.content);
         return;
     }
 
@@ -27,6 +31,7 @@ function pause(message) {
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : not in a voice channel.");
+        log.print("action is impossible : not in a voice channel", 1);
         return;
     }
 
@@ -35,11 +40,13 @@ function pause(message) {
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : not in same voice channel.");
+        log.print("action is impossible : not in same voice channel", message.author, message.content);
         return;
     }
 
     if (!serverQueue) {
-        console.log("|-- action is impossible : queue doesn't exist.")
+        console.log("|-- action is impossible : queue doesn't exist.");
+        log.print("action is impossible : queue doesn't exist", 1);
         msgEmbed.addFields({ name : "Action impossible", value: "Aucune musique n'est jouée"});
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
@@ -51,6 +58,7 @@ function pause(message) {
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : nothing is playing.");
+        log.print("action is impossible : nothing is playing", 1);
         return
     }
 
@@ -58,6 +66,7 @@ function pause(message) {
     msgEmbed.addFields({name : "Statut de la lecture", value:"En pause"});
     message.channel.send({embeds: [msgEmbed]});
     console.log("|-- music successfully paused.");
+    log.print("music successfully paused", 1);
 }
 
 module.exports = {

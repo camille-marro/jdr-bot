@@ -1,8 +1,11 @@
 const { useQueue } = require('discord-player');
 const { EmbedBuilder } = require('discord.js');
 
+let log = require('../../../assets/log');
+
 function skip(message) {
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to skip.");
+    log.print("tried to skip", message.author, message.content);
 
     let args = message.content.split(" ");
 
@@ -22,6 +25,7 @@ function skip(message) {
         msgEmbed.addFields({name : "Description de la commande", value: "Permet de passer la musique ou de passer à une musique spécifique"});
         message.channel.send({embeds: [msgEmbed]});
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for skip command.");
+        log.print("asked help for skip command", message.author, message.content);
         return;
     }
 
@@ -30,6 +34,7 @@ function skip(message) {
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : not in a voice channel.");
+        log.print("action is impossible : not in a voice channel", 1);
         return;
     }
 
@@ -38,11 +43,13 @@ function skip(message) {
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : not in same voice channel.");
+        log.print("action is impossible : not in same voice channel", 1);
         return;
     }
 
     if (!serverQueue) {
         console.log("|-- action is impossible : nothing to skip.");
+        log.print("action in impossible : nothing to skip", 1);
         msgEmbed.addFields({ name : "Action impossible", value: "Aucune musique n'est jouée"});
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
@@ -54,6 +61,7 @@ function skip(message) {
         msgEmbed.addFields({name : "Aucune musique à passer", value:"Arrêt de la musique"});
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- nothing to skip, bot disconnected.");
+        log.print("nothing to skip, bot disconnected", 1);
         return
     }
 
@@ -63,6 +71,7 @@ function skip(message) {
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : index's too big, can't skip to music (#" + indiceSkip + ").");
+        log.print("action is impossible : index's too big, can't skip to music " + indiceSkip, 1);
         return;
     }
 
@@ -70,6 +79,7 @@ function skip(message) {
         serverQueue.node.skipTo(indiceSkip-1);
         msgEmbed.addFields({name : "Musique passée", value:`${serverQueue.tracks.at(0).title} - ${serverQueue.tracks.at(0).author}`});
         console.log("|-- successfully skipped to music (#" + indiceSkip + ") " + serverQueue.tracks.at(0).title + " - " + serverQueue.tracks.at(0).author + "." );
+        /* @TODO */
     } else {
         serverQueue.node.skip();
         msgEmbed.addFields({name : "Musique passée", value:`${serverQueue.tracks.at(0).title} - ${serverQueue.tracks.at(0).author}`});

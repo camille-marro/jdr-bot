@@ -1,8 +1,11 @@
 const { useQueue } = require('discord-player');
 const { EmbedBuilder } = require('discord.js');
 
+let log = require('../../../assets/log');
+
 function resume(message) {
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for the music to be resumed.");
+    log.print("asked for the music to be resumed", message.author, message.content);
 
     let serverQueue = useQueue(message.guild.id);
 
@@ -19,6 +22,7 @@ function resume(message) {
         msgEmbed.addFields({name : "Description de la commande", value: "Permet de relancer la lecture"});
         message.channel.send({embeds: [msgEmbed]});
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for resume command.");
+        log.print("asked help for resume command", message.author, message.content);
         return;
     }
 
@@ -27,6 +31,7 @@ function resume(message) {
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : not in a voice channel.");
+        log.print("action is impossible : not in a voice channel", 1);
         return;
     }
 
@@ -35,11 +40,13 @@ function resume(message) {
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
         console.log("|-- action is impossible : not in same voice channel.");
+        log.print("action is impossible : not in same voice channel", 1);
         return;
     }
 
     if (!serverQueue) {
-        console.log("|-- action is impossible : queue doesn't exist.")
+        console.log("|-- action is impossible : queue doesn't exist.");
+        log.print("action is impossible : queue doesn't exist", 1);
         msgEmbed.addFields({ name : "Action impossible", value: "Aucune musique n'est jouée"});
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
@@ -50,7 +57,8 @@ function resume(message) {
         msgEmbed.addFields({ name : "Action impossible", value: "La lecture est déjà en cours"});
         msgEmbed.setColor("#ff0000");
         message.channel.send({embeds: [msgEmbed]});
-        console.log("|-- action is impossible : music already playing.");
+        console.log("|-- action is impossible : music is already playing.");
+        log.print("action is impossible : music is already playing", 1);
         return
     }
 
@@ -58,6 +66,7 @@ function resume(message) {
     msgEmbed.addFields({name : "Statut de la lecture", value:"En cours"});
     message.channel.send({embeds: [msgEmbed]});
     console.log("|-- music successfully resumed.");
+    log.print("music successfully resumed", 1);
 }
 
 module.exports = {
