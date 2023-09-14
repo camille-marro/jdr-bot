@@ -2,6 +2,8 @@ const {Client, GatewayIntentBits } = require('discord.js');
 const {Player} = require("discord-player");
 require('dotenv').config();
 
+let log = require('./assets/log');
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -14,6 +16,8 @@ const client = new Client({
 
 let player = Player.singleton(client);
 let config = require('./assets/config.js');
+
+/*
 const elochecker = require("./commands/textCommands/lol/elochecker");
 
 client.on("ready", function() {
@@ -29,6 +33,7 @@ client.on("ready", function() {
             });
     }, 60000);
 });
+*/
 
 client.on("messageCreate", message => {
     let msg = message.content;
@@ -103,6 +108,10 @@ client.on("messageCreate", message => {
             let update = require("./commands/textCommands/lol/udpate");
             update.execute(message);
             break;
+        case (prefix + "log"):
+            let logs = require("./commands/textCommands/log");
+            logs.execute(message);
+            break;
     }
 });
 
@@ -146,8 +155,10 @@ client.login(process.env.BOT_TOKEN)
     .then(r => {
         console.log("|- Connected to Discord server");
         config.printConfig(config.config);
+        log.print("Connected to Discord server", 1);
     })
     .catch(e => {
         console.log("|- Can't login verify token");
         console.error(e);
     });
+
