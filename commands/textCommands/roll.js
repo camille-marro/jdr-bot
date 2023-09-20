@@ -1,6 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
+const log = require('../../assets/log');
 
 function roll (message) {
+    log.print("tried to roll dice", message.author, message.content);
     let msg = message.content;
     let options = msg.split(" ");
 
@@ -21,6 +23,7 @@ function roll (message) {
         message.channel.send({embeds: [msgEmbed]});
 
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for roll command.");
+        log.print("asked help for roll command", message.author, message.content);
         return;
     }
 
@@ -32,6 +35,7 @@ function roll (message) {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
         console.log("|-- syntax error");
         console.log("|-- " + message.content);
+        log.print("error : wrong syntax", 1, message.content);
         return;
     }
 
@@ -44,6 +48,7 @@ function roll (message) {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
         console.log("|-- " + "syntax error");
         console.log("|-- " + message.content);
+        log.print("error : wrong syntax", 1, message.content);
         return;
     }
     let values = options[1].split("d");
@@ -56,6 +61,7 @@ function roll (message) {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
         console.log("|-- " + "syntax error");
         console.log("|-- " + message.content);
+        log.print("error : wrong syntax", 1, message.content);
         return;
     }
 
@@ -73,6 +79,7 @@ function roll (message) {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to roll dices.");
         console.log("|-- " + "syntax error");
         console.log("|-- " + message.content);
+        log.print("error : wrong syntax", 1, message.content);
         return;
     }
 
@@ -100,6 +107,7 @@ function roll (message) {
     message.channel.send({embeds: [msgEmbed]});
 
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") rolled dices (" + values[0] + "d" + values[1] + ").");
+    log.print("dice rolled successfully", 1);
 }
 module.exports = {
     roll

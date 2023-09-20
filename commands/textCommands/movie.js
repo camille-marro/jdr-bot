@@ -3,18 +3,23 @@ const path = require("path");
 
 const { EmbedBuilder } = require('discord.js');
 
+const log = require('../../assets/log');
+
 let filmsData;
 
 try {
     console.log("|-- Loading films' data from films.json ...");
+    log.print("loading films' data from films.json", 1);
     const rawFilm = fs.readFileSync(path.resolve(__dirname, "../../json_files/films.json"));
     if (rawFilm.length === 0) {
         console.log("|-- no data found, creating empty array");
+        log.print("no data found, creating empty array", 1);
         filmsData = [];
     } else {
         console.log("|-- data found ! fetching data ...");
         filmsData = JSON.parse(rawFilm);
         console.log("|-- film data successfully fetched");
+        log.print("data successfully fetched", 1);
     }
 } catch (err) {
     // le fichier n'existe pas il faut donc le créer
@@ -23,9 +28,11 @@ try {
     console.log("|-- creating file and empty array")
     fs.writeFileSync(path.resolve(__dirname, "../../json_files/films.json"), [].toString());
     filmsData = [];
+    console.log("no file found, creating file and initializing it", 1);
 }
 
 function setFilm(message) {
+    log.print("tried to modify one of his/her movie", message.author, message.content);
     let args = message.content.split(" ");
 
     let msgEmbed = new EmbedBuilder();
@@ -36,6 +43,7 @@ function setFilm(message) {
 
     if (args[3] <= 0 || args[3] > 3 || isNaN(parseInt(args[3]))) {
         console.log("|-- wrong index given : " + args[3] + ", index must be between 1 and 3");
+        log.print("error : wrong index", 1, message.content);
 
         msgEmbed.setColor("#ff0000");
         msgEmbed.addFields({name: "Erreur d'argument", "value": "L'indice du film doit être compris en 1 et 3"});
@@ -64,6 +72,7 @@ function setFilm(message) {
                 fs.writeFileSync(path.resolve(__dirname, "../../json_files/films.json"), newData);
 
                 console.log("|-- successfully changed platform name " + name + " to " + query);
+                log.print("successfully change platform name", 1);
 
                 msgEmbed.addFields({name: "Changement du nom du film", value: " "});
                 msgEmbed.addFields({name: "Ancien nom", value: name});
@@ -88,6 +97,7 @@ function setFilm(message) {
                 fs.writeFileSync(path.resolve(__dirname, "../../json_files/films.json"), newData);
 
                 console.log("|-- successfully changed note from " + note + " to " + query);
+                log.print("successfully changed note", 1);
 
                 msgEmbed.addFields({name: "Changement de la note du film", value: " "});
                 msgEmbed.addFields({name: "Ancienne note", value: note});
@@ -112,6 +122,7 @@ function setFilm(message) {
                 fs.writeFileSync(path.resolve(__dirname, "../../json_files/films.json"), newData);
 
                 console.log("|-- successfully changed platform from " + plateforme + " to " + query);
+                log.print("successfully changed platform", 1);
 
                 msgEmbed.addFields({name: "Changement de la plateforme du film", value: " "});
                 msgEmbed.addFields({name: "Ancienne plateforme", value: plateforme, inline:true});
@@ -122,6 +133,7 @@ function setFilm(message) {
                 modif = !modif;
             } else {
                 console.log("|-- wrong attribut given : " + args[2] + ", attribut must be nom, plateforme or note");
+                log.print("error : wrong attribut given", 1, message.content);
 
                 msgEmbed.setColor("#ff0000");
                 msgEmbed.addFields({name: "Erreur d'argument", "value": "L'attribut doit être nom, plateforme ou note"});
@@ -162,6 +174,7 @@ function setFilm(message) {
 
     let newData = JSON.stringify(filmsData);
     fs.writeFileSync(path.resolve(__dirname, "../../json_files/films.json"), newData);
+    log.print("film data updated", 1);
 
     message.channel.send({embeds: [msgEmbed]});
 }
@@ -179,6 +192,7 @@ function film(message) {
 
         console.log("|-- action is impossible : no data to fetch");
         message.channel.send({embeds: [msgEmbed]});
+        /* @TODO */
         return;
     }
 
