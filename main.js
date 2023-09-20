@@ -160,5 +160,6 @@ client.login(process.env.BOT_TOKEN)
     .catch(e => {
         console.log("|- Can't login verify token");
         console.error(e);
+        log.print("Can't login : verify token", 1, e);
     });
 
