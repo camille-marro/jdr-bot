@@ -79,13 +79,15 @@ function skip(message) {
         serverQueue.node.skipTo(indiceSkip-1);
         msgEmbed.addFields({name : "Musique passée", value:`${serverQueue.tracks.at(0).title} - ${serverQueue.tracks.at(0).author}`});
         console.log("|-- successfully skipped to music (#" + indiceSkip + ") " + serverQueue.tracks.at(0).title + " - " + serverQueue.tracks.at(0).author + "." );
-        /* @TODO */
+        log.print("successfully skipped the music", 1);
     } else {
         serverQueue.node.skip();
         msgEmbed.addFields({name : "Musique passée", value:`${serverQueue.tracks.at(0).title} - ${serverQueue.tracks.at(0).author}`});
         console.log("|-- successfully skipped to next music : " + serverQueue.tracks.at(0).title + " - " + serverQueue.tracks.at(0).author + ".");
+        log.print("successfully skipped the music", 1);
     }
 
+    log.print("success message sent", 1);
     message.channel.send({embeds: [msgEmbed]});
 }
 
