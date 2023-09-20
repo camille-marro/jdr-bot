@@ -85,6 +85,11 @@
       "lane": "support"
    },
    {
+      "name": "briar",
+      "image": "",
+      "lane": "top jungle mid"
+   },
+   {
       "name": "caitlyn",
       "image": "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt014f4b6fc9bacd10/61b1eb901d158d4007de9685/RiotX_ChampionList_caitlyn_v2.jpg?quality=90&width=250",
       "lane": "adc"
