@@ -1,7 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 let config = require('../../assets/config.js');
+
 const createEmbed = require('../../assets/createEmbed.js');
+const log = require('../../assets/log');
 
 function ub (message) {
     let msg = message.content;
@@ -14,27 +16,33 @@ function ub (message) {
         let msgRollUBEmbed = createEmbed(JSONEmbed['msgRollUBEmbed']['color'], JSONEmbed['msgRollUBEmbed']['title'], JSONEmbed['msgRollUBEmbed']['thumbnail'], JSONEmbed['msgRollUBEmbed']['description'], JSONEmbed['msgRollUBEmbed']['field'], []);
         message.channel.send({embeds: [msgRollUBEmbed]});
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for an UB game.");
+        log.print("asked help for an UB game", message.author, message.content);
         return;
     }
 
     message.channel.send("LANCEMENT D'UNE PARTIE D'ULTIMATE BRAVERY");
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") has launched an ultimate bravery game.");
+    log.print("started an ultimate bravery game", message.author, message.content);
 
     console.log("|- Loading champions ...");
+    log.print("loading champions", 1);
     let rawJSONChampions = fs.readFileSync(path.resolve(__dirname, '../../json_files/ub_data/champions.json'));
     let JSONChampions = JSON.parse(rawJSONChampions);
 
     console.log("|- Loading items ...");
+    log.print("loading items", 1);
     let rawJSONStarters = fs.readFileSync(path.resolve(__dirname, '../../json_files/ub_data/starters.json'));
     let JSONStarters = JSON.parse(rawJSONStarters);
     let rawJSONItems = fs.readFileSync(path.resolve(__dirname, '../../json_files/ub_data/items.json'));
     let JSONItems = JSON.parse(rawJSONItems);
 
     console.log("|- Loading runes ...");
+    log.print("loading runes", 1);
     let rawJSONRunes = fs.readFileSync(path.resolve(__dirname, '../../json_files/ub_data/runes.json'));
     let JSONRunes = JSON.parse(rawJSONRunes);
 
     console.log("|- Loading summoners ...");
+    log.print("loading summoners", 1);
     let rawJSONSum = fs.readFileSync(path.resolve(__dirname, '../../json_files/ub_data/summoners.json'));
     let JSONSum = JSON.parse(rawJSONSum);
 
@@ -79,6 +87,7 @@ function ub (message) {
         let msgUBStuffEmbed = createEmbed(JSONEmbed['msgUBStuffEmbed']['color'], JSONEmbed['msgUBStuffEmbed']['title'], JSONEmbed['msgUBStuffEmbed']['thumbnail'], JSONEmbed['msgUBStuffEmbed']['description'], JSONEmbed['msgUBStuffEmbed']['field'], embedOptions)
 
         message.channel.send({embeds: [msgUBStuffEmbed]});
+        log.print("success message sent", 1);
         return;
     }
 
@@ -93,6 +102,7 @@ function ub (message) {
         let msgUBChampEmbed = createEmbed(JSONEmbed['msgUBChampEmbed']['color'], JSONEmbed['msgUBChampEmbed']['title'], JSONEmbed['msgUBChampEmbed']['thumbnail'], JSONEmbed['msgUBChampEmbed']['description'], JSONEmbed['msgUBChampEmbed']['field'], embedOptions)
         message.channel.send({embeds: [msgUBChampEmbed]});
 
+        log.print("success message sent", 1);
         return;
     }
 
@@ -289,6 +299,7 @@ function ub (message) {
     let msgUBEmbed = createEmbed(JSONEmbed['msgUBEmbed']['color'], JSONEmbed['msgUBEmbed']['title'], JSONEmbed['msgUBEmbed']['thumbnail'], JSONEmbed['msgUBEmbed']['description'], JSONEmbed['msgUBEmbed']['field'], embedOptions)
 
     message.channel.send({embeds: [msgUBEmbed]});
+    log.print("success message sent", 1);
 
 }
 

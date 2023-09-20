@@ -2,6 +2,7 @@ const axios = require('axios');
 const path = require("path");
 
 const { EmbedBuilder } = require('discord.js');
+const log = require('../../../assets/log');
 
 const API_KEY = process.env.API_KEY;
 
@@ -21,6 +22,7 @@ async function rank(message, region) {
     }
 
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for lol data about : " + summonerName);
+    log.print("asked for lol data about : " + summonerName, message.author, message.content);
 
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor("#d2b915");
@@ -29,12 +31,14 @@ async function rank(message, region) {
     msgEmbed.setFooter({text:"Pour plus d'informations utiliser la commande \"rank help\""});
 
     console.log("|-- fetching data for summoner : " + summonerName + " | from : " + region);
+    log.print("fetching data for summoner : \" + summonerName + \" | from : \" + region", 1);
     let dataFound = true;
     let summonerId;
     await axios.get(`https://${region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${summonerName}?api_key=${API_KEY}`)
         .then((r) => {
             summonerId = r.data.id;
             console.log("|-- Summoner found ! id : " + summonerId);
+            log.print("summoner found, id : " + summonerId, 1);
         })
         .catch((error) => {
             console.log("|-- " + error.response.data.status.message);
@@ -43,6 +47,7 @@ async function rank(message, region) {
             message.channel.send({embeds: [msgEmbed]});
 
             dataFound = false;
+            log.print("error : this summoner name doesn't exist if the specified region", 1);
         });
 
 
@@ -51,16 +56,19 @@ async function rank(message, region) {
     }
 
     console.log("|-- fetching summoner data ...");
+    log.print("fetching summoner data", 1);
 
     dataFound = true;
     let rankedData;
     await axios.get(`https://${region}.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${API_KEY}`)
         .catch((error) => {
             console.log("|-- " + error.response.data.status.message);
+            log.print("error : " + error.response.data.status.message, 1);
             dataFound = false;
         })
         .then((r) => {
             console.log("|-- data found !");
+            log.print("data found", 1);
             rankedData = r;
         });
 
@@ -94,6 +102,7 @@ async function rank(message, region) {
 
             console.log("|-- summoner only plays solo q");
             console.log("|-- summoner data successfully sent");
+            log.print("success message sent", 1);
             return;
         }
 
@@ -130,6 +139,7 @@ async function rank(message, region) {
 
             console.log("|-- summoner only plays flex q");
             console.log("|-- summoner data successfully sent");
+            log.print("success message sent", 1);
             return;
         }
 
@@ -155,7 +165,8 @@ async function rank(message, region) {
     msgEmbed.addFields({name: "LP", value: lpF.toString(), inline: true});
 
     message.channel.send({embeds: [msgEmbed], files: [path.resolve(__dirname, "../../../assets/lol/emblems/emblem-" + tierS.toLowerCase() + ".png")]});
-    console.log("|-- summoner data successfully sent");
+    console.log("|-- summoner data successfully sent")
+    log.print("success message sent", 1);
 }
 
 function help(message) {
@@ -172,6 +183,7 @@ function help(message) {
     msgEmbed.addFields({name : "Valeurs du paramètre region", value: "br1, eun1, euw1, jp1, kr, la1, la2, na1, oc1, tr1, ru, ph2, sg2, th2, tw2, vn2, americas, asia, europe, sea"});
     message.channel.send({embeds: [msgEmbed]});
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for rank command.");
+    log.print("asked help for rank command", message.author, message.content);
 }
 
 async function execute(message) {

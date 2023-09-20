@@ -6,16 +6,21 @@ const axios = require('axios');
 
 const { EmbedBuilder } = require('discord.js');
 
+const log = require('../../assets/log');
+
 let memesData;
 
 try {
     console.log("|-- Loading memes' data from meme.json ...");
+    log.print("loading memes' data from meme.json", 1);
     const rawData = fs.readFileSync(path.resolve(__dirname, "../../json_files/meme.json"));
     if (rawData.length === 0) {
         console.log("|-- no data found, creating empty array");
         memesData = [];
+        log.print("no data found, creating empty array", 1);
     } else {
-        console.log("|-- data found ! fetching data")
+        console.log("|-- data found ! fetching data");
+        log.print("data found, fetching data", 1);
         memesData = JSON.parse(rawData);
     }
 } catch (err) {
@@ -25,9 +30,12 @@ try {
     console.log("|-- creating file and empty array");
     fs.writeFileSync(path.resolve(__dirname, "../../json_files/meme.json"), []);
     memesData = [];
+    log.print("no file named meme.json found, creating a new file and initializing new array", 1);
 }
 
 async function showMeme(message) {
+    log.print("tried to get a meme", message.author, message.content);
+
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor("#34aec0");
     msgEmbed.setTitle("Meme");
@@ -39,6 +47,7 @@ async function showMeme(message) {
         msgEmbed.setColor("#ff0000");
 
         message.channel.send({embeds: [msgEmbed]});
+        log.print("error : meme list is empty");
         return;
     }
 
@@ -60,6 +69,7 @@ async function showMeme(message) {
             let index = args[3].lastIndexOf('=');
             args[3] = args[3].substring(index + 1);
             console.log(`|-- youtube video found, thumbnail link : https://img.youtube.com/vi/${args[3]}/hqdefault.jpg`);
+            log.print("youtube video found, getting thumbnail link", 1);
             msgEmbed.setImage(`https://img.youtube.com/vi/${args[3]}/hqdefault.jpg`);
         } else if (regexTenorGif.test(meme['link'])) {
             let imageLink;
@@ -71,24 +81,31 @@ async function showMeme(message) {
 
                     imageLink = $(imgTags[2]).attr('src');
                     console.log("|-- gif found : " + imageLink);
+                    log.print("gif found, getting gif link", 1);
                 })
                 .catch(e => {
                     console.log('|-- error : ' + e);
+                    log.print("error : " + e, 1);
                 });
             console.log(imageLink);
+            log.print("link fecthed : " + imageLink, 1);
             msgEmbed.setImage(imageLink);
         } else if (imageExtension.test(meme['link'])) {
             console.log("|-- image found");
+            log.print("image found", 1);
             msgEmbed.setImage(meme['link']);
         } else {
             console.log("|-- not a gif or yt video, deleting image preview");
+            log.print("not a gif or a youtube video, deleting image preview", 1);
         }
     }
 
     message.channel.send({embeds: [msgEmbed]});
+    log.print("success message sent", 1);
 }
 
 function addMeme(message) {
+    log.print("tried to add a meme", message.author, message.content);
     let args = message.content.split(" ");
 
     let msgEmbed = new EmbedBuilder();
@@ -106,6 +123,7 @@ function addMeme(message) {
         msgEmbed.setColor("#ff0000");
 
         console.log("|-- action is impossible : no link given");
+        log.print("action is impossible : no link given", 1, message.content);
         message.channel.send({embeds: [msgEmbed]});
         return;
     } else if (!regex.test(args[2])){
@@ -114,6 +132,7 @@ function addMeme(message) {
         msgEmbed.setColor("#ff0000");
 
         console.log("|-- action is impossible : not a link");
+        log.print("action is impossible : not a link", 1, message.content);
         message.channel.send({embeds: [msgEmbed]});
         return;
     } else {
@@ -124,6 +143,7 @@ function addMeme(message) {
                 msgEmbed.setColor("#ff0000");
 
                 console.log("|-- action is impossible : meme already exist");
+                log.print("action is impossible : meme already exist", 1, message.content);
                 stop = !stop;
                 message.channel.send({embeds: [msgEmbed]});
             }
@@ -142,11 +162,13 @@ function addMeme(message) {
 
     let newData = JSON.stringify(memesData);
     fs.writeFileSync(path.resolve(__dirname, "../../json_files/meme.json"), newData);
+    log.print("successfully uploaded meme", 1);
 
     console.log("|-- successfully upload meme");
 
     msgEmbed.addFields({name: "Ajout du meme réussi", value: " "});
     message.channel.send({embeds: [msgEmbed]});
+    log.print("success message sent", 1);
 }
 
 function help(message) {
@@ -166,6 +188,7 @@ function help(message) {
     msgEmbed.addFields({name: "Description", value: "La commande permet de sauvegarder un meme ou d'en tirer un au hasard."})
 
     message.channel.send({embeds: [msgEmbed]});
+    log.print("asked help for meme command", message.author, message.content);
 }
 
 function execute (message) {

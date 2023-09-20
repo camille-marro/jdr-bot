@@ -1,5 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 
+const log = require("../../assets/log");
+
 function help (message) {
 
     let args = message.content.split(" ");
@@ -9,6 +11,7 @@ function help (message) {
 
     if (args[1] === "roll") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for roll command");
+        log.print("asked help for roll command", message.author, message.content);
 
         msgEmbed.setTitle("Help - roll");
         msgEmbed.setDescription("Lancer des dés de plusieurs faces");
@@ -20,6 +23,7 @@ function help (message) {
         msgEmbed.setFooter({text : "Pour plus d'informations utiliser la commande \"roll help\""});
     } else if (args[1] === "config") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for config command");
+        log.print("asked help for config command", message.author, message.content);
 
         msgEmbed.setTitle("Help - config");
         msgEmbed.setDescription("Mettre à jouer la configuration du bot");
@@ -31,6 +35,7 @@ function help (message) {
         msgEmbed.setFooter({text : "Pour plus d'informations utiliser la commande \"config help\""});
     } else if (args[1] === "ub") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for ub command");
+        log.print("asked help for ub command", message.author, message.content);
 
         msgEmbed.setTitle("Help - ub");
         msgEmbed.setDescription("Lancer une partie d'Ultimate Bravery");
@@ -41,6 +46,7 @@ function help (message) {
         msgEmbed.setFooter({text : "Pour plus d'informations utiliser la commande \"ub help\""});
     } else if (args[1] === "play") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for play command");
+        log.print("asked help for play command", message.author, message.content);
 
         msgEmbed.setTitle("Help - play");
         msgEmbed.setDescription("Lire un son à partir d'un lien ou d'une recherche sur Youtube");
@@ -51,6 +57,7 @@ function help (message) {
         msgEmbed.setFooter({text : "Pour plus d'informations utiliser la commande \"play help\""});
     } else if (args[1] === "pause") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked pause for skip command");
+        log.print("asked help for pause command", message.author, message.content);
 
         msgEmbed.setTitle("Help - pause");
         msgEmbed.setDescription("Mettre en pause la lecture");
@@ -59,6 +66,7 @@ function help (message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"pause help\""});
     } else if (args[1] === "resume") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked resume for skip command");
+        log.print("asked help for resume command", message.author, message.content);
 
         msgEmbed.setTitle("Help - resume");
         msgEmbed.setDescription("Reprendre la lecture");
@@ -67,6 +75,7 @@ function help (message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"resume help\""});
     } else if (args[1] === "stop") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for stop command");
+        log.print("asked help for stop command", message.author, message.content);
 
         msgEmbed.setTitle("Help - stop");
         msgEmbed.setDescription("Arrêter la lecture");
@@ -75,6 +84,7 @@ function help (message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"stop help\""});
     } else if (args[1] === "skip") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for skip command");
+        log.print("asked help for skip command", message.author, message.content);
 
         msgEmbed.setTitle("Help - skip");
         msgEmbed.setDescription("Passer la lecture d'un son ou passer à un son spécifique dans la queue");
@@ -85,6 +95,7 @@ function help (message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"skip help\""});
     } else if (args[1] === "loop") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for loop command");
+        log.print("asked help for loop command", message.author, message.content);
 
         msgEmbed.setTitle("Help - loop");
         msgEmbed.setDescription("Activer ou désactiver la lecture en boucle de la queue");
@@ -93,6 +104,7 @@ function help (message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"loop help\""});
     } else if (args[1] === "queue") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for queue command");
+        log.print("asked help for queue command", message.author, message.content);
 
         msgEmbed.setTitle("Help - queue");
         msgEmbed.setDescription("Afficher la queue");
@@ -101,6 +113,7 @@ function help (message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"queue help\""});
     } else if (args[1] === "ping") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for ping command");
+        log.print("asked help for ping command", message.author, message.content);
 
         msgEmbed.setTitle("Help - ping");
         msgEmbed.setDescription("Tester si le bot répond");
@@ -109,6 +122,7 @@ function help (message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"ping help\""});
     } else if (args[1] === "film") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for film command");
+        log.print("asked help for film command", message.author, message.content);
 
         msgEmbed.setTitle("Help - film");
         msgEmbed.setDescription("Propose un film aléatoire parmis le TOP 3 de chaque utilisateurs");
@@ -117,6 +131,7 @@ function help (message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"film help\""});
     } else if (args[1] === "meme") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for meme command");
+        log.print("asked help for meme command", message.author, message.content);
 
         msgEmbed.setTitle("Help - meme");
         msgEmbed.setDescription("Montre un meme stocké par les utilisateurs");
@@ -125,6 +140,7 @@ function help (message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"meme help\""});
     } else if (args[1] === "rank") {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for rank command");
+        log.print("asked help for rank command", message.author, message.content);
 
         msgEmbed.setTitle("Help - rank");
         msgEmbed.setDescription("Affiche le rang lol d'un joueur en fonction de son pseudo sur le jeu");
@@ -137,6 +153,7 @@ function help (message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"rank help\""});
     } else {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked for help");
+        log.print("asked help for all command", message.author, message.content);
 
         msgEmbed.addFields({name: "roll [nb_lancers]d[nb_faces]", value: "Lancer des dés de plusieurs faces"});
         msgEmbed.addFields({name: "config [param] [valeur]", value: "Mettre à jour la configuration du bot"});

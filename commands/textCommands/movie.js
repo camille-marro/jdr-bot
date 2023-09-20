@@ -192,7 +192,7 @@ function film(message) {
 
         console.log("|-- action is impossible : no data to fetch");
         message.channel.send({embeds: [msgEmbed]});
-        /* @TODO */
+        log.print("action is impossible : no data to fetch", 1);
         return;
     }
 
@@ -202,12 +202,14 @@ function film(message) {
     while (filmsData[user]['id'] === message.member.id) user = Math.floor(Math.random() * filmsData.length);
 
     console.log("|-- film fetched : " + filmsData[user]['top'][indiceFilm]['name'] + "submitted by " + filmsData[user]['name'])
+    log.print("film successfully fetched", 1);
 
     msgEmbed.addFields({name: "Film proposé", value: filmsData[user]['top'][indiceFilm]['name'], inline: true});
     msgEmbed.addFields({name: "Soumis par", value: filmsData[user]['name'], inline: true});
     msgEmbed.addFields({name: "Note", value: filmsData[user]['top'][indiceFilm]['note'], inline: true});
 
     message.channel.send({embeds: [msgEmbed]});
+    log.print("success message sent", 1);
 }
 
 function getFilm(message) {
@@ -222,9 +224,11 @@ function getFilm(message) {
     let id;
     if (args[2]) {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to get the top 3 of " + args[2]);
+        log.print("tried to get a top 3 of " + args[2], message.author, message.content);
         id = args[2].substring(2, args[2].length - 1);
     } else {
         console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to get his/her top 3.");
+        log.print("tried to get his/her top 3", message.author, message.content);
         id = message.member.id;
     }
 
@@ -248,6 +252,7 @@ function getFilm(message) {
 
     if (!filmFound) {
         console.log("|-- no data found, user doesn't have a top 3");
+        log.print("error : no data found for user", 1);
         msgEmbed.setColor("#ff0000");
         msgEmbed.addFields({name: "Erreur de récupération", value: "Aucun top 3 n'a été trouvé"});
 
@@ -257,6 +262,7 @@ function getFilm(message) {
 
     console.log("|-- successfully fetched top 3")
     message.channel.send({embeds: [msgEmbed]});
+    log.print("success message sent", 1);
 }
 
 function help(message) {

@@ -4,6 +4,8 @@ const os = require("os");
 
 const { EmbedBuilder } = require('discord.js');
 
+const log = require('../../../assets/log');
+
 function execute (message) {
     let args = message.content.split(" ");
 
@@ -14,6 +16,7 @@ function execute (message) {
     let new_api_key = args[1];
 
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to update lol api key to : " + new_api_key + ".");
+    log.print("trie to update lol api key to " + new_api_key, message.author, message.content);
 
     const regex = /^RGAPI-[A-Za-z0-9]{8}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{4}-[A-Za-z0-9]{12}$/;
     if (!regex.test(new_api_key)) {
@@ -24,6 +27,7 @@ function execute (message) {
         message.channel.send({embeds: [msgEmbed]});
 
         console.log("|-- update impossible, new api key is not conform");
+        log.print("error : new api key is not conform", 1, message.content);
         return;
     }
 
@@ -38,6 +42,7 @@ function execute (message) {
     fs.writeFileSync(path.resolve(__dirname, "../../../.env"), env_vars.join(os.EOL));
 
     console.log("|-- api key successfully updated");
+    log.print("api key successfully updated", 1);
 
     msgEmbed.setDescription("Mise à jour effectuée avec succès !");
     message.channel.send({embeds: [msgEmbed]});
