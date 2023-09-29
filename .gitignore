@@ -139,13 +139,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-#sensible datas
-.data
-json_files/films.json
-json_files/lol.json
-json_files/jdr.json
-commands/textCommands/lol/elochecker.js
-commands/textCommands/jdr.js
-
 #useless datas
 logs.txt
