@@ -1,0 +1,244 @@
+{
+  "personnages": [
+    {
+      "name": "J1",
+      "id": 0,
+      "private": true,
+      "idDiscord": "198381114602160128",
+      "pseudo": "/",
+      "desc": "Personnage lambda",
+      "race": "Humain",
+      "job": "Explorateur",
+      "age": 0,
+      "sex": "/",
+      "magic": "Magie des portes",
+      "stats": {
+        "Int": "50",
+        "For": "50",
+        "Cha": "30",
+        "Dex": "90",
+        "CS": "70",
+        "MC": "20",
+        "Dis": "60",
+        "Inti": "30",
+        "Sur": "70",
+        "Per": "70",
+        "Soi": "40",
+        "CAC": "50",
+        "CAD": "70",
+        "Mag": "50",
+        "Tal": "70"
+      },
+      "talent": "Langues anciennes",
+      "inv": [
+        {
+          "name": "Lasso",
+          "desc": "Un lasso tah Indiana Jones",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "@TODO",
+          "desc": "@TODO",
+          "price": "@TODO"
+        },
+        {
+          "name": "La grosse daronne a lori",
+          "desc": "Wallah elle est tout pipou",
+          "price": "@TODO"
+        }
+      ],
+      "money": 20
+    },
+    {
+      "name": "J2",
+      "id": 0,
+      "private": true,
+      "idDiscord": "1",
+      "pseudo": "/",
+      "desc": "Personnage lambda",
+      "race": "Humain",
+      "job": "Cartographe",
+      "age": 0,
+      "sex": "/",
+      "magic": "Magie animale : Aigle",
+      "stats": {
+        "Int": "80",
+        "For": "40",
+        "Cha": "50",
+        "Dex": "70",
+        "CS": "60",
+        "MC": "60",
+        "Dis": "30",
+        "Inti": "20",
+        "Sur": "50",
+        "Per": "80",
+        "Soi": "20",
+        "CAC": "60",
+        "CAD": "60",
+        "Mag": "70",
+        "Tal": "70"
+      },
+      "talent": "Connaissance du monde",
+      "inv": [],
+      "money": 20
+    },
+    {
+      "name": "J3",
+      "id": 0,
+      "private": true,
+      "idDiscord": "1",
+      "pseudo": "/",
+      "desc": "Personnage lambda",
+      "race": "Humain",
+      "job": "Orfèvre",
+      "age": 0,
+      "sex": "/",
+      "magic": "Magie du commerce",
+      "stats": {
+        "Int": "70",
+        "For": "30",
+        "Cha": "80",
+        "Dex": "40",
+        "CS": "50",
+        "MC": "80",
+        "Dis": "60",
+        "Inti": "30",
+        "Sur": "20",
+        "Per": "60",
+        "Soi": "50",
+        "CAC": "50",
+        "CAD": "50",
+        "Mag": "80",
+        "Tal": "70"
+      },
+      "talent": "Marchandage",
+      "inv": [
+        {
+          "name": "@TODO",
+          "desc": "@TODO",
+          "price": "@TODO"
+        }
+      ],
+      "money": 20
+    },
+    {
+      "name": "J4",
+      "id": 0,
+      "private": true,
+      "idDiscord": "1",
+      "pseudo": "/",
+      "desc": "Personnage lambda",
+      "race": "Humain",
+      "job": "Garde",
+      "age": 0,
+      "sex": "/",
+      "magic": "Magie du printemps",
+      "stats": {
+        "Int": "40",
+        "For": "90",
+        "Cha": "60",
+        "Dex": "60",
+        "CS": "70",
+        "MC": "50",
+        "Dis": "30",
+        "Inti": "70",
+        "Sur": "20",
+        "Per": "50",
+        "Soi": "30",
+        "CAC": "80",
+        "CAD": "40",
+        "Mag": "60",
+        "Tal": "70"
+      },
+      "talent": "Crochetage",
+      "inv": [
+        {
+          "name": "Lance du printemps",
+          "desc": "@TODO",
+          "price": "@TODO"
+        }
+      ],
+      "money": 20
+    },
+    {
+      "name": "J5",
+      "id": 0,
+      "private": true,
+      "idDiscord": "1",
+      "pseudo": "/",
+      "desc": "Personnage lambda",
+      "race": "Humain",
+      "job": "Scientifique",
+      "age": 0,
+      "sex": "/",
+      "magic": "Magie de la gravité",
+      "stats": {
+        "Int": "90",
+        "For": "40",
+        "Cha": "40",
+        "Dex": "70",
+        "CS": "60",
+        "MC": "30",
+        "Dis": "60",
+        "Inti": "20",
+        "Sur": "30",
+        "Per": "70",
+        "Soi": "70",
+        "CAC": "30",
+        "CAD": "70",
+        "Mag": "70",
+        "Tal": "70"
+      },
+      "talent": "Connaissances hasardeuses",
+      "inv": [
+        {
+          "name": "Cube d'or",
+          "desc": "Petit cube de 20cm en or pur",
+          "price": 50,
+          "size": 4
+        }
+      ],
+      "money": 20
+    },
+    {
+      "name": "J6",
+      "id": 0,
+      "private": true,
+      "idDiscord": "144895079897628672",
+      "pseudo": "/",
+      "desc": "Personnage lambda",
+      "race": "Humain",
+      "job": "Forgeron",
+      "age": 0,
+      "sex": "/",
+      "magic": "Magie d'enchantement de l'acier",
+      "stats": {
+        "Int": "70",
+        "For": "70",
+        "Cha": "50",
+        "Dex": "30",
+        "CS": "50",
+        "MC": "60",
+        "Dis": "30",
+        "Inti": "50",
+        "Sur": "60",
+        "Per": "50",
+        "Soi": "30",
+        "CAC": "70",
+        "CAD": "40",
+        "Mag": "90",
+        "Tal": "70"
+      },
+      "talent": "Forgeage",
+      "inv": [
+        {
+          "name": "@TODO",
+          "desc": "@TODO",
+          "price": "@TODO"
+        }
+      ],
+      "money": 20
+    }
+  ]
+}
