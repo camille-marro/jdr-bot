@@ -34,7 +34,7 @@ function queue(message) {
         return;
     }
 
-    if (!serverQueue.tracks.toArray().length && !serverQueue.currentTrack) {
+    if (serverQueue.tracks.toArray().length === 0 || !serverQueue.currentTrack) {
         console.log("|-- action is impossible : queue is empty.");
         log.print("action is impossible : queue is empty", 1);
         msgEmbed.addFields({ name : "Action impossible", value: "La queue est vide"});
@@ -47,7 +47,7 @@ function queue(message) {
     let i = 1;
 
     console.log("|-- queue found : ");
-    log.print("queue found, printing queue", 1);
+    log.print("queue found", 1);
 
     msgEmbed.addFields({name : "Statut de la queue", value:" "});
     serverQueue.tracks.toArray().slice(0, serverQueue.tracks.toArray().length).forEach((track) => {
