@@ -25,6 +25,10 @@ function getInfos(message) {
     }
 
     let args = message.content.split(" ");
+    if (args[2] === "help") {
+        infoHelp(message);
+        return;
+    }
     let personnageToFind = "";
     for (let i = 2; i < args.length; i++) {
         personnageToFind += (args[i] + " ");
@@ -95,8 +99,10 @@ function printFullPersonnage(personnage) {
     msgEmbed.addFields({name: "Combat rapproché", value: personnage["stats"]["CAC"], inline: true});
     msgEmbed.addFields({name: "Combat à distance", value: personnage["stats"]["CAD"], inline: true});
 
+    msgEmbed.addFields({name: "Réflèxes", value: personnage["stats"]["Ref"]});
+
     msgEmbed.addFields({name: "Magie", value: personnage["stats"]["Mag"], inline: true});
-    msgEmbed.addFields({name: "Talent", value: personnage["stats"]["Tal"], inline: true});
+    msgEmbed.addFields({name: personnage["talent"], value: personnage["stats"]["Tal"], inline: true});
 
     return msgEmbed;
 }
@@ -192,6 +198,11 @@ function searchPersonnageByIdDiscord(id) {
 
 function getPersonalInfos(message) {
     log.print("tried to get info about his/her rpg character", message.author, message.content);
+    let args = message.content.split(" ");
+    if (args[2] === "help") {
+        ficheHelp(message);
+        return;
+    }
     let id = message.author.id;
 
     let personnage = searchPersonnageByIdDiscord(id);
@@ -215,6 +226,11 @@ function getPersonalInfos(message) {
 
 function getInventory(message) {
     log.print("tried to get inventory of his/her rpg character", message.author, message.content);
+    let args = message.content.split(" ");
+    if (args[2] === "help") {
+        invHelp(message);
+        return;
+    }
     let id = message.author.id;
 
     let personnage = searchPersonnageByIdDiscord(id);
@@ -313,10 +329,14 @@ function updateData() {
     log.print("jdrData has been successfully updated", 1);
 }
 
-// @TODO : check si inv vide ajouté
 function addInventory(message) {
     log.print("tried to add an item to his/her rpg character inventory", message.author, message.content);
     let id = message.author.id;
+    let args = message.content.split(" ");
+    if (args[2] === "help") {
+        addHelp(message);
+        return;
+    }
 
     let personnage = searchPersonnageByIdDiscord(id);
 
@@ -332,16 +352,26 @@ function addInventory(message) {
         return;
     }
 
-    let args = message.content.split(" ");
+
     let newItemRaw = "";
     for(let i = 2; i < args.length; i++) newItemRaw += args[i] + " ";
     newItemRaw = newItemRaw.slice(0,-1); // supprime le dernier " "
     let newItemFields = parseNewItem(newItemRaw);
 
     let newItem = {};
-    newItem["name"] = newItemFields[0];
-    if(newItemFields.length > 1) newItem["desc"] = newItemFields[1];
-    if(newItemFields.length > 2) newItem["size"] = parseInt(newItemFields[2]);
+    if (newItem["name"] === "") newItem["name"] = "@TODO";
+    else newItem["name"] = newItemFields[0];
+    if(newItemFields.length > 1) {
+        if (newItemFields[1] === "") newItem["desc"] = "@TODO";
+        else newItem["desc"] = newItemFields[1];
+    }
+    if(newItemFields.length > 2) {
+        if (newItemFields[2] === "") newItem["size"] = 1;
+        else newItem["size"] = parseInt(newItemFields[2]);
+    } else {
+        newItem["size"] = 1;
+    }
+
     newItem["price"] = "@TODO";
 
     personnage["inv"].push(newItem);
@@ -373,10 +403,14 @@ function parseNewItem(itemRaw) {
     return newFields;
 }
 
-// @TODO : check si rien supprimé
 function removeInventory(message) {
     log.print("tried to remove an item from his/her rpg character inventory", message.author, message.content);
     let args = message.content.split(" ");
+
+    if(args[2] === "help") {
+        removeHelp(message);
+        return;
+    }
 
     let id = message.author.id;
     let personnage = searchPersonnageByIdDiscord(id);
@@ -393,16 +427,32 @@ function removeInventory(message) {
         return;
     }
 
+    let remove;
+    let item = "";
     const regex = /\d+/g;
     if (regex.test(args[2])) {
-        let item = "";
         for (let i = 3; i < args.length; i++) {
             item += args[i] + " ";
         }
         item = item.slice(0,-1);
-        removeXItems(parseInt(args[2]), item, personnage);
+        remove = removeXItems(parseInt(args[2]), item, personnage);
     } else {
-        removeXItems(0, args[2], personnage);
+        for (let i = 2; i < args.length; i++) {
+            item += args[i] + " ";
+        }
+        item = item.slice(0,-1);
+        remove = removeXItems(-1, item, personnage);
+    }
+
+    if (!remove) {
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur - objet non trouvé");
+        msgEmbed.setDescription("Aucun objet portant le nom : \"" + item + "\" n'a été trouvé.\nSi vous pensez qu'il s'agit d'une erreur essayer la command jdr inv pour accéder à votre inventaire actuel.");
+        msgEmbed.setFooter({text: "Pour plus d'infos utiliser la commande \"jdr help\""});
+        message.channel.send({embeds: [msgEmbed]});
+
+        log.print("error message sent", 1);
+        return;
     }
 
     msgEmbed.setColor("#dc8f52");
@@ -417,9 +467,13 @@ function removeXItems(quantity, itemToFind, personnage) {
     log.print("looking for item to remove", 1);
     let items = personnage["inv"];
     let finalItems = [];
+    let itemFound = false;
 
+    if (quantity === -1) quantity = 250000;
     items.forEach((item) => {
         if (item["name"] === itemToFind) {
+            itemFound = true;
+            log.print("item found !", 1);
             if (quantity > 0) {
                 item["size"] = item["size"] - quantity;
                 // si la quantité est 0 ou moins on supprime l'item
@@ -436,9 +490,103 @@ function removeXItems(quantity, itemToFind, personnage) {
             finalItems.push(item);
         }
     });
+    if (!itemFound) {
+        log.print("No item has been found", 1);
+        return false;
+    }
     personnage["inv"] = finalItems;
     log.print("character inventory has been updated in local", 1);
     updateData();
+}
+
+function help(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - HELP");
+    msgEmbed.setDescription("Ces commandes sont utilisées pour consulter diverses informations à propos du JDR, elles n'ont aucune autre utilité.");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr [commande] help\""});
+
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr [commande]"});
+    msgEmbed.addFields({name: "Paramètre", value: " ", inline: true});
+    msgEmbed.addFields({name: "commande", value: "info / fiche / inv / add / remove", inline: true});
+    msgEmbed.addFields({name: "Exemple de commande", value: "jdr inv"});
+
+    message.channel.send({embeds: [msgEmbed]});
+}
+
+function infoHelp(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Info");
+    msgEmbed.setDescription("Permet d'obtenir des informations sur un personnage grâce à son nom");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr info [nom]"});
+    msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
+    msgEmbed.addFields({name: "nom", value: "Nom du personnage à chercher", inline: true});
+    msgEmbed.addFields({name: "Exemple de commande", value: "jdr info Tristan"});
+
+    message.channel.send({embeds: [msgEmbed]});
+}
+
+function ficheHelp(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Fiche");
+    msgEmbed.setDescription("Permet d'afficher la fiche personnage de son personnage. La commande ne fonctionne que si un personnage est rattaché à son ID Discord, si ce n'est pas le cas voir avec le MJ");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr fiche"});
+    msgEmbed.addFields({name: "Exemple de commande", value: "jdr fiche"});
+
+    message.channel.send({embeds: [msgEmbed]});
+}
+
+function invHelp(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Inventaire");
+    msgEmbed.setDescription("Permet d'afficher l'inventaire de son personnage.");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr inventaire"});
+    msgEmbed.addFields({name: "Alias", value: " ", inline: true});
+    msgEmbed.addFields({name: "inv", value: "Exemple : jdr inv", inline: true});
+    msgEmbed.addFields({name: "Exemple de commande", value: "jdr inventaire"});
+
+    message.channel.send({embeds: [msgEmbed]});
+}
+
+function addHelp(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Add");
+    msgEmbed.setDescription("Permet d'ajouter des objets dans l'inventaire de son personnage. Veillez à toujours remplir les deux premiers champs avec au moins un caratère (un espace ou /)");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr add [nom_objet];[description_objet];[quantité:optionnel]"});
+    msgEmbed.addFields({name: "Paramètres", value: " "});
+    msgEmbed.addFields({name: "nom_objet", value: "Le nom de l'objet a ajouter, il peut contenir des espaces", inline: true});
+    msgEmbed.addFields({name: "description_objet", value: "La description de l'objet a ajouter, elle peut contenir des espaces", inline: true});
+    msgEmbed.addFields({name: "quantite:optionnel", value: "La quantite d'objet a ajouter dans l'inventaire", inline: true});
+    msgEmbed.addFields({name: "Exemple de commande", value: "jdr add épée de fou furieux;une épée de zinzin qui tabasse tout;1"});
+
+    message.channel.send({embeds: [msgEmbed]});
+}
+
+function removeHelp(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Remove");
+    msgEmbed.setDescription("Permet de supprimer des objets de l'inventaire de son personnage. Si aucune quantité n'est indiquée, supprime directement l'objet ou le stock d'objet");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr remove [quantite:optionnel] [nom_objet]"});
+    msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
+    msgEmbed.addFields({name: "quantite:optionnel", value: "quantité d'objet à supprimer du stock", inline: true});
+    msgEmbed.addFields({name: "nom_objet", value: "Nom de l'objet à supprimer", inline: true});
+    msgEmbed.addFields({name: "Alias", value: " ", inline: true});
+    msgEmbed.addFields({name: "remove", value: "delete / del", inline: true});
+    msgEmbed.addFields({name: "Exemples de commande", value: " "});
+    msgEmbed.addFields({name: "jdr remove épée de fou furieux", value: "supprimer s'il existe l'objet appelé \"épée de fou furieux\" de l'inventaire", inline: true});
+    msgEmbed.addFields({name: "jdr remove 5 flèches", value: "Supprimera 5 flèches du stock de l'objet \"flèches\" s'il existe. \nSi le stock devient inférieur ou égale à 0 alors l'objet sera supprimé", inline: true});
+
+    message.channel.send({embeds: [msgEmbed]});
 }
 
 function execute(message) {
@@ -453,8 +601,10 @@ function execute(message) {
         getInventory(message);
     } else if (args[1] === "add") {
         addInventory(message);
-    } else if (args[1] === "remove") {
+    } else if (args[1] === "remove" || args[1] === "delete" || args[1] === "del") {
         removeInventory(message);
+    } else if (args[1] === "help") {
+        help(message);
     }
 }
 
