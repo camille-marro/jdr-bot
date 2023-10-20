@@ -260,7 +260,7 @@ function createPerso(message) {
     log.print("tried to create an new rpg character", message.author, message.content);
 
     let args = message.content.split(" ");
-    if(args[1] === "help") {
+    if(args[2] === "help") {
         createHelp(message);
         log.print("asked help for jdr create command", message.author, message.content);
         return;
@@ -441,7 +441,7 @@ function removeInventory(message) {
 
     let remove;
     let item = "";
-    const regex = /\d+/g;
+    const regex = /\d+$/g;
     if (regex.test(args[2])) {
         for (let i = 3; i < args.length; i++) {
             item += args[i] + " ";
@@ -511,6 +511,130 @@ function removeXItems(quantity, itemToFind, personnage) {
     updateData();
 }
 
+function payer(message) {
+    log.print("tried to pay with his/her rpg character", message.author, message.content);
+    let args = message.content.split(" ");
+    if (args[2] === "help") {
+        payerHelp(message);
+        log.print("asked help for jdr payer command", message.author, message.content);
+        return;
+    }
+    let id = message.author.id;
+
+    let personnage = searchPersonnageByIdDiscord(id);
+
+    let msgEmbed = new EmbedBuilder();
+    if (!personnage) {
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Aucun personnage trouvé pour vous ! ");
+        msgEmbed.setDescription("Aucun personnage n'est associé à votre id.");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending message error : no character linked to this person", 1);
+        return;
+    }
+
+    const regex = /[^0-9]+/;
+    if (!regex.test(args[2])) {
+        if (parseInt(args[2]) > 0) {
+            if (personnage['money'] - parseInt(args[2]) < 0) {
+                msgEmbed.setColor("#ff0000");
+                msgEmbed.setTitle("Erreur : somme trop grande détectée !");
+                msgEmbed.setDescription("La somme saisie est incorrecte, vous ne pouvez pas avoir un nombre négatif de po")
+                msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+
+                message.channel.send({embeds: [msgEmbed]});
+                log.print("sending message error : incorrect data, can't have less than 0 po", 1, message.content);
+            } else {
+                personnage['money'] = personnage['money'] - args[2];
+                msgEmbed.setColor("#dc8f52");
+                msgEmbed.setTitle("Argent actualisé !");
+                msgEmbed.addFields({name: "Votre argent", value: personnage['money'].toString()});
+
+                msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+
+                message.channel.send({embeds: [msgEmbed]});
+                log.print("money successfully updated", 1);
+                updateData();
+            }
+        } else {
+            msgEmbed.setColor("#ff0000");
+            msgEmbed.setTitle("Erreur : somme négative détectée !");
+            msgEmbed.setDescription("La somme saisie est incorrecte, veuillez saisir un somme supérieur à 0")
+            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+
+            message.channel.send({embeds: [msgEmbed]});
+            log.print("sending message error : incorrect data, data must > 0", 1, message.content);
+        }
+    } else {
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : pas de nombre détecté !");
+        msgEmbed.setDescription("La somme saisie est incorrecte, veuillez saisir un nombre supérieur à 0")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending message error : incorrect data, data must be number", 1, message.content);
+    }
+}
+
+function gagner(message) {
+    log.print("tried to get money with his/her rpg character", message.author, message.content);
+    let args = message.content.split(" ");
+    if (args[2] === "help") {
+        gagnerHelp(message);
+        log.print("asked help for jdr gagner command", message.author, message.content);
+        return;
+    }
+    let id = message.author.id;
+
+    let personnage = searchPersonnageByIdDiscord(id);
+
+    let msgEmbed = new EmbedBuilder();
+    if (!personnage) {
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Aucun personnage trouvé pour vous ! ");
+        msgEmbed.setDescription("Aucun personnage n'est associé à votre id.");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending message error : no character linked to this person", 1);
+        return;
+    }
+
+    const regex = /[^0-9]+/;
+    if (!regex.test(args[2])) {
+        if (parseInt(args[2]) > 0) {
+            personnage['money'] = personnage['money'] + parseInt(args[2]);
+            msgEmbed.setColor("#dc8f52");
+            msgEmbed.setTitle("Argent actualisé !");
+            msgEmbed.addFields({name: "Votre argent", value: personnage['money'].toString()});
+
+            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+
+            message.channel.send({embeds: [msgEmbed]});
+            log.print("money successfully updated", 1);
+            updateData();
+        } else {
+            msgEmbed.setColor("#ff0000");
+            msgEmbed.setTitle("Erreur : somme négative détectée !");
+            msgEmbed.setDescription("La somme saisie est incorrecte, veuillez saisir un somme supérieur à 0")
+            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+
+            message.channel.send({embeds: [msgEmbed]});
+            log.print("sending message error : incorrect data, data must > 0", 1, message.content);
+        }
+    } else {
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : pas de nombre détecté !");
+        msgEmbed.setDescription("La somme saisie est incorrecte, veuillez saisir un nombre supérieur à 0")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending message error : incorrect data, data must be number", 1, message.content);
+    }
+}
+
 function help(message) {
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor("#6e0e91");
@@ -520,7 +644,7 @@ function help(message) {
 
     msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr [commande]"});
     msgEmbed.addFields({name: "Paramètre", value: " ", inline: true});
-    msgEmbed.addFields({name: "commande", value: "info / fiche / inv / add / remove / create", inline: true});
+    msgEmbed.addFields({name: "commande", value: "info / fiche / inv / add / remove / create / payer / gagner", inline: true});
     msgEmbed.addFields({name: "Exemple de commande", value: "jdr inv"});
 
     message.channel.send({embeds: [msgEmbed]});
@@ -603,7 +727,7 @@ function removeHelp(message) {
     msgEmbed.addFields({name: "jdr remove 5 flèches", value: "Supprimera 5 flèches du stock de l'objet \"flèches\" s'il existe. \nSi le stock devient inférieur ou égale à 0 alors l'objet sera supprimé", inline: true});
 
     message.channel.send({embeds: [msgEmbed]});
-    log.print("help message successfully sent", 1)
+    log.print("help message successfully sent", 1);
 }
 
 function createHelp(message) {
@@ -617,6 +741,44 @@ function createHelp(message) {
 
     message.channel.send({embeds: [msgEmbed]});
     log.print("help message successfully sent", 1)
+}
+
+function payerHelp(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Payer");
+    msgEmbed.setDescription("Permet de retirer de l'argent du porte monnaie de son personnage");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr payer [quantite]"});
+    msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
+    msgEmbed.addFields({name: "quantite", value: "quantité de pièce à retirer", inline: true});
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.addFields({name: "Alias", value: " ", inline: true});
+    msgEmbed.addFields({name: "payer", value: "paye / pay", inline: true});
+    msgEmbed.addFields({name: "Exemples de commande", value: " "});
+    msgEmbed.addFields({name: "jdr payer 20", value: "Retire 20 pièces d'or du porte monnaie de son personnage"});
+
+    message.channel.send({embeds: [msgEmbed]});
+    log.print("help message successfully sent", 1);
+}
+
+function gagnerHelp(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Gagner");
+    msgEmbed.setDescription("Permet d'ajouter' de l'argent au porte monnaie de son personnage");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr gagner [quantite]"});
+    msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
+    msgEmbed.addFields({name: "quantite", value: "quantité de pièce à ajouter", inline: true});
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.addFields({name: "Alias", value: " ", inline: true});
+    msgEmbed.addFields({name: "gagner", value: "gagne / win / collect", inline: true});
+    msgEmbed.addFields({name: "Exemples de commande", value: " "});
+    msgEmbed.addFields({name: "jdr gagner 20", value: "Ajoute 20 pièces d'or au porte monnaie de son personnage"});
+
+    message.channel.send({embeds: [msgEmbed]});
+    log.print("help message successfully sent", 1);
 }
 
 function execute(message) {
@@ -635,6 +797,10 @@ function execute(message) {
         removeInventory(message);
     } else if (args[1] === "help") {
         help(message);
+    } else if (args[1] === "paye" || args[1] === "payer" || args[1] === "pay") {
+        payer(message);
+    } else if (args[1] === "gagne" || args[1] === "gagner" || args[1] === "win" || args[1] === "collect") {
+        gagner(message);
     }
 }
 
