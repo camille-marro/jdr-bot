@@ -27,6 +27,7 @@ function getInfos(message) {
     let args = message.content.split(" ");
     if (args[2] === "help") {
         infoHelp(message);
+        log.print("asked help for jdr info command", message.author, message.content);
         return;
     }
     let personnageToFind = "";
@@ -201,6 +202,7 @@ function getPersonalInfos(message) {
     let args = message.content.split(" ");
     if (args[2] === "help") {
         ficheHelp(message);
+        log.print("asked help for jdr fiche command", message.author, message.content);
         return;
     }
     let id = message.author.id;
@@ -229,6 +231,7 @@ function getInventory(message) {
     let args = message.content.split(" ");
     if (args[2] === "help") {
         invHelp(message);
+        log.print("asked help for jdr inv command", message.author, message.content);
         return;
     }
     let id = message.author.id;
@@ -255,6 +258,13 @@ function getInventory(message) {
 function createPerso(message) {
     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") launch a new rpg character");
     log.print("tried to create an new rpg character", message.author, message.content);
+
+    let args = message.content.split(" ");
+    if(args[1] === "help") {
+        createHelp(message);
+        log.print("asked help for jdr create command", message.author, message.content);
+        return;
+    }
 
     let numbers = [];
 
@@ -335,6 +345,7 @@ function addInventory(message) {
     let args = message.content.split(" ");
     if (args[2] === "help") {
         addHelp(message);
+        log.print("asked help for jdr add command", message.author, message.content);
         return;
     }
 
@@ -409,6 +420,7 @@ function removeInventory(message) {
 
     if(args[2] === "help") {
         removeHelp(message);
+        log.print("asked help for jdr remove command", message.author, message.content);
         return;
     }
 
@@ -508,7 +520,7 @@ function help(message) {
 
     msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr [commande]"});
     msgEmbed.addFields({name: "Paramètre", value: " ", inline: true});
-    msgEmbed.addFields({name: "commande", value: "info / fiche / inv / add / remove", inline: true});
+    msgEmbed.addFields({name: "commande", value: "info / fiche / inv / add / remove / create", inline: true});
     msgEmbed.addFields({name: "Exemple de commande", value: "jdr inv"});
 
     message.channel.send({embeds: [msgEmbed]});
@@ -526,6 +538,7 @@ function infoHelp(message) {
     msgEmbed.addFields({name: "Exemple de commande", value: "jdr info Tristan"});
 
     message.channel.send({embeds: [msgEmbed]});
+    log.print("help message successfully sent", 1)
 }
 
 function ficheHelp(message) {
@@ -538,6 +551,7 @@ function ficheHelp(message) {
     msgEmbed.addFields({name: "Exemple de commande", value: "jdr fiche"});
 
     message.channel.send({embeds: [msgEmbed]});
+    log.print("help message successfully sent", 1)
 }
 
 function invHelp(message) {
@@ -552,6 +566,7 @@ function invHelp(message) {
     msgEmbed.addFields({name: "Exemple de commande", value: "jdr inventaire"});
 
     message.channel.send({embeds: [msgEmbed]});
+    log.print("help message successfully sent", 1)
 }
 
 function addHelp(message) {
@@ -568,6 +583,7 @@ function addHelp(message) {
     msgEmbed.addFields({name: "Exemple de commande", value: "jdr add épée de fou furieux;une épée de zinzin qui tabasse tout;1"});
 
     message.channel.send({embeds: [msgEmbed]});
+    log.print("help message successfully sent", 1)
 }
 
 function removeHelp(message) {
@@ -587,6 +603,20 @@ function removeHelp(message) {
     msgEmbed.addFields({name: "jdr remove 5 flèches", value: "Supprimera 5 flèches du stock de l'objet \"flèches\" s'il existe. \nSi le stock devient inférieur ou égale à 0 alors l'objet sera supprimé", inline: true});
 
     message.channel.send({embeds: [msgEmbed]});
+    log.print("help message successfully sent", 1)
+}
+
+function createHelp(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Create");
+    msgEmbed.setDescription("Permet de créer un personnage pour le jdr avec des statistiques aléatoires dans toutes ses compétences");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr create"});
+    msgEmbed.addFields({name: "Exemples de commande", value: "jdr create"});
+
+    message.channel.send({embeds: [msgEmbed]});
+    log.print("help message successfully sent", 1)
 }
 
 function execute(message) {

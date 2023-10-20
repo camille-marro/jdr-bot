@@ -158,8 +158,8 @@ client.login(process.env.BOT_TOKEN)
         log.print("Connected to Discord server", 1);
     })
     .catch(e => {
-        console.log("|- Can't login verify token");
+        console.log("|- Can't login verify discord token");
         console.error(e);
-        log.print("Can't login : verify token", 1, e);
+        log.print("Can't login : verify discord token", 1, e);
     });
 
