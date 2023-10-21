@@ -56,7 +56,7 @@ function queue(message) {
         if (i < 24) {
             msgEmbed.addFields({name : `[${i}] : ${track.title}`, value:track.author});
         } else if (i === 24) {
-            msgEmbed.addFields({name: `Il y a ${serverQueue.tracks.toArray().length} dans la queue`, value: "Pour voir les autres utilisez la commande skip"})
+            msgEmbed.addFields({name: `Il y a ${serverQueue.tracks.toArray().length} sons dans la queue`, value: "Pour voir les autres utilisez la commande skip"})
         }
         console.log("|-- [" + i + "] : " + track.title + " - " + track.author)
         i++;
