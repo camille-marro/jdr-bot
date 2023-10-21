@@ -4,6 +4,7 @@ const path = require("path");
 const log = require('../../assets/log');
 
 const { EmbedBuilder } = require('discord.js');
+const {useMasterPlayer} = require("discord-player");
 
 let jdrData;
 
@@ -626,7 +627,7 @@ function help(message) {
 
     msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr [commande]"});
     msgEmbed.addFields({name: "Paramètre", value: " ", inline: true});
-    msgEmbed.addFields({name: "commande", value: "info / fiche / inv / add / remove / create / payer / gagner", inline: true});
+    msgEmbed.addFields({name: "commande", value: "info / fiche / inv / add / remove / create / payer / gagner / ambiance", inline: true});
     msgEmbed.addFields({name: "Exemple de commande", value: "jdr inv"});
 
     message.channel.send({embeds: [msgEmbed]});
@@ -763,6 +764,75 @@ function gagnerHelp(message) {
     log.print("help message successfully sent", 1);
 }
 
+async function ambiance(message) {
+    log.print("tried to play an ambiance music", message.author, message.content);
+    let args = message.content.split(" ");
+    if (args[2] === "help") {
+        ambianceHelp(message);
+        log.print("asked help for jdr ambiance command", message.author, message.content);
+        return;
+    }
+
+    let url = "";
+    let id;
+    switch (args[2]) {
+        case "bars":
+            id = Math.floor(Math.random() * jdrData['ambiances']['bars'].length);
+            url = jdrData['ambiances']['bars'][id];
+            break;
+
+        case "villes":
+            id = Math.floor(Math.random() * jdrData['ambiances']['villes'].length);
+            url = jdrData['ambiances']['villes'][id];
+            break;
+
+        case "exploration":
+            id = Math.floor(Math.random() * jdrData['ambiances']['exploration'].length);
+            url = jdrData['ambiances']['exploration'][id];
+            break;
+
+        case "combat":
+            id = Math.floor(Math.random() * jdrData['ambiances']['combat'].length);
+            url = jdrData['bars'][id];
+            break;
+
+        default:
+            id = Math.floor(Math.random() * jdrData['ambiances']['start'].length);
+            url = jdrData['ambiances']['start'][id];
+            break;
+    }
+
+    const player = useMasterPlayer();
+    await player.extractors.loadDefault();
+
+    url = await player.search(url);
+    await player.play(message.member.voice.channel, url, {leaveOnEmpty: true});
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#23bb95");
+    msgEmbed.setTitle("Son d'ambiance lancé");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""})
+}
+
+function ambianceHelp(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Ambiance");
+    msgEmbed.setDescription("Permet de jouer des sons d'ambiance");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr ambiance [type:optionnel]"});
+    msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
+    msgEmbed.addFields({name: "type:optionnel", value: "type d'ambiance à jouer dans la liste suivante : [start, bars, villes, exploration, combat]", inline: true});
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.addFields({name: "Alias", value: " ", inline: true});
+    msgEmbed.addFields({name: "ambiance", value: "play", inline: true});
+    msgEmbed.addFields({name: "Exemples de commande", value: " "});
+    msgEmbed.addFields({name: "jdr ambiance exploration", value: "Joue un son d'ambiance pour l'exploration"});
+
+    message.channel.send({embeds: [msgEmbed]});
+    log.print("help message successfully sent", 1);
+}
+
 function execute(message) {
     let args = message.content.split(" ");
     if (args[1] === "create") {
@@ -783,8 +853,12 @@ function execute(message) {
         payer(message);
     } else if (args[1] === "gagne" || args[1] === "gagner" || args[1] === "win" || args[1] === "collect") {
         gagner(message);
+    } else if (args[1] === "ambiance" || args[1] === "play") {
+        ambiance(message).then(() => "");
     }
 }
+
+
 
 module.exports = {
     execute

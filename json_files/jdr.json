@@ -482,5 +482,30 @@
       ],
       "money": 20
     }
-  ]
+  ],
+  "ambiances": {
+    "start": [
+      "https://www.youtube.com/watch?v=Rh9W4stvc6U",
+      "https://www.youtube.com/watch?v=jzqRyIFk0rI"
+    ],
+    "bars": [
+      "https://www.youtube.com/watch?v=gGcWObs8gJ0",
+      "https://www.youtube.com/watch?v=qoS8jC2Yl_A",
+      "https://www.youtube.com/watch?v=VP_aYMBXTng",
+      "https://www.youtube.com/watch?v=FXcaYXsAfZM"
+    ],
+    "villes": [
+      "https://www.youtube.com/watch?v=tEWbTLrT_pc",
+      "https://www.youtube.com/watch?v=-QRwc0ROjkE"
+    ],
+    "exploration": [
+      "https://www.youtube.com/watch?v=pc2WBOUJgck",
+      "https://www.youtube.com/watch?v=5fOFXpVu9eg",
+      "https://www.youtube.com/watch?v=h-EpcIP-Uxw"
+
+    ],
+    "combat": [
+
+    ]
+  }
 }
