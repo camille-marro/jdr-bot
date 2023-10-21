@@ -410,10 +410,10 @@
       "pseudo": "/",
       "desc": "déparar",
       "race": "Humain",
-      "job": "Scientifique d'artéfact",
+      "job": "Artéfactologue",
       "age": 0,
-      "sex": "/",
-      "magic": "aucune",
+      "sex": "H",
+      "magic": "Aucune",
       "stats": {
         "Int": "70",
         "For": "70",
@@ -452,7 +452,7 @@
       "race": "Humain",
       "job": "Barman",
       "age": 0,
-      "sex": "/",
+      "sex": "H",
       "magic": "Élémentaire de sable",
       "stats": {
         "Int": "44",

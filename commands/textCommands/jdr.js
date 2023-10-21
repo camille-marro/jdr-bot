@@ -89,7 +89,7 @@ function printFullPersonnage(personnage) {
     msgEmbed.addFields({name: " ", value: " "});
 
     msgEmbed.addFields({name: "Courir / Sauter", value: personnage["stats"]["CS"], inline: true});
-    msgEmbed.addFields({name: "Mentir / Convaicnre", value: personnage["stats"]["MC"], inline: true});
+    msgEmbed.addFields({name: "Mentir / Convaincre", value: personnage["stats"]["MC"], inline: true});
     msgEmbed.addFields({name: "Discrétion", value: personnage["stats"]["Dis"], inline: true});
 
     msgEmbed.addFields({name: "Intimidation", value: personnage["stats"]["Inti"], inline: true});
@@ -128,7 +128,7 @@ function printInventory(personnage) {
 
 function searchPersonnageByName(personnageToFind, id) {
     log.print("searching character with his name", 1);
-    // plus de 30% bon si plusieurs il te sort celui qui a le plus
+    // plus de 30% bon si plusieurs, il te sort celui qui a le plus
     let personnagesFound = [];
 
     jdrData["personnages"].forEach((personnage) => {
@@ -294,48 +294,30 @@ function createPerso(message) {
     console.log("|-- rectify stats are : ");
     console.log("|-- " + numbers.toString())
 
-    let int = "Intelligence : " + numbers[0] + "\n";
     msgEmbed.addFields({name: "Intelligence", value: numbers[0].toString(), inline: true});
-    let force = "Force : " + numbers[1] + "\n";
     msgEmbed.addFields({name: "Force", value: numbers[1].toString(), inline: true});
-    let cha = "Charisme : " + numbers[2] + "\n";
     msgEmbed.addFields({name: "Charisme", value: numbers[2].toString(), inline: true});
-    let dex = "Dextérité : " + numbers[3] + "\n\n";
     msgEmbed.addFields({name: "Dextérité", value: numbers[3].toString(), inline: true});
-    let coursaut = "Courir, sauter : " + numbers[4] + "\n";
     msgEmbed.addFields({name: "Courir / Sauter", value: numbers[4].toString(), inline: true});
-    let mentir = "Mentir, convaincre : " + numbers[5]+ "\n";
     msgEmbed.addFields({name: "Mentir / Convaincre", value: numbers[5].toString(), inline: true});
-    let disc = "Discrétion : " + numbers[6]+ "\n";
     msgEmbed.addFields({name: "Discrétion", value: numbers[6].toString()});
-    let refl = "Réflexes : " + numbers[7]+ "\n";
     msgEmbed.addFields({name: "Réflexes", value: numbers[7].toString()});
-    let inti = "Intimidation : " + numbers[8]+ "\n";
     msgEmbed.addFields({name: "Intimidation", value: numbers[8].toString()});
-    let surv = "Survie : " + numbers[9]+ "\n";
     msgEmbed.addFields({name: "Survie", value: numbers[9].toString()});
-    let perc = "Perception : " + numbers[10] + "\n";
     msgEmbed.addFields({name: "Perception", value: numbers[10].toString()});
-    let soin = "Soigner : " + numbers[11] + "\n";
     msgEmbed.addFields({name: "Soigner", value: numbers[11].toString()});
-    let cmbr = "Combat rapproché : " + numbers[12] + "\n";
     msgEmbed.addFields({name: "Combat rapproché", value: numbers[12].toString()});
-    let cmbd = "Combat à distance : " + numbers[13] + "\n";
     msgEmbed.addFields({name: "Combat à distance", value: numbers[13].toString()});
-    let talent = "Talent : " + numbers[14] + "\n\n";
     msgEmbed.addFields({name: "Talent", value: numbers[14].toString()});
-    let magie = "Magie : " + numbers[15] + "\n\n";
     msgEmbed.addFields({name: "Magie", value: numbers[15].toString()});
 
-    //let msg = "Perso tiré : \n" + int + force + cha + dex + coursaut + mentir + disc + refl + inti + surv + perc + soin + cmbr + cmbd + talent + magie + "Bonne chance :)"
-    //message.channel.send(msg);
     message.channel.send({embeds: [msgEmbed]});
     log.print("character successfully created", 1);
 }
 
 function updateData() {
     fs.writeFileSync(path.resolve(__dirname, "../../json_files/jdr.json"), JSON.stringify(jdrData));
-    console.log("|-- data successfully upadated");
+    console.log("|-- data successfully updated");
     log.print("jdrData has been successfully updated", 1);
 }
 
@@ -488,7 +470,7 @@ function removeXItems(quantity, itemToFind, personnage) {
             log.print("item found !", 1);
             if (quantity > 0) {
                 item["size"] = item["size"] - quantity;
-                // si la quantité est 0 ou moins on supprime l'item
+                // si la quantité est 0 ou moins, on supprime l'item
                 if ((item["size"] > 0)) {
                     finalItems.push(item);
                     log.print("quantity is now lower", 1);
@@ -697,7 +679,7 @@ function addHelp(message) {
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor("#6e0e91");
     msgEmbed.setTitle("JDR - Add");
-    msgEmbed.setDescription("Permet d'ajouter des objets dans l'inventaire de son personnage. Veillez à toujours remplir les deux premiers champs avec au moins un caratère (un espace ou /)");
+    msgEmbed.setDescription("Permet d'ajouter des objets dans l'inventaire de son personnage. Veillez à toujours remplir les deux premiers champs avec au moins un caractère (un espace ou /)");
     msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
     msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr add [nom_objet];[description_objet];[quantité:optionnel]"});
     msgEmbed.addFields({name: "Paramètres", value: " "});
