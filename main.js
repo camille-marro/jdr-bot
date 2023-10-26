@@ -88,6 +88,10 @@ client.on("messageCreate", message => {
             let loop = require("./commands/textCommands/music/loop");
             loop.loop(message);
             break;
+        case (prefix + "remove"):
+            let remove = require("./commands/textCommands/music/remove");
+            remove.remove(message);
+            break;
         case (prefix + "jdr"):
             let jdr = require("./commands/textCommands/jdr");
             jdr.execute(message);
