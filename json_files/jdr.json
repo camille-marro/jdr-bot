@@ -37,255 +37,79 @@
           "desc": "Un lasso tah Indiana Jones",
           "size": 1,
           "price": "@TODO"
-        }
-      ],
-      "money": 20
-    },
-    {
-      "name": "J2",
-      "id": 0,
-      "private": true,
-      "idDiscord": "1",
-      "pseudo": "/",
-      "desc": "Personnage lambda",
-      "race": "Humain",
-      "job": "Cartographe",
-      "age": 0,
-      "sex": "/",
-      "magic": "Magie animale : Jaguar",
-      "stats": {
-        "Int": "80",
-        "For": "40",
-        "Cha": "50",
-        "Dex": "70",
-        "CS": "60",
-        "MC": "60",
-        "Dis": "30",
-        "Inti": "20",
-        "Sur": "50",
-        "Per": "80",
-        "Soi": "20",
-        "CAC": "60",
-        "CAD": "60",
-        "Ref": "50",
-        "Mag": "70",
-        "Tal": "70"
-      },
-      "talent": "Connaissance du monde",
-      "inv": [],
-      "money": 20
-    },
-    {
-      "name": "J3",
-      "id": 0,
-      "private": true,
-      "idDiscord": "1",
-      "pseudo": "/",
-      "desc": "Personnage lambda",
-      "race": "Humain",
-      "job": "Orfèvre",
-      "age": 0,
-      "sex": "/",
-      "magic": "Magie du commerce",
-      "stats": {
-        "Int": "70",
-        "For": "30",
-        "Cha": "80",
-        "Dex": "40",
-        "CS": "50",
-        "MC": "80",
-        "Dis": "60",
-        "Inti": "30",
-        "Sur": "20",
-        "Per": "60",
-        "Soi": "50",
-        "CAC": "50",
-        "CAD": "50",
-        "Ref": "50",
-        "Mag": "80",
-        "Tal": "70"
-      },
-      "talent": "Marchandage",
-      "inv": [
+        },
         {
-          "name": "@TODO",
-          "desc": "@TODO",
+          "name": "test",
+          "desc": "none",
+          "size": 1,
           "price": "@TODO"
         }
       ],
-      "money": 20
+      "money": 11
     },
     {
-      "name": "J4",
+      "name": "Tara",
       "id": 0,
       "private": true,
-      "idDiscord": "1",
+      "idDiscord": "489817345712193549",
       "pseudo": "/",
-      "desc": "Personnage lambda",
-      "race": "Humain",
-      "job": "Garde",
-      "age": 0,
-      "sex": "/",
-      "magic": "Magie du printemps",
-      "stats": {
-        "Int": "40",
-        "For": "90",
-        "Cha": "60",
-        "Dex": "60",
-        "CS": "70",
-        "MC": "50",
-        "Dis": "30",
-        "Inti": "70",
-        "Sur": "20",
-        "Per": "50",
-        "Soi": "30",
-        "CAC": "80",
-        "CAD": "40",
-        "Ref": "60",
-        "Mag": "60",
-        "Tal": "70"
-      },
-      "talent": "Crochetage",
-      "inv": [
-        {
-          "name": "Lance du printemps",
-          "desc": "@TODO",
-          "price": "@TODO"
-        }
-      ],
-      "money": 20
-    },
-    {
-      "name": "J5",
-      "id": 0,
-      "private": true,
-      "idDiscord": "1",
-      "pseudo": "/",
-      "desc": "Personnage lambda",
-      "race": "Humain",
-      "job": "Scientifique",
-      "age": 0,
-      "sex": "/",
-      "magic": "Magie de la gravité",
-      "stats": {
-        "Int": "90",
-        "For": "40",
-        "Cha": "40",
-        "Dex": "70",
-        "CS": "60",
-        "MC": "30",
-        "Dis": "60",
-        "Inti": "20",
-        "Sur": "30",
-        "Per": "70",
-        "Soi": "70",
-        "CAC": "30",
-        "CAD": "70",
-        "Ref": "50",
-        "Mag": "70",
-        "Tal": "70"
-      },
-      "talent": "Connaissances hasardeuses",
-      "inv": [
-        {
-          "name": "Cube d'or",
-          "desc": "Petit cube de 20cm en or pur",
-          "price": 50,
-          "size": 4
-        }
-      ],
-      "money": 20
-    },
-    {
-      "name": "J6",
-      "id": 0,
-      "private": true,
-      "idDiscord": "144895079897628672",
-      "pseudo": "/",
-      "desc": "Personnage lambda",
+      "desc": "Femme d' 1m76 pour 65kg, très musclée avec une longue tresse brune et des yeux vert. Elle a des gros nénés et des grosses fesses. Elle porte toujours une sacoche avec elle.",
       "race": "Humain",
       "job": "Forgeron",
-      "age": 0,
-      "sex": "/",
-      "magic": "Magie d'enchantement de l'acier",
+      "age": 25,
+      "sex": "F",
+      "magic": "Magie de la résistance",
       "stats": {
         "Int": "70",
         "For": "70",
         "Cha": "50",
         "Dex": "30",
-        "CS": "50",
+        "CS": "60",
         "MC": "60",
         "Dis": "30",
         "Inti": "50",
         "Sur": "60",
-        "Per": "50",
-        "Soi": "30",
+        "Per": "60",
+        "Soi": "50",
         "CAC": "70",
         "CAD": "40",
         "Ref": "50",
-        "Mag": "90",
+        "Mag": "50",
         "Tal": "70"
       },
       "talent": "Forgeage",
       "inv": [
         {
-          "name": "@TODO",
-          "desc": "@TODO",
+          "name": "épée",
+          "desc": "faites par moi même",
+          "size": 1,
           "price": "@TODO"
-        }
-      ],
-      "money": 20
-    },
-    {
-      "name": "J7",
-      "id": 0,
-      "private": true,
-      "idDiscord": "144895079897628672",
-      "pseudo": "/",
-      "desc": "Personnage lambda",
-      "race": "Humain",
-      "job": "Astronaume",
-      "age": 0,
-      "sex": "/",
-      "magic": "Magie des étoiles",
-      "stats": {
-        "Int": "80",
-        "For": "40",
-        "Cha": "70",
-        "Dex": "50",
-        "CS": "50",
-        "MC": "70",
-        "Dis": "30",
-        "Inti": "30",
-        "Sur": "30",
-        "Per": "70",
-        "Soi": "60",
-        "CAC": "30",
-        "CAD": "60",
-        "Ref": "50",
-        "Mag": "80",
-        "Tal": "70"
-      },
-      "talent": "Astrologie",
-      "inv": [
+        },
         {
-          "name": "Lunette astronomique",
-          "desc": "Une lunette pour observer le ciel étoilé la nuit venue",
+          "name": "marteau",
+          "desc": "celui de thor",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "sacoche",
+          "desc": "garde le marteau et les sousous",
+          "size": 1,
           "price": "@TODO"
         }
       ],
-      "money": 20
+      "money": 30
     },
     {
-      "name": "J8",
+      "name": "Daniel Lefebvre",
       "id": 0,
       "private": true,
-      "idDiscord": "144895079897628672",
+      "idDiscord": "140840339568066561",
       "pseudo": "/",
-      "desc": "Personnage lambda",
+      "desc": "Immense homme blanc de 2 mètres 20 pour 165kg. Bien joufflu avec des pieds proportionnels à sa taille. Il dégage une forte odeur de poisson.",
       "race": "Humain",
       "job": "Pêcheur",
-      "age": 0,
+      "age": 47,
       "sex": "/",
       "magic": "Magie des fils",
       "stats": {
@@ -309,24 +133,37 @@
       "talent": "Endurance",
       "inv": [
         {
-          "name": "@TODO",
+          "name": "L'Écumeur d'Albacore à 2 Résistances",
           "desc": "@TODO",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "Le pole de Zenaq Roi Tuna",
+          "desc": "@TODO",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "Ensemble de Crocs Mustad",
+          "desc": "@TODO",
+          "size": 30,
           "price": "@TODO"
         }
       ],
-      "money": 20
+      "money": 13
     },
     {
-      "name": "J9",
+      "name": "Chasselune",
       "id": 0,
       "private": true,
-      "idDiscord": "144895079897628672",
+      "idDiscord": "506573175341973508",
       "pseudo": "/",
       "desc": "Personnage lambda",
       "race": "Humain",
       "job": "Chasseur",
-      "age": 0,
-      "sex": "/",
+      "age": 25,
+      "sex": "F",
       "magic": "Magie de la peur",
       "stats": {
         "Int": "40",
@@ -360,98 +197,83 @@
           "size": 20
         }
       ],
-      "money": 20
+      "money": 9
     },
     {
-      "name": "J10",
-      "id": 0,
-      "private": true,
-      "idDiscord": "144895079897628672",
-      "pseudo": "/",
-      "desc": "Personnage lambda",
-      "race": "Humain",
-      "job": "Croque mort",
-      "age": 0,
-      "sex": "/",
-      "magic": "Magie de la mort",
-      "stats": {
-        "Int": "40",
-        "For": "80",
-        "Cha": "80",
-        "Dex": "30",
-        "CS": "50",
-        "MC": "70",
-        "Dis": "60",
-        "Inti": "70",
-        "Sur": "30",
-        "Per": "50",
-        "Soi": "30",
-        "CAC": "60",
-        "CAD": "60",
-        "Ref": "50",
-        "Mag": "40",
-        "Tal": "70"
-      },
-      "talent": "Détection des mensonges",
-      "inv": [
-        {
-          "name": "@TODO",
-          "desc": "@TODO",
-          "price": "@TODO"
-        }
-      ],
-      "money": 20
-    },
-    {
-      "name": "perso de quentin",
+      "name": "Angel",
       "id": 0,
       "private": true,
       "idDiscord": "231895788765052929",
       "pseudo": "/",
-      "desc": "déparar",
+      "desc": "Homme d'environ 1m80 musclé. Il est chauve mais possède une barbe. Il porte toujours un capuchon.",
       "race": "Humain",
       "job": "Artéfactologue",
-      "age": 0,
+      "age": 28,
       "sex": "H",
       "magic": "Aucune",
       "stats": {
         "Int": "70",
-        "For": "70",
+        "For": "80",
         "Cha": "40",
         "Dex": "75",
-        "CS": "50",
+        "CS": "70",
         "MC": "40",
         "Dis": "60",
         "Inti": "35",
         "Sur": "60",
         "Per": "50",
         "Soi": "30",
-        "CAC": "80",
-        "CAD": "80",
-        "Ref": "60",
+        "CAC": "90",
+        "CAD": "20",
+        "Ref": "80",
         "Mag": "0",
         "Tal": "70"
       },
       "talent": "Reconnaissance d'artefact",
       "inv": [
         {
-          "name": "@TODO",
+          "name": "pelle magique",
+          "desc": "sert de détecteur de magie pour les plus avisé",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "capuchon noir",
           "desc": "@TODO",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "sac de scientific",
+          "desc": "permet de stocker les artefact de manière organisé",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "fourreau",
+          "desc": "permet de porter une pelle à la taille",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "outil",
+          "desc": "outil primaire de recherche",
+          "size": 1,
           "price": "@TODO"
         }
       ],
-      "money": 20
+      "money": 8
     },
     {
-      "name": "perso de lory",
+      "name": "Scar",
       "id": 0,
       "private": true,
       "idDiscord": "144895079897628672",
       "pseudo": "/",
-      "desc": "?",
+      "desc": "Equipement : Homme mat, chauve, Vêtu de haillons noirs qui se terminent en un bandeau qu’il peut utiliser pour cacher son visage tah pyke. Ne porte pas d’armure mais de simples tissus basiques et passe partout. Très fort physiquement, mais tente de ne pas attirer les regards. Il porte à sa ceinture 1 gourde d’eau et une gourde de sable, ainsi qu’un cimeterre à la ceinture. Des bottes de cuir usées. Une boucle d’oreille en or représentant l’étoile du nord, symbole de son clan.",
       "race": "Humain",
       "job": "Barman",
-      "age": 0,
+      "age": 29,
       "sex": "H",
       "magic": "Élémentaire de sable",
       "stats": {
@@ -463,7 +285,7 @@
         "MC": "10",
         "Dis": "10",
         "Inti": "80",
-        "Sur": "80",
+        "Sur": "84",
         "Per": "65",
         "Soi": "22",
         "CAC": "90",
@@ -475,12 +297,31 @@
       "talent": "Effacer les traces",
       "inv": [
         {
-          "name": "@TODO",
-          "desc": "@TODO",
+          "name": "sabre courbé mal aiguisé",
+          "desc": "ce sabre a l'air usé par un long voyage",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "gourde en cuir",
+          "desc": "cette gourde conserve l'eau fraîche même en plein désert",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "gourde en terre cuite",
+          "desc": "cette gourde semble complètement asséchée",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "haillons noirs",
+          "desc": "cette tenue en tissu noir passe partout est ornée d'un bandeau pour cacher son visage",
+          "size": 1,
           "price": "@TODO"
         }
       ],
-      "money": 20
+      "money": 9
     }
   ],
   "ambiances": {
@@ -502,10 +343,7 @@
       "https://www.youtube.com/watch?v=pc2WBOUJgck",
       "https://www.youtube.com/watch?v=5fOFXpVu9eg",
       "https://www.youtube.com/watch?v=h-EpcIP-Uxw"
-
     ],
-    "combat": [
-
-    ]
+    "combat": []
   }
 }

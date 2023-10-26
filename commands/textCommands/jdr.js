@@ -120,7 +120,9 @@ function printInventory(personnage) {
     personnage["inv"].forEach((objet) => {
         let nameField = objet["name"];
         if (objet.hasOwnProperty("size")) nameField += " (x" + objet["size"] + ")";
-        msgEmbed.addFields({name: nameField, value: objet["desc"]});
+        let description = " ";
+        if(!(objet["desc"] === "none" || objet["desc"] === "@TODO")) description = objet["desc"];
+        msgEmbed.addFields({name: nameField, value: description});
     })
 
     msgEmbed.setFooter({text: "Pour plus d'infos utiliser la commande \"jdr help\""});
@@ -355,13 +357,22 @@ function addInventory(message) {
     let newItem = {};
     if (newItem["name"] === "") newItem["name"] = "@TODO";
     else newItem["name"] = newItemFields[0];
-    if(newItemFields.length > 1) {
-        if (newItemFields[1] === "") newItem["desc"] = "@TODO";
+
+    console.log(newItemFields);
+    if (newItemFields[1]) {
+        if (newItemFields[1] === "") newItem["desc"] = " ";
         else newItem["desc"] = newItemFields[1];
+    } else {
+        newItem["desc"] = "none";
     }
-    if(newItemFields.length > 2) {
-        if (newItemFields[2] === "") newItem["size"] = 1;
-        else newItem["size"] = parseInt(newItemFields[2]);
+
+    if (newItemFields[2]) {
+        if (newItemFields[2] === "") newItem["size"] = 1
+        else {
+            const regex = /[^0-9]+/;
+            if (regex.test(newItemFields[2])) newItem["size"] = parseInt(newItemFields[2]);
+            else newItem["size"] = 1;
+        }
     } else {
         newItem["size"] = 1;
     }
@@ -492,6 +503,7 @@ function removeXItems(quantity, itemToFind, personnage) {
     personnage["inv"] = finalItems;
     log.print("character inventory has been updated in local", 1);
     updateData();
+    return true;
 }
 
 function payer(message) {
@@ -757,7 +769,7 @@ function gagnerHelp(message) {
     msgEmbed.addFields({name: " ", value: " "});
     msgEmbed.addFields({name: "Alias", value: " ", inline: true});
     msgEmbed.addFields({name: "gagner", value: "gagne / win / collect", inline: true});
-    msgEmbed.addFields({name: "Exemples de commande", value: " "});
+    msgEmbed.addFields({name: "Exemple de commande", value: " "});
     msgEmbed.addFields({name: "jdr gagner 20", value: "Ajoute 20 pièces d'or au porte monnaie de son personnage"});
 
     message.channel.send({embeds: [msgEmbed]});
