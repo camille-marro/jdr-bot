@@ -51,7 +51,6 @@ function remove(message) {
     // check que c'est bien un nombre
     const regex = /[^0-9]+/;
     if (regex.test(args[1])) {
-        console.log("pas un nombre");
         msgEmbed.setColor("#ff0000");
         msgEmbed.setTitle("Action impossible");
         msgEmbed.setDescription("L'indice utilisé n'est pas un nombre");
@@ -71,11 +70,10 @@ function remove(message) {
 
         msgEmbed.setColor("#08ff00");
         msgEmbed.setTitle("Suppression réussie avec succès !");
-        msgEmbed.setDescription("Musique supprimée : [" + (i+1) + "] : " + track.title + " - " + track.author);
+        msgEmbed.setDescription("Musique supprimée : [" + (i+1) + "] " + track.title + " - " + track.author);
         msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"remove help\""});
         message.channel.send({embeds: [msgEmbed]});
     } else {
-        console.log((i+1) + "trop grand !  : " + serverQueue.size);
         msgEmbed.setColor("#ff0000");
         msgEmbed.setTitle("Action impossible !");
         msgEmbed.setDescription("L'indice fournit est trop grand, taille de la queue :" + serverQueue.size.toString());
