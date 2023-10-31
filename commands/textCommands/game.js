@@ -1,10 +1,9 @@
 let fs = require('fs');
 const path = require("path");
+const { EmbedBuilder } = require('discord.js');
 
 const log = require('../../assets/log');
-
-const { EmbedBuilder } = require('discord.js');
-const {play} = require("./music/play");
+const client = require('../../main');
 
 let gameData;
 const colors = new Map();
@@ -12,6 +11,20 @@ colors.set("S", "#fff300");
 colors.set("A", "#7b02c7");
 colors.set("B", "#0230c7");
 colors.set("C", "#ffffff");
+colors.set("kill", "#e0d850");
+colors.set("death", "#000000");
+colors.set("no_damage", "#2fd7b4");
+colors.set("attack", "#b62626");
+colors.set("mine_activated", "#cb6526");
+colors.set("flashed", "#ffffff");
+colors.set("flash", "#29a827");
+colors.set("mined", "#29a827");
+colors.set("pose_c4", "#29a827");
+colors.set("heal", "#f120ab");
+colors.set("armor", "#0293af");
+colors.set("c4_detonated", "#ff5600");
+
+const channel = client.channels.cache.get('1168911714734063718');
 
 const maxHealth = 20;
 
@@ -193,7 +206,6 @@ function getPlayer(message) {
     }
     return joueur;
 }
-
 function getPlayerFromId(playerId) {
     if (gameData["joueurs"].hasOwnProperty(playerId)) return gameData["joueurs"][playerId];
     else return false;
@@ -522,8 +534,8 @@ function searchCrate(crateName) {
     log.print("can't find the crate, returning error", 1);
     return false;
 }
-
 function useItem(message) {
+    log.print("tried to use an item", message.author, message.content);
     let args = message.content.split(" ");
     let itemName = "";
     for (let i = 2; i < args.length; i++) itemName += args[i] + " ";
@@ -534,32 +546,65 @@ function useItem(message) {
 
     let item = findItem(itemName);
     if (!item) {
-        console.log("item pas trouvé :/");
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : item introuvable");
+        msgEmbed.setDescription("L'item que vous avez utiliser est introuvable. Essayer de copier le nom de l'item directement depuis votre inventaire (commande : *game inv*)");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("error : item doesn't exist", 1);
         return;
     }
 
+    let result;
     switch (item["type"]) {
         case "crate":
             openCrate(message);
+            log.print("opening crate ...", 1);
             return;
         case "ammo":
-            console.log("impossible d'utiliser une munition :)");
+            let msgEmbed = new EmbedBuilder();
+            msgEmbed.setColor("#ff0000");
+            msgEmbed.setTitle("Erreur : item inutilisable");
+            msgEmbed.setDescription("Il est impossible d'utiliser une munition seule. Utiliser l'arme associée à votre munition.");
+            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+
+            message.channel.send({embeds: [msgEmbed]});
+            log.print("error : can't use an ammo", 1);
             return;
         case "weapon":
-            useWeapon(item, player);
+            log.print("using weapon ...", 1);
+            result = useWeapon(item, player);
+            if(!result) {
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setColor("#ff0000");
+                msgEmbed.setTitle("Erreur : pas de munition");
+                msgEmbed.setDescription("Vous n'avez pas de munition pour l'arme : " + item["name"]);
+                msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+
+                message.channel.send({embeds: [msgEmbed]});
+                log.print("error : no ammo for this weapon", 1);
+            } else if (result["flash"]) {
+                message.author.send({embeds: [result["flash"]]});
+            } else if (result["mine"]) {
+                message.author.send({embeds: [result["mine"]]});
+            } else if (result["c4"]) {
+                message.author.send({embeds: [result["c4"]]});
+            } else {
+                message.channel.send({embeds: [result]});
+            }
             break;
         case "med":
-            useMedicine(item, player);
+            message.channel.send({embeds: [useMedicine(item, player)]});
             break;
         case "protection":
-            useProtection(item, player);
+            message.channel.send({embeds: [useProtection(item, player)]});
             break;
     }
 
-    console.log(player);
-    //updateData();
+    updateData();
 }
-
 function useProtection(protection, player) {
     let i = 0;
     while (i < player["inv"].length) {
@@ -575,27 +620,28 @@ function useProtection(protection, player) {
     switch (protection["id"]) {
         case "c6ac9e8c-1822-42b5-870d-50e366650bce": // tenue de démineur
             randInt = Math.floor(Math.random() * (20 - 15) + 15);
-            addArmorPlayer(randInt, player);
-            break;
+            return addArmorPlayer(randInt, player);
         case "a5832d33-68f5-4b83-8ebd-9903484d2d15": // gilet pare-balle
             randInt = Math.floor(Math.random() * (12 - 10) + 10);
-            addArmorPlayer(randInt, player);
-            break;
+            return addArmorPlayer(randInt, player);
         case "85b58af1-d1e2-4657-baef-39664e3b9052": // gilet tactique
             randInt = Math.floor(Math.random() * (8 - 6) + 6);
-            addArmorPlayer(randInt, player);
-            break;
+            return addArmorPlayer(randInt, player);
         case "816934d8-c5a3-40f4-a7ba-d73e24422470": // bouclier de chevalier
             randInt = Math.floor(Math.random() * (5 - 2) + 2);
-            addArmorPlayer(randInt, player);
-            break;
+            return addArmorPlayer(randInt, player);
     }
 }
-
 function addArmorPlayer(armorAmount, player) {
     player["armor"] += armorAmount;
-}
 
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor(colors.get("armor"));
+    msgEmbed.setTitle("Vous vous êtes appliqué un bouclier");
+    msgEmbed.setDescription("Vous avez gagner " + armorAmount + " points d'armure.");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+    return msgEmbed;
+}
 function useMedicine(medicine, player) {
     let i = 0;
     while (i < player["inv"].length) {
@@ -611,32 +657,37 @@ function useMedicine(medicine, player) {
     switch (medicine["id"]) {
         case "69fdba79-7814-4e10-ab04-7d9031f3c47e": // seringue
             randInt = Math.floor(Math.random() * (20 - 15) + 15);
-            healPlayer(randInt, player);
-            break;
+            return healPlayer(randInt, player);
         case "974fdc99-bf5f-4aea-858c-cc14765788df": // medkit
             randInt = Math.floor(Math.random() * (12 - 10) + 10);
-            healPlayer(randInt, player);
-            break;
+            return healPlayer(randInt, player);
         case "24ff4b27-5337-41d7-b50e-e79f24fab10d": // kit de premier soin
             randInt = Math.floor(Math.random() * (8 - 4) + 4);
-            healPlayer(randInt, player);
-            break;
+            return healPlayer(randInt, player);
         case "095b4994-a49f-44b0-8a7a-962244a072bc": // bandage
             randInt = Math.floor(Math.random() * (3 - 2) + 2);
-            healPlayer(randInt, player);
-            break;
+            return healPlayer(randInt, player);
         case "e0e07dde-97d2-4ca4-9875-6642b7384c7e": // pansement
             randInt = Math.floor(Math.random() * (3 - 2) + 2);
-            healPlayer(randInt, player);
-            break;
+            return healPlayer(randInt, player);
     }
 }
-
 function healPlayer(healAmount, player) {
-    player["health"] += healAmount;
-    if (player["health"] > maxHealth) player["health"] = maxHealth;
-}
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor(colors.get("heal"));
+    msgEmbed.setTitle("Vous vous êtes soigné");
 
+    player["health"] += healAmount;
+    if (player["health"] > maxHealth) {
+        player["health"] = maxHealth;
+        msgEmbed.setDescription("Vous avez regagner toute votre vie.");
+    } else {
+        msgEmbed.setDescription("Vous avez regagner " + healAmount + " points de vie.");
+    }
+
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+    return msgEmbed;
+}
 function useWeapon(weapon, player) {
     // chercher la munition dans l'inventaire
     let ammoId = weapon["munition"];
@@ -649,7 +700,6 @@ function useWeapon(weapon, player) {
         }
 
         if (!ammo) {
-            console.log("pas de munition pour utiliser l'arme");
             return false;
         }
 
@@ -675,124 +725,105 @@ function useWeapon(weapon, player) {
 
     }
     let randInt, randInt2, randInt3;
+
      switch (weapon["id"]) {
          case "db0c7226-b54d-46f6-910a-cd13f6638939": // ak-47
              randInt = Math.floor(Math.random() * (3 - 2) + 2);
              randInt2 = Math.floor(Math.random() * (3 - 2) + 2);
-             shootPlayers(randInt + randInt2, 1, player);
-             break;
+             return shootPlayers(randInt + randInt2, 1, player);
          case "91181b12-f8fa-4cea-a311-d7610e049380": // glock 18
-             shootPlayers(2, 1, player);
-             break;
+             return shootPlayers(2, 1, player);
          case "674bec62-1a50-409f-9196-1607496371e6": // baretta
-             shootPlayers(3, 1, player);
-             break;
+             return shootPlayers(3, 1, player);
          case "3bc72433-fe0f-47b3-9a17-f714555f879c": // desert eagle
-             shootPlayers(5, 1, player, true);
-             break;
+             return shootPlayers(5, 1, player, true);
          case "fe5329fb-786d-4a44-a607-059544ea6ff6": // colt 1911
-             shootPlayers(2, 1, player);
-             break;
+             return shootPlayers(2, 1, player);
          case "63a9bf96-aa6f-4e88-8bd1-a67464edd14b": // HK USP
-             shootPlayers(2, 1, player);
-             break;
+             return shootPlayers(2, 1, player);
          case "410b884e-7906-4fda-8e54-d27932c13b3d": // 357 Magnum
              randInt = Math.floor(Math.random() * (4 - 2) + 2);
              randInt2 = Math.floor(Math.random() * (4 - 2) + 2);
-             shootPlayers(randInt + randInt2, 1, player);
-             break;
+             return shootPlayers(randInt + randInt2, 1, player);
          case "965b3713-0480-4adf-8e55-1e68d5890a96": // taser
-             shootPlayers(1, 1, player);
-             break;
+             return shootPlayers(1, 1, player);
          case "eb74e2fb-1b62-40c4-bd5d-08dc13304d0e": // M4A1
              randInt = Math.floor(Math.random() * (3 - 2) + 2);
              randInt2 = Math.floor(Math.random() * (3 - 2) + 2);
-             shootPlayers(randInt + randInt2, 1, player);
-             break;
+             return shootPlayers(randInt + randInt2, 1, player);
          case "99a7cfe4-e8fd-42af-b60d-c12754665e2f": // SKS
-             shootPlayers(7, 1, player);
-             break;
+             return shootPlayers(7, 1, player);
          case "f03af414-d4a2-484f-9170-9989d410101a": // M4 super 90
              randInt = Math.floor(Math.random() * (8 - 5) + 5);
              randInt2 = Math.floor(Math.random() * (8 - 5) + 5);
-             shootPlayers(randInt + randInt2, 1, player);
-             break;
+             return shootPlayers(randInt + randInt2, 1, player);
          case "b3f63afb-6f60-4abb-80be-1b54649250ca": // MP5A2
-             shootPlayers(2, 1, player);
-             break;
+             return shootPlayers(2, 1, player);
          case "b20e3725-2f6c-4995-bc57-761fb9064283": // MPX
              randInt = Math.floor(Math.random() * (3 - 1) + 1);
              randInt2 = Math.floor(Math.random() * (3 - 1) + 1);
              randInt3 = Math.floor(Math.random() * (3 - 1) + 1);
-             shootPlayers(randInt + randInt2 + randInt3, 1, player);
-             break;
+             return shootPlayers(randInt + randInt2 + randInt3, 1, player);
          case "9ce3092c-f2d7-41ec-b9b5-12c2758b2325": // M32A1
-             shootPlayers(5, 3, player);
-             break;
+             return shootPlayers(5, 3, player);
          case "0a682b69-9234-4064-b487-d6be870c2f84": // SCAR-H
              randInt = Math.floor(Math.random() * (6 - 3) + 3);
              randInt2 = Math.floor(Math.random() * (6 - 3) + 3);
              randInt3 = Math.floor(Math.random() * (6 - 3) + 3);
-             shootPlayers(randInt + randInt2 + randInt3, 1, player);
-             break;
+             return shootPlayers(randInt + randInt2 + randInt3, 1, player);
          case "65503d4d-12e3-4dd3-ace6-fc4f040bd35d": // P90
              randInt = Math.floor(Math.random() * (3 - 1) + 1);
              randInt2 = Math.floor(Math.random() * (3 - 1) + 1);
              randInt3 = Math.floor(Math.random() * (3 - 1) + 1);
-             shootPlayers(randInt + randInt2 + randInt3, 1, player);
-             break;
+             return shootPlayers(randInt + randInt2 + randInt3, 1, player);
          case "1c3e7c6a-b77a-4772-b573-70dddbdcfe5c": // MP7
              randInt = Math.floor(Math.random() * (3 - 1) + 1);
              randInt2 = Math.floor(Math.random() * (3 - 1) + 1);
              randInt3 = Math.floor(Math.random() * (3 - 1) + 1);
-             shootPlayers(randInt + randInt2 + randInt3, 1, player);
-             break;
+             return shootPlayers(randInt + randInt2 + randInt3, 1, player);
          case "c5c0ba54-4f3a-4c63-ab29-5d6c917154d8": // SV-98
-             shootPlayers(6, 1, player, true);
-             break;
+             return shootPlayers(6, 1, player, true);
          case "8221a349-60de-41b0-a7ba-41ab386eaf65": // Rem 700
-             shootPlayers(8, 1, player, true);
-             break;
+             return shootPlayers(8, 1, player, true);
          case "c3bd7600-bdce-4076-a5e3-fdcbaf94af78": // Cocktail Molotov
              randInt = Math.floor(Math.random() * (3 - 2) + 2);
              randInt2 = Math.floor(Math.random() * (3 - 2) + 2);
-             shootPlayers(randInt + randInt2, 1, player);
-             break;
+             return shootPlayers(randInt + randInt2, 1, player);
          case "058361e2-d1ba-46fa-a231-a28411c5d2de": // Grenade explosive
-             shootPlayers(5, 2, player);
-             break;
+             return shootPlayers(5, 2, player);
          case "f4bba4de-5b09-4fc7-9eb1-3c07ca23e562": // NLAW
-             shootPlayers(10, 1, player);
-             break;
+             return shootPlayers(10, 1, player);
          case "b8657581-9f05-47c2-a955-710ca157557c": // RPG-7
-             shootPlayers(8, 3, player);
-             break;
+             return shootPlayers(8, 3, player);
          case "b28c357b-4c11-4cef-95e1-5b4a73c4343e": // Bombe
-             shootPlayers(3, 3, player);
-             break;
+             return shootPlayers(3, 3, player);
          case "22024005-8768-4754-8dec-47d44266e91a": // Grenade flash
-             let blinded = blindPlayers(1, player); // renvoie le nb de gens flash
-             console.log(blinded)
-             break;
+             return {"flash" : blindPlayers(1, player)};
          case "4160668f-2b86-41e1-822f-ae5af585db67": // mine antipersonnel
-             minePlayers(1, player); // renvoie le nb de gens minés
-             break;
+             return {"mine" : minePlayers(1, player)};
          case "5c5b617c-22a3-490d-a3f1-254d704ccd9c": // c4
-             c4Players(1, player); // renvoie le nb de gens minés
-             break;
+             return {"c4" : c4Players(1, player)};
      }
 }
-
 function c4Players(nbTarget, player) {
     let playerList = loadAllOtherPlayers(player["idDiscord"]);
     let targets = getTargets(nbTarget, playerList);
 
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor(colors.get("pose_c4"));
+    msgEmbed.setTitle("C4 posée");
+
+    let str = " ";
     targets.forEach((target) => {
         target["c4"]["count"]++;
         target["c4"]["minersId"].push(player["idDiscord"]);
     });
-}
 
+    str.slice(0,-1);
+    msgEmbed.setDescription("Vous avez posé un C4 chez :" + str);
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+    return msgEmbed;
+}
 function detonateC4(message) {
     let userPlayer = getPlayer(message);
     let playerList = loadAllOtherPlayers(userPlayer["idDiscord"]);
@@ -812,57 +843,107 @@ function detonateC4(message) {
             }
         }
     });
-
+    let msgEmbed = new EmbedBuilder();
     c4ToExplode.forEach((player) => {
         let damages = damagePlayer(15, player);
+
+        msgEmbed.setColor(colors.get("c4_detonated"));
+        msgEmbed.setTitle("Un C4 vient d'exploser !");
+        msgEmbed.setDescription("<@" + userPlayer["idDiscord"] + "> vient de faire exploser un C4 sur <@" + player["idDiscord"] + "> !");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
         if (damages["playerDead"]) {
             userPlayer["stats"]["nb_kills"]++;
             userPlayer["stats"]["kill_streak"]++;
             stealTarget(5,player, userPlayer);
-        }
-    });
-}
 
+            msgEmbed.setColor(colors.get("kill"));
+            msgEmbed.setTitle("Vous avez tué <@" + player["idDiscord"] + ">");
+            msgEmbed.setDescription("Vous avez tué <@" + player["idDiscord"] + "> grâce à vote C4, vous venez de lui voler 5 objets de son inventaire.");
+            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+        }
+
+        channel.send({embeds: [msgEmbed]});
+    });
+
+    msgEmbed.setColor(colors.get("c4_detonated"));
+    msgEmbed.setTitle("Tout vos C4 ont été déclenché");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+    channel.send({embeds: [msgEmbed]});
+}
 function minePlayers(nbTarget, player) {
     let playerList = loadAllOtherPlayers(player["idDiscord"]);
     let targets = getTargets(nbTarget, playerList);
 
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor(colors.get("mined"));
+    msgEmbed.setTitle("Mine posée");
+
+    let str = " ";
     targets.forEach((target) => {
         target["mines"]["count"]++;
         target["mines"]["minersId"].push(player["idDiscord"]);
+        str += "<@" + target["idDiscord"] + "> ";
     });
+    str.slice(0,-1);
+    msgEmbed.setDescription("Vous avez posé une mine chez :" + str);
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+    return msgEmbed;
 }
-
 function blindPlayers(nbTarget, player) {
     let playerList = loadAllOtherPlayers(player["idDiscord"]);
     let targets = getNoFlashedTargets(nbTarget, playerList);
     let flashed = 0;
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor(colors.get("flash"));
+    msgEmbed.setTitle("Grenade flash lancé");
+    let str = " ";
+
     targets.forEach((target) => {
         if (!target["flashed"]) {
             target["flashed"] = true;
+            str += " <@" + target["idDiscord"] + ">,";
             flashed++;
         }
     });
-
-    return flashed;
+    str.slice(0, -1);
+    msgEmbed.setDescription("Vous avez flashé " + flashed + " personne(s) :" + str);
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+    return msgEmbed;
 }
-
 function shootPlayers(damage, nbTarget, player, trueDamage = false) {
     let playerList = loadAllOtherPlayers(player["idDiscord"]);
     let targets = getTargets(nbTarget, playerList);
 
     let playerDead = false;
+    let msgEmbed = new EmbedBuilder();
+
+    if (player["flashed"]) {
+        player["flashed"] = false;
+        msgEmbed.setColor(colors.get("flashed"));
+        msgEmbed.setTitle("Vous êtes flashé");
+        msgEmbed.setDescription("Vous avez été flashé par quelqu'un, vous loupez votre tir !");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        log.print("player is flashed, he can't shoot", 1);
+        return msgEmbed;
+    }
 
     targets.forEach((target) => {
-        if (playerDead) return;
-        if (player["flashed"]) {
-            player["flashed"] = false;
-        } else {
-            // @TODO : mine gameplay
+        if (!playerDead) {
+            //mine gameplay
             if (player["mines"]["count"] > 0) {
                 while (player["mines"]["count"] > 0) {
                     let damage = damagePlayer(15, player);
-                    console.log("mine posé par : " + player["mines"]["minersId"][0] + " vient d'exploser");
+                    log.print("a mined planted by " + player["mines"]["minersId"][0] + "just exploded", 1);
+                    let msgEmbed = new EmbedBuilder();
+                    msgEmbed.setColor(colors.get("mine_activated"));
+                    msgEmbed.setTitle("Une mine vient d'exploser !");
+                    msgEmbed.setDescription("<@" + player["idDiscord"] + "> vient de se prendre une mine posée par <@" + player["mines"]["minersId"][0] + "> !");
+                    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+                    channel.send({embeds: [msgEmbed]});
+
                     // enlever la mine
                     let killer = getPlayerFromId(player["mines"]["minersId"][0]);
                     player["mines"]["count"]--;
@@ -875,6 +956,11 @@ function shootPlayers(damage, nbTarget, player, trueDamage = false) {
                         killer["stats"]["kill_streak"]++;
                         stealTarget(5, player, killer);
                         playerDead = true;
+
+                        msgEmbed.setColor(colors.get("death"));
+                        msgEmbed.setTitle("Vous êtes mort");
+                        msgEmbed.setDescription("Vous avez été tué par l'explosion d'une mine posée par <@" + killer["idDiscord"] + ">");
+                        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
                     }
                 }
 
@@ -887,11 +973,28 @@ function shootPlayers(damage, nbTarget, player, trueDamage = false) {
                 player["stats"]["nb_kills"]++;
                 player["stats"]["kill_streak"]++;
                 stealTarget(5,target, player);
+                msgEmbed.setColor(colors.get("kill"));
+                msgEmbed.setTitle("Vous avez tué <@" + target["idDiscord"] + "> !");
+                msgEmbed.setDescription("Vous avez tué <@" + target["idDiscord"] + ">, grâce à ça vous venez de lui voler 5 objets de son inventaire.");
+                msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+            } else {
+                msgEmbed.setTitle("Vous avez attaqué <@" + target["idDiscord"] + "> !");
+                if (damages["armorDestroyed"]) {
+                    msgEmbed.setColor(colors.get("attack"));
+                    msgEmbed.setDescription("Vous avez détruit son armure et fait " + damages["damageDone"] + " dégâts.");
+                } else if (damages["damageDone"] > 0) {
+                    msgEmbed.setColor(colors.get("no_damage"));
+                    msgEmbed.setDescription("Malheureusement il était bien protégé, vous n'avez pas réussi à lui faire des dégâts.");
+                } else {
+                    msgEmbed.setColor(colors.get("attack"));
+                    msgEmbed.setDescription("Vous lui avez fait " + damages["damageDone"] + " dégâts.");
+                }
+                msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
             }
         }
     });
+    return msgEmbed;
 }
-
 function stealTarget(nbItemToSteal, target, player) {
     if (target["inv"].length === 0) return;
     if (nbItemToSteal > target["inv"].length) nbItemToSteal = target["inv"].length;
@@ -908,7 +1011,6 @@ function stealTarget(nbItemToSteal, target, player) {
         }
     }
 }
-
 function damagePlayer(damage, player, trueDamage = true) {
     let armorDestroyed = false;
     let playerDead = false;
@@ -956,7 +1058,6 @@ function damagePlayer(damage, player, trueDamage = true) {
         "playerDead" : playerDead
     }
 }
-
 function getTargets(nbTarget, playerList) {
     let targets = [];
     let tempPlayerList = playerList.slice();
@@ -967,7 +1068,6 @@ function getTargets(nbTarget, playerList) {
     }
     return targets;
 }
-
 function getNoFlashedTargets(nbTarget, playerList) {
     let targets = [];
     let tempPlayerList = playerList.slice();
@@ -978,7 +1078,6 @@ function getNoFlashedTargets(nbTarget, playerList) {
     }
     return targets;
 }
-
 function loadAllOtherPlayers(discordId) {
     let playerList = [];
     for (const playerId in gameData["joueurs"]) {
@@ -987,7 +1086,6 @@ function loadAllOtherPlayers(discordId) {
     }
     return playerList;
 }
-
 function findItem(itemName) {
 
     for (let j = 0; j < gameData["objets"]["armes"].length; j++) {
@@ -1022,6 +1120,9 @@ function findItem(itemName) {
 
     return false;
 }
+function help(message) {
+
+}
 function execute(message) {
     let args = message.content.split(" ");
     if (args[1] === "loot") {
@@ -1032,8 +1133,10 @@ function execute(message) {
         openCrate(message);
     } else if (args[1] === "use") {
         useItem(message);
-    } else if (args[1] === "c4") {
+    } else if (args[1] === "detonate") {
         detonateC4(message);
+    }  else if (args[1] === "help") {
+        help(message);
     } else {
         test();
     }

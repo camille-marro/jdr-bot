@@ -175,3 +175,6 @@ client.login(process.env.BOT_TOKEN)
         log.print("Can't login : verify discord token", 1, e);
     });
 
+module.exports = {
+    client
+}
