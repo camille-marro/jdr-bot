@@ -156,7 +156,7 @@
         "damage": 0,
         "tier": "A",
         "type": "weapon",
-        "count": 2
+        "count": 1
       },
       {
         "id": "8221a349-60de-41b0-a7ba-41ab386eaf65",
@@ -347,7 +347,6 @@
         "id": "69fdba79-7814-4e10-ab04-7d9031f3c47e",
         "name": "Seringue",
         "price": 0,
-        "health": 0,
         "tier": "S",
         "type": "med"
       },
@@ -355,7 +354,6 @@
         "id": "974fdc99-bf5f-4aea-858c-cc14765788df",
         "name": "Medkit",
         "price": 0,
-        "health": 0,
         "tier": "A",
         "type": "med"
       },
@@ -363,7 +361,6 @@
         "id": "24ff4b27-5337-41d7-b50e-e79f24fab10d",
         "name": "Kit de premier soin",
         "price": 0,
-        "health": 0,
         "tier": "B",
         "type": "med",
         "count": 1
@@ -372,7 +369,6 @@
         "id": "095b4994-a49f-44b0-8a7a-962244a072bc",
         "name": "Bandage",
         "price": 0,
-        "health": 0,
         "tier": "C",
         "type": "med"
       },
@@ -380,7 +376,6 @@
         "id": "e0e07dde-97d2-4ca4-9875-6642b7384c7e",
         "name": "Pansement",
         "price": 0,
-        "health": 0,
         "tier": "C",
         "type": "med",
         "count": 1
@@ -391,7 +386,6 @@
         "id": "c6ac9e8c-1822-42b5-870d-50e366650bce",
         "name": "Tenue de démineur",
         "price": 0,
-        "armor": 0,
         "tier": "S",
         "type": "protection"
       },
@@ -399,7 +393,6 @@
         "id": "a5832d33-68f5-4b83-8ebd-9903484d2d15",
         "name": "Gilet pare balle",
         "price": 0,
-        "armor": 0,
         "tier": "A",
         "type": "protection"
       },
@@ -407,7 +400,6 @@
         "id": "85b58af1-d1e2-4657-baef-39664e3b9052",
         "name": "Gilet tactique",
         "price": 0,
-        "armor": 0,
         "tier": "B",
         "type": "protection"
       },
@@ -415,7 +407,6 @@
         "id": "816934d8-c5a3-40f4-a7ba-d73e24422470",
         "name": "Bouclier de chevalier",
         "price": 0,
-        "armor": 0,
         "tier": "C",
         "type": "protection",
         "count": 1
@@ -488,69 +479,9 @@
     ]
   },
   "joueurs": {
-    "1": {
-      "money": 0,
-      "inv": [
-        {
-          "id": "63a9bf96-aa6f-4e88-8bd1-a67464edd14b",
-          "name": "HK USP",
-          "price": 0,
-          "munition": "b25d2396-8d09-45d7-be93-b0a3fcc60c29",
-          "tier": "C",
-          "type": "weapon",
-          "count": 2
-        },
-        {
-          "id": "65503d4d-12e3-4dd3-ace6-fc4f040bd35d",
-          "name": "P90",
-          "price": 0,
-          "munition": "259fb976-376a-4008-b9c6-e8199a9dee78",
-          "tier": "B",
-          "type": "weapon",
-          "count": 1
-        },
-        {
-          "id": "b28c357b-4c11-4cef-95e1-5b4a73c4343e",
-          "name": "Bombe",
-          "price": 0,
-          "munition": false,
-          "damage": 0,
-          "tier": "C",
-          "type": "weapon",
-          "count": 1
-        }
-      ],
-      "stats": {
-        "nb_kills": 0,
-        "nb_morts": 0,
-        "kill_streak": 0,
-        "max_kill_streak": 0
-      },
-      "health": 20,
-      "armor": 20,
-      "last_loot": 1698680976214,
-      "idDiscord": "0"
-    },
     "198381114602160128": {
       "money": 0,
       "inv": [
-        {
-          "id": "db0c7226-b54d-46f6-910a-cd13f6638939",
-          "name": "AK-47",
-          "price": 0,
-          "munition": "49372c93-8d1b-4141-a2da-89f201a8ee78",
-          "tier": "B",
-          "type": "weapon",
-          "count": 1
-        },
-        {
-          "id": "49372c93-8d1b-4141-a2da-89f201a8ee78",
-          "name": "7,62x39 mm",
-          "price": 0,
-          "type": "ammo",
-          "tier": "C",
-          "count": 100
-        }
       ],
       "stats": {
         "nb_kills": 0,
@@ -560,8 +491,178 @@
       },
       "health": 20,
       "armor": 0,
-      "last_loot": 1698703951276,
+      "flashed": false,
+      "mines": {
+        "count": 0,
+        "minersId": []
+      },
+      "c4": {
+        "count": 0,
+        "minersId": []
+      },
+      "last_loot": 0,
       "idDiscord": "198381114602160128"
+    },
+    "224152021610004480": {
+      "money": 0,
+      "inv": [],
+      "stats": {
+        "nb_kills": 0,
+        "nb_morts": 0,
+        "kill_streak": 0,
+        "max_kill_streak": 0
+      },
+      "health": 20,
+      "armor": 0,
+      "flashed": false,
+      "mines": {
+        "count": 0,
+        "minersId": []
+      },
+      "c4": {
+        "count": 0,
+        "minersId": []
+      },
+      "last_loot": 0,
+      "idDiscord": "224152021610004480"
+    },
+    "489817345712193549": {
+      "money": 0,
+      "inv": [],
+      "stats": {
+        "nb_kills": 0,
+        "nb_morts": 0,
+        "kill_streak": 0,
+        "max_kill_streak": 0
+      },
+      "health": 20,
+      "armor": 0,
+      "flashed": false,
+      "mines": {
+        "count": 0,
+        "minersId": []
+      },
+      "c4": {
+        "count": 0,
+        "minersId": []
+      },
+      "last_loot": 0,
+      "idDiscord": "489817345712193549"
+    },
+    "196304131470655497": {
+      "money": 0,
+      "inv": [],
+      "stats": {
+        "nb_kills": 0,
+        "nb_morts": 0,
+        "kill_streak": 0,
+        "max_kill_streak": 0
+      },
+      "health": 20,
+      "armor": 0,
+      "flashed": false,
+      "mines": {
+        "count": 0,
+        "minersId": []
+      },
+      "c4": {
+        "count": 0,
+        "minersId": []
+      },
+      "last_loot": 0,
+      "idDiscord": "196304131470655497"
+    },
+    "231895788765052929": {
+      "money": 0,
+      "inv": [],
+      "stats": {
+        "nb_kills": 0,
+        "nb_morts": 0,
+        "kill_streak": 0,
+        "max_kill_streak": 0
+      },
+      "health": 17,
+      "armor": 0,
+      "flashed": false,
+      "mines": {
+        "count": 0,
+        "minersId": []
+      },
+      "c4": {
+        "count": 0,
+        "minersId": []
+      },
+      "last_loot": 0,
+      "idDiscord": "231895788765052929"
+    },
+    "172423754347970561": {
+      "money": 0,
+      "inv": [],
+      "stats": {
+        "nb_kills": 0,
+        "nb_morts": 0,
+        "kill_streak": 0,
+        "max_kill_streak": 0
+      },
+      "health": 17,
+      "armor": 0,
+      "flashed": false,
+      "mines": {
+        "count": 0,
+        "minersId": []
+      },
+      "c4": {
+        "count": 0,
+        "minersId": []
+      },
+      "last_loot": 0,
+      "idDiscord": "172423754347970561"
+    },
+    "144895079897628672": {
+      "money": 0,
+      "inv": [],
+      "stats": {
+        "nb_kills": 0,
+        "nb_morts": 0,
+        "kill_streak": 0,
+        "max_kill_streak": 0
+      },
+      "health": 20,
+      "armor": 0,
+      "flashed": false,
+      "mines": {
+        "count": 0,
+        "minersId": []
+      },
+      "c4": {
+        "count": 0,
+        "minersId": []
+      },
+      "last_loot": 0,
+      "idDiscord": "144895079897628672"
+    },
+    "140840339568066561": {
+      "money": 0,
+      "inv": [],
+      "stats": {
+        "nb_kills": 0,
+        "nb_morts": 0,
+        "kill_streak": 0,
+        "max_kill_streak": 0
+      },
+      "health": 20,
+      "armor": 0,
+      "flashed": false,
+      "mines": {
+        "count": 0,
+        "minersId": []
+      },
+      "c4": {
+        "count": 0,
+        "minersId": []
+      },
+      "last_loot": 0,
+      "idDiscord": "140840339568066561"
     }
   }
 }
