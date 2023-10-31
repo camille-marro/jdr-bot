@@ -24,7 +24,7 @@ colors.set("heal", "#f120ab");
 colors.set("armor", "#0293af");
 colors.set("c4_detonated", "#ff5600");
 
-const channel = client.channels.cache.get('1168911714734063718');
+let channel;
 
 const maxHealth = 20;
 
@@ -982,7 +982,7 @@ function shootPlayers(damage, nbTarget, player, trueDamage = false) {
                 if (damages["armorDestroyed"]) {
                     msgEmbed.setColor(colors.get("attack"));
                     msgEmbed.setDescription("Vous avez détruit son armure et fait " + damages["damageDone"] + " dégâts.");
-                } else if (damages["damageDone"] > 0) {
+                } else if (damages["damageDone"] === 0) {
                     msgEmbed.setColor(colors.get("no_damage"));
                     msgEmbed.setDescription("Malheureusement il était bien protégé, vous n'avez pas réussi à lui faire des dégâts.");
                 } else {
@@ -1123,7 +1123,75 @@ function findItem(itemName) {
 function help(message) {
 
 }
+
+function notice(message) {
+    let msgEmbed = new EmbedBuilder();
+    let msgEmbed1 = new EmbedBuilder();
+    msgEmbed.setColor("#bf00ff");
+    msgEmbed1.setColor("#bf00ff");
+    msgEmbed.setTitle("Notice du jeu");
+    msgEmbed1.setTitle("Notice du jeu - suite");
+    msgEmbed.setDescription("C'est un jeu, toutes les 3 heures vous pouvez obtenir une caisse à ouvrir qui vous donnera soit : des armes, des munitions, du heal ou des protections. Vous pouvez utiliser ces différents objets pour vous défendre ou attaquer les autres joueurs du discord. Pour l'instant il n'y a aucun but à part s'amuser.");
+    msgEmbed.addFields({name: "Obtenir et ouvrir des caisses", value: "Il y a 4 types de caisses : caisse d'arme, caisse de munition, caisse de soin et caisse de protection. Chaque caisse à un % de chance différent d'être drop et peut être ouverte dès que le souhaite avec la commande \"game open [nom_caisse]\". Voici une liste des caisses avec leur rang et leur % de chance de drop : "});
+    msgEmbed.addFields({name: "Caisses d'armes", value: "Rang S (2%) : caisse arme antimatériel\nRang A (10%) : caisse d'arme lourde\nRang B (30%) : caisse d'explosif\nRanc C (58%) : caisse d'arme"});
+    msgEmbed.addFields({name: "Autres caisses", value: "Rang A (10%) : caisse de protection\nRang B (30%) : caisse de soin\n Rang C (58%) : caisse de munition"});
+    msgEmbed.addFields({name: "Utiliser ses armes", value: "Les armes ont un type de munition associé, sans cette dernière vous ne pourrait pas attaquer les autres joueurs. Les munitions sont trouvables dans les caisses de munitions. Si vous possédez les munitions ou que vous avez une arme qui n'en a pas besoin vous pouvez l'utiliser avec la commande \"game use [nom_arme]\". Voici la liste des armes, de leurs dégâts, de leurs effets et de leurs munitions."});
+    msgEmbed.addFields({name: "Liste des armes", value: "**Rang S (2%) : \n**" +
+            "M4 super 90 - munition : Cal 12 - Dégâts : 5 à 8 - Effet : Tire 2 cartouches pour le prix d'une\n" +
+            "SCAR-H - munition : 7,62 x 51mm - Dégâts : 3 à 6 - Effet : Tire 3 cartouches pour le prix d'une\n" +
+            "Rem 700 - munition : .308 WIN - Dégâts : 8 - Effet : Ignore l'armure de la cible\n" +
+            "RPG-7 - munition : PG-7V - Dégâts : 8 - Effet : Tire sur 3 joueurs\n" +
+            "NLAW - munition : aucune - Dégâts : 10 - Effet : Inflige 10 de dégâts à un joueur\n" +
+            "Mine antipersonnel - munition : aucune - Dégâts : 15 - Effet : S'active chez le joueur cible lorsqu'il attaque. Un joueur peut marcher sur plusieurs mines d'un seul coup."
+            });
+    msgEmbed.addFields({name : "Rang A (10%) :", value: "Desert Eagle - munition : .50AE - Dégâts : 5 - Effet : Ignore l'armure de la cible\n" +
+            "357 Magnum - munition : ..357 Magnum - Dégâts 2 à 4 : - Effet : Tire 2 cartouches pour le prix d'une\n" +
+            "SKS - munition : 7,62 x 39mm - Dégâts : 7 - Effet : Inflige 7 de dégâts à un joueur\n" +
+            "M32A1 - munition : Grenade explosive - Dégâts : 5 - Effet : Tire sur 3 joueurs\n" +
+            "SV-98 - munition : 7,62 x 51mm - Dégâts : 6 - Effet : Ignore l'armure de la cible\n" +
+            "Cocktail molotov - munition : aucune - Dégâts : 2 à 3 - Effet : Attaque 2 fois la cible\n" +
+            "Grenade flash - munition : aucune - Dégâts : 0 - Effet : Annule la prochaine attaque de la cible. Une cible ne peut être flashé que pour 1 attaque"
+    });
+    msgEmbed.addFields({ name: "Rang B (30%) : ", value: "Baretta 92 - munition : 9mm - Dégâts : 3 - Effet : Inflige 3 de dégâts à un joueur\n" +
+            "M4A1 - munition : 5,56 x 45mm - Dégâts : 2 à 3 - Effet : Tire 2 cartouches pour le prix d'une\n" +
+            "AK-47 - munition : 7,62 x 39mm - Dégâts : 2 à 3 - Effet : Tire 2 cartouches pour le prix d'une\n" +
+            "MPX - munition : 9mm - Dégâts : 1 à 3 - Effet : Tire 3 cartouches pour le prix d'une\n" +
+            "P90 - munition : 9 x 19mm - Dégâts : 1 à 3 - Effet : Tire 3 cartouches pour le prix d'une \n" +
+            "MP7 - munition : 4,6 x 30mm - Dégâts : 1 à 3 - Effet : Tire 3 cartouches pour le prix d'une\n" +
+            "Grenade explosive - munition : aucune - Dégâts : 5 - Effet : Tire sur 2 joueurs\n" +
+            "C4 - munition : aucune - Dégâts : 5 - Effet : Les C4 se déclenchent lorsque vous le souhaitez. Vous pouvez poser plusieurs C4 avant de les déclencher. Le déclenchement les fera tous exploser en même temps. Pour déclencher un C4 utiliser la commande \"game detonate\"\n"
+    });
+    msgEmbed.addFields({ name: "Rang C (58%) : ", value: "Glock 18 - munition : 9 x 19mm - Dégâts : 2 - Effet : Inflige 2 de dégâts à un joueur\n" +
+            "Colt 1911 - munition : .45 ACP - Dégâts : 2 - Effet : Inflige 2 de dégâts à un joueur \n" +
+            "HK USP - munition : .45 ACP - Dégâts : 2 - Effet : Inflige 2 de dégâts à un joueur \n" +
+            "MP5A2 - munition : 9 x 19mm - Dégâts : 2 - Effet : Inflige 2 de dégâts à un joueur \n" +
+            "Taser - munition : Munition de taser - Dégâts : 1 - Effet : Inflige 1 de dégât à un joueur \n" +
+            "Bombe - munition : aucune - Dégâts : 3 - Effet : Tire sur 3 joueurs\n"
+    });
+    msgEmbed.addFields({name: "Utiliser les consommables", value: "Les consommables sont les objets de soin et de protection, pour les utiliser c'est comme pour les armes il suffit de faire la commande \"game use [nom_objet]\". Voici la liste de ces consommables."});
+    msgEmbed.addFields({name: "Liste des consommables", value:
+            "Rang S (2%) :\n" +
+            "Seringue - Soigne entre 15 et 20 points de vie\n" +
+            "Tenue de démineur - Ajoute entre 15 et 20 points d'armure\n" +
+            "Rang A (10%) :\n" +
+            "Medkit - Soigne entre 8 et 12 points de vie\n" +
+            "Gilet pare-balle - Ajoute entre 10 et 12 points d'armure\n" +
+            "Rang B (30%) :\n" +
+            "Kit de premier soin - Soigne entre 4 et 8 points de vie\n" +
+            "Gilet tactique - Ajoute entre 6 et 8 points d'armure\n" +
+            "Rang C (58%) :\n" +
+            "Bandage - Soigne entre 2 et 3 points de vie\n" +
+            "Pansement - Soigne entre 2 et 3 points de vie\n" +
+            "Bouclier de chevalier - Ajoute entre 2 et 5 points d'armure\n"
+    });
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game help\""});
+    msgEmbed1.setFooter({text: "Pour plus d'informations utiliser la commande \"game help\""});
+
+    message.channel.send({embeds: [msgEmbed, msgEmbed1]});
+}
 function execute(message) {
+    channel = message.channel;
     let args = message.content.split(" ");
     if (args[1] === "loot") {
         lootCrate(message);
@@ -1137,6 +1205,8 @@ function execute(message) {
         detonateC4(message);
     }  else if (args[1] === "help") {
         help(message);
+    }  else if (args[1] === "notice") {
+        notice(message);
     } else {
         test();
     }
