@@ -92,6 +92,10 @@ client.on("messageCreate", message => {
             let remove = require("./commands/textCommands/music/remove");
             remove.remove(message);
             break;
+        case (prefix + "playlist"):
+            let playlist = require("./commands/textCommands/music/playlist");
+            playlist.execute(message);
+            break;
         case (prefix + "jdr"):
             let jdr = require("./commands/textCommands/jdr");
             jdr.execute(message);
@@ -115,6 +119,10 @@ client.on("messageCreate", message => {
         case (prefix + "log"):
             let logs = require("./commands/textCommands/log");
             logs.execute(message);
+            break;
+        case (prefix + "game"):
+            let game = require("./commands/textCommands/game");
+            game.execute(message);
             break;
     }
 });
