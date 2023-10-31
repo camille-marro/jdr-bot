@@ -193,6 +193,11 @@ function getPlayer(message) {
     }
     return joueur;
 }
+
+function getPlayerFromId(playerId) {
+    if (gameData["joueurs"].hasOwnProperty(playerId)) return gameData["joueurs"][playerId];
+    else return false;
+}
 function openCrate(message) {
     log.print("tried to open a crate", message.author, message.content);
     let player = getPlayer(message);
@@ -543,7 +548,93 @@ function useItem(message) {
         case "weapon":
             useWeapon(item, player);
             break;
+        case "med":
+            useMedicine(item, player);
+            break;
+        case "protection":
+            useProtection(item, player);
+            break;
     }
+
+    console.log(player);
+    //updateData();
+}
+
+function useProtection(protection, player) {
+    let i = 0;
+    while (i < player["inv"].length) {
+        if (player["inv"][i]["id"] === protection["id"]) {
+            if (player["inv"][i]["count"] > 1) player["inv"][i]["count"]--;
+            else player["inv"].splice(i, 1);
+            break;
+        }
+        i++;
+    }
+
+    let randInt;
+    switch (protection["id"]) {
+        case "c6ac9e8c-1822-42b5-870d-50e366650bce": // tenue de démineur
+            randInt = Math.floor(Math.random() * (20 - 15) + 15);
+            addArmorPlayer(randInt, player);
+            break;
+        case "a5832d33-68f5-4b83-8ebd-9903484d2d15": // gilet pare-balle
+            randInt = Math.floor(Math.random() * (12 - 10) + 10);
+            addArmorPlayer(randInt, player);
+            break;
+        case "85b58af1-d1e2-4657-baef-39664e3b9052": // gilet tactique
+            randInt = Math.floor(Math.random() * (8 - 6) + 6);
+            addArmorPlayer(randInt, player);
+            break;
+        case "816934d8-c5a3-40f4-a7ba-d73e24422470": // bouclier de chevalier
+            randInt = Math.floor(Math.random() * (5 - 2) + 2);
+            addArmorPlayer(randInt, player);
+            break;
+    }
+}
+
+function addArmorPlayer(armorAmount, player) {
+    player["armor"] += armorAmount;
+}
+
+function useMedicine(medicine, player) {
+    let i = 0;
+    while (i < player["inv"].length) {
+        if (player["inv"][i]["id"] === medicine["id"]) {
+            if (player["inv"][i]["count"] > 1) player["inv"][i]["count"]--;
+            else player["inv"].splice(i, 1);
+            break;
+        }
+        i++;
+    }
+
+    let randInt;
+    switch (medicine["id"]) {
+        case "69fdba79-7814-4e10-ab04-7d9031f3c47e": // seringue
+            randInt = Math.floor(Math.random() * (20 - 15) + 15);
+            healPlayer(randInt, player);
+            break;
+        case "974fdc99-bf5f-4aea-858c-cc14765788df": // medkit
+            randInt = Math.floor(Math.random() * (12 - 10) + 10);
+            healPlayer(randInt, player);
+            break;
+        case "24ff4b27-5337-41d7-b50e-e79f24fab10d": // kit de premier soin
+            randInt = Math.floor(Math.random() * (8 - 4) + 4);
+            healPlayer(randInt, player);
+            break;
+        case "095b4994-a49f-44b0-8a7a-962244a072bc": // bandage
+            randInt = Math.floor(Math.random() * (3 - 2) + 2);
+            healPlayer(randInt, player);
+            break;
+        case "e0e07dde-97d2-4ca4-9875-6642b7384c7e": // pansement
+            randInt = Math.floor(Math.random() * (3 - 2) + 2);
+            healPlayer(randInt, player);
+            break;
+    }
+}
+
+function healPlayer(healAmount, player) {
+    player["health"] += healAmount;
+    if (player["health"] > maxHealth) player["health"] = maxHealth;
 }
 
 function useWeapon(weapon, player) {
@@ -567,12 +658,27 @@ function useWeapon(weapon, player) {
         if (ammo["count"] <= 0) {
             player["inv"].splice(i, 1);
         }
+    } else {
+        let i = 0;
+        while (i < player["inv"].length) {
+            if (player["inv"][i]["id"] === weapon["id"]) {
+                if (player["inv"][i]["count"] > 1) {
+                    player["inv"][i]["count"]--;
+                }
+                else {
+                    player["inv"].splice(i, 1);
+                }
+                break;
+            }
+            i++;
+        }
+
     }
     let randInt, randInt2, randInt3;
      switch (weapon["id"]) {
          case "db0c7226-b54d-46f6-910a-cd13f6638939": // ak-47
-             randInt = Math.floor(Math.random() * 3 + 2);
-             randInt2 = Math.floor(Math.random() * 3 + 2);
+             randInt = Math.floor(Math.random() * (3 - 2) + 2);
+             randInt2 = Math.floor(Math.random() * (3 - 2) + 2);
              shootPlayers(randInt + randInt2, 1, player);
              break;
          case "91181b12-f8fa-4cea-a311-d7610e049380": // glock 18
@@ -591,54 +697,54 @@ function useWeapon(weapon, player) {
              shootPlayers(2, 1, player);
              break;
          case "410b884e-7906-4fda-8e54-d27932c13b3d": // 357 Magnum
-             randInt = Math.floor(Math.random() * 4 + 2);
-             randInt2 = Math.floor(Math.random() * 4 + 2);
+             randInt = Math.floor(Math.random() * (4 - 2) + 2);
+             randInt2 = Math.floor(Math.random() * (4 - 2) + 2);
              shootPlayers(randInt + randInt2, 1, player);
              break;
          case "965b3713-0480-4adf-8e55-1e68d5890a96": // taser
              shootPlayers(1, 1, player);
              break;
          case "eb74e2fb-1b62-40c4-bd5d-08dc13304d0e": // M4A1
-             randInt = Math.floor(Math.random() * 3 + 2);
-             randInt2 = Math.floor(Math.random() * 3 + 2);
+             randInt = Math.floor(Math.random() * (3 - 2) + 2);
+             randInt2 = Math.floor(Math.random() * (3 - 2) + 2);
              shootPlayers(randInt + randInt2, 1, player);
              break;
          case "99a7cfe4-e8fd-42af-b60d-c12754665e2f": // SKS
              shootPlayers(7, 1, player);
              break;
          case "f03af414-d4a2-484f-9170-9989d410101a": // M4 super 90
-             randInt = Math.floor(Math.random() * 8 + 5);
-             randInt2 = Math.floor(Math.random() * 8 + 5);
+             randInt = Math.floor(Math.random() * (8 - 5) + 5);
+             randInt2 = Math.floor(Math.random() * (8 - 5) + 5);
              shootPlayers(randInt + randInt2, 1, player);
              break;
          case "b3f63afb-6f60-4abb-80be-1b54649250ca": // MP5A2
              shootPlayers(2, 1, player);
              break;
          case "b20e3725-2f6c-4995-bc57-761fb9064283": // MPX
-             randInt = Math.floor(Math.random() * 3 + 1);
-             randInt2 = Math.floor(Math.random() * 3 + 1);
-             randInt3 = Math.floor(Math.random() * 3 + 1);
+             randInt = Math.floor(Math.random() * (3 - 1) + 1);
+             randInt2 = Math.floor(Math.random() * (3 - 1) + 1);
+             randInt3 = Math.floor(Math.random() * (3 - 1) + 1);
              shootPlayers(randInt + randInt2 + randInt3, 1, player);
              break;
          case "9ce3092c-f2d7-41ec-b9b5-12c2758b2325": // M32A1
              shootPlayers(5, 3, player);
              break;
          case "0a682b69-9234-4064-b487-d6be870c2f84": // SCAR-H
-             randInt = Math.floor(Math.random() * 6 + 3);
-             randInt2 = Math.floor(Math.random() * 6 + 3);
-             randInt3 = Math.floor(Math.random() * 6 + 3);
+             randInt = Math.floor(Math.random() * (6 - 3) + 3);
+             randInt2 = Math.floor(Math.random() * (6 - 3) + 3);
+             randInt3 = Math.floor(Math.random() * (6 - 3) + 3);
              shootPlayers(randInt + randInt2 + randInt3, 1, player);
              break;
          case "65503d4d-12e3-4dd3-ace6-fc4f040bd35d": // P90
-             randInt = Math.floor(Math.random() * 3 + 1);
-             randInt2 = Math.floor(Math.random() * 3 + 1);
-             randInt3 = Math.floor(Math.random() * 3 + 1);
+             randInt = Math.floor(Math.random() * (3 - 1) + 1);
+             randInt2 = Math.floor(Math.random() * (3 - 1) + 1);
+             randInt3 = Math.floor(Math.random() * (3 - 1) + 1);
              shootPlayers(randInt + randInt2 + randInt3, 1, player);
              break;
          case "1c3e7c6a-b77a-4772-b573-70dddbdcfe5c": // MP7
-             randInt = Math.floor(Math.random() * 3 + 1);
-             randInt2 = Math.floor(Math.random() * 3 + 1);
-             randInt3 = Math.floor(Math.random() * 3 + 1);
+             randInt = Math.floor(Math.random() * (3 - 1) + 1);
+             randInt2 = Math.floor(Math.random() * (3 - 1) + 1);
+             randInt3 = Math.floor(Math.random() * (3 - 1) + 1);
              shootPlayers(randInt + randInt2 + randInt3, 1, player);
              break;
          case "c5c0ba54-4f3a-4c63-ab29-5d6c917154d8": // SV-98
@@ -648,8 +754,8 @@ function useWeapon(weapon, player) {
              shootPlayers(8, 1, player, true);
              break;
          case "c3bd7600-bdce-4076-a5e3-fdcbaf94af78": // Cocktail Molotov
-             randInt = Math.floor(Math.random() * 3 + 2);
-             randInt2 = Math.floor(Math.random() * 3 + 2);
+             randInt = Math.floor(Math.random() * (3 - 2) + 2);
+             randInt2 = Math.floor(Math.random() * (3 - 2) + 2);
              shootPlayers(randInt + randInt2, 1, player);
              break;
          case "058361e2-d1ba-46fa-a231-a28411c5d2de": // Grenade explosive
@@ -664,23 +770,124 @@ function useWeapon(weapon, player) {
          case "b28c357b-4c11-4cef-95e1-5b4a73c4343e": // Bombe
              shootPlayers(3, 3, player);
              break;
+         case "22024005-8768-4754-8dec-47d44266e91a": // Grenade flash
+             let blinded = blindPlayers(1, player); // renvoie le nb de gens flash
+             console.log(blinded)
+             break;
+         case "4160668f-2b86-41e1-822f-ae5af585db67": // mine antipersonnel
+             minePlayers(1, player); // renvoie le nb de gens minés
+             break;
+         case "5c5b617c-22a3-490d-a3f1-254d704ccd9c": // c4
+             c4Players(1, player); // renvoie le nb de gens minés
+             break;
      }
+}
+
+function c4Players(nbTarget, player) {
+    let playerList = loadAllOtherPlayers(player["idDiscord"]);
+    let targets = getTargets(nbTarget, playerList);
+
+    targets.forEach((target) => {
+        target["c4"]["count"]++;
+        target["c4"]["minersId"].push(player["idDiscord"]);
+    });
+}
+
+function detonateC4(message) {
+    let userPlayer = getPlayer(message);
+    let playerList = loadAllOtherPlayers(userPlayer["idDiscord"]);
+
+    let c4ToExplode = [];
+    playerList.forEach((player) => {
+        if (player["c4"]["count"] > 0) {
+            let i = 0;
+            while (i < player["c4"]["count"]) {
+                if (player["c4"]["minersId"][i] === userPlayer["idDiscord"]) {
+                    c4ToExplode.push(player);
+                    player["c4"]["minersId"].splice(i, 1);
+                    player["c4"]["count"]--;
+                } else {
+                    i++;
+                }
+            }
+        }
+    });
+
+    c4ToExplode.forEach((player) => {
+        let damages = damagePlayer(15, player);
+        if (damages["playerDead"]) {
+            userPlayer["stats"]["nb_kills"]++;
+            userPlayer["stats"]["kill_streak"]++;
+            stealTarget(5,player, userPlayer);
+        }
+    });
+}
+
+function minePlayers(nbTarget, player) {
+    let playerList = loadAllOtherPlayers(player["idDiscord"]);
+    let targets = getTargets(nbTarget, playerList);
+
+    targets.forEach((target) => {
+        target["mines"]["count"]++;
+        target["mines"]["minersId"].push(player["idDiscord"]);
+    });
+}
+
+function blindPlayers(nbTarget, player) {
+    let playerList = loadAllOtherPlayers(player["idDiscord"]);
+    let targets = getNoFlashedTargets(nbTarget, playerList);
+    let flashed = 0;
+    targets.forEach((target) => {
+        if (!target["flashed"]) {
+            target["flashed"] = true;
+            flashed++;
+        }
+    });
+
+    return flashed;
 }
 
 function shootPlayers(damage, nbTarget, player, trueDamage = false) {
     let playerList = loadAllOtherPlayers(player["idDiscord"]);
     let targets = getTargets(nbTarget, playerList);
 
+    let playerDead = false;
+
     targets.forEach((target) => {
-        let damages = damagePlayer(damage, target, trueDamage);
+        if (playerDead) return;
+        if (player["flashed"]) {
+            player["flashed"] = false;
+        } else {
+            // @TODO : mine gameplay
+            if (player["mines"]["count"] > 0) {
+                while (player["mines"]["count"] > 0) {
+                    let damage = damagePlayer(15, player);
+                    console.log("mine posé par : " + player["mines"]["minersId"][0] + " vient d'exploser");
+                    // enlever la mine
+                    let killer = getPlayerFromId(player["mines"]["minersId"][0]);
+                    player["mines"]["count"]--;
+                    player["mines"]["minersId"].splice(0, 1);
 
-        console.log(target)
+                    // check si mort et tuer le man
+                    if (damage["playerDead"]) {
+                        if (!killer) return;
+                        killer["stats"]["nb_kills"]++;
+                        killer["stats"]["kill_streak"]++;
+                        stealTarget(5, player, killer);
+                        playerDead = true;
+                    }
+                }
 
-        // si target morte alors, on vole 5 items dans son inventaire et on augmente son nb kill et sa kill streak de 1
-        if (damages["playerDead"]) {
-            player["stats"]["nb_kills"]++;
-            player["stats"]["kill_streak"]++;
-            stealTarget(5,target, player);
+                //return // --> à mettre si on veut que quand on mange une mine ça annule l'attaque ? donc consommation de la munition
+            }
+            let damages = damagePlayer(damage, target, trueDamage);
+
+            // si target morte alors, on vole 5 items dans son inventaire et on augmente son nb kill et sa kill streak de 1
+            if (damages["playerDead"]) {
+                player["stats"]["nb_kills"]++;
+                player["stats"]["kill_streak"]++;
+                stealTarget(5,target, player);
+            }
         }
     });
 }
@@ -690,11 +897,16 @@ function stealTarget(nbItemToSteal, target, player) {
     if (nbItemToSteal > target["inv"].length) nbItemToSteal = target["inv"].length;
     for (let i = 0; i < nbItemToSteal; i++) {
         let randInt = Math.floor(Math.random() * target["inv"].length);
-        player["inv"].push(target["inv"][randInt]);
-        target["inv"].splice(randInt, 1);
+        if (target["inv"][randInt]["count"] > 1) {
+            target["inv"][randInt]["count"]--;
+            let copyItem = target["inv"][randInt];
+            copyItem["count"] = 1;
+            player["inv"].push(copyItem);
+        } else {
+            player["inv"].push(target["inv"][randInt]);
+            target["inv"].splice(randInt, 1);
+        }
     }
-
-    //update();
 }
 
 function damagePlayer(damage, player, trueDamage = true) {
@@ -725,13 +937,19 @@ function damagePlayer(damage, player, trueDamage = true) {
     if (player["health"] <= 0) {
         playerDead = true;
         player["stats"]["nb_morts"]++;
+
         player["health"] = maxHealth;
+        player["armor"] = 0;
+        player["flashed"] = false;
+        player['mines'] = {"count": 0, "minerId": []};
+        player['c4'] = {"count": 0, "minerId": []};
+
         if (player["stats"]["kill_streak"] > player["stats"]["max_kill_streak"]) {
             player["stats"]["max_kill_streak"] = player["stats"]["kill_streak"];
             player["stats"]["kill_streak"] = 0;
         }
     }
-    //updateData();
+
     return {
         "armorDestroyed" : armorDestroyed,
         "damageDone" : finalDamage,
@@ -740,12 +958,22 @@ function damagePlayer(damage, player, trueDamage = true) {
 }
 
 function getTargets(nbTarget, playerList) {
-    let i = 0;
     let targets = [];
     let tempPlayerList = playerList.slice();
     while (targets.length < nbTarget && tempPlayerList.length > 0) {
         let randInt = Math.floor(Math.random() * tempPlayerList.length);
         targets.push(tempPlayerList[randInt]);
+        tempPlayerList.splice(randInt, 1);
+    }
+    return targets;
+}
+
+function getNoFlashedTargets(nbTarget, playerList) {
+    let targets = [];
+    let tempPlayerList = playerList.slice();
+    while (targets.length < nbTarget && tempPlayerList.length > 0) {
+        let randInt = Math.floor(Math.random() * tempPlayerList.length);
+        if (!tempPlayerList[randInt]["flashed"]) targets.push(tempPlayerList[randInt]);
         tempPlayerList.splice(randInt, 1);
     }
     return targets;
@@ -804,6 +1032,8 @@ function execute(message) {
         openCrate(message);
     } else if (args[1] === "use") {
         useItem(message);
+    } else if (args[1] === "c4") {
+        detonateC4(message);
     } else {
         test();
     }
