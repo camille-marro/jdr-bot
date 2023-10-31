@@ -49,7 +49,7 @@ function lootCrate(message) {
     let joueur = getPlayer(message);
     if(!joueur) return;
 
-    if (((new Date().getTime() - joueur["last_loot"]) / (1000 * 60 * 60)) < 3) {
+    if (((new Date().getTime() - joueur["last_loot"]) / (1000 * 60 * 60)) < 1) {
         msgEmbed.setColor("#ff0000");
         msgEmbed.setTitle("Trop tôt !");
         msgEmbed.setDescription("Vous ne pouvez looter une caisse qu'une fois toute les 3 heures.");
@@ -1121,7 +1121,7 @@ function findItem(itemName) {
     return false;
 }
 function help(message) {
-
+    message.channel.send("PAS ENCORE DISPO FF")
 }
 
 function notice(message) {
@@ -1131,7 +1131,7 @@ function notice(message) {
     msgEmbed1.setColor("#bf00ff");
     msgEmbed.setTitle("Notice du jeu");
     msgEmbed1.setTitle("Notice du jeu - suite");
-    msgEmbed.setDescription("C'est un jeu, toutes les 3 heures vous pouvez obtenir une caisse à ouvrir qui vous donnera soit : des armes, des munitions, du heal ou des protections. Vous pouvez utiliser ces différents objets pour vous défendre ou attaquer les autres joueurs du discord. Pour l'instant il n'y a aucun but à part s'amuser.");
+    msgEmbed.setDescription("C'est un jeu, toutes les heures vous pouvez obtenir une caisse à ouvrir qui vous donnera soit : des armes, des munitions, du heal ou des protections. Vous pouvez utiliser ces différents objets pour vous défendre ou attaquer les autres joueurs du discord. Pour l'instant il n'y a aucun but à part s'amuser.");
     msgEmbed.addFields({name: "Obtenir et ouvrir des caisses", value: "Il y a 4 types de caisses : caisse d'arme, caisse de munition, caisse de soin et caisse de protection. Chaque caisse à un % de chance différent d'être drop et peut être ouverte dès que le souhaite avec la commande \"game open [nom_caisse]\". Voici une liste des caisses avec leur rang et leur % de chance de drop : "});
     msgEmbed.addFields({name: "Caisses d'armes", value: "Rang S (2%) : caisse arme antimatériel\nRang A (10%) : caisse d'arme lourde\nRang B (30%) : caisse d'explosif\nRanc C (58%) : caisse d'arme"});
     msgEmbed.addFields({name: "Autres caisses", value: "Rang A (10%) : caisse de protection\nRang B (30%) : caisse de soin\n Rang C (58%) : caisse de munition"});
