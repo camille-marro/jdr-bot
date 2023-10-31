@@ -587,10 +587,16 @@ function useItem(message) {
                 log.print("error : no ammo for this weapon", 1);
             } else if (result["flash"]) {
                 message.author.send({embeds: [result["flash"]]});
+                result.setDescription("Vous avez lancé votre grenade flash avec succès. Vérifiez vos MP pour connaître la cible.");
+                message.channel.send({embeds: [result]});
             } else if (result["mine"]) {
                 message.author.send({embeds: [result["mine"]]});
+                result.setDescription("Vous avez utilisé votre mine avec succès. Vérifiez vos MP pour connaître la cible.");
+                message.channel.send({embeds: [result]});
             } else if (result["c4"]) {
                 message.author.send({embeds: [result["c4"]]});
+                result.setDescription("Vous avez lancé votre C4 avec succès. Vérifiez vos MP pour connaître la cible.");
+                message.channel.send({embeds: [result]});
             } else {
                 message.channel.send({embeds: [result]});
             }
