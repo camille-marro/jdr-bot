@@ -65,10 +65,10 @@ function printPersonnage(personnage) {
     msgEmbed.setDescription(personnage["desc"]);
     if (personnage["pseudo"] !== "/") msgEmbed.addFields({name: "Pseudonyme", value: personnage["pseudo"]});
     msgEmbed.addFields({name: "Race", value: personnage["race"], inline: true});
-    msgEmbed.addFields({name: "Age", value: personnage["age"] + " ans", inline: true});
+    if (personnage.hasOwnProperty("age")) msgEmbed.addFields({name: "Age", value: personnage["age"] + " ans", inline: true});
     msgEmbed.addFields({name: "Sexe", value: personnage["sex"], inline: true});
-    msgEmbed.addFields({name: "Métier", value: personnage["job"], inline: true});
-    msgEmbed.addFields({name: "Magie", value: personnage["magic"], inline: true});
+    if (personnage.hasOwnProperty("job")) msgEmbed.addFields({name: "Métier", value: personnage["job"], inline: true});
+    if (personnage.hasOwnProperty("magic")) msgEmbed.addFields({name: "Magie", value: personnage["magic"], inline: true});
     msgEmbed.setFooter({text: "Pour plus d'infos utiliser la commande \"jdr help\""});
 
     return msgEmbed;
