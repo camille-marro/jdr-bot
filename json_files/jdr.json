@@ -96,6 +96,12 @@
           "desc": "garde le marteau et les sousous",
           "size": 1,
           "price": "@TODO"
+        },
+        {
+          "name": "Verre détecteur de poison",
+          "desc": "Verre en verre de couleur transparente, qui se colore en noir lorsqu'il est en contact avec du poison.",
+          "size": 1,
+          "price": "@TODO"
         }
       ],
       "money": 30
@@ -270,7 +276,7 @@
       "private": true,
       "idDiscord": "144895079897628672",
       "pseudo": "/",
-      "desc": "Equipement : Homme mat, chauve, Vêtu de haillons noirs qui se terminent en un bandeau qu’il peut utiliser pour cacher son visage tah pyke. Ne porte pas d’armure mais de simples tissus basiques et passe partout. Très fort physiquement, mais tente de ne pas attirer les regards. Il porte à sa ceinture 1 gourde d’eau et une gourde de sable, ainsi qu’un cimeterre à la ceinture. Des bottes de cuir usées. Une boucle d’oreille en or représentant l’étoile du nord, symbole de son clan.",
+      "desc": "Homme mat, chauve, Vêtu de haillons noirs qui se terminent en un bandeau qu’il peut utiliser pour cacher son visage tah pyke. Ne porte pas d’armure mais de simples tissus basiques et passe partout. Très fort physiquement, mais tente de ne pas attirer les regards. Il porte à sa ceinture 1 gourde d’eau et une gourde de sable, ainsi qu’un cimeterre à la ceinture. Des bottes de cuir usées. Une boucle d’oreille en or représentant l’étoile du nord, symbole de son clan.",
       "race": "Humain",
       "job": "Barman",
       "age": 29,
@@ -322,7 +328,37 @@
         }
       ],
       "money": 9
+    },
+    {
+      "name": "Gloria",
+      "private": false,
+      "pseudo": "/",
+      "desc": "Femme d’une cinquantaine d’années, très grosse aujourd’hui mais qui était assez fine plus jeune, yeux bleus, cheveux blonds, caractère très aventurier, elle a toujours aimé l’aventure et les énigmes. Gloria est à la recherche du cristal de défense physique pour tenter de la détruire",
+      "race": "Humain",
+      "job": "Archéologue",
+      "age": 52,
+      "sex": "F"
+    },
+    {
+      "name": "Clovius",
+      "private": false,
+      "pseudo": "/",
+      "desc": "Ami de Gloria qui a convoqué les héros en Aponium. C’est un jeune homme d’une vingtaine d’années, fin mais musclé.",
+      "race": "Humain",
+      "job": "Barman",
+      "age": 23,
+      "sex": "H"
+    },
+    {
+      "name": "Dreldur",
+      "private": false,
+      "pseudo": "/",
+      "desc": "C’est un petit homme, très gros, avec une voix très roque. Il est chauve et imberbe. C'est le marchand le plus riche d'Aponium",
+      "race": "Humain",
+      "job": "Marchand",
+      "sex": "H"
     }
+
   ],
   "ambiances": {
     "start": [
