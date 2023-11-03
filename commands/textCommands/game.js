@@ -1218,6 +1218,35 @@ function printStats(message) {
     msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
     message.channel.send({embeds: [msgEmbed]});
 }
+function sellItem(message) {
+    log.print("tried to sell an item", message.author, message.content);
+    let args = message.content.split(" ");
+    let itemName = "";
+    for (let i = 2; i < args.length; i++) itemName += args[i] + " ";
+    itemName = itemName.slice(0, -1);
+
+    let player = getPlayer(message);
+    if (!player) return;
+
+    let item = findItem(itemName);
+    if (!item) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : item introuvable");
+        msgEmbed.setDescription("L'item que vous avez utiliser est introuvable. Essayer de copier le nom de l'item directement depuis votre inventaire (commande : *game inv*)");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("error : item doesn't exist", 1);
+        return;
+    }
+
+    switch (item["tier"]) {
+        case "C":
+
+    }
+
+}
 function help(message) {
     message.channel.send("PAS ENCORE DISPO FF fait game notice ya tout marqué\nsinon les commandes principales c'est : game loot, game inv, game use [nom_item], game stats, game open [nom_caisse], game detonate")
 }
@@ -1304,8 +1333,10 @@ function execute(message) {
         help(message);
     }  else if (args[1] === "notice") {
         notice(message);
-    } else if (args[1] === "stats") {
+    } else if (args[1] === "stats" || args[1] === "stat") {
         printStats(message);
+    } else if (args[1] === "sell") {
+        sellItem(message);
     }
 }
 
