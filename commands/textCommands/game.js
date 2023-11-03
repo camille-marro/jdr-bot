@@ -3,6 +3,7 @@ const path = require("path");
 const { EmbedBuilder } = require('discord.js');
 
 const log = require('../../assets/log');
+const {resolve} = require("path");
 
 let gameData;
 const colors = new Map();
@@ -24,6 +25,7 @@ colors.set("armor", "#0293af");
 colors.set("c4_detonated", "#ff5600");
 colors.set("nothing_to_steal", "#888888");
 colors.set("stolen", "#7df135");
+colors.set("loaded offline loots", "#00ffd8");
 let channel;
 
 const maxHealth = 20;
@@ -146,6 +148,95 @@ function lootCrate(message) {
 
         message.channel.send({embeds: [msgEmbed]});
         log.print("sending success message", 1);
+    }
+}
+function lootOfflineCrate(player) {
+    let randInt = Math.floor(Math.random() * 99 + 1);
+    let msgEmbed = new EmbedBuilder();
+
+    if (randInt <= 2) {
+        // caisse antimatériel
+        log.print("crate with id=c14d280f-121c-4252-bb84-2a6696143c20 found", 1);
+        addCrate("c14d280f-121c-4252-bb84-2a6696143c20", player);
+        msgEmbed.setColor(colors.get("S"));
+        msgEmbed.setTitle("Caisse d'arme anti-matériel trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier S, espèce de gros con.")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        log.print("sending success message", 1);
+        return msgEmbed;
+    }
+    else if (randInt > 2 && randInt <= 7) {
+        // caisse arme lourde
+        log.print("crate with id=a592d1ed-3e66-4585-a68e-697f3c24904e found", 1);
+        addCrate("a592d1ed-3e66-4585-a68e-697f3c24904e", player);
+        msgEmbed.setColor(colors.get("A"));
+        msgEmbed.setTitle("Caisse d'arme lourde trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier A, bravo tu te crois malin c'est ça ?")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        log.print("sending success message", 1);
+        return msgEmbed;
+    }
+    else if (randInt > 7 && randInt <= 12) {
+        // caisse de protection
+        log.print("crate with id=26b8d782-15c4-41f3-a886-eaeed371d714 found", 1);
+        addCrate("26b8d782-15c4-41f3-a886-eaeed371d714", player);
+        msgEmbed.setColor(colors.get("A"));
+        msgEmbed.setTitle("Caisse de protection trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier A, bravo tu te crois malin c'est ça ?")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        log.print("sending success message", 1);
+        return msgEmbed;
+    }
+    else if (randInt > 12 && randInt <= 27) {
+        // caisse d'explosif
+        log.print("crate with id=a74b16f4-3095-4e5d-8093-555c3e13fa5f found", 1);
+        addCrate("a74b16f4-3095-4e5d-8093-555c3e13fa5f", player);
+        msgEmbed.setColor(colors.get("B"));
+        msgEmbed.setTitle("Caisse d'explosif trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier B, c'est plutôt cool.")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        log.print("sending success message", 1);
+        return msgEmbed;
+    }
+    else if (randInt > 27 && randInt <= 41) {
+        // caisse de soin
+        log.print("crate with id=aa298444-c2b5-4d47-af0f-5a06ea0354f0 found", 1);
+        addCrate("aa298444-c2b5-4d47-af0f-5a06ea0354f0", player);
+        msgEmbed.setColor(colors.get("B"));
+        msgEmbed.setTitle("Caisse de soin trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier B, c'est plutôt cool.")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        log.print("sending success message", 1);
+        return msgEmbed;
+    }
+    else if (randInt > 41 && randInt <= 70) {
+        // caisse d'arme
+        log.print("crate with id=1ad565c1-6e56-4a28-8de6-ff6ce228444c found", 1);
+        addCrate("1ad565c1-6e56-4a28-8de6-ff6ce228444c", player);
+        msgEmbed.setColor(colors.get("C"));
+        msgEmbed.setTitle("Caisse d'arme trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier C, comme tout le monde au final.")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        log.print("sending success message", 1);
+        return msgEmbed;
+    }
+    else {
+        // caisse de munition
+        log.print("crate with id=935846e7-ca48-49a3-9a6d-14b273a2139b found", 1);
+        addCrate("935846e7-ca48-49a3-9a6d-14b273a2139b", player);
+        msgEmbed.setColor(colors.get("C"));
+        msgEmbed.setTitle("Caisse de munition trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier C, comme tout le monde au final.");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        log.print("sending success message", 1);
+        return msgEmbed;
     }
 }
 function printWaitingTime(player) {
@@ -1316,6 +1407,73 @@ function notice(message) {
 
     message.channel.send({embeds: [msgEmbed, msgEmbed1]});
 }
+function loadOfflineLoots(client) {
+    let truePlayers = gameData["joueurs"];
+    loadMessages(client)
+        .then((msgLoots) => {
+            let playersCopyWithTimestamps = parseOfflineMessages(msgLoots[0]);
+            Object.entries(playersCopyWithTimestamps).forEach(([key, player]) => {
+                player["lootMessages"].forEach(timestamp => {
+                    if (((timestamp - truePlayers[key]["last_loot"]) / (1000*60*60)) > 1) {
+                        lootOfflineCrate(truePlayers[key]);
+                        truePlayers[key]["last_loot"] = timestamp;
+                    }
+                });
+            });
+
+            updateData();
+
+            let msgEmbed = new EmbedBuilder();
+
+            msgEmbed.setColor(colors.get("loaded offline loots"));
+            msgEmbed.setTitle("Loot hors ligne récupérer avec succès");
+            msgEmbed.setDescription("Les commandes \"game loot\" effectuées quand le bot était hors ligne ont été récupéré et activé avec succès. Vérifier vos inventaires pour voir ce que vous avez obtenu !")
+            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+            msgLoots[1].send({embeds: [msgEmbed]});
+
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+async function loadMessages(client) {
+    let msgLoots = [];
+    let channel;
+
+    try {
+        const res = await client.channels.fetch("1170062817894879333");
+        channel = res;
+        const messages = await res.messages.fetch();
+
+        for (const message of messages.values()) {
+            let config = require('../../assets/config.js');
+            let prefix = config['config']['prefix'];
+
+            if (message.content === (prefix + "game loot")) {
+                msgLoots.push(message);
+            }
+
+            await message.delete();
+        }
+    } catch (error) {
+        console.error(`Une erreur s'est produite : ${error}`);
+    }
+
+    return [msgLoots, channel];
+}
+function parseOfflineMessages(messages) {
+    let playersCopy = JSON.parse(JSON.stringify(gameData["joueurs"]));
+    Object.entries(playersCopy).forEach(([key, player]) => {
+        player["lootMessages"] = []
+        messages.forEach(message => {
+            if (message.author.id === key) {
+               player["lootMessages"].unshift(message.createdTimestamp);
+            }
+        });
+    });
+    return playersCopy
+}
 function execute(message) {
     channel = message.channel;
     let args = message.content.split(" ");
@@ -1336,10 +1494,11 @@ function execute(message) {
     } else if (args[1] === "stats" || args[1] === "stat") {
         printStats(message);
     } else if (args[1] === "sell") {
-        sellItem(message);
+        //sellItem(message);
     }
 }
 
 module.exports = {
-    execute
+    execute,
+    loadOfflineLoots
 }

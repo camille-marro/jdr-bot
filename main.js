@@ -16,6 +16,7 @@ const client = new Client({
 
 let player = Player.singleton(client);
 let config = require('./assets/config.js');
+const game = require("./commands/textCommands/game");
 
 /*
 const elochecker = require("./commands/textCommands/lol/elochecker");
@@ -162,6 +163,13 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
     }
 });
 */
+
+client.on("ready", () => {
+    let game = require("./commands/textCommands/game");
+    game.loadOfflineLoots(client);
+
+    console.log("loading offlines loots")
+})
 
 client.login(process.env.BOT_TOKEN)
     .then(r => {
