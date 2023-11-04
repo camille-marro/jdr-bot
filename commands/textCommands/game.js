@@ -281,7 +281,15 @@ function addCrate(crateId, joueur) {
 }
 function printInventory(message) {
     log.print("tried to print his inventory", message.author, message.content);
-    let joueur = getPlayer(message);
+    let args = message.content.split(" ");
+    const regex = /<@!?\d+>/;
+    let joueur;
+    if (regex.test(args[2])) {
+        {
+            let id = args[2].slice(2, args[2].length-1);
+            joueur = getPlayerFromId(id);
+        }
+    } else joueur = getPlayer(message);
     if(!joueur) return;
 
     let str = "";
@@ -691,12 +699,14 @@ function useItem(message) {
             result = useWeapon(item, player); // @TODO
             if (result["flash"]) {
                 message.author.send({embeds: [result["flash"]]});
-                result["flash"].setDescription("Vous avez lancé votre grenade flash avec succès. Vérifiez vos MP pour connaître la cible.");
-                message.channel.send({embeds: [result["flash"]]});
+                let result2 = JSON.parse(JSON.stringify(result));
+                result2["flash"]["description"] = "Vous avez lancé votre grenade flash avec succès. Vérifiez vos MP pour connaître la cible.";
+                message.channel.send({embeds: [result2["flash"]]});
             } else if (result["mine"]) {
                 message.author.send({embeds: [result["mine"]]});
-                result["mine"].setDescription("Vous avez utilisé votre mine avec succès. Vérifiez vos MP pour connaître la cible.");
-                message.channel.send({embeds: [result["mine"]]});
+                let result2 = JSON.parse(JSON.stringify(result));
+                result2["mine"]["description"] = "Vous avez utilisé votre mine avec succès. Vérifiez vos MP pour connaître la cible.";
+                message.channel.send({embeds: [result2["mine"]]});
             } else if (result["c4"]) {
                 message.author.send({embeds: [result["c4"]]});
                 let result2 = JSON.parse(JSON.stringify(result));
@@ -718,13 +728,24 @@ function useItem(message) {
 }
 function useProtection(protection, player) {
     let i = 0;
+    let itemFound = false;
     while (i < player["inv"].length) {
         if (player["inv"][i]["id"] === protection["id"]) {
             if (player["inv"][i]["count"] > 1) player["inv"][i]["count"]--;
             else player["inv"].splice(i, 1);
+            itemFound = !itemFound;
             break;
         }
         i++;
+    }
+
+    if (!itemFound) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : vous n'avez pas la protection");
+        msgEmbed.setDescription("Vous n'avez la protection : " + protection["name"] + ", gros con !");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+        return msgEmbed;
     }
 
     let randInt;
@@ -755,13 +776,24 @@ function addArmorPlayer(armorAmount, player) {
 }
 function useMedicine(medicine, player) {
     let i = 0;
+    let itemFound = false;
     while (i < player["inv"].length) {
         if (player["inv"][i]["id"] === medicine["id"]) {
             if (player["inv"][i]["count"] > 1) player["inv"][i]["count"]--;
             else player["inv"].splice(i, 1);
+            itemFound = !itemFound;
             break;
         }
         i++;
+    }
+
+    if (!itemFound) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : vous n'avez pas l'objet");
+        msgEmbed.setDescription("Vous n'avez l'objet : " + medicine["name"] + ", gros con !");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+        return msgEmbed;
     }
 
     let randInt;
@@ -831,32 +863,32 @@ function useWeapon(weapon, player) {
             player["inv"].splice(i, 1);
         }
     }
-    else {
-        let i = 0;
-        let itemFound = false;
-        while (i < player["inv"].length) {
-            if (player["inv"][i]["id"] === weapon["id"]) {
-                if (player["inv"][i]["count"] > 1) {
-                    player["inv"][i]["count"]--;
-                    itemFound = !itemFound
-                }
-                else {
-                    player["inv"].splice(i, 1);
-                    itemFound = !itemFound
-                }
-                break;
+
+    let i = 0;
+    let itemFound = false;
+    while (i < player["inv"].length) {
+        if (player["inv"][i]["id"] === weapon["id"]) {
+            if (player["inv"][i]["count"] > 1) {
+                player["inv"][i]["count"]--;
+                itemFound = !itemFound
             }
-            i++;
+            else {
+                player["inv"].splice(i, 1);
+                itemFound = !itemFound
+            }
+            break;
         }
-        if (!itemFound) {
-            let msgEmbed = new EmbedBuilder();
-            msgEmbed.setColor("#ff0000");
-            msgEmbed.setTitle("Erreur : vous n'avez pas l'arme");
-            msgEmbed.setDescription("Vous n'avez l'arme : " + weapon["name"] + ", gros con !");
-            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
-            return [msgEmbed];
-        }
+        i++;
     }
+    if (!itemFound) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : vous n'avez pas l'arme");
+        msgEmbed.setDescription("Vous n'avez l'arme : " + weapon["name"] + ", gros con !");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+        return [msgEmbed];
+    }
+
     let randInt, randInt2, randInt3;
 
      switch (weapon["id"]) {
@@ -1293,7 +1325,16 @@ function findItem(itemName) {
     return false;
 }
 function printStats(message) {
-    let player = getPlayer(message);
+    let args = message.content.split(" ");
+    const regex = /<@!?\d+>/;
+    let player;
+    if (regex.test(args[2])) {
+        {
+            let id = args[2].slice(2, args[2].length-1);
+            player = getPlayerFromId(id);
+        }
+    } else player = getPlayer(message);
+
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setTitle("Statistiques");
     msgEmbed.setColor("#00ce5e");
@@ -1495,6 +1536,7 @@ function execute(message) {
         printStats(message);
     } else if (args[1] === "sell") {
         //sellItem(message);
+    } else if (args[1] === "test") {
     }
 }
 
