@@ -26,6 +26,8 @@ colors.set("c4_detonated", "#ff5600");
 colors.set("nothing_to_steal", "#888888");
 colors.set("stolen", "#7df135");
 colors.set("loaded offline loots", "#00ffd8");
+colors.set("weapon jammed", "#6a1da8");
+colors.set("missed shot", "#d5002e");
 let channel;
 
 const maxHealth = 20;
@@ -44,7 +46,7 @@ function updateData() {
     console.log("|-- data successfully updated");
     log.print("jdrData has been successfully updated", 1);
 }
-function lootCrate(message) {
+function OLDlootCrate(message) {
     log.print("tried to loot a crate", message.author, message.content);
     let msgEmbed = new EmbedBuilder();
 
@@ -150,7 +152,7 @@ function lootCrate(message) {
         log.print("sending success message", 1);
     }
 }
-function lootCrateV2(message) {
+function lootCrate(message) {
     log.print("tried to loot a crate", message.author, message.content);
     let msgEmbed = new EmbedBuilder();
 
@@ -528,7 +530,7 @@ function getPlayerFromId(playerId) {
     if (gameData["joueurs"].hasOwnProperty(playerId)) return gameData["joueurs"][playerId];
     else return false;
 }
-function openCrate(message) {
+function OLDopenCrate(message) {
     log.print("tried to open a crate", message.author, message.content);
     let player = getPlayer(message);
     if (!player) return;
@@ -569,7 +571,7 @@ function openCrate(message) {
     message.channel.send({embeds: [loot[2]]});
     log.print("success message sent", 1);
 }
-function openCrateV2(message) {
+function openCrate(message) {
     log.print("tried to open a crate", message.author, message.content);
     let player = getPlayer(message);
     if (!player) return;
@@ -605,8 +607,8 @@ function openCrateV2(message) {
         return;
     }
 
-    let loot = getItemFromCrateV2(crateToOpen["id"]);
-    addItemV2(loot, player);
+    let loot = getItemFromCrate(crateToOpen["id"]);
+    addItem(loot, player);
 
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor(colors.get(loot["tier"]));
@@ -634,7 +636,7 @@ function removeCrate(crateId, player) {
     }
     return false;
 }
-function addItem(item, cat, joueur) {
+function OLDaddItem(item, cat, joueur) {
     log.print("adding the item to the player inventory", 1);
     let i = 0;
     while (i < joueur["inv"].length) {
@@ -652,7 +654,7 @@ function addItem(item, cat, joueur) {
     log.print("creating a new item in player inventory for the new item", 1);
     updateData();
 }
-function addItemV2(item, player) {
+function addItem(item, player) {
     log.print("adding the item to the player inventory", 1);
     let i = 0;
     while (i < player["inv"].length) {
@@ -670,7 +672,7 @@ function addItemV2(item, player) {
     log.print("creating a new item in player inventory for the new item", 1);
     updateData();
 }
-function getItemFromCrateV2(crateId) {
+function getItemFromCrate(crateId) {
     log.print("Looting the crate to get a new item", 1);
     let itemId;
     let randInt;
@@ -885,7 +887,7 @@ function findItemById(itemId) {
 
     return false;
 }
-function getItemFromCrate(crateId) {
+function OLDgetItemFromCrate(crateId) {
     log.print("Looting the crate to get a new item", 1);
     let randInt = Math.floor(Math.random() * 99 + 1);
     let itemId;
@@ -1143,7 +1145,7 @@ function searchCrate(crateName) {
     log.print("can't find the crate, returning error", 1);
     return false;
 }
-function useItem(message) {
+function OLDuseItem(message) {
     log.print("tried to use an item", message.author, message.content);
     let args = message.content.split(" ");
     let itemName = "";
@@ -1214,7 +1216,83 @@ function useItem(message) {
 
     updateData();
 }
-function useProtection(protection, player) {
+function useItem(message) {
+    log.print("tried to use an item", message.author, message.content);
+    let args = message.content.split(" ");
+    let itemName = "";
+    for (let i = 2; i < args.length; i++) itemName += args[i] + " ";
+    itemName = itemName.slice(0, -1);
+
+    let player = getPlayer(message);
+    if (!player) return;
+
+    let item = findItem(itemName);
+    if (!item) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : item introuvable");
+        msgEmbed.setDescription("L'item que vous avez utiliser est introuvable. Essayer de copier le nom de l'item directement depuis votre inventaire (commande : *game inv*)");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("error : item doesn't exist", 1);
+        return;
+    }
+
+    let result;
+    switch (item["type"]) {
+        case "crate":
+            openCrate(message);
+            log.print("opening crate ...", 1);
+            return;
+        case "ammo":
+            let msgEmbed = new EmbedBuilder();
+            msgEmbed.setColor("#ff0000");
+            msgEmbed.setTitle("Erreur : item inutilisable");
+            msgEmbed.setDescription("Il est impossible d'utiliser une munition seule. Utiliser l'arme associée à votre munition.");
+            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+
+            message.channel.send({embeds: [msgEmbed]});
+            log.print("error : can't use an ammo", 1);
+            return;
+        case "weapon":
+            log.print("using weapon ...", 1);
+            result = useWeapon(item, player); // @TODO
+            if (result["flash"]) {
+                message.author.send({embeds: [result["flash"]]});
+                let result2 = JSON.parse(JSON.stringify(result));
+                result2["flash"]["description"] = "Vous avez lancé votre grenade flash avec succès. Vérifiez vos MP pour connaître la cible.";
+                message.channel.send({embeds: [result2["flash"]]});
+            } else if (result["mine"]) {
+                message.author.send({embeds: [result["mine"]]});
+                let result2 = JSON.parse(JSON.stringify(result));
+                result2["mine"]["description"] = "Vous avez utilisé votre mine avec succès. Vérifiez vos MP pour connaître la cible.";
+                message.channel.send({embeds: [result2["mine"]]});
+            } else if (result["c4"]) {
+                message.author.send({embeds: [result["c4"]]});
+                let result2 = JSON.parse(JSON.stringify(result));
+                result2["c4"]["description"] = "Vous avez lancé votre C4 avec succès. Vérifiez vos MP pour connaître la cible.";
+                message.channel.send({embeds: [result2["c4"]]});
+            } else if (result["silent"]) {
+                message.author.send({embeds: [result["silent"]]});
+                let result2 = JSON.parse(JSON.stringify(result));
+                result2["silent"]["description"] = "Vous avez attaqué avec succès. Vérifiez vos MP pour connaître la cible.";
+                message.channel.send({embeds: [result2["silent"]]});
+            } else {
+                message.channel.send({embeds: result});
+            }
+            break;
+        case "med":
+            message.channel.send({embeds: [useMedicine(item, player)]});
+            break;
+        case "protection":
+            message.channel.send({embeds: [useProtection(item, player)]});
+            break;
+    }
+
+    updateData();
+}
+function OLDuseProtection(protection, player) {
     let i = 0;
     let itemFound = false;
     while (i < player["inv"].length) {
@@ -1252,6 +1330,44 @@ function useProtection(protection, player) {
             return addArmorPlayer(randInt, player);
     }
 }
+function useProtection(protection, player) {
+    let i = 0;
+    let itemFound = false;
+    while (i < player["inv"].length) {
+        if (player["inv"][i]["id"] === protection["id"]) {
+            if (player["inv"][i]["count"] > 1) player["inv"][i]["count"]--;
+            else player["inv"].splice(i, 1);
+            itemFound = !itemFound;
+            break;
+        }
+        i++;
+    }
+
+    if (!itemFound) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : vous n'avez pas la protection");
+        msgEmbed.setDescription("Vous n'avez la protection : " + protection["name"] + ", gros con !");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+        return msgEmbed;
+    }
+
+    let randInt;
+    switch (protection["id"]) {
+        case "c6ac9e8c-1822-42b5-870d-50e366650bce": // tenue de démineur
+            player["state"]["antiMine"] = true;
+            return addArmorPlayer(8, player);
+        case "a5832d33-68f5-4b83-8ebd-9903484d2d15": // gilet pare-balle
+            randInt = Math.floor(Math.random() * (15 - 10) + 10);
+            return addArmorPlayer(randInt, player);
+        case "85b58af1-d1e2-4657-baef-39664e3b9052": // gilet tactique
+            randInt = Math.floor(Math.random() * (7 - 4) + 4);
+            return addArmorPlayer(randInt, player);
+        case "816934d8-c5a3-40f4-a7ba-d73e24422470": // bouclier de chevalier
+            randInt = Math.floor(Math.random() * (5 - 2) + 2);
+            return addArmorPlayer(randInt, player);
+    }
+}
 function addArmorPlayer(armorAmount, player) {
     player["armor"] += armorAmount;
 
@@ -1262,7 +1378,7 @@ function addArmorPlayer(armorAmount, player) {
     msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
     return msgEmbed;
 }
-function useMedicine(medicine, player) {
+function OLDuseMedicine(medicine, player) {
     let i = 0;
     let itemFound = false;
     while (i < player["inv"].length) {
@@ -1306,6 +1422,62 @@ function useMedicine(medicine, player) {
             return healPlayer(randInt, player);
     }
 }
+function useMedicine(medicine, player) {
+    let i = 0;
+    let itemFound = false;
+    while (i < player["inv"].length) {
+        if (player["inv"][i]["id"] === medicine["id"]) {
+            if (player["inv"][i]["count"] > 1) player["inv"][i]["count"]--;
+            else player["inv"].splice(i, 1);
+            itemFound = !itemFound;
+            break;
+        }
+        i++;
+    }
+
+    if (!itemFound) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : vous n'avez pas l'objet");
+        msgEmbed.setDescription("Vous n'avez l'objet : " + medicine["name"] + ", gros con !");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+        return msgEmbed;
+    }
+
+    let randInt;
+    switch (medicine["id"]) {
+        case "69fdba79-7814-4e10-ab04-7d9031f3c47e": // seringue
+            randInt = Math.floor(Math.random() * (10 - 6) + 6);
+            buffNextAttack(player, 0.25);
+            return healPlayer(randInt, player);
+        case "974fdc99-bf5f-4aea-858c-cc14765788df": // medikit
+            randInt = Math.floor(Math.random() * (20 - 15) + 15);
+            return healPlayer(randInt, player);
+        case "24ff4b27-5337-41d7-b50e-e79f24fab10d": // kit de premier soin
+            randInt = Math.floor(Math.random() * (8 - 4) + 4);
+            return healPlayer(randInt, player);
+        case "acb5d750-3c8e-4e24-aec9-acb989a63b5e": // anti douleur
+            randInt = Math.floor(Math.random() * (5 - 2) + 2);
+            buffPlayerResistance(player, 0.25);
+            return healPlayer(randInt, player);
+        case "095b4994-a49f-44b0-8a7a-962244a072bc": // bandage
+            randInt = Math.floor(Math.random() * (6 - 3) + 3);
+            nerfPlayerPrecision(player, 10);
+            return healPlayer(randInt, player);
+        case "e0e07dde-97d2-4ca4-9875-6642b7384c7e": // pansement
+            randInt = Math.floor(Math.random() * (2 - 1) + 1);
+            return healPlayer(randInt, player);
+    }
+}
+function buffNextAttack(player, boost) {
+    player["state"]["damageBoost"] = player["state"]["damageBoost"] + boost;
+}
+function buffPlayerResistance(player, boost) {
+    player["state"]["resistance"] = player["state"]["resistance"] + boost;
+}
+function nerfPlayerPrecision(player, nerf) {
+    player["state"]["precisionNerf"] = player["state"]["precisionNerf"] + nerf;
+}
 function healPlayer(healAmount, player) {
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor(colors.get("heal"));
@@ -1322,7 +1494,7 @@ function healPlayer(healAmount, player) {
     msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
     return msgEmbed;
 }
-function useWeapon(weapon, player) {
+function OLDuseWeapon(weapon, player) {
     // chercher la munition dans l'inventaire
     let ammoId = weapon["munition"];
     if (ammoId) {
@@ -1457,6 +1629,170 @@ function useWeapon(weapon, player) {
              return {"c4" : c4Players(1, player)};
      }
 }
+function useWeapon(weapon, player) {
+    // chercher la munition dans l'inventaire
+    let ammoId = weapon["munition"];
+    if (ammoId) {
+        let ammo = false;
+        let i = 0;
+        while (i < player["inv"].length) {
+            if (player["inv"][i]["id"] === ammoId) {
+                ammo = player["inv"][i];
+                break;
+            }
+            i++
+        }
+
+        if (!ammo) {
+            let msgEmbed = new EmbedBuilder();
+            msgEmbed.setColor("#ff0000");
+            msgEmbed.setTitle("Erreur : pas de munition");
+            msgEmbed.setDescription("Vous n'avez pas de munition pour l'arme : " + weapon["name"]);
+            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+            return [msgEmbed];
+        }
+
+        // remove une balle de l'inventaire
+        ammo["count"]--;
+        if (ammo["count"] <= 0) {
+            player["inv"].splice(i, 1);
+        }
+    } else {
+        let i = 0;
+        let itemFound = false;
+        while (i < player["inv"].length) {
+            if (player["inv"][i]["id"] === weapon["id"]) {
+                if (player["inv"][i]["count"] > 1) {
+                    player["inv"][i]["count"]--;
+                    itemFound = !itemFound
+                } else {
+                    player["inv"].splice(i, 1);
+                    itemFound = !itemFound
+                }
+                break;
+            }
+            i++;
+        }
+        if (!itemFound) {
+            let msgEmbed = new EmbedBuilder();
+            msgEmbed.setColor("#ff0000");
+            msgEmbed.setTitle("Erreur : vous n'avez pas l'arme");
+            msgEmbed.setDescription("Vous n'avez l'arme : " + weapon["name"] + ", gros con !");
+            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+            return [msgEmbed];
+        }
+    }
+
+    let randInt, randInt2, randInt3, randInt4, rand;
+
+    switch (weapon["id"]) {
+        case "db0c7226-b54d-46f6-910a-cd13f6638939": // ak-47$
+            rand = Math.floor(Math.random() * 100) + 1;
+            if (rand <= 2) {
+                // arme enrayee
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setColor(colors.get("weapon jammed"));
+                msgEmbed.setTitle("L'arme vient de s'enrayer, vraiment pas de chance");
+                msgEmbed.setDescription("L'arme que vous venez d'utiliser vient de s'enrayer, vous ne pouvez pas l'utiliser pour cette attaque seulement et vous venez de gaspiller une munition.");
+                msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+                return [msgEmbed];
+            }
+            randInt = Math.floor(Math.random() * (8 - 4) + 4);
+            return shootPlayers(randInt, 1, player);
+        case "91181b12-f8fa-4cea-a311-d7610e049380": // glock 18
+            return shootPlayers(2, 1, player);
+        case "674bec62-1a50-409f-9196-1607496371e6": // beretta
+            return shootPlayers(2, 1, player, true);
+        case "3bc72433-fe0f-47b3-9a17-f714555f879c": // desert eagle
+            return shootPlayers(5, 2, player, true);
+        case "fe5329fb-786d-4a44-a607-059544ea6ff6": // colt 1911
+            randInt = Math.floor(Math.random() * (3 - 2) + 2);
+            return shootPlayers(randInt, 1, player);
+        case "63a9bf96-aa6f-4e88-8bd1-a67464edd14b": // HK USP
+            return {"silent" : shootPlayers(2, 1, player)};
+        case "410b884e-7906-4fda-8e54-d27932c13b3d": // 357 Magnum
+            randInt = Math.floor(Math.random() * (3 - 2) + 2);
+            randInt2 = Math.floor(Math.random() * (3 - 2) + 2);
+            randInt3 = Math.floor(Math.random() * (3 - 2) + 2);
+            return shootPlayers(randInt + randInt2 + randInt3, 2, player, true);
+        case "965b3713-0480-4adf-8e55-1e68d5890a96": // taser
+            return shootPlayers(1, 1, player);
+        case "eb74e2fb-1b62-40c4-bd5d-08dc13304d0e": // M4A1
+            randInt = Math.floor(Math.random() * (3 - 2) + 2);
+            randInt2 = Math.floor(Math.random() * (3 - 2) + 2);
+            randInt3 = Math.floor(Math.random() * (3 - 2) + 2);
+            return shootPlayers(randInt + randInt2 + randInt3, 1, player);
+        case "99a7cfe4-e8fd-42af-b60d-c12754665e2f": // SKS
+            return shootPlayers(7, 1, player);
+        case "f03af414-d4a2-484f-9170-9989d410101a": // M4 super 90
+            randInt = Math.floor(Math.random() * (8 - 5) + 5);
+            randInt2 = Math.floor(Math.random() * (8 - 5) + 5);
+            return shootPlayers(randInt + randInt2, 1, player);
+        case "b3f63afb-6f60-4abb-80be-1b54649250ca": // MP5A2
+            randInt = Math.floor(Math.random() * 2);
+            randInt2 = Math.floor(Math.random() * 2);
+            return shootPlayers(randInt + randInt2, 1, player);
+        case "b20e3725-2f6c-4995-bc57-761fb9064283": // MPX
+            randInt = Math.floor(Math.random() * (3 - 1) + 1);
+            randInt2 = Math.floor(Math.random() * (3 - 1) + 1);
+            randInt3 = Math.floor(Math.random() * (3 - 1) + 1);
+            return shootPlayers(randInt + randInt2 + randInt3, 1, player);
+        case "9ce3092c-f2d7-41ec-b9b5-12c2758b2325": // M32A1
+            return shootPlayers(5, 3, player);
+        case "0a682b69-9234-4064-b487-d6be870c2f84": // SCAR-H
+            randInt = Math.floor(Math.random() * (6 - 3) + 3);
+            randInt2 = Math.floor(Math.random() * (6 - 3) + 3);
+            randInt3 = Math.floor(Math.random() * (6 - 3) + 3);
+            return shootPlayers(randInt + randInt2 + randInt3, 1, player);
+        case "65503d4d-12e3-4dd3-ace6-fc4f040bd35d": // P90
+            randInt = Math.floor(Math.random() * (2 - 1) + 1);
+            randInt2 = Math.floor(Math.random() * (2 - 1) + 1);
+            randInt3 = Math.floor(Math.random() * (2 - 1) + 1);
+            randInt4 = Math.floor(Math.random() * (2 - 1) + 1);
+
+            rand = Math.floor(Math.random() * 100 + 1);
+            if (rand <= 5) randInt4 = 0;
+
+            return shootPlayers(randInt + randInt2 + randInt3 + randInt4, 1, player);
+        case "1c3e7c6a-b77a-4772-b573-70dddbdcfe5c": // MP7
+            randInt = Math.floor(Math.random() * (3 - 1) + 1);
+            randInt2 = Math.floor(Math.random() * (3 - 1) + 1);
+            randInt3 = Math.floor(Math.random() * (3 - 1) + 1);
+            return shootPlayers(randInt + randInt2 + randInt3, 1, player);
+        case "c5c0ba54-4f3a-4c63-ab29-5d6c917154d8": // SV-98
+            return shootPlayers(7, 1, player, true);
+        case "8221a349-60de-41b0-a7ba-41ab386eaf65": // Rem 700
+            return shootPlayers(9, 1, player, true);
+        case "c3bd7600-bdce-4076-a5e3-fdcbaf94af78": // Cocktail Molotov
+            randInt = Math.floor(Math.random() * (4 - 3) + 3);
+            randInt2 = Math.floor(Math.random() * (4 - 3) + 3);
+            randInt3 = Math.floor(Math.random() * (4 - 3) + 3);
+            return shootPlayers(randInt + randInt2 + randInt3, 1, player);
+        case "058361e2-d1ba-46fa-a231-a28411c5d2de": // Grenade explosive
+            return shootPlayers(5, 2, player);
+        case "f4bba4de-5b09-4fc7-9eb1-3c07ca23e562": // NLAW
+            rand = Math.floor(Math.random() * 100 + 1);
+            if (rand <= 5) {
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setColor(colors.get("missed shot"));
+                msgEmbed.setTitle("Vous avez loupé votre cible, vraiment pas de chance !");
+                msgEmbed.setDescription("Le NLAW n'est pas très précis d'aussi loin, malheureusement vous avez loupé votre cible et utiliser cette arme pour rien.");
+                msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+                return [msgEmbed];
+            }
+            return shootPlayers(10, 1, player);
+        case "b8657581-9f05-47c2-a955-710ca157557c": // RPG-7
+            return shootPlayers(8, 3, player);
+        case "b28c357b-4c11-4cef-95e1-5b4a73c4343e": // Bombe
+            return shootPlayers(3, 3, player);
+        case "22024005-8768-4754-8dec-47d44266e91a": // Grenade flash
+            return {"flash" : blindPlayers(1, player)};
+        case "4160668f-2b86-41e1-822f-ae5af585db67": // mine antipersonnel
+            return {"mine" : minePlayers(1, player)};
+        case "5c5b617c-22a3-490d-a3f1-254d704ccd9c": // c4
+            return {"c4" : c4Players(1, player)};
+    }
+}
 function c4Players(nbTarget, player) {
     let playerList = loadAllOtherPlayers(player["idDiscord"]);
     let targets = getTargets(nbTarget, playerList);
@@ -1509,8 +1845,17 @@ function detonateC4(message) {
     }
     msgEmbed.addFields({name: "Cible(s) des C4", value: " "});
     c4ToExplode.forEach((player) => {
-        let damages = damagePlayer(5, player);
         msgEmbed.addFields({name: player["discordName"], value: ("Vie restante : " + player["health"])});
+
+        if (player["state"]["antiMine"]) {
+            let msgEmbed2 = new EmbedBuilder();
+            msgEmbed2.setColor(colors.get("antiMine"));
+            msgEmbed2.setTitle(player["idDiscord"] + " portait une tenue de démineur, il a résisté à votre C4");
+            msgEmbed2.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+            channel.send({embed: [msgEmbed2]});
+            return;
+        }
+        let damages = damagePlayer(5, player);
 
         if (damages["playerDead"]) {
             userPlayer["stats"]["nb_kills"]++;
@@ -1543,7 +1888,7 @@ function minePlayers(nbTarget, player) {
     targets.forEach((target) => {
         target["mines"]["count"]++;
         target["mines"]["minersId"].push(player["idDiscord"]);
-        str += "<@" + target["idDiscord"] + "> ";
+        str += target["discordName"] + " ";
     });
     str.slice(0,-1);
     msgEmbed.setDescription("Vous avez posé une mine chez :" + str);
@@ -1563,7 +1908,7 @@ function blindPlayers(nbTarget, player) {
     targets.forEach((target) => {
         if (!target["flashed"]) {
             target["flashed"] = true;
-            str += " <@" + target["idDiscord"] + ">,";
+            str += target["discordName"] + ",";
             flashed++;
         }
     });
@@ -1578,6 +1923,19 @@ function shootPlayers(damage, nbTarget, player, trueDamage = false) {
 
     let playerDead = false;
     let msgEmbed = new EmbedBuilder();
+
+    if (player["state"]["precisionNerf"] > 0) {
+        let randInt = Math.floor(Math.random() * 100 + 1);
+        if (randInt < player["state"]["precisionNerf"]) {
+            msgEmbed.setColor(colors.get("missed shot"));
+            msgEmbed.setTitle("Vous loupez votre cible !");
+            msgEmbed.setDescription("Vous ne vous êtes pas encore remis de votre dernière blessure et ce vilain bandage n'a pas arrangé les choses.");
+            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+            player["state"]["precisionNerf"] = 0;
+            log.print("player is flashed, he can't shoot", 1);
+            return [msgEmbed];
+        }
+    }
 
     if (player["flashed"]) {
         player["flashed"] = false;
@@ -1598,7 +1956,7 @@ function shootPlayers(damage, nbTarget, player, trueDamage = false) {
             //mine gameplay
             if (player["mines"]["count"] > 0) {
                 while (player["mines"]["count"] > 0) {
-                    let damage = damagePlayer(15, player); // @TODO
+                    let damage = damagePlayer(12, player);
                     log.print("a mined planted by " + player["mines"]["minersId"][0] + "just exploded", 1);
                     let msgEmbed = new EmbedBuilder();
                     msgEmbed.setColor(colors.get("mine_activated"));
@@ -1633,6 +1991,10 @@ function shootPlayers(damage, nbTarget, player, trueDamage = false) {
                 //return // --> à mettre si on veut que quand on mange une mine ça annule l'attaque ? donc consommation de la munition
             }
 
+            if (player["state"]["damageBoost"] > 1 || player["state"]["damageBoost"] < 1) {
+                damage = Math.ceil(damage * player["state"]["damageBoost"]);
+                player["state"]["damageBoost"] = 1;
+            }
             let damages = damagePlayer(damage, target, trueDamage);
 
             // si target morte alors, on vole 5 items dans son inventaire et on augmente son nb kill et sa kill streak de 1
@@ -1706,17 +2068,19 @@ function stealTarget(nbItemToSteal, target, player) {
 function damagePlayer(damage, player, trueDamage = true) {
     let armorDestroyed = false;
     let playerDead = false;
-
     let baseArmor;
     let finalDamage;
+
     if (trueDamage) {
         baseArmor = 0;
-        finalDamage = damage;
+        finalDamage = Math.ceil(damage - damage * player["state"]["resistance"]);
     } else {
         baseArmor = player["armor"];
-        finalDamage = damage - player["armor"];
-        player["armor"] -= damage;
+        finalDamage = Math.ceil(damage - damage * player["state"]["resistance"]) - player["armor"];
+        player["armor"] -= Math.ceil(damage - damage * player["state"]["resistance"]);
     }
+
+    if (player["state"]["resistance"] > 0) player["state"]["resistance"] = 0;
 
     if (player["armor"] <= 0 && baseArmor > 0) {
         player["armor"] = 0;
@@ -1870,7 +2234,7 @@ function sellItem(message) {
 function help(message) {
     message.channel.send("PAS ENCORE DISPO FF fait game notice ya tout marqué\nsinon les commandes principales c'est : game loot, game inv, game use [nom_item], game stats, game open [nom_caisse], game detonate")
 }
-function notice(message) {
+function OLDnotice(message) {
     let msgEmbed = new EmbedBuilder();
     let msgEmbed1 = new EmbedBuilder();
     msgEmbed.setColor("#bf00ff");
@@ -1929,6 +2293,74 @@ function notice(message) {
             "Bandage - Soigne entre 2 et 3 points de vie\n" +
             "Pansement - Soigne entre 2 et 3 points de vie\n" +
             "Bouclier de chevalier - Ajoute entre 2 et 5 points d'armure\n"
+    });
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game help\""});
+    msgEmbed1.setFooter({text: "Pour plus d'informations utiliser la commande \"game help\""});
+
+    message.channel.send({embeds: [msgEmbed, msgEmbed1]});
+}
+function notice(message) {
+    let msgEmbed = new EmbedBuilder();
+    let msgEmbed1 = new EmbedBuilder();
+    msgEmbed.setColor("#bf00ff");
+    msgEmbed1.setColor("#bf00ff");
+    msgEmbed.setTitle("Notice du jeu");
+    msgEmbed1.setTitle("Notice du jeu - suite");
+    msgEmbed.setDescription("C'est un jeu, toutes les heures vous pouvez obtenir une caisse à ouvrir qui vous donnera soit : des armes, des munitions, du heal ou des protections. Vous pouvez utiliser ces différents objets pour vous défendre ou attaquer les autres joueurs du discord. Pour l'instant il n'y a aucun but à part s'amuser.");
+    msgEmbed.addFields({name: "Obtenir et ouvrir des caisses", value: "Il y a 4 types de caisses : caisse de rang C, caisse de rang B, caisse de rang A et caisse de rang S. Chaque caisse à un % de chance différent d'être drop et peut être ouverte dès que le souhaite avec la commande \"game open [nom_caisse]\". Voici une liste des caisses avec leur rang et leur % de chance de drop : "});
+    msgEmbed.addFields({name: "Taux de drop des caisses : ", value: "Caisse de rang S : 2%\nCaisse de rang A : 10%\nCaisse de rang B : 30%\nCaisse de rang C : 58%"});
+    msgEmbed.addFields({name: "Utiliser ses armes", value: "Les armes ont un type de munition associé, sans cette dernière vous ne pourrait pas attaquer les autres joueurs. Les munitions sont trouvables dans les caisses de munitions. Si vous possédez les munitions ou que vous avez une arme qui n'en a pas besoin vous pouvez l'utiliser avec la commande \"game use [nom_arme]\". Voici la liste des armes, de leurs dégâts, de leurs effets et de leurs munitions."});
+    msgEmbed.addFields({name: "Jouer quand le bot est déconnecté", value: "Quand le bot est déconnecté vous pouvez toujours récupérer des caisses toutes les heures. Pour cela vous avez juste à écire la commande \"game loot\" dans le salon #jeu-de-fou-offline . Quand le bot sera reconnecté il enverra un message vous disant qu'il a bien effectué tous les loots que vous avez fait en son abscence."})
+    msgEmbed.addFields({name: "Liste des armes", value: "**Rang S : **\n" +
+            "M4 super 90 - munition : Cal 12 - Dégâts : 5 à 8 - Effet : Tire 2 cartouches pour le prix d'une\n" +
+            "SCAR-H - munition : 7,62 x 51mm - Dégâts : 3 à 6 - Effet : Tire 3 cartouches pour le prix d'une\n" +
+            "Rem 700 - munition : .308 WIN - Dégâts : 9 - Effet : Ignore l'armure de la cible\n" +
+            "RPG-7 - munition : PG-7V - Dégâts : 8 - Effet : Tire sur 3 joueurs\n" +
+            "NLAW - munition : aucune - Dégâts : 10 - Effet : Inflige 10 de dégâts à un joueur, 5% de chance de rater sa cible\n" +
+            "Mine antipersonnel - munition : aucune - Dégâts : 12 - Effet : S'active chez le joueur cible lorsqu'il attaque. Un joueur peut marcher sur plusieurs mines d'un seul coup."
+    });
+    msgEmbed.addFields({name : "Rang A :", value: "Desert Eagle - munition : .50AE - Dégâts : 5 - Effet : Tire sur 2 joueurs et ignore l'armure de la cible\n" +
+            "357 Magnum - munition : .357 Magnum - Dégâts 2 à 3 : - Effet : Tire sur 2 joueurs et tire 3 cartouches par joueur pour le prix d'une au total\n" +
+            "SKS - munition : 7,62 x 39mm - Dégâts : 7 - Effet : Inflige 7 de dégâts à un joueur\n" +
+            "M32A1 - munition : Grenade explosive - Dégâts : 5 - Effet : Tire sur 3 joueurs\n" +
+            "SV-98 - munition : 7,62 x 51mm - Dégâts : 7 - Effet : Ignore l'armure de la cible\n" +
+            "Cocktail molotov - munition : aucune - Dégâts : 3 à 4 - Effet : Attaque 3 fois la cible\n" +
+            "Grenade flash - munition : aucune - Dégâts : 0 - Effet : Annule la prochaine attaque de la cible. Une cible ne peut être flashé que pour 1 attaque"
+    });
+    msgEmbed.addFields({ name: "Rang B : ", value: "M4A1 - munition : 5,56 x 45mm - Dégâts : 2 à 3 - Effet : Tire 3 cartouches pour le prix d'une\n" +
+            "AK-47 - munition : 7,62 x 39mm - Dégâts : 4 à 8 - Effet : Fait 4 à 8 de dégâts à un joueur, l'arme a 2% de chance de s'enrayer\n" +
+            "MPX - munition : 9mm - Dégâts : 1 à 3 - Effet : Tire 3 cartouches pour le prix d'une\n" +
+            "P90 - munition : 9 x 19mm - Dégâts : 1 à 2 - Effet : Tire 3 cartouches pour le prix d'une, 95% de chance d'en tirer une 4eme\n" +
+            "MP7 - munition : 4,6 x 30mm - Dégâts : 1 à 3 - Effet : Tire 3 cartouches pour le prix d'une\n" +
+            "Grenade explosive - munition : aucune - Dégâts : 5 - Effet : Tire sur 2 joueurs\n" +
+            "C4 - munition : aucune - Dégâts : 5 - Effet : Les C4 se déclenchent lorsque vous le souhaitez. Vous pouvez poser plusieurs C4 avant de les déclencher. Le déclenchement les fera tous exploser en même temps. Pour déclencher un C4 utiliser la commande \"game detonate\"\n" +
+            "Bombe - munition : aucune - Dégâts : 3 - Effet : Tire sur 3 joueurs\n"
+    });
+    msgEmbed.addFields({ name: "Rang C : ", value: "Glock 18 - munition : 9 x 19mm - Dégâts : 2 - Effet : Inflige 2 de dégâts à un joueur\n" +
+            "Colt 1911 - munition : .45 ACP - Dégâts : 2-3 - Effet : Inflige 2 à 3 de dégâts à un joueur \n" +
+            "HK USP - munition : .45 ACP - Dégâts : 2 - Effet : Inflige 2 de dégâts à un joueur dont seul vous connaissez l'identité\n" +
+            "MP5A2 - munition : 9 x 19mm - Dégâts : 0-2 - Effet : Tire 2 cartouches pour le prix d'une et inflige 0 à 2 de dégâts à un joueur \n" +
+            "Taser - munition : aucune - Dégâts : 1 - Effet : Inflige 1 de dégât à un joueur \n" +
+            "Beretta 92 - munition : 9mm - Dégâts : 2 - Effet : Ignore l'armure de la cible\n"
+    });
+    msgEmbed.addFields({name: "Utiliser les consommables", value: "Les consommables sont les objets de soin et de protection, pour les utiliser c'est comme pour les armes il suffit de faire la commande \"game use [nom_objet]\". Voici la liste de ces consommables."});
+    msgEmbed.addFields({name: "Liste des consommables", value:
+            "**Rang S :**\n" +
+            "Medikit - Soigne entre 15 et 20 points de vie\n" +
+            "Tenue de démineur - Ajoute entre 8 d'armure et protège contre la prochain explosion de mine ou de C4\n" +
+            "Gilet pare-balle - Ajoute entre 10 et 15 points d'armure\n" +
+            "**Rang A (10%) :**\n" +
+            "Seringue - Soigne entre 6 et 10 points de vie et donne 25% de dégâts supplémentaires à la prochaine attaque\n" +
+            "Gilet tactique - Ajoute entre 4 et 7 points d'armure\n" +
+            "**Rang B (30%) :**\n" +
+            "Kit de premier soin - Soigne entre 4 et 8 points de vie\n" +
+            "Anti douleur - Soigne entre 2 et 5 points de vie et donne 25% de résistance à la prochaine attaque\n" +
+            "Bandage - Soigne entre 3 et 6 points de vie et réduit de 10% la précision de la prochaine attaque\n" +
+            "Bouclier de chevalier - Ajoute entre 2 et 5 points d'armure\n" +
+            "**Rang C (58%) :**\n" +
+            "Pansement - Soigne entre 1 et 2 points de vie\n"
+
     });
     msgEmbed.addFields({name: " ", value: " "});
     msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game help\""});
