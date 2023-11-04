@@ -292,12 +292,148 @@ function printInventory(message) {
     } else joueur = getPlayer(message);
     if(!joueur) return;
 
+    let sections = sortInventory(joueur);
+
     let str = "";
-    joueur["inv"].forEach((item) => {
+    if (sections[0].length > 0) {
+        str += "**Liste des armes**\n";
+        let rangS = false;
+        let rangA = false;
+        let rangB = false;
+        let rangC = false;
+        for (let i = 0; i < sections[0].length; i++) {
+            if (sections[0][i]["tier"] === "S" && !rangS) {
+                str += "\nRang S (2%) :\n";
+                rangS = !rangS;
+            } else if (sections[0][i]["tier"] === "A" && !rangA) {
+                str += "\nRang A (10%) :\n";
+                rangA = !rangA;
+            } else if (sections[0][i]["tier"] === "B" && !rangB) {
+                str += "\nRang B (30%) :\n";
+                rangB = !rangB;
+            } else if (sections[0][i]["tier"] === "C" && !rangC) {
+                str += "\nRang C (58%) :\n";
+                rangC = !rangC;
+            }
+            if (sections[0][i]["munition"]) {
+                let munition = gameData["objets"]["munitions"].find(munition => munition["id"] === sections[0][i]["munition"]);
+                let strMunition = munition["name"];
+                let munitionInInv = sections[1].find(munition => munition["id"] === sections[0][i]["munition"]);
+                if (munitionInInv) strMunition += " (x" + munitionInInv["count"] + ")";
+                else strMunition += " (x0)";
+                str += sections[0][i]["name"] + " (x" + sections[0][i]["count"] + ") - Munition : " + strMunition + "\n";
+            } else {
+                str += sections[0][i]["name"]  + " (x" + sections[0][i]["count"] + ") - Munition : aucune\n";
+            }
+        }
+        str += "\n";
+    }
+    if (sections[1].length > 0) {
+        str += "**Liste des munitions**\n";
+        let rangS = false;
+        let rangA = false;
+        let rangB = false;
+        let rangC = false;
+        for (let i = 0; i < sections[1].length; i++) {
+            if (sections[1][i]["tier"] === "S" && !rangS) {
+                str += "\nRang S (2%) :\n";
+                rangS = !rangS;
+            } else if (sections[1][i]["tier"] === "A" && !rangA) {
+                str += "\nRang A (10%) :\n";
+                rangA = !rangA;
+            } else if (sections[1][i]["tier"] === "B" && !rangB) {
+                str += "\nRang B (30%) :\n";
+                rangB = !rangB;
+            } else if (sections[1][i]["tier"] === "C" && !rangC) {
+                str += "\nRang C (58%) :\n";
+                rangC = !rangC;
+            }
+
+            str += sections[1][i]["name"] + " (x" + sections[1][i]["count"] + ")\n";
+        }
+        str += "\n";
+    }
+    if (sections[2].length > 0) {
+        str += "**Liste des soins**\n";
+        let rangS = false;
+        let rangA = false;
+        let rangB = false;
+        let rangC = false;
+        for (let i = 0; i < sections[2].length; i++) {
+            if (sections[2][i]["tier"] === "S" && !rangS) {
+                str += "\nRang S (2%) :\n";
+                rangS = !rangS;
+            } else if (sections[2][i]["tier"] === "A" && !rangA) {
+                str += "\nRang A (10%) :\n";
+                rangA = !rangA;
+            } else if (sections[2][i]["tier"] === "B" && !rangB) {
+                str += "\nRang B (30%) :\n";
+                rangB = !rangB;
+            } else if (sections[2][i]["tier"] === "C" && !rangC) {
+                str += "\nRang C (58%) :\n";
+                rangC = !rangC;
+            }
+
+            str += sections[2][i]["name"] + " (x" + sections[2][i]["count"] + ")\n";
+        }
+        str += "\n";
+    }
+    if (sections[3].length > 0) {
+        str += "**Liste des protections**\n";
+        let rangS = false;
+        let rangA = false;
+        let rangB = false;
+        let rangC = false;
+        for (let i = 0; i < sections[3].length; i++) {
+            if (sections[3][i]["tier"] === "S" && !rangS) {
+                str += "\nRang S (2%) :\n";
+                rangS = !rangS;
+            } else if (sections[3][i]["tier"] === "A" && !rangA) {
+                str += "\nRang A (10%) :\n";
+                rangA = !rangA;
+            } else if (sections[3][i]["tier"] === "B" && !rangB) {
+                str += "\nRang B (30%) :\n";
+                rangB = !rangB;
+            } else if (sections[3][i]["tier"] === "C" && !rangC) {
+                str += "\nRang C (58%) :\n";
+                rangC = !rangC;
+            }
+
+            str += sections[3][i]["name"] + " (x" + sections[3][i]["count"] + ")\n";
+        }
+        str += "\n";
+    }
+    if (sections[4].length > 0) {
+        str += "**Liste des caisses**\n";
+        let rangS = false;
+        let rangA = false;
+        let rangB = false;
+        let rangC = false;
+        for (let i = 0; i < sections[4].length; i++) {
+            if (sections[4][i]["tier"] === "S" && !rangS) {
+                str += "\nRang S (2%) :\n";
+                rangS = !rangS;
+            } else if (sections[4][i]["tier"] === "A" && !rangA) {
+                str += "\nRang A (10%) :\n";
+                rangA = !rangA;
+            } else if (sections[4][i]["tier"] === "B" && !rangB) {
+                str += "\nRang B (30%) :\n";
+                rangB = !rangB;
+            } else if (sections[4][i]["tier"] === "C" && !rangC) {
+                str += "\nRang C (58%) :\n";
+                rangC = !rangC;
+            }
+
+            str += sections[4][i]["name"] + " (x" + sections[4][i]["count"] + ")\n";
+        }
+        str += "\n";
+    }
+
+    /*inv.forEach((item) => {
         str += "TIER " + item["tier"] + " - " + item["name"];
         if (item.hasOwnProperty("count")) str += " (x" + item["count"] + ")";
         str += "\n";
-    });
+    });*/
 
     message.channel.send(str);
     log.print("inventory successfully printed", 1);
@@ -862,31 +998,30 @@ function useWeapon(weapon, player) {
         if (ammo["count"] <= 0) {
             player["inv"].splice(i, 1);
         }
-    }
-
-    let i = 0;
-    let itemFound = false;
-    while (i < player["inv"].length) {
-        if (player["inv"][i]["id"] === weapon["id"]) {
-            if (player["inv"][i]["count"] > 1) {
-                player["inv"][i]["count"]--;
-                itemFound = !itemFound
+    } else {
+        let i = 0;
+        let itemFound = false;
+        while (i < player["inv"].length) {
+            if (player["inv"][i]["id"] === weapon["id"]) {
+                if (player["inv"][i]["count"] > 1) {
+                    player["inv"][i]["count"]--;
+                    itemFound = !itemFound
+                } else {
+                    player["inv"].splice(i, 1);
+                    itemFound = !itemFound
+                }
+                break;
             }
-            else {
-                player["inv"].splice(i, 1);
-                itemFound = !itemFound
-            }
-            break;
+            i++;
         }
-        i++;
-    }
-    if (!itemFound) {
-        let msgEmbed = new EmbedBuilder();
-        msgEmbed.setColor("#ff0000");
-        msgEmbed.setTitle("Erreur : vous n'avez pas l'arme");
-        msgEmbed.setDescription("Vous n'avez l'arme : " + weapon["name"] + ", gros con !");
-        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
-        return [msgEmbed];
+        if (!itemFound) {
+            let msgEmbed = new EmbedBuilder();
+            msgEmbed.setColor("#ff0000");
+            msgEmbed.setTitle("Erreur : vous n'avez pas l'arme");
+            msgEmbed.setDescription("Vous n'avez l'arme : " + weapon["name"] + ", gros con !");
+            msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game use help\""});
+            return [msgEmbed];
+        }
     }
 
     let randInt, randInt2, randInt3;
@@ -1514,6 +1649,62 @@ function parseOfflineMessages(messages) {
         });
     });
     return playersCopy
+}
+function sortInventory(player) {
+    let inventoryCopy = JSON.parse(JSON.stringify(player["inv"]));
+
+    let weaponSection = [];
+    let ammoSection = [];
+    let healSection = [];
+    let protectionSection = [];
+    let crateSection = [];
+
+    inventoryCopy.forEach(item => {
+        if (item["type"] === "weapon") weaponSection.push(item);
+        else if (item["type"] === "ammo") ammoSection.push(item);
+        else if (item["type"] === "med") healSection.push(item);
+        else if (item["type"] === "protection") protectionSection.push(item);
+        else if (item["type"] === "crate") crateSection.push(item);
+    });
+    weaponSection = sortSection(weaponSection);
+    ammoSection = sortSection(ammoSection);
+    healSection = sortSection(healSection);
+    protectionSection = sortSection(protectionSection);
+    crateSection = sortSection(crateSection);
+
+    //let finalInv = mergeSections([weaponSection, ammoSection, healSection, protectionSection, crateSection]);
+    return [weaponSection, ammoSection, healSection, protectionSection, crateSection];
+}
+function mergeSections(sections) {
+    let mergedSections = [];
+    sections.forEach(section => {
+        section.forEach(item => {
+            mergedSections.push(item);
+        });
+    });
+    return mergedSections;
+}
+function addWeightToSection(section) {
+    section.forEach(item => {
+        if (item["tier"] === "S") item["weight"] = 4;
+        if (item["tier"] === "A") item["weight"] = 3;
+        if (item["tier"] === "B") item["weight"] = 2;
+        if (item["tier"] === "C") item["weight"] = 1;
+    });
+
+    return section;
+}
+function sortSection(section) {
+    section = addWeightToSection(section);
+    let sortedSection = section.sort((a, b) => b["weight"] - a["weight"]);
+    sortedSection = removeWeightFromSection(sortedSection);
+    return sortedSection;
+}
+function removeWeightFromSection(section) {
+    section.forEach(item => {
+        delete item.weight;
+    });
+    return section;
 }
 function execute(message) {
     channel = message.channel;
