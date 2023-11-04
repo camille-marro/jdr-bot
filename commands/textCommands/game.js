@@ -150,6 +150,76 @@ function lootCrate(message) {
         log.print("sending success message", 1);
     }
 }
+function lootCrateV2(message) {
+    log.print("tried to loot a crate", message.author, message.content);
+    let msgEmbed = new EmbedBuilder();
+
+    let joueur = getPlayer(message);
+    if(!joueur) return;
+
+    if (((new Date().getTime() - joueur["last_loot"]) / (1000 * 60 * 60)) < 1) {
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Trop tôt !");
+        msgEmbed.setDescription("Vous ne pouvez looter une caisse qu'une fois toute les heures.\nIl vous reste " + printWaitingTime(joueur));
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending message error : less than 3 hours since last loot", 1);
+        console.log("moins de 1 heure");
+        return;
+    }
+
+    let randInt = Math.floor(Math.random() * 99 + 1);
+
+    if (randInt <= 2) {
+        // caisse rang S
+        log.print("S rank crate found", 1);
+        addCrate("faee6b1d-28cb-4728-aa58-5a4923ef92ec", joueur);
+        msgEmbed.setColor(colors.get("S"));
+        msgEmbed.setTitle("Caisse de rang S trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse de tier S, espèce de gros con.")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending success message", 1);
+    }
+    else if (randInt > 2 && randInt <= 12) {
+        // caisse rang A
+        log.print("A rank crate found", 1);
+        addCrate("4649b24c-05cf-495f-b6ad-f5c9ba5f21ea", joueur);
+        msgEmbed.setColor(colors.get("A"));
+        msgEmbed.setTitle("Caisse de rang A trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse de tier A, bravo tu te crois malin c'est ça ?")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending success message", 1);
+    }
+    else if (randInt > 12 && randInt <= 41) {
+        // caisse d'explosif
+        log.print("B rank crate found", 1);
+        addCrate("630d1881-aaa6-4595-b913-040e2be7455a", joueur);
+        msgEmbed.setColor(colors.get("B"));
+        msgEmbed.setTitle("Caisse de rang B trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse de tier B, c'est plutôt cool.")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending success message", 1);
+    }
+    else {
+        // caisse de munition
+        log.print("C rank crate found", 1);
+        addCrate("63f93ab9-8930-4788-9439-ca3f476c6da8", joueur);
+        msgEmbed.setColor(colors.get("C"));
+        msgEmbed.setTitle("Caisse de rang C trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse de tier C, comme tout le monde au final.");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending success message", 1);
+    }
+}
 function lootOfflineCrate(player) {
     let randInt = Math.floor(Math.random() * 99 + 1);
     let msgEmbed = new EmbedBuilder();
@@ -498,6 +568,54 @@ function openCrate(message) {
     message.channel.send({embeds: [loot[2]]});
     log.print("success message sent", 1);
 }
+function openCrateV2(message) {
+    log.print("tried to open a crate", message.author, message.content);
+    let player = getPlayer(message);
+    if (!player) return;
+
+    let crateToOpenName = "";
+    let args = message.content.split(" ");
+    for (let i = 2; i < args.length; i++) crateToOpenName += args[i] + " ";
+    crateToOpenName = crateToOpenName.slice(0, -1);
+
+    let crateToOpen = searchCrate(crateToOpenName);
+    if (!crateToOpen) {
+        console.log("nom incorrect");
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Erreur : ce nom de caisse n'existe pas !");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setDescription("Le nom que vous avez utiliser n'est associé à aucune caisse.");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("error message successfully sent", 1);
+        return;
+    }
+
+    if(!removeCrate(crateToOpen["id"], player)) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : caisse introuvable");
+        msgEmbed.setDescription("Vous ne possédez pas la caisse que vous avez essayé d'ouvrir. Utiliser la commande \"game inv\" pour afficher votre inventaire.");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("error : player doesn't have the crate", 1);
+        return;
+    }
+
+    let loot = getItemFromCrateV2(crateToOpen["id"]);
+    addItemV2(loot, player);
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor(colors.get(loot["tier"]));
+    msgEmbed.setTitle(loot["name"] + " trouvé !");
+    if (loot.hasOwnProperty("desc")) msgEmbed.setDescription(loot["desc"]);
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game help\""});
+
+    message.channel.send({embeds: [msgEmbed]});
+    log.print("success message sent", 1);
+}
 function removeCrate(crateId, player) {
     log.print("removing crate from player inventory", 1);
     let i = 0;
@@ -532,6 +650,99 @@ function addItem(item, cat, joueur) {
     joueur["inv"].push(item);
     log.print("creating a new item in player inventory for the new item", 1);
     updateData();
+}
+function addItemV2(item, player) {
+    log.print("adding the item to the player inventory", 1);
+    let i = 0;
+    while (i < player["inv"].length) {
+        if (player["inv"][i]["id"] === item["id"]) {
+            player["inv"][i]["count"]++;
+            log.print("item found in inventory, updating number of item for the user", 1);
+            updateData();
+            return;
+        }
+        i++;
+    }
+
+    item["count"] = 1;
+    player["inv"].push(item);
+    log.print("creating a new item in player inventory for the new item", 1);
+    updateData();
+}
+function getItemFromCrateV2(crateId) {
+    log.print("Looting the crate to get a new item", 1);
+    let itemId;
+
+    switch (crateId) {
+        case "faee6b1d-28cb-4728-aa58-5a4923ef92ec": //caisse rang S
+            let randInt = Math.floor(Math.random() * 9 + 1);
+            if (randInt === 1) {
+                // Medikit
+                itemId = "974fdc99-bf5f-4aea-858c-cc14765788df";
+            } else if (randInt === 2) {
+                // Tenue de démineur
+                itemId = "c6ac9e8c-1822-42b5-870d-50e366650bce";
+            } else if (randInt === 3) {
+                // Gilet pare-balle
+                itemId = "a5832d33-68f5-4b83-8ebd-9903484d2d15";
+            } else if (randInt === 4) {
+                // M4 super 90
+                itemId = "f03af414-d4a2-484f-9170-9989d410101a";
+            } else if (randInt === 5) {
+                // SCAR-H
+                itemId = "0a682b69-9234-4064-b487-d6be870c2f84";
+            } else if (randInt === 6) {
+                // Rem 700
+                itemId = "8221a349-60de-41b0-a7ba-41ab386eaf65";
+            } else if (randInt === 7) {
+                // RPG-7
+                itemId = "b8657581-9f05-47c2-a955-710ca157557c";
+            } else if (randInt === 8) {
+                // NLAW
+                itemId = "f4bba4de-5b09-4fc7-9eb1-3c07ca23e562";
+            } else if (randInt === 9) {
+                // Mine antipersonnel
+                itemId = "4160668f-2b86-41e1-822f-ae5af585db67";
+            }
+    }
+
+    // recup l'item
+    let item = findItemById(itemId);
+    log.print("successfully looted the crate, returning item", 1);
+    return item;
+}
+function findItemById(itemId) {
+    for (let j = 0; j < gameData["objets"]["armes"].length; j++) {
+        if (gameData["objets"]["armes"][j]["id"] === itemId) {
+            return JSON.parse(JSON.stringify(gameData["objets"]["armes"][j]));
+        }
+    }
+
+    for (let j = 0; j < gameData["objets"]["munitions"].length; j++) {
+        if (gameData["objets"]["munitions"][j]["id"] === itemId) {
+            return JSON.parse(JSON.stringify(gameData["objets"]["munitions"][j]));
+        }
+    }
+
+    for (let j = 0; j < gameData["objets"]["medicine"].length; j++) {
+        if (gameData["objets"]["medicine"][j]["id"] === itemId) {
+            return JSON.parse(JSON.stringify(gameData["objets"]["medicine"][j]));
+        }
+    }
+
+    for (let j = 0; j < gameData["objets"]["protection"].length; j++) {
+        if (gameData["objets"]["protection"][j]["id"] === itemId) {
+            return JSON.parse(JSON.stringify(gameData["objets"]["protection"][j]));
+        }
+    }
+
+    for (let j = 0; j < gameData["objets"]["crates"].length; j++) {
+        if (gameData["objets"]["crates"][j]["id"] === itemId) {
+            return JSON.parse(JSON.stringify(gameData["objets"]["crates"][j]));
+        }
+    }
+
+    return false;
 }
 function getItemFromCrate(crateId) {
     log.print("Looting the crate to get a new item", 1);
@@ -1280,6 +1491,7 @@ function shootPlayers(damage, nbTarget, player, trueDamage = false) {
 
                 //return // --> à mettre si on veut que quand on mange une mine ça annule l'attaque ? donc consommation de la munition
             }
+
             let damages = damagePlayer(damage, target, trueDamage);
 
             // si target morte alors, on vole 5 items dans son inventaire et on augmente son nb kill et sa kill streak de 1
