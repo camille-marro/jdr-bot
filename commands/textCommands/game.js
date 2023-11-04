@@ -385,6 +385,7 @@ function printInventory(message) {
                 str += "\nRang C (58%) :\n";
                 rangC = !rangC;
             }
+            console.log(sections[0][i])
             if (sections[0][i]["munition"]) {
                 let munition = gameData["objets"]["munitions"].find(munition => munition["id"] === sections[0][i]["munition"]);
                 let strMunition = munition["name"];
@@ -672,10 +673,11 @@ function addItemV2(item, player) {
 function getItemFromCrateV2(crateId) {
     log.print("Looting the crate to get a new item", 1);
     let itemId;
+    let randInt;
 
     switch (crateId) {
         case "faee6b1d-28cb-4728-aa58-5a4923ef92ec": //caisse rang S
-            let randInt = Math.floor(Math.random() * 9 + 1);
+            randInt = Math.floor(Math.random() * 9 + 1);
             if (randInt === 1) {
                 // Medikit
                 itemId = "974fdc99-bf5f-4aea-858c-cc14765788df";
@@ -704,6 +706,145 @@ function getItemFromCrateV2(crateId) {
                 // Mine antipersonnel
                 itemId = "4160668f-2b86-41e1-822f-ae5af585db67";
             }
+            break;
+
+        case "4649b24c-05cf-495f-b6ad-f5c9ba5f21ea": // caisse de rang A
+            randInt = Math.floor(Math.random() * 12 + 1);
+            if (randInt === 1) {
+                // Desert Eagle
+                itemId = "3bc72433-fe0f-47b3-9a17-f714555f879c";
+            } else if (randInt === 2) {
+                // 357 magnum
+                itemId = "410b884e-7906-4fda-8e54-d27932c13b3d";
+            } else if (randInt === 3) {
+                // Gilet SKS
+                itemId = "99a7cfe4-e8fd-42af-b60d-c12754665e2f";
+            } else if (randInt === 4) {
+                // M32A1
+                itemId = "9ce3092c-f2d7-41ec-b9b5-12c2758b2325";
+            } else if (randInt === 5) {
+                // SV-98
+                itemId = "c5c0ba54-4f3a-4c63-ab29-5d6c917154d8";
+            } else if (randInt === 6) {
+                // Cocktail molotov
+                itemId = "c3bd7600-bdce-4076-a5e3-fdcbaf94af78";
+            } else if (randInt === 7) {
+                // Grenade flash
+                itemId = "22024005-8768-4754-8dec-47d44266e91a";
+            } else if (randInt === 8) {
+                // Cal 12
+                itemId = "5ca3b4fb-3c7d-491a-b2e2-6b4d1c7ab918";
+            } else if (randInt === 9) {
+                // .308 WIN
+                itemId = "3bcc71f5-daee-4bb2-9ade-cbc37cce68f7";
+            } else if (randInt === 10) {
+                // PG-7V
+                itemId = "3c4a07e6-c095-4324-9bba-1d8a1de53e6a";
+            } else if (randInt === 11) {
+                // Seringue
+                itemId = "69fdba79-7814-4e10-ab04-7d9031f3c47e";
+            } else if (randInt === 12) {
+                // Gilet tactique
+                itemId = "85b58af1-d1e2-4657-baef-39664e3b9052";
+            }
+            break;
+
+        case "630d1881-aaa6-4595-b913-040e2be7455a": // caisse de rang B
+            randInt = Math.floor(Math.random() * 16 + 1);
+            if (randInt === 1) {
+                // M4A1
+                itemId = "eb74e2fb-1b62-40c4-bd5d-08dc13304d0e";
+            } else if (randInt === 2) {
+                // 357 AK-47
+                itemId = "db0c7226-b54d-46f6-910a-cd13f6638939";
+            } else if (randInt === 3) {
+                // Gilet MPX
+                itemId = "b20e3725-2f6c-4995-bc57-761fb9064283";
+            } else if (randInt === 4) {
+                // P90
+                itemId = "65503d4d-12e3-4dd3-ace6-fc4f040bd35d";
+            } else if (randInt === 5) {
+                // MP7
+                itemId = "1c3e7c6a-b77a-4772-b573-70dddbdcfe5c";
+            } else if (randInt === 6) {
+                // Grenade explosive
+                itemId = "98df46f7-5a8a-4760-a74b-7c49eec9b04b";
+            } else if (randInt === 7) {
+                // 7,62x51 mm
+                itemId = "27fdecb5-3a3e-46af-9cb9-cd4aab0d1271";
+            } else if (randInt === 8) {
+                // .357 Magnum
+                itemId = "c369dfd0-37c6-4da2-981d-4972ef126d36";
+            } else if (randInt === 9) {
+                // Kit de premier soin
+                itemId = "24ff4b27-5337-41d7-b50e-e79f24fab10d";
+            } else if (randInt === 10) {
+                // Anti douleur
+                itemId = "acb5d750-3c8e-4e24-aec9-acb989a63b5e";
+            } else if (randInt === 11) {
+                // Bandage
+                itemId = "095b4994-a49f-44b0-8a7a-962244a072bc";
+            } else if (randInt === 12) {
+                // Bouclier de chevalier
+                itemId = "816934d8-c5a3-40f4-a7ba-d73e24422470";
+            } else if (randInt === 13) {
+                // Grenade explosive (arme)
+                itemId = "058361e2-d1ba-46fa-a231-a28411c5d2de";
+            } else if (randInt === 14) {
+                // C4
+                itemId = "5c5b617c-22a3-490d-a3f1-254d704ccd9c";
+            } else if (randInt === 15) {
+                // Bombe
+                itemId = "b28c357b-4c11-4cef-95e1-5b4a73c4343e";
+            } else if (randInt === 16) {
+                // .50 AE
+                itemId = "95401368-5219-426c-8977-bd469d8426bb";
+            }
+            break;
+
+        case "63f93ab9-8930-4788-9439-ca3f476c6da8": // caisse de rang C
+            randInt = Math.floor(Math.random() * 13 + 1);
+            if (randInt === 1) {
+                // Glock 18
+                itemId = "91181b12-f8fa-4cea-a311-d7610e049380";
+            } else if (randInt === 2) {
+                // Beretta 92
+                itemId = "674bec62-1a50-409f-9196-1607496371e6";
+            } else if (randInt === 3) {
+                // Colt 1911
+                itemId = "fe5329fb-786d-4a44-a607-059544ea6ff6";
+            } else if (randInt === 4) {
+                // HK USP
+                itemId = "63a9bf96-aa6f-4e88-8bd1-a67464edd14b";
+            } else if (randInt === 5) {
+                // Taser
+                itemId = "965b3713-0480-4adf-8e55-1e68d5890a96";
+            } else if (randInt === 6) {
+                // MP5A2
+                itemId = "b3f63afb-6f60-4abb-80be-1b54649250ca";
+            } else if (randInt === 7) {
+                // 9x19 mm
+                itemId = "259fb976-376a-4008-b9c6-e8199a9dee78";
+            } else if (randInt === 8) {
+                // 9 mm
+                itemId = "e02ee42e-8475-409e-8a80-0c051131e4bb";
+            } else if (randInt === 9) {
+                // .45 ACP
+                itemId = "b25d2396-8d09-45d7-be93-b0a3fcc60c29";
+            } else if (randInt === 10) {
+                // 5,56x45 mm
+                itemId = "ca10ce42-811d-47fe-bf2b-77b6253ae644";
+            } else if (randInt === 11) {
+                // 7,62x39 mm
+                itemId = "49372c93-8d1b-4141-a2da-89f201a8ee78";
+            } else if (randInt === 12) {
+                // 4,6x30 mm
+                itemId = "9a88c3bd-87e5-41f0-85f6-e9930411efc2";
+            } else if (randInt === 13) {
+                // Pansement
+                itemId = "e0e07dde-97d2-4ca4-9875-6642b7384c7e";
+            }
+            break;
     }
 
     // recup l'item
