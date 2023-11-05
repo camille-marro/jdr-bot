@@ -387,7 +387,6 @@ function printInventory(message) {
                 str += "\nRang C (58%) :\n";
                 rangC = !rangC;
             }
-            console.log(sections[0][i])
             if (sections[0][i]["munition"]) {
                 let munition = gameData["objets"]["munitions"].find(munition => munition["id"] === sections[0][i]["munition"]);
                 let strMunition = munition["name"];
@@ -2225,11 +2224,19 @@ function sellItem(message) {
         return;
     }
 
-    switch (item["tier"]) {
-        case "C":
-
+    player["money"] += item["buyPrice"];
+    //if (player["inv"])
+    removeItem(player, item["id"]);
+}
+function removeItem(player, itemId) {
+    let i = 0;
+    while (i < player["inv"].length) {
+        if (player["inv"][i]["id"] === itemId) {
+            player["inv"].splice(i, 1);
+            break;
+        }
+        i++;
     }
-
 }
 function help(message) {
     message.channel.send("PAS ENCORE DISPO FF fait game notice ya tout marqué\nsinon les commandes principales c'est : game loot, game inv, game use [nom_item], game stats, game open [nom_caisse], game detonate")
@@ -2459,15 +2466,6 @@ function sortInventory(player) {
 
     //let finalInv = mergeSections([weaponSection, ammoSection, healSection, protectionSection, crateSection]);
     return [weaponSection, ammoSection, healSection, protectionSection, crateSection];
-}
-function mergeSections(sections) {
-    let mergedSections = [];
-    sections.forEach(section => {
-        section.forEach(item => {
-            mergedSections.push(item);
-        });
-    });
-    return mergedSections;
 }
 function addWeightToSection(section) {
     section.forEach(item => {
