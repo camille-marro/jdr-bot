@@ -40,7 +40,6 @@ try {
     console.log("|-- no file named meme.json found");
     gameData = false;
 }
-
 function updateData() {
     fs.writeFileSync(path.resolve(__dirname, "../../json_files/game.json"), JSON.stringify(gameData));
     console.log("|-- data successfully updated");
@@ -198,6 +197,59 @@ function lootCrate(message) {
         log.print("sending success message", 1);
     }
     else if (randInt > 12 && randInt <= 41) {
+        // caisse de rang b
+        log.print("B rank crate found", 1);
+        addCrate("630d1881-aaa6-4595-b913-040e2be7455a", joueur);
+        msgEmbed.setColor(colors.get("B"));
+        msgEmbed.setTitle("Caisse de rang B trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse de tier B, c'est plutôt cool.")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending success message", 1);
+    }
+    else {
+        // caisse de rang c
+        log.print("C rank crate found", 1);
+        addCrate("63f93ab9-8930-4788-9439-ca3f476c6da8", joueur);
+        msgEmbed.setColor(colors.get("C"));
+        msgEmbed.setTitle("Caisse de rang C trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse de tier C, comme tout le monde au final.");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending success message", 1);
+    }
+}
+function lootOfflineCrate(player) {
+    let randInt = Math.floor(Math.random() * 99 + 1);
+    let msgEmbed = new EmbedBuilder();
+
+    if (randInt <= 2) {
+        // caisse rang S
+        log.print("S rank crate found", 1);
+        addCrate("faee6b1d-28cb-4728-aa58-5a4923ef92ec", joueur);
+        msgEmbed.setColor(colors.get("S"));
+        msgEmbed.setTitle("Caisse de rang S trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse de tier S, espèce de gros con.")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending success message", 1);
+    }
+    else if (randInt > 2 && randInt <= 12) {
+        // caisse rang A
+        log.print("A rank crate found", 1);
+        addCrate("4649b24c-05cf-495f-b6ad-f5c9ba5f21ea", joueur);
+        msgEmbed.setColor(colors.get("A"));
+        msgEmbed.setTitle("Caisse de rang A trouvée !");
+        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse de tier A, bravo tu te crois malin c'est ça ?")
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("sending success message", 1);
+    }
+    else if (randInt > 12 && randInt <= 41) {
         // caisse d'explosif
         log.print("B rank crate found", 1);
         addCrate("630d1881-aaa6-4595-b913-040e2be7455a", joueur);
@@ -220,95 +272,6 @@ function lootCrate(message) {
 
         message.channel.send({embeds: [msgEmbed]});
         log.print("sending success message", 1);
-    }
-}
-function lootOfflineCrate(player) {
-    let randInt = Math.floor(Math.random() * 99 + 1);
-    let msgEmbed = new EmbedBuilder();
-
-    if (randInt <= 2) {
-        // caisse antimatériel
-        log.print("crate with id=c14d280f-121c-4252-bb84-2a6696143c20 found", 1);
-        addCrate("c14d280f-121c-4252-bb84-2a6696143c20", player);
-        msgEmbed.setColor(colors.get("S"));
-        msgEmbed.setTitle("Caisse d'arme anti-matériel trouvée !");
-        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier S, espèce de gros con.")
-        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
-
-        log.print("sending success message", 1);
-        return msgEmbed;
-    }
-    else if (randInt > 2 && randInt <= 7) {
-        // caisse arme lourde
-        log.print("crate with id=a592d1ed-3e66-4585-a68e-697f3c24904e found", 1);
-        addCrate("a592d1ed-3e66-4585-a68e-697f3c24904e", player);
-        msgEmbed.setColor(colors.get("A"));
-        msgEmbed.setTitle("Caisse d'arme lourde trouvée !");
-        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier A, bravo tu te crois malin c'est ça ?")
-        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
-
-        log.print("sending success message", 1);
-        return msgEmbed;
-    }
-    else if (randInt > 7 && randInt <= 12) {
-        // caisse de protection
-        log.print("crate with id=26b8d782-15c4-41f3-a886-eaeed371d714 found", 1);
-        addCrate("26b8d782-15c4-41f3-a886-eaeed371d714", player);
-        msgEmbed.setColor(colors.get("A"));
-        msgEmbed.setTitle("Caisse de protection trouvée !");
-        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier A, bravo tu te crois malin c'est ça ?")
-        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
-
-        log.print("sending success message", 1);
-        return msgEmbed;
-    }
-    else if (randInt > 12 && randInt <= 27) {
-        // caisse d'explosif
-        log.print("crate with id=a74b16f4-3095-4e5d-8093-555c3e13fa5f found", 1);
-        addCrate("a74b16f4-3095-4e5d-8093-555c3e13fa5f", player);
-        msgEmbed.setColor(colors.get("B"));
-        msgEmbed.setTitle("Caisse d'explosif trouvée !");
-        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier B, c'est plutôt cool.")
-        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
-
-        log.print("sending success message", 1);
-        return msgEmbed;
-    }
-    else if (randInt > 27 && randInt <= 41) {
-        // caisse de soin
-        log.print("crate with id=aa298444-c2b5-4d47-af0f-5a06ea0354f0 found", 1);
-        addCrate("aa298444-c2b5-4d47-af0f-5a06ea0354f0", player);
-        msgEmbed.setColor(colors.get("B"));
-        msgEmbed.setTitle("Caisse de soin trouvée !");
-        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier B, c'est plutôt cool.")
-        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
-
-        log.print("sending success message", 1);
-        return msgEmbed;
-    }
-    else if (randInt > 41 && randInt <= 70) {
-        // caisse d'arme
-        log.print("crate with id=1ad565c1-6e56-4a28-8de6-ff6ce228444c found", 1);
-        addCrate("1ad565c1-6e56-4a28-8de6-ff6ce228444c", player);
-        msgEmbed.setColor(colors.get("C"));
-        msgEmbed.setTitle("Caisse d'arme trouvée !");
-        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier C, comme tout le monde au final.")
-        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
-
-        log.print("sending success message", 1);
-        return msgEmbed;
-    }
-    else {
-        // caisse de munition
-        log.print("crate with id=935846e7-ca48-49a3-9a6d-14b273a2139b found", 1);
-        addCrate("935846e7-ca48-49a3-9a6d-14b273a2139b", player);
-        msgEmbed.setColor(colors.get("C"));
-        msgEmbed.setTitle("Caisse de munition trouvée !");
-        msgEmbed.setDescription("Félicitation vous avez trouvé une caisse d'arme de tier C, comme tout le monde au final.");
-        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
-
-        log.print("sending success message", 1);
-        return msgEmbed;
     }
 }
 function printWaitingTime(player) {
