@@ -46,7 +46,7 @@ try {
 function updateData() {
     fs.writeFileSync(path.resolve(__dirname, "../../json_files/game.json"), JSON.stringify(gameData));
     console.log("|-- data successfully updated");
-    log.print("jdrData has been successfully updated", 1);
+    log.print("gameData has been successfully updated", 1);
 }
 
 function lootCrate(message) {
@@ -118,6 +118,7 @@ function lootCrate(message) {
 }
 
 function lootOfflineCrate(player) {
+    log.print("loot message is good, looting crate for " + player["name"], 1);
     let randInt = Math.floor(Math.random() * 99 + 1);
     let msgEmbed = new EmbedBuilder();
 
@@ -153,6 +154,7 @@ function printWaitingTime(player) {
 }
 
 function addCrate(crateId, joueur) {
+    log.print("adding crate (#" + crateId +") to player " + joueur["name"] + " inventory", 1);
     let crates = JSON.parse(JSON.stringify(gameData["objets"]["crates"]));
     let i = 0;
     let crateToAdd;
@@ -343,6 +345,7 @@ function printInventory(message) {
 }
 
 function getPlayer(message) {
+    log.print("fecthing player information", 1);
     let joueur;
     if (gameData["joueurs"].hasOwnProperty(message.author.id)) joueur = gameData["joueurs"][message.author.id];
     else {
@@ -359,6 +362,7 @@ function getPlayer(message) {
 }
 
 function getPlayerFromId(playerId) {
+    log.print("fetching player data from his id", 1);
     if (gameData["joueurs"].hasOwnProperty(playerId)) return gameData["joueurs"][playerId];
     else return false;
 }
@@ -1670,6 +1674,7 @@ function notice(message) {
 }
 
 function loadOfflineLoots(client) {
+    log.print("fetching offline messages to loot crates", 1);
     let truePlayers = gameData["joueurs"];
     loadMessages(client)
         .then((msgLoots) => {
@@ -1693,6 +1698,7 @@ function loadOfflineLoots(client) {
             msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
 
             msgLoots[1].send({embeds: [msgEmbed]});
+            log.print("successfully looted all crates", 1);
 
         })
         .catch(error => {
@@ -1701,6 +1707,7 @@ function loadOfflineLoots(client) {
 }
 
 async function loadMessages(client) {
+    log.print("fetching message for offline looting", 1);
     let msgLoots = [];
     let channel;
 
@@ -1712,6 +1719,8 @@ async function loadMessages(client) {
         for (const message of messages.values()) {
             let config = require('../../assets/config.js');
             let prefix = config['config']['prefix'];
+
+            log.print("message fetched", 1, message.content);
 
             if (message.content === (prefix + "game loot")) {
                 msgLoots.push(message);
@@ -1727,9 +1736,10 @@ async function loadMessages(client) {
 }
 
 function parseOfflineMessages(messages) {
+    log.print("parsing offline messages to verify time", 1);
     let playersCopy = JSON.parse(JSON.stringify(gameData["joueurs"]));
     Object.entries(playersCopy).forEach(([key, player]) => {
-        player["lootMessages"] = []
+        player["lootMessages"] = [];
         messages.forEach(message => {
             if (message.author.id === key) {
                 player["lootMessages"].unshift(message.createdTimestamp);
