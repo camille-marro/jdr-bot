@@ -1,6 +1,6 @@
 let fs = require('fs');
 
-function print(text, user, content) {
+function print(text, user=1, content) {
     // si user = 1 --> système
     let date = new Date();
     let prefix = "[" + date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + "][" + date.getHours() + "h " + date.getMinutes() + ":" + date.getSeconds() + "]" + " - ";
