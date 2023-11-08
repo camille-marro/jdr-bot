@@ -154,7 +154,7 @@ function printWaitingTime(player) {
 }
 
 function addCrate(crateId, joueur) {
-    log.print("adding crate (#" + crateId +") to player " + joueur["name"] + " inventory", 1);
+    log.print("adding crate (#" + crateId + ") to player " + joueur["name"] + " inventory", 1);
     let crates = JSON.parse(JSON.stringify(gameData["objets"]["crates"]));
     let i = 0;
     let crateToAdd;
@@ -180,6 +180,7 @@ function addCrate(crateId, joueur) {
     crateToAdd["count"] = 1;
     joueur["inv"].push(crateToAdd);
     joueur["last_loot"] = Date.now();
+    joueur["stats"]["crates_looted"][crateToAdd["tier"]]++;
     log.print("creating a new item in player inventory for the new crate", 1);
     updateData();
 }
@@ -809,6 +810,7 @@ function useProtection(protection, player) {
 
 function addArmorPlayer(armorAmount, player) {
     player["armor"] += armorAmount;
+    player["stats"]["shield_used"] += armorAmount;
 
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor(colors.get("armor"));
@@ -884,6 +886,7 @@ function healPlayer(healAmount, player) {
     msgEmbed.setTitle("Vous vous êtes soigné");
 
     player["health"] += healAmount;
+    player["stats"]["hp_healed"] += healAmount;
     if (player["health"] > maxHealth) {
         player["health"] = maxHealth;
         msgEmbed.setDescription("Vous avez regagner toute votre vie.");
@@ -1384,6 +1387,7 @@ function damagePlayer(damage, player, trueDamage = true) {
     }
 
     player["health"] -= finalDamage;
+    player["stats"]["damages"] += finalDamage;
     if (player["health"] <= 0) {
         playerDead = true;
         player["stats"]["nb_morts"]++;
@@ -1490,12 +1494,26 @@ function printStats(message) {
     msgEmbed.setDescription("Voici vos stats pour ce jeu");
     msgEmbed.addFields({name: "Points de vie", value: player["health"].toString(), inline: true});
     msgEmbed.addFields({name: "Armure", value: player["armor"].toString(), inline: true});
-    msgEmbed.addFields({name: "Argent", value: player["money"].toString()});
+    msgEmbed.addFields({name: "Argent", value: player["money"].toString(), inline: true});
     msgEmbed.addFields({name: "Kills", value: player["stats"]["nb_kills"].toString(), inline: true});
     msgEmbed.addFields({name: "Morts", value: player["stats"]["nb_morts"].toString(), inline: true});
     msgEmbed.addFields({name: " ", value: " "});
     msgEmbed.addFields({name: "Série meurtrière", value: player["stats"]["kill_streak"].toString(), inline: true});
     msgEmbed.addFields({name: "Meilleure série", value: player["stats"]["max_kill_streak"].toString(), inline: true});
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.addFields({name: "Dégâts faits", value: player["stats"]["damages"].toString(), inline: true});
+    msgEmbed.addFields({name: "Vie soignée", value: player["stats"]["hp_healed"].toString(), inline: true});
+    msgEmbed.addFields({name: "Armure utilisée", value: player["stats"]["shield_used"].toString(), inline: true});
+    msgEmbed.addFields({name: "Caisses récupérées", value: " "});
+    msgEmbed.addFields({name: "S", value: player["stats"]["crates_looted"]["S"].toString(), inline: true});
+    msgEmbed.addFields({name: "A", value: player["stats"]["crates_looted"]["B"].toString(), inline: true});
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.addFields({name: "B", value: player["stats"]["crates_looted"]["A"].toString(), inline: true});
+    msgEmbed.addFields({name: "C", value: player["stats"]["crates_looted"]["C"].toString(), inline: true});
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.addFields({name: "Nombre d'objets achetés", value: player["stats"]["bought_objects"].toString(), inline: true});
+    msgEmbed.addFields({name: "Nombre d'objets vendus", value: player["stats"]["sold_objects"].toString(), inline: true});
+
     msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
     message.channel.send({embeds: [msgEmbed]});
 }
@@ -1546,8 +1564,9 @@ function sellItem(message) {
         log.print("error : player doesn't have item", 1);
         return;
     }
-    player["money"] += item["sellPrice"];
 
+    player["money"] += item["sellPrice"];
+    player["stats"]["sold_objects"]++;
 
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor(colors.get("sell"));
@@ -1865,6 +1884,7 @@ function buyItem(message) {
     }
 
     player["money"] = player["money"] - item["buyPrice"];
+    player["stats"]["bought_objects"]++;
     addItem(item, player);
 
     let msgEmbed = new EmbedBuilder();
