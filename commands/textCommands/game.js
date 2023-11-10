@@ -154,7 +154,7 @@ function printWaitingTime(player) {
 }
 
 function addCrate(crateId, joueur) {
-    log.print("adding crate (#" + crateId + ") to player " + joueur["name"] + " inventory", 1);
+    log.print("adding crate (#" + crateId + ") to player " + joueur["discordName"] + " inventory", 1);
     let crates = JSON.parse(JSON.stringify(gameData["objets"]["crates"]));
     let i = 0;
     let crateToAdd;
@@ -180,7 +180,7 @@ function addCrate(crateId, joueur) {
     crateToAdd["count"] = 1;
     joueur["inv"].push(crateToAdd);
     joueur["last_loot"] = Date.now();
-    joueur["stats"]["crates_looted"][crateToAdd["tier"]]++;
+    joueur["stats"]["crates_looted"][crateToAdd["tier"]] += 1;
     log.print("creating a new item in player inventory for the new crate", 1);
     updateData();
 }
@@ -494,7 +494,6 @@ function getItemFromCrate(crateId) {
 
         case "4649b24c-05cf-495f-b6ad-f5c9ba5f21ea": // caisse de rang A
             randInt = Math.floor(Math.random() * 12 + 1);
-            console.log(randInt);
             if (randInt === 1) {
                 // Desert Eagle
                 itemId = "3bc72433-fe0f-47b3-9a17-f714555f879c";
@@ -676,8 +675,9 @@ function searchCrate(crateName) {
     log.print("looking for the crate in game.json", 1);
     let crates = JSON.parse(JSON.stringify(gameData["objets"]["crates"]));
     let i = 0;
+
     while (i < crates.length) {
-        if (crateName === crates[i]["name"]) {
+        if (crateName.toLowerCase() === crates[i]["name"].toString().toLowerCase()) {
             log.print("crate found !", 1);
             return crates[i];
         }
@@ -748,7 +748,6 @@ function useItem(message) {
                 message.author.send({embeds: result["silent"]});
                 let result2 = JSON.parse(JSON.stringify(result));
                 result2["silent"].forEach(message => {
-                    console.log(message)
                     message["title"] = "Vous avez attaqué avec succès. Vérifiez vos MP pour connaître la cible.";
                     message["description"] = " ";
                 });
@@ -1205,8 +1204,10 @@ function shootPlayers(damage, nbTarget, player, trueDamage = false) {
             msgEmbed.setDescription("Vous ne vous êtes pas encore remis de votre dernière blessure et ce vilain bandage n'a pas arrangé les choses.");
             msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
             player["state"]["precisionNerf"] = 0;
-            log.print("player is flashed, he can't shoot", 1);
+            log.print("player precision is nerfed, he can't shoot", 1, "randInt : " + randInt);
             return [msgEmbed];
+        } else {
+            player["state"]["precisionNerf"] = 0;
         }
     }
 
@@ -1269,6 +1270,7 @@ function shootPlayers(damage, nbTarget, player, trueDamage = false) {
                 player["state"]["damageBoost"] = 1;
             }
             let damages = damagePlayer(damage, target, trueDamage);
+            player["stats"]["damages_done"] += damages["damageDone"];
 
             // si target morte alors, on vole 5 items dans son inventaire et on augmente son nb kill et sa kill streak de 1
             if (damages["playerDead"]) {
@@ -1387,7 +1389,7 @@ function damagePlayer(damage, player, trueDamage = true) {
     }
 
     player["health"] -= finalDamage;
-    player["stats"]["damages"] += finalDamage;
+    player["stats"]["damages_took"] += finalDamage;
     if (player["health"] <= 0) {
         playerDead = true;
         player["stats"]["nb_morts"]++;
@@ -1445,31 +1447,31 @@ function loadAllOtherPlayers(discordId) {
 function findItem(itemName) {
 
     for (let j = 0; j < gameData["objets"]["armes"].length; j++) {
-        if (gameData["objets"]["armes"][j]["name"] === itemName) {
+        if (gameData["objets"]["armes"][j]["name"].toLowerCase() === itemName.toLowerCase()) {
             return JSON.parse(JSON.stringify(gameData["objets"]["armes"][j]));
         }
     }
 
     for (let j = 0; j < gameData["objets"]["munitions"].length; j++) {
-        if (gameData["objets"]["munitions"][j]["name"] === itemName) {
+        if (gameData["objets"]["munitions"][j]["name"].toLowerCase() === itemName.toLowerCase()) {
             return JSON.parse(JSON.stringify(gameData["objets"]["munitions"][j]));
         }
     }
 
     for (let j = 0; j < gameData["objets"]["medicine"].length; j++) {
-        if (gameData["objets"]["medicine"][j]["name"] === itemName) {
+        if (gameData["objets"]["medicine"][j]["name"].toLowerCase() === itemName.toLowerCase()) {
             return JSON.parse(JSON.stringify(gameData["objets"]["medicine"][j]));
         }
     }
 
     for (let j = 0; j < gameData["objets"]["protection"].length; j++) {
-        if (gameData["objets"]["protection"][j]["name"] === itemName) {
+        if (gameData["objets"]["protection"][j]["name"].toLowerCase() === itemName.toLowerCase()) {
             return JSON.parse(JSON.stringify(gameData["objets"]["protection"][j]));
         }
     }
 
     for (let j = 0; j < gameData["objets"]["crates"].length; j++) {
-        if (gameData["objets"]["crates"][j]["name"] === itemName) {
+        if (gameData["objets"]["crates"][j]["name"].toLowerCase() === itemName.toLowerCase()) {
             return JSON.parse(JSON.stringify(gameData["objets"]["crates"][j]));
         }
     }
@@ -1501,14 +1503,16 @@ function printStats(message) {
     msgEmbed.addFields({name: "Série meurtrière", value: player["stats"]["kill_streak"].toString(), inline: true});
     msgEmbed.addFields({name: "Meilleure série", value: player["stats"]["max_kill_streak"].toString(), inline: true});
     msgEmbed.addFields({name: " ", value: " "});
-    msgEmbed.addFields({name: "Dégâts faits", value: player["stats"]["damages"].toString(), inline: true});
+    msgEmbed.addFields({name: "Dégâts reçus", value: player["stats"]["damages_took"].toString(), inline: true});
+    msgEmbed.addFields({name: "Dégâts faits", value: player["stats"]["damages_done"].toString(), inline: true});
+    msgEmbed.addFields({name: " ", value: " "});
     msgEmbed.addFields({name: "Vie soignée", value: player["stats"]["hp_healed"].toString(), inline: true});
     msgEmbed.addFields({name: "Armure utilisée", value: player["stats"]["shield_used"].toString(), inline: true});
     msgEmbed.addFields({name: "Caisses récupérées", value: " "});
     msgEmbed.addFields({name: "S", value: player["stats"]["crates_looted"]["S"].toString(), inline: true});
-    msgEmbed.addFields({name: "A", value: player["stats"]["crates_looted"]["B"].toString(), inline: true});
+    msgEmbed.addFields({name: "A", value: player["stats"]["crates_looted"]["A"].toString(), inline: true});
     msgEmbed.addFields({name: " ", value: " "});
-    msgEmbed.addFields({name: "B", value: player["stats"]["crates_looted"]["A"].toString(), inline: true});
+    msgEmbed.addFields({name: "B", value: player["stats"]["crates_looted"]["B"].toString(), inline: true});
     msgEmbed.addFields({name: "C", value: player["stats"]["crates_looted"]["C"].toString(), inline: true});
     msgEmbed.addFields({name: " ", value: " "});
     msgEmbed.addFields({name: "Nombre d'objets achetés", value: player["stats"]["bought_objects"].toString(), inline: true});
@@ -1822,10 +1826,10 @@ function removeWeightFromSection(section) {
 function sendMPMessage(discordId, msgEmbeds) {
     channel.guild.members.fetch(discordId)
         .then((res) => {
-            console.log(res.user);
             res.user.send({embeds: msgEmbeds})
                 .then(r => {
-                    console.log(r)
+                    console.log("|-- PM successfully sent !");
+                    log.print("PM successfully sent", 1);
                 })
                 .catch(err => {
                     console.error(err);
