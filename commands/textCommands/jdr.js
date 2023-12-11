@@ -71,6 +71,8 @@ function printPersonnage(personnage) {
     if (personnage.hasOwnProperty("magic")) msgEmbed.addFields({name: "Magie", value: personnage["magic"], inline: true});
     msgEmbed.setFooter({text: "Pour plus d'infos utiliser la commande \"jdr help\""});
 
+    if (personnage.hasOwnProperty("pp")) msgEmbed.setThumbnail(personnage["pp"]);
+
     return msgEmbed;
 }
 
