@@ -170,7 +170,7 @@
       "job": "Chasseur",
       "age": 25,
       "sex": "F",
-      "magic": "Magie de la peur",
+      "magic": "Magie des étoiles",
       "stats": {
         "Int": "40",
         "For": "60",
@@ -333,11 +333,12 @@
       "name": "Gloria",
       "private": false,
       "pseudo": "/",
-      "desc": "Femme d’une cinquantaine d’années, très grosse aujourd’hui mais qui était assez fine plus jeune, yeux bleus, cheveux blonds, caractère très aventurier, elle a toujours aimé l’aventure et les énigmes. Gloria est à la recherche du cristal de défense physique pour tenter de la détruire",
+      "desc": "Femme d’une cinquantaine d’années, très grosse aujourd’hui mais qui était assez fine plus jeune, yeux bleus, cheveux blonds, caractère très aventurier, elle a toujours aimé l’aventure et les énigmes. Gloria est à la recherche du cristal de défense physique.",
       "race": "Humain",
       "job": "Archéologue",
       "age": 52,
-      "sex": "F"
+      "sex": "F",
+      "pp": "https://cdn.discordapp.com/attachments/1179943000999215215/1179946339371589632/2Q.png?ex=657ba1a9&is=65692ca9&hm=8b4a3196f38fb0673744500acd2a592a39ceb08ca0f3b81f23702abfeccff8fc&"
     },
     {
       "name": "Clovius",
@@ -347,18 +348,29 @@
       "race": "Humain",
       "job": "Barman",
       "age": 23,
-      "sex": "H"
+      "sex": "H",
+      "pp": "https://cdn.discordapp.com/attachments/1179943000999215215/1179947460987207803/Z.png?ex=657ba2b5&is=65692db5&hm=51e5808136f0ff6e0b8d0c5af5d748a11768b441d2dab92d576edd2249679fdf&"
     },
     {
       "name": "Dreldur",
       "private": false,
       "pseudo": "/",
-      "desc": "C’est un petit homme, très gros, avec une voix très roque. Il est chauve et imberbe. C'est le marchand le plus riche d'Aponium",
+      "desc": "C’est un petit homme, très gros, avec une voix très roque. Il est chauve, avec une large moustache et une barbe très fournie. C'est le marchand le plus riche d'Aponium",
       "race": "Humain",
       "job": "Marchand",
-      "sex": "H"
+      "sex": "H",
+      "pp": "https://cdn.discordapp.com/attachments/1179943000999215215/1179950201801277440/2Q.png?ex=657ba542&is=65693042&hm=b5b1ee2c3430b5bcf141d63fe8e39d5ff8a3e1657200443c56aecebff13f2952&"
+    },
+    {
+      "name": "Edward",
+      "private": false,
+      "pseudo": "/",
+      "desc": "Edward est un collectionneur d’artéfact. Il est souvent missionné pour récupérer ou analyser des anciens artéfacts perdus.",
+      "race": "Humain",
+      "job": "Collectionneur d'artéfact",
+      "sex": "H",
+      "pp": "https://cdn.discordapp.com/attachments/1179943000999215215/1179952622153769071/Z.png?ex=657ba783&is=65693283&hm=d82f1ea8ebaba1ece1ea185a59afd9bbf58b156da359db7ccd8f5e9a06681b9e&"
     }
-
   ],
   "ambiances": {
     "start": [
