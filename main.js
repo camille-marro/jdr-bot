@@ -166,9 +166,9 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
 
 client.on("ready", () => {
     let game = require("./commands/textCommands/game");
-    game.loadOfflineLoots(client);
+    //game.loadOfflineLoots(client);
 
-    console.log("loading offlines loots")
+    console.log("loading offlines loots");
 })
 
 client.login(process.env.BOT_TOKEN)
