@@ -3,7 +3,6 @@ const path = require("path");
 const {EmbedBuilder} = require('discord.js');
 
 const log = require('../../assets/log');
-const {resolve} = require("path");
 
 let gameData;
 const colors = new Map();
@@ -30,6 +29,7 @@ colors.set("weapon jammed", "#6a1da8");
 colors.set("missed shot", "#d5002e");
 colors.set("sell", "#69cc9d");
 colors.set("buy", "#69cc9d");
+colors.set("antiMine", "#ff0000");
 
 let channel;
 const maxHealth = 20;
@@ -170,6 +170,7 @@ function addCrate(crateId, joueur) {
         if (joueur["inv"][i]["id"] === crateToAdd["id"]) {
             joueur["inv"][i]["count"]++;
             joueur["last_loot"] = Date.now();
+            joueur["stats"]["crates_looted"][crateToAdd["tier"]] += 1;
             log.print("crate found in inventory, updating number of crate for the user", 1);
             updateData();
             return;
@@ -197,6 +198,18 @@ function printInventory(message) {
         }
     } else joueur = getPlayer(message);
     if (!joueur) return;
+
+    if (joueur["inv"].length <= 0) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Votre inventaire est vide !");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setDescription("Il n'y a rien a affiché si ce n'est de la poussière ...");
+        msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
+        message.channel.send({embeds: [msgEmbed]});
+
+        log.print("sending empty inventory message", 1);
+        return;
+    }
 
     let sections = sortInventory(joueur);
 
@@ -334,12 +347,6 @@ function printInventory(message) {
         }
         str += "\n";
     }
-
-    /*inv.forEach((item) => {
-        str += "TIER " + item["tier"] + " - " + item["name"];
-        if (item.hasOwnProperty("count")) str += " (x" + item["count"] + ")";
-        str += "\n";
-    });*/
 
     message.channel.send(str);
     log.print("inventory successfully printed", 1);
@@ -1105,12 +1112,16 @@ function detonateC4(message) {
 
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor(colors.get("c4_detonated"));
+    if (c4ToExplode.length <= 0) {
+        console.log("il a pas de c4 a faire exploser");
+        return;
+    }
     if (c4ToExplode.length === 1) {
         msgEmbed.setTitle("Un C4 vient d'exploser !");
-        msgEmbed.setDescription("<@" + userPlayer["idDiscord"] + "> vient de faire exploser un C4 sur " + c4ToExplode[0]["discordName"] + " !");
+        msgEmbed.setDescription(userPlayer["discordName"] + " vient de faire exploser un C4 sur " + c4ToExplode[0]["discordName"] + " !");
     } else {
         msgEmbed.setTitle("Plusieurs C4 viennent d'exploser !");
-        msgEmbed.setDescription("<@" + userPlayer["idDiscord"] + "> vient de faire exploser un C4 sur plusieurs joueurs !");
+        msgEmbed.setDescription(userPlayer["discordName"] + " vient de faire exploser un C4 sur plusieurs joueurs !");
     }
     msgEmbed.addFields({name: "Cible(s) des C4", value: " "});
     c4ToExplode.forEach((player) => {
@@ -1119,9 +1130,11 @@ function detonateC4(message) {
         if (player["state"]["antiMine"]) {
             let msgEmbed2 = new EmbedBuilder();
             msgEmbed2.setColor(colors.get("antiMine"));
-            msgEmbed2.setTitle(player["idDiscord"] + " portait une tenue de démineur, il a résisté à votre C4");
+            msgEmbed2.setTitle("Aucun dégâts fait !");
+            msgEmbed2.setDescription(player["discordName"] + " portait une tenue de démineur, il a résisté à votre C4");
             msgEmbed2.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
-            channel.send({embed: [msgEmbed2]});
+            message.channel.send({embeds: [msgEmbed2]});
+            player["state"]["antiMine"] = false;
             return;
         }
         let damages = damagePlayer(5, player);
@@ -1133,15 +1146,16 @@ function detonateC4(message) {
             let msgEmbed2 = new EmbedBuilder();
 
             msgEmbed2.setColor(colors.get("kill"));
-            msgEmbed2.setTitle("Vous avez tué <@" + player["idDiscord"] + ">");
-            msgEmbed2.setDescription("Vous avez tué <@" + player["idDiscord"] + "> grâce à vote C4, vous venez de lui voler 5 objets de son inventaire.");
+            msgEmbed2.setTitle("Vous avez tué "  + player["discordName"]);
+            msgEmbed2.setDescription("Vous avez tué " + player["idDiscord"] + " grâce à vote C4, vous venez de lui voler 5 objets de son inventaire.");
             msgEmbed2.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
-            channel.send({embeds: [msgEmbed2, msgEmbed3]});
+            message.channel.send({embeds: [msgEmbed2, msgEmbed3]});
+            console.log("player dead " + player["discordName"]);
         }
     });
 
     msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"game notice\""});
-    channel.send({embeds: [msgEmbed]});
+    message.channel.send({embeds: [msgEmbed]});
 
     updateData();
 }
@@ -1362,7 +1376,7 @@ function stealTarget(nbItemToSteal, target, player) {
     return msgEmbed;
 }
 
-function damagePlayer(damage, player, trueDamage = true) {
+function damagePlayer(damage, player, trueDamage = false) {
     let armorDestroyed = false;
     let playerDead = false;
     let baseArmor;
