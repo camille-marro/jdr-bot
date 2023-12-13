@@ -80,7 +80,6 @@ function printFullPersonnage(personnage) {
     log.print("preparing message with detailed characters information", 1);
     let msgEmbed = printPersonnage(personnage);
 
-    msgEmbed.addFields({name: "\u200B", value: "\u200B"});
     msgEmbed.addFields({name: "Compétences", value: " "});
 
     msgEmbed.addFields({name: "Intelligence", value: personnage["stats"]["Int"], inline: true});
@@ -169,7 +168,7 @@ function searchPersonnageByName(personnageToFind, id) {
         let personnageToReturn;
         log.print("multiple characters found, selecting the one with the more matching letters", 1);
         personnagesFound.forEach((personnage) => {
-            if (personnage["percent"] > basePercent) {
+            if (parseFloat(personnage["percent"]) > parseFloat(basePercent)) {
                 basePercent = personnage["percent"];
                 personnageToReturn = personnage["personnage"];
             }
@@ -186,7 +185,6 @@ function searchPersonnageByIdDiscord(id) {
     jdrData["personnages"].forEach((personnage) => {
         if(personnage.hasOwnProperty("idDiscord") && !found) {
             if (personnage["idDiscord"] === id.toString()) {
-                console.log("|--- character found !");
                 found = true;
                 personnageToReturn = personnage;
             }
@@ -227,8 +225,16 @@ function getPersonalInfos(message) {
     }
 
     msgEmbed = printFullPersonnage(personnage);
-    message.channel.send({embeds: [msgEmbed]});
-    log.print("info about his/her character has been printed", 1);
+    message.author.send({embeds: [msgEmbed]});
+
+    let msgEmbedSuccess = new EmbedBuilder();
+    msgEmbedSuccess.setColor("#08ff00");
+    msgEmbedSuccess.setTitle("Informations envoyés par message privé !");
+    msgEmbedSuccess.setDescription("Les informations demandées ont été envoyé via message privé, si vous n'avez rien reçu vérifier que vous avez autorisé les messages privés ou que le bot ne soit pas bloqué.");
+    msgEmbedSuccess.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+
+    message.channel.send({embeds: [msgEmbedSuccess]});
+    log.print("info about his/her character has been sent", 1);
 }
 
 function getInventory(message) {
@@ -666,13 +672,13 @@ function ficheHelp(message) {
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setColor("#6e0e91");
     msgEmbed.setTitle("JDR - Fiche");
-    msgEmbed.setDescription("Permet d'afficher la fiche personnage de son personnage. La commande ne fonctionne que si un personnage est rattaché à son ID Discord, si ce n'est pas le cas voir avec le MJ");
+    msgEmbed.setDescription("Permet de récupérer la fiche personnage de son personnage. La commande ne fonctionne que si un personnage est rattaché à son ID Discord.\n**Les informations seront envoyés par MP !**");
     msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
     msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr fiche"});
     msgEmbed.addFields({name: "Exemple de commande", value: "jdr fiche"});
 
     message.channel.send({embeds: [msgEmbed]});
-    log.print("help message successfully sent", 1)
+    log.print("help message successfully sent", 1);
 }
 
 function invHelp(message) {
@@ -847,6 +853,341 @@ function ambianceHelp(message) {
     log.print("help message successfully sent", 1);
 }
 
+function admin(message) {
+    log.print("tried to use jdr admin command", message.author, message.content);
+    // fonction pour administrer doit être faite par moi uniquement
+    if (message.author.id !== "198381114602160128") {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle("Erreur : permissions insuffisantes");
+        msgEmbed.setDescription("Vous n'avez pas les permissions requises pour utiliser cette commande");
+        msgEmbed.setFooter({text: "Si vous pensez qu'il s'agit d'une erreur contactez l'administrateur du serveur."});
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("Error : not enough permission to use the command", 1);
+        return;
+    }
+
+    let args = message.content.split(" ");
+    if (args[2] === "perso") {
+        log.print("wants to manage the character collection", message.author);
+        managePersonnage(message);
+    }
+}
+
+function managePersonnage(message) {
+    let args = message.content.split(" ");
+    if (args[3] === "help") {
+        let msgEmbed = managePersonnageHelp();
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("help message successfully sent", 1);
+    } else if (args[3] === "add") {
+        let msgEmbed = addPersonnage(message);
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("result message successfully sent", 1);
+    } else if (args[3] === "remove") {
+        let msgEmbed = removePersonnage(message);
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("result message successfully sent", 1);
+    } else if (args[3] === "modify") {
+        let msgEmbed = modifyPersonnage(message);
+        message.channel.send({embeds: [msgEmbed]});
+        log.print("help message successfully sent", 1);
+    }
+}
+
+function modifyPersonnage(message) {
+    let args = message.content.split(" ");
+    if (args[4] === "help") {
+        log.print("sending help message", 1);
+        return modifyPersonnageHelp();
+    }
+
+    let commandArgs = message.content.split(";");
+    let nameParsing = commandArgs[0].split(" ");
+    let name = nameParsing.slice(4).join(" ");
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr admin perso modify help\""});
+
+
+    let personnageToModify = searchPersonnageByName(name.toLowerCase(), message.author.id);
+    if (!personnageToModify) {
+        console.log("|-- " + name + " n'existe pas !");
+
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle(name + " n'existe pas !");
+        msgEmbed.setDescription("Ce personnage n'existe pas. Vérifier son orthographe ou essayer un pseudo.");
+
+        log.print("error : this character doesn't exist !", 1);
+        return msgEmbed;
+    }
+
+
+    switch (commandArgs[1]) {
+        case "name":
+            msgEmbed.setColor("#08ff00");
+            msgEmbed.setTitle("Nom modifié avec succès !");
+            msgEmbed.setDescription("Le nom de " + personnageToModify["name"] + " a été modifié avec succès par : " + commandArgs[2]);
+
+            personnageToModify['name'] = commandArgs[2];
+            log.print("modifying name of the character", 1);
+
+            updateData();
+            break;
+        case "private":
+            msgEmbed.setColor("#08ff00");
+            msgEmbed.setTitle("Statut modifié avec succès !");
+            msgEmbed.setDescription("Le statut de " + personnageToModify["name"] + " a été modifié par : " + commandArgs[2]);
+
+            if (commandArgs[2] === "true") personnageToModify['private'] = true;
+            else personnageToModify['private'] = false;
+
+            log.print("modifying private status of the character", 1);
+            updateData();
+            break;
+        case "pseudo":
+            msgEmbed.setColor("#08ff00");
+            msgEmbed.setTitle("Pseudo modifié avec succès !");
+            msgEmbed.setDescription("Le pseudo de " + personnageToModify["name"] + " a été modifié avec succès par : " + commandArgs[2]);
+
+            personnageToModify['pseudo'] = commandArgs[2];
+            log.print("modifying pseudo of the character", 1);
+
+            updateData();
+            break;
+        case "desc":
+            msgEmbed.setColor("#08ff00");
+            msgEmbed.setTitle("Description modifiée avec succès !");
+            msgEmbed.setDescription("La description de " + personnageToModify["name"] + " a été modifiée avec succès par : " + commandArgs[2]);
+
+            personnageToModify['desc'] = commandArgs[2];
+            log.print("modifying description of the character", 1);
+
+            updateData();
+            break;
+        case "race":
+            msgEmbed.setColor("#08ff00");
+            msgEmbed.setTitle("Race modifiée avec succès !");
+            msgEmbed.setDescription("La race de " + personnageToModify["name"] + " a été modifiée avec succès par : " + commandArgs[2]);
+
+            personnageToModify['race'] = commandArgs[2];
+            log.print("modifying race of the character", 1);
+
+            updateData();
+            break;
+        case "job":
+            msgEmbed.setColor("#08ff00");
+            msgEmbed.setTitle("Métier modifié avec succès !");
+            msgEmbed.setDescription("Le métier de " + personnageToModify["name"] + " a été modifié avec succès par : " + commandArgs[2]);
+
+            personnageToModify['job'] = commandArgs[2];
+            log.print("modifying job of the character", 1);
+
+            updateData();
+            break;
+        case "sex":
+            msgEmbed.setColor("#08ff00");
+            msgEmbed.setTitle("Sexe modifié avec succès !");
+            msgEmbed.setDescription("Le sexe de " + personnageToModify["name"] + " a été modifié avec succès par : " + commandArgs[2]);
+
+            personnageToModify['sex'] = commandArgs[2];
+            log.print("modifying sex of the character", 1);
+
+            updateData();
+            break;
+        case "pp":
+            msgEmbed.setColor("#08ff00");
+            msgEmbed.setTitle("Photo de profil modifié avec succès !");
+            msgEmbed.setDescription("La photo de profil de " + personnageToModify["name"] + " a été modifié avec succès par : " + commandArgs[2]);
+
+            personnageToModify['pp'] = commandArgs[2];
+            log.print("modifying pp of the character", 1);
+
+            updateData();
+            break;
+        default:
+            msgEmbed.setColor("#ff0000");
+            msgEmbed.setTitle("Erreur : catégorie invalide !");
+            msgEmbed.setDescription("La catégorie indiquée n'existe pas : " + commandArgs[1] + ", les catégories valides sont : name, private, pseudo, desc, race, job, sex, pp");
+            break;
+    }
+
+    return msgEmbed;
+}
+
+function modifyPersonnageHelp() {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Administration - Personnage - Modify");
+    msgEmbed.setDescription("Permet de modifier un personnage de la collection de personnages du jdr");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr admin help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr admin perso modify [name];[cat];[value]"});
+    msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
+    msgEmbed.addFields({name: "name", value: "nom du personnage à modifier", inline: true});
+    msgEmbed.addFields({name: "cat", value: "catégorie à modifier : name, private, pseudo, desc, race, job, sex, pp", inline: true});
+    msgEmbed.addFields({name: "value", value: "modification à faire", inline: true});
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.addFields({name: "Exemple de commande", value: " "});
+    msgEmbed.addFields({name: "jdr admin perso modify Edward;private;false", value: "Modifie la valeur de private à false pour le personnage Edward"});
+
+    return msgEmbed;
+}
+
+function removePersonnage(message) {
+    let args = message.content.split(" ");
+    if (args[4] === "help") {
+        log.print("sending help message", 1);
+        return removePersonnageHelp();
+    }
+
+    let personnageToFind = "";
+    for (let i = 4; i < args.length; i++) {
+        personnageToFind += (args[i] + " ");
+    }
+    personnageToFind = personnageToFind.slice(0,-1); // supprimer le dernier " "
+
+    let personnageToRemove = searchPersonnageByName(personnageToFind.toLowerCase(), message.author.id);
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr admin perso remove help\""});
+
+    if (!personnageToRemove) {
+        console.log("|-- " + personnageToFind + " n'existe pas !");
+
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setTitle(personnageToFind + " n'existe pas !");
+        msgEmbed.setDescription("Ce personnage n'existe pas. Vérifier son orthographe ou essayer un pseudo.");
+
+        log.print("error : this character doesn't exist !", 1);
+        return msgEmbed;
+    }
+
+    jdrData["personnages"] = jdrData["personnages"].filter(personnage => personnage.name !== personnageToRemove.name);
+
+    updateData();
+
+
+    msgEmbed.setColor("#ff0000");
+    msgEmbed.setTitle("Personnage supprimé avec succès !");
+    msgEmbed.setDescription("Le personnage appelé " + personnageToRemove["name"] + " a été supprimé avec succès.");
+
+    return msgEmbed;
+}
+
+function removePersonnageHelp() {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Administration - Personnage - Remove");
+    msgEmbed.setDescription("Permet de supprimer un personnage de la collection de personnages du jdr");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr admin help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr admin perso remove [name]"});
+    msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
+    msgEmbed.addFields({name: "name", value: "nom du personnage", inline: true});
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.addFields({name: "Exemple de commande", value: " "});
+    msgEmbed.addFields({name: "jdr admin perso remove Edward", value: "Supprime le personnage appelé Edward de la collection."});
+
+    return msgEmbed;
+}
+
+function addPersonnage(message) {
+    let args = message.content.split(" ");
+    if (args[4] === "help") {
+        log.print("sending help message", 1);
+        return addPersonnageHelp();
+    }
+    let parsedPersonnage = parsePersonnage(message);
+    console.log(parsedPersonnage);
+    jdrData["personnages"].push(parsedPersonnage);
+
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#08ff00");
+    msgEmbed.setTitle("Personnage créé avec succès !");
+    msgEmbed.setDescription("Votre personnage a été créé avec succès, utilisez la commande jdr info [nom_du_personnage] pour plus d'informations.");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr admin add help\""});
+
+    log.print("character successfully created !", 1);
+
+    updateData();
+    return msgEmbed;
+}
+
+function parsePersonnage(message) {
+    let args = message.content.split(";");
+    let nameParsing = args[0].split(" ");
+    let name = nameParsing.slice(4).join(" ");
+
+    let pseudo = args[1];
+    let desc = args[2];
+    let race = args[3];
+    let job = args[4];
+    let sex = args[5];
+    let pp = args[6];
+    let isPrivate = args[7];
+
+    if (name === "" || name === " " || name === undefined) name = "/";
+    if (pseudo === "" || pseudo === " " || pseudo === undefined) pseudo = "/";
+    if (desc === "" || desc === " " || desc === undefined) desc = "/";
+    if (race === "" || race === " " || race === undefined) race = "/";
+    if (job === "" || job === " " || job === undefined) job = "/";
+    if (sex === "" || sex === " " || sex === undefined) sex = "/";
+    if (isPrivate === "false") isPrivate = false;
+    else isPrivate = true;
+
+    let personnage = {
+        "name": name,
+        "pseudo": pseudo,
+        "desc": desc,
+        "race": race,
+        "job": job,
+        "sex": sex,
+        "private": isPrivate
+    };
+    if (pp !== "" && pp !== " " && pp !== undefined) personnage["pp"] = pp;
+
+    return personnage;
+}
+
+function addPersonnageHelp() {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Administration - Personnage - Add");
+    msgEmbed.setDescription("Permet d'ajouter un personnage à la collection de personnage du jdr");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr admin help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr admin perso add [name];[pseudo];[desc];[race];[job];[sex];[pp];[private]"});
+    msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
+    msgEmbed.addFields({name: "name", value: "nom du personnage", inline: true});
+    msgEmbed.addFields({name: "pseudo", value: "psuedo du personnage, par défault : \"/\"", inline: true});
+    msgEmbed.addFields({name: "desc", value: "description du personnage", inline: true});
+    msgEmbed.addFields({name: "race", value: "race du personnage", inline: true});
+    msgEmbed.addFields({name: "job", value: "métier du personnage", inline: true});
+    msgEmbed.addFields({name: "sex", value: "sexe du personnage", inline: true});
+    msgEmbed.addFields({name: "pp", value: "lien de la photo du personnage, par default : none", inline: true});
+    msgEmbed.addFields({name: "private", value: "définit si le personnage est visible pour tout le monde, par défault : true", inline: true});
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.addFields({name: "Exemple de commande", value: " "});
+    msgEmbed.addFields({name: "jdr admin perso add Edward;;Edward est un collectionneur ...;Humain;Collectionneur d'artéfact;H;lienpp;false", value: "Crée un personnage appelé Edward avec sa description sa race son métier son sexe et une photo de profil, son pseudo sera / donc aucun et il sera visible par tout le monde."});
+
+    return msgEmbed;
+}
+
+function managePersonnageHelp() {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Administration - Personnage");
+    msgEmbed.setDescription("Permet de gérer la collection de personnage du jdr");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr admin help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr admin perso [command]"});
+    msgEmbed.addFields({name: "Paramètres", value: " ", inline: true});
+    msgEmbed.addFields({name: "command", value: "commande a effectuer : [add, remove, modify]", inline: true});
+    msgEmbed.addFields({name: " ", value: " "});
+    msgEmbed.addFields({name: "Exemple de commande", value: " "});
+    msgEmbed.addFields({name: "jdr admin perso add [options]", value: "Commande pour créer un nouveau personnage dans la collection"});
+
+    return msgEmbed;
+}
+
 function execute(message) {
     let args = message.content.split(" ");
     if (args[1] === "create") {
@@ -869,10 +1210,10 @@ function execute(message) {
         gagner(message);
     } else if (args[1] === "ambiance" || args[1] === "play") {
         ambiance(message).then(() => "");
+    } else if (args[1] === "admin") {
+        admin(message);
     }
 }
-
-
 
 module.exports = {
     execute
