@@ -863,7 +863,7 @@ function admin(message) {
         msgEmbed.setDescription("Vous n'avez pas les permissions requises pour utiliser cette commande");
         msgEmbed.setFooter({text: "Si vous pensez qu'il s'agit d'une erreur contactez l'administrateur du serveur."});
         message.channel.send({embeds: [msgEmbed]});
-        log.print("Error : not enough permission to use the command", 1);
+        log.print("Error : not enough permissions to use this command", 1);
         return;
     }
 

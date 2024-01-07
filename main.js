@@ -168,7 +168,7 @@ client.on("ready", () => {
     let game = require("./commands/textCommands/game");
     //game.loadOfflineLoots(client);
 
-    console.log("loading offlines loots");
+    //console.log("loading offlines loots");
 })
 
 client.login(process.env.BOT_TOKEN)
@@ -178,7 +178,7 @@ client.login(process.env.BOT_TOKEN)
         log.print("Connected to Discord server", 1);
     })
     .catch(e => {
-        console.log("|- Can't login verify discord token");
+        console.log("|- Can't login : verify discord token");
         console.error(e);
         log.print("Can't login : verify discord token", 1, e);
     });
