@@ -8,6 +8,7 @@ const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildVoiceStates
@@ -58,8 +59,8 @@ client.on("messageCreate", message => {
             configCommand.configCommand(message);
             break;
         case (prefix + "ub"):
-            let ub = require('./commands/textCommands/ub.js');
-            ub.ub(message);
+            let ub = require('./commands/textCommands/lol/ub.js');
+            ub.execute(message);
             break;
         case (prefix + "play"):
             let play = require("./commands/textCommands/music/play");
@@ -161,8 +162,8 @@ client.on("voiceStateUpdate", (oldUser, newUser) => {
         let bong = require('./commands/voiceCommands/bong.js');
         bong.bong(newUser);
     }
-});
-*/
+});*/
+
 
 client.on("ready", () => {
     let game = require("./commands/textCommands/game");
