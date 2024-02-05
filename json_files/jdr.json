@@ -33,12 +33,6 @@
       "talent": "Langues anciennes",
       "inv": [
         {
-          "name": "Lasso",
-          "desc": "Un lasso tah Indiana Jones",
-          "size": 1,
-          "price": "@TODO"
-        },
-        {
           "name": "test",
           "desc": "none",
           "size": 1,
@@ -60,19 +54,19 @@
       "sex": "F",
       "magic": "Magie de la résistance",
       "stats": {
-        "Int": "70",
-        "For": "70",
+        "Int": "40",
+        "For": "80",
         "Cha": "50",
-        "Dex": "30",
+        "Dex": "50",
         "CS": "60",
         "MC": "60",
-        "Dis": "30",
+        "Dis": "60",
         "Inti": "50",
-        "Sur": "60",
+        "Sur": "50",
         "Per": "60",
-        "Soi": "50",
+        "Soi": "40",
         "CAC": "70",
-        "CAD": "40",
+        "CAD": "30",
         "Ref": "50",
         "Mag": "50",
         "Tal": "70"
