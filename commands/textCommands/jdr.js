@@ -230,7 +230,7 @@ function getPersonalInfos(message) {
     let msgEmbedSuccess = new EmbedBuilder();
     msgEmbedSuccess.setColor("#08ff00");
     msgEmbedSuccess.setTitle("Informations envoyés par message privé !");
-    msgEmbedSuccess.setDescription("Les informations demandées ont été envoyé via message privé, si vous n'avez rien reçu vérifier que vous avez autorisé les messages privés ou que le bot ne soit pas bloqué.");
+    msgEmbedSuccess.setDescription("Les informations demandées ont été envoyée via message privé, si vous n'avez rien reçu vérifiez que vous avez autorisé les messages privés ou que le bot ne soit pas bloqué.");
     msgEmbedSuccess.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
 
     message.channel.send({embeds: [msgEmbedSuccess]});
@@ -284,9 +284,6 @@ function createPerso(message) {
         numbers.push(number);
     }
 
-    console.log("|-- raw stats are : ");
-    console.log("|-- " + numbers.toString())
-
     // rectify number
     // if 0-10 -> 10 | if 90-100 -> 90 | arrondi au 5
     for (let i = 0; i < numbers.length; i++) {
@@ -301,9 +298,6 @@ function createPerso(message) {
     msgEmbed.setColor("#bd48d2");
     msgEmbed.setTitle("JDR");
     msgEmbed.setDescription("Crée un personnage avec des statistiques aléatoires");
-
-    console.log("|-- rectify stats are : ");
-    console.log("|-- " + numbers.toString())
 
     msgEmbed.addFields({name: "Intelligence", value: numbers[0].toString(), inline: true});
     msgEmbed.addFields({name: "Force", value: numbers[1].toString(), inline: true});
@@ -366,7 +360,6 @@ function addInventory(message) {
     if (newItem["name"] === "") newItem["name"] = "@TODO";
     else newItem["name"] = newItemFields[0];
 
-    console.log(newItemFields);
     if (newItemFields[1]) {
         if (newItemFields[1] === "") newItem["desc"] = " ";
         else newItem["desc"] = newItemFields[1];
@@ -1188,6 +1181,80 @@ function managePersonnageHelp() {
     return msgEmbed;
 }
 
+function planify(message) {
+    log.print("tried to planify next jdr session", message.author, message.content);
+    let date = new Date();
+
+    while(date.getDay() !== 1) {
+        date.setDate(date.getDate() + 1);
+        if (date.getDate() === 1) date.setMonth(date.getMonth() + 1);
+    }
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setTitle("Vote pour la prochaine session de jeu");
+    msgEmbed.setColor("#3c9636");
+
+    let desc = "<@&770386606146060371> - Comme d'hab ptite réaction pour quand vous êtes dispo : \n\n";
+    desc += ":one: Lundi " + date.getDate() + "/" + date.getMonth() + "\n";
+    date.setDate(date.getDate() + 1);
+    if (date.getDate() === 1) date.setMonth(date.getMonth() + 1);
+    desc += ":two: Mardi " + date.getDate() + "/" + date.getMonth() + "\n";
+    date.setDate(date.getDate() + 1);
+    if (date.getDate() === 1) date.setMonth(date.getMonth() + 1);
+    desc += ":three: Mercredi " + date.getDate() + "/" + date.getMonth() + "\n";
+    date.setDate(date.getDate() + 1);
+    if (date.getDate() === 1) date.setMonth(date.getMonth() + 1);
+    desc += ":four: Jeudi " + date.getDate() + "/" + date.getMonth() + "\n";
+    date.setDate(date.getDate() + 1);
+    if (date.getDate() === 1) date.setMonth(date.getMonth() + 1);
+    desc += ":five: Vendredi " + date.getDate() + "/" + date.getMonth() + "\n";
+    desc += ":x: Si vous êtes pas dispo cette semaine";
+    //date.setDate(date.getDate() + 1);
+    log.print("sending message", 1);
+    msgEmbed.setDescription(desc);
+        message.channel.send({embeds: [msgEmbed]})
+        .then(embedMessage => {
+            log.print("successfully sent message ! Reacting to the message",1);
+            embedMessage.react('1️⃣');
+            embedMessage.react('2️⃣');
+            embedMessage.react('3️⃣');
+            embedMessage.react('4️⃣');
+            embedMessage.react('5️⃣');
+            embedMessage.react('❌');
+        });
+
+    log.print("successfully reacted to the messsage !", 1);
+}
+
+function destin(message) {
+    log.print("tried to draw a faith number", message.author, message.content);
+    let msgEmbed = new EmbedBuilder();
+
+    let destin = Math.floor((Math.random() * 4) + 1);
+    msgEmbed.setTitle("Votre destin pour cette séance : " + destin);
+    msgEmbed.setDescription("Les jets de destin servent à relancer un ou plusieurs de vos lancés sauf en cas de succès ou échec critique.");
+    msgEmbed.setColor("#ffcd2a");
+
+    message.channel.send({embeds: [msgEmbed]});
+    log.print("sending successful message");
+}
+
+function roll(message) {
+    log.print("tried to roll a dice 100", message.author, message.content);
+    let msgEmbed = new EmbedBuilder();
+
+    let nb = Math.floor((Math.random() * 100) + 1);
+    msgEmbed.setTitle("Votre jet : " + nb);
+    msgEmbed.setDescription("Pour avoir plus d'options dans vos jetés de dés utilisez la commande *jdr roll*");
+
+    if (nb > 90) msgEmbed.setColor("#ff0000");
+    else if (nb < 10) msgEmbed.setColor("#ffcd2a");
+    else msgEmbed.setColor("#35cc1b");
+
+    message.channel.send({embeds: [msgEmbed]});
+    log.print("sending successful message");
+}
+
 function execute(message) {
     let args = message.content.split(" ");
     if (args[1] === "create") {
@@ -1212,6 +1279,12 @@ function execute(message) {
         ambiance(message).then(() => "");
     } else if (args[1] === "admin") {
         admin(message);
+    } else if (args[1] === "plan" || args[1] === "planify") {
+        planify(message);
+    } else if (args[1] === "destin") {
+        destin(message);
+    } else if (args[1] === "roll") {
+        roll(message);
     }
 }
 
