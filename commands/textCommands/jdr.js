@@ -1185,6 +1185,7 @@ function planify(message) {
     log.print("tried to planify next jdr session", message.author, message.content);
     let date = new Date();
 
+    if (date.getDay() === 1) date.setDate(date.getDate() + 1);
     while(date.getDay() !== 1) {
         date.setDate(date.getDate() + 1);
         if (date.getDate() === 1) date.setMonth(date.getMonth() + 1);
