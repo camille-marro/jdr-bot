@@ -2,68 +2,16 @@
 
 ## Discord bot for fun
 
-### For a personal use
-You need to create a .env file were you put the token linked to your bot.\
-Your .env file need to look like this :
+### How to use it
+You need to download the following files then, you need to create a .env file where you'll put the token linked to your bot.\
+Your .env file needs to look like this :
 
 ```js
 BOT_TOKEN="YOUR_TOKEN"
 ```
+Then run ```npm install``` to install the correct dependencies the bot need to have to work. When it's done you'll just have to do a ```npm start``` or ```node main.js``` to start the bot.\
+When it's started, if everything works correctly, you're supposed to have a message that look like this in your console :
 
-### Available commands for now
-ping : to test\
-roll : to roll dices\
-config : to change some parameters\
-help: list the commands and explains them\
-ub : to start a game of ultimate bravery for League of Legends\
-play : play a youtube video on your voice channel\
-stop : stop the playing\
-pause : pause the playing\
-resume : resume the playing\
-queue : print the queue\
-loop : activate or disable a loop on the queue
-
-There are also actions with voice channels, you can use `config channels help` to get more information about that.
-
-## Comment installer le bot
-### Installer node sur le pc
-Télécharger le ficher `node-v16.20.0-x64.msi` (lien juste en dessous) :\
-https://nodejs.org/download/release/v16.20.0/node-v16.20.0-x86.msi \
-Installer node (il faut juste cliquer sur le fichier et suivre les instructions)
-### Installer les fichiers du bot
-Sur GitHub cliquer sur `<> Code` et `Download ZIP`\
-Mettre l'archive dans un dossier et l'extraire (clique droit -> extraire ici)
-
-### Ajouter les fichiers manquant du bot
-Dans le dossier principal (là où il ya les fichiers `assets`, `commands`, `json_files`, `main.js`) créer un fichier appelé `.env`\
-Faire clique droit sur le fichier puis modifier (ça doit ouvrir le bloc note ou un truc de traitement de texte)\
-Ajouter le texte suivant :
-```plain text
-BOT_TOKEN="TOKEN"
-```
-Remplacer `TOKEN` par le texte que j'ai mis dans le channel `#installer-bot` sur Discord
-
-### Installer les extensions pour faire marcher le bot
-Revenir sur le dossier et faire clique droit puis propriété\
-Copier la ligne `Emplacement`\
-Ensuite ouvrir l'application `CMD` ou `Invite de commandes` de windows (touche windows puis chercher cmd)\
-Faire la suite de commande suivante : 
-`cd emplacement` remplacer emplacement par ce que vous avez copié juste avant (l'emplacement du dossier contenant l'archive et maintenant tous les fichiers du bot)\
-`npm install` : ça peut prendre du temps, mais il faut juste attendre
-
-### Créer le fichier pour lancer le bot d'un clique
-Ensuite n'importe où il faut créer un fichier avec le nom que vous voulez, mais l'extension `.bat` exemple : un fichier appelé `bot.bat`\
-Faire clique droit sur le fichier puis modifier (ça doit ouvrir le bloc note ou un truc de traitement de texte)\
-Ajouter ce code dans le fichier en remplaçant `emplacement` par ce que vous avez copié tout à l'heure
-```plain text
-@echo off
-cd emplacement
-start cmd /k node main.js
-```
-
-### Lancer le bot
-Pour lancer le bot si vous avez tout bien fait il suffit de double-cliquer sur le fichier `machin.bat`\
-Ça devrait ouvrir une console où après quelques secondes vous avez ce texte qui s'affiche :
 ```plain text
 Connected to Discord server
 ----------------
@@ -78,6 +26,45 @@ Configuration :
 -- mystery machine : The Mystery Machine
 -- bong channel: très grand bâton       
 ----------------
-
 ```
-Vous pouvez maintenant utiliser le bot librement sur discord
+
+### Available commands for now
+ - help : display a help message on the channel
+ - ping : test the bot connection via Discord
+ - roll : roll dices
+ - config : change the bot configuration like the prefix
+ - League of legends related commands :
+   - ub : start a game of Ultimate Bravery
+   - rank : find someone rank with his in-game pseudo and region
+   - update : update the Riot API key
+ - Music related commands :
+   - play : start to play a sing with a youtube link or key terms
+   - pause : pause the playing
+   - resume : resume the playing
+   - queue : display the playing queue
+   - skip : skip the current song that is played
+   - remove : remove a song from the queue
+   - loop : start to loop the queue
+   - stop : stop the playing and disconnect the bot from the vocal channel
+ - log : manage logs via Discord
+ - meme : share meme with the Discord server
+ - movie : share movie with the Discord server
+ - jdr : special commands created for personal uses, described lower
+ - game : a little game where you can loot weapons and try to kill your friend on the server
+
+There is also what I call "voice commands", these are special voice channel that you can interact with for specific behaviour. \
+Here the list :
+ - kick channel : instant kick you out of the server when you enter it
+ - Mystery Machine channel : when someone enters the channel it will move around in the server with everyone in it
+ - safety net channel : when you try to leave the channel it will remove you in unless you disconnect
+ - bong : when entering it disconnect someone stuck in the safety net channel
+ - tunnels : when entering the entry of the tunnel moved you in one of the exits
+
+All of these "commands" are configurable with the ```config``` command.
+
+##  How is the bot working
+
+All the data that it might have to store are stored in local in JSON files. Those files are located in ```./json_files```.
+
+There is also a logging system that logs every command used by the bot with a time code and the author of the command. Those logs are stored in the ```logs.txt``` file.
+
