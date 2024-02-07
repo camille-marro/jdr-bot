@@ -60,11 +60,22 @@ Here the list :
  - bong : when entering it disconnect someone stuck in the safety net channel
  - tunnels : when entering the entry of the tunnel moved you in one of the exits
 
-All of these "commands" are configurable with the ```config``` command.
+All of those "commands" are configurable with the ```config``` command.
 
-##  How is the bot working
+##  How is the bot working ?
 
-All the data that it might have to store are stored in local in JSON files. Those files are located in ```./json_files```.
+The bot is using the [DiscordJS](https://discord.js.org/#/) node module to interact with the Discord API. To play sounds the bot uses the [discord-player](https://www.npmjs.com/package/discord-player) framework. To interact with the Riot API it uses [Axios](https://www.npmjs.com/package/axios) node module.
+
+All the data that might have to be stored, are stored in local  JSON files. Those files are located in ```./json_files```. If you want to use a database, you will have to use a NoSQL one to store the data.
 
 There is also a logging system that logs every command used by the bot with a time code and the author of the command. Those logs are stored in the ```logs.txt``` file.
 
+## Why did I develop this bot ?
+
+In first place I just needed to have a bot that can simulate dice rolling and be used by more people than just myself. But with the developing going on, I just liked it and so I started to improve the bot depending on my friends and my problems.
+
+Currently, the bot have a lot of commands and just a few of them are used often and I want to focus on keeping the development of those commands (jdr, music).
+
+## What's next ?
+
+Because this bot is not meant to be publicly used, I'll just keep developing commands linked to my ideas and my friends ones.
