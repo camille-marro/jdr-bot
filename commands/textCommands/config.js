@@ -1,6 +1,8 @@
 let fs = require('fs');
 let path = require('path');
 
+let log = require('../../assets/log');
+
 let config = require('../../assets/config.js');
 const createEmbed = require('../../assets/createEmbed.js');
 
@@ -16,11 +18,13 @@ function configCommand (message) {
             let msgConfigPrintHelpEmbed = createEmbed(JSONEmbed['msgConfigPrintHelpEmbed']['color'], JSONEmbed['msgConfigPrintHelpEmbed']['title'], JSONEmbed['msgConfigPrintHelpEmbed']['thumbnail'], JSONEmbed['msgConfigPrintHelpEmbed']['description'], JSONEmbed['msgConfigPrintHelpEmbed']['field'], []);
             message.channel.send({embeds: [msgConfigPrintHelpEmbed]});
             console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for config print command.");
+            log.print("asked help for config print command", message.author, message.content);
         }
         else {
             config.printConfigEmbed(message.channel);
             config.printConfig();
             console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") printed config");
+            log.print("printed config", message.author, message.content);
         }
     }
     else if (options[1] === "lang") {
@@ -35,16 +39,19 @@ function configCommand (message) {
             let msgConfigLangSuccessEmbed = createEmbed(JSONEmbed['msgConfigLangSuccessEmbed']['color'], JSONEmbed['msgConfigLangSuccessEmbed']['title'], JSONEmbed['msgConfigLangSuccessEmbed']['thumbnail'], JSONEmbed['msgConfigLangSuccessEmbed']['description'], JSONEmbed['msgConfigLangSuccessEmbed']['field'], embedOptions)
             message.channel.send({embeds: [msgConfigLangSuccessEmbed]});
             console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") changed language from " + prevLang + " to " + config['config']['lang']);
+            log.print("changed langage from" + prevLang + " to " + config['config']['lang'], message.author, message.content);
         }
         else if (options[2] === "help") {
             let msgConfigLangHelpEmbed = createEmbed(JSONEmbed['msgConfigLangHelpEmbed']['color'], JSONEmbed['msgConfigLangHelpEmbed']['title'], JSONEmbed['msgConfigLangHelpEmbed']['thumbnail'], JSONEmbed['msgConfigLangHelpEmbed']['description'], JSONEmbed['msgConfigLangHelpEmbed']['field'], []);
             message.channel.send({embeds: [msgConfigLangHelpEmbed]});
             console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for config lang command.");
+            log.print("asked help for config lang command", message.author, message.content);
         }
         else {
             let msgConfigLangErrorLangEmbed = createEmbed(JSONEmbed['msgConfigLangErrorLangEmbed']['color'], JSONEmbed['msgConfigLangErrorLangEmbed']['title'], JSONEmbed['msgConfigLangErrorLangEmbed']['thumbnail'], JSONEmbed['msgConfigLangErrorLangEmbed']['description'], JSONEmbed['msgConfigLangErrorLangEmbed']['field'], [])
             message.channel.send({embeds: [msgConfigLangErrorLangEmbed]});
             console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change language");
+            log.print("tried to change language", message.author, message.content);
         }
     }
     else if (options[1] === "prefix") {
@@ -52,18 +59,21 @@ function configCommand (message) {
             let msgConfigPrefixHelpEmbed = createEmbed(JSONEmbed['msgConfigPrefixHelpEmbed']['color'], JSONEmbed['msgConfigPrefixHelpEmbed']['title'], JSONEmbed['msgConfigPrefixHelpEmbed']['thumbnail'], JSONEmbed['msgConfigPrefixHelpEmbed']['description'], JSONEmbed['msgConfigPrefixHelpEmbed']['field'], []);
             message.channel.send({embeds: [msgConfigPrefixHelpEmbed]});
             console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for config prefix command.");
+            log.print("asked help for config prefix command", message.author, message.content);
             return;
         }
         if (options[2] === undefined) {
             let msgConfigLangErrorPrefixEmbed = createEmbed(JSONEmbed['msgConfigLangErrorPrefixEmbed']['color'], JSONEmbed['msgConfigLangErrorPrefixEmbed']['title'], JSONEmbed['msgConfigLangErrorPrefixEmbed']['thumbnail'], JSONEmbed['msgConfigLangErrorPrefixEmbed']['description'], JSONEmbed['msgConfigLangErrorPrefixEmbed']['field'], [])
             message.channel.send({embeds: [msgConfigLangErrorPrefixEmbed]});
             console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change prefix with an empty one");
+            log.print("tried to change prefix with an empty one", message.author, message.content);
             return;
         }
         if (options[2].length > 1) {
             let msgConfigLangErrorPrefixLengthEmbed= createEmbed(JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['color'], JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['title'], JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['thumbnail'], JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['description'], JSONEmbed['msgConfigLangErrorPrefixLengthEmbed']['field'], [])
             message.channel.send({embeds: [msgConfigLangErrorPrefixLengthEmbed]});
             console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change prefix with a too long one");
+            log.print("tried to change prefix with a too long one", message.author, message.content);
             return;
         }
         let prevPrefix = config['config']['prefix'];
@@ -75,7 +85,8 @@ function configCommand (message) {
 
         let msgConfigLangSuccessEmbed = createEmbed(JSONEmbed['msgConfigLangSuccessEmbed']['color'], JSONEmbed['msgConfigLangSuccessEmbed']['title'], JSONEmbed['msgConfigLangSuccessEmbed']['thumbnail'], JSONEmbed['msgConfigLangSuccessEmbed']['description'], JSONEmbed['msgConfigLangSuccessEmbed']['field'], embedOptions)
         message.channel.send({embeds: [msgConfigLangSuccessEmbed]});
-        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") chhanged prefix from " + prevPrefix + " to " + config['config']['prefix']);
+        console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") changed prefix from " + prevPrefix + " to " + config['config']['prefix']);
+        log.print("changed prefix from " + prevPrefix + " to " + config['config']['prefix'], message.author, message.content);
     }
     else if (options[1] === "channels") {
         let rawJSONEmbed = fs.readFileSync("json_files/embed_msg/" + config['config']['lang'] + ".json");
@@ -85,12 +96,14 @@ function configCommand (message) {
             let msgConfigChannelsHelpEmbed = createEmbed(JSONEmbed['msgConfigChannelsHelpEmbed']['color'], JSONEmbed['msgConfigChannelsHelpEmbed']['title'], JSONEmbed['msgConfigChannelsHelpEmbed']['thumbnail'], JSONEmbed['msgConfigChannelsHelpEmbed']['description'], JSONEmbed['msgConfigChannelsHelpEmbed']['field'], []);
             message.channel.send({embeds: [msgConfigChannelsHelpEmbed]});
             console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for config channels command.");
+            log.print("asked help for config channels command", message.author, message.content);
         }
         else if (options[2] === "secret_tunnel") {
             if (options[3] === "help") {
                 let msgConfigChannelsSTHelpEmbed = createEmbed(JSONEmbed['msgConfigChannelsSTHelpEmbed']['color'], JSONEmbed['msgConfigChannelsSTHelpEmbed']['title'], JSONEmbed['msgConfigChannelsSTHelpEmbed']['thumbnail'], JSONEmbed['msgConfigChannelsSTHelpEmbed']['description'], JSONEmbed['msgConfigChannelsSTHelpEmbed']['field'], []);
                 message.channel.send({embeds: [msgConfigChannelsSTHelpEmbed]});
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") asked help for config channels secret_tunnel command.");
+                log.print("asked help for config channels secret_tunnel command", message.author, message.content);
             }
             else if (options[3] === "E") {
                 for (let i = 5; i < options.length; i++) {
@@ -119,11 +132,13 @@ function configCommand (message) {
 
                     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") changed secret tunnel entrace");
                     console.log("|-- from " + prevName + "(#" + prevID + ") for " + config['config']['voice channels']['secret tunnel']['E']['name'] + "(#" + config['config']['voice channels']['secret tunnel']['E']['id'] + ")");
+                    log.print("changed secret tunnel entrace from " + prevName + "(#" + prevID + ") for " + config['config']['voice channels']['secret tunnel']['E']['name'] + "(#" + config['config']['voice channels']['secret tunnel']['E']['id'] + ")", message.author, message.content);
                 } else {
                     //console.log("channel existe pas starf");
                     let msgSyntaxErrorConfigVoiceChannelsEmbed = createEmbed(JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['color'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['title'],  JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['thumbnail'],JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['description'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['field'], [])
                     message.channel.send({embeds: [msgSyntaxErrorConfigVoiceChannelsEmbed]});
                     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change secret tunnel entrace with an unexisting channel");
+                    log.print("tried to change secret tunnel entrace with an unexisting channel", message.author, message.content);
                 }
             }
             else if (options[3] === "S") {
@@ -135,6 +150,7 @@ function configCommand (message) {
                     console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") tried to change secret tunnel exit with an unexisting channel");
                     let msgSyntaxErrorConfigVoiceChannelsEmbed = createEmbed(JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['color'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['title'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['thumbnail'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['description'], JSONEmbed['msgSyntaxErrorConfigVoiceChannelsEmbed']['field'], [])
                     message.channel.send({embeds: [msgSyntaxErrorConfigVoiceChannelsEmbed]});
+                    log.print("tried to change secret tunnel exit with an unexistring channel", message.author, message.content);
                     return
                 }
                 let new_channel_ids = [];
@@ -158,7 +174,7 @@ function configCommand (message) {
                 let msgSuccessConfigVoiceChannelsEmbed = createEmbed(JSONEmbed['msgSuccessConfigVoiceChannelsEmbed']['color'], JSONEmbed['msgSuccessConfigVoiceChannelsEmbed']['title'], JSONEmbed['msgSuccessConfigVoiceChannelsEmbed']['thumbnail'], JSONEmbed['msgSuccessConfigVoiceChannelsEmbed']['description'], JSONEmbed['msgSuccessConfigVoiceChannelsEmbed']['field'], embedOptions)
                 message.channel.send({embeds: [msgSuccessConfigVoiceChannelsEmbed]});
 
-
+                /* @TODO : finir transformation logging*/
                 console.log("|- " + message.author['username'] + "(#" + message.author['id'] + ") change secret tunnel exit");
                 console.log("|-- from " + prevName + "(" + prevIDs + ")");
                 console.log("|-- for " + config['config']['voice channels']['secret tunnel']['S']['name'] + " (" + config['config']['voice channels']['secret tunnel']['S']['ids'] + ")");
