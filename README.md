@@ -78,4 +78,4 @@ Currently, the bot have a lot of commands and just a few of them are used often 
 
 ## What's next ?
 
-Because this bot is not meant to be publicly used, I'll just keep developing commands linked to my ideas and my friends ones.
+Because this bot is not meant to be publicly used, I'll just keep developing commands based on my ideas.
