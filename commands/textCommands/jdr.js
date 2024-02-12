@@ -262,7 +262,15 @@ function getInventory(message) {
     }
 
     msgEmbed = printInventory(personnage);
-    message.channel.send({embeds: [msgEmbed]});
+
+    let msgEmbedSuccess = new EmbedBuilder();
+    msgEmbedSuccess.setColor("#08ff00");
+    msgEmbedSuccess.setTitle("Informations envoyés par message privé !");
+    msgEmbedSuccess.setDescription("Les informations demandées ont été envoyée via message privé, si vous n'avez rien reçu vérifiez que vous avez autorisé les messages privés ou que le bot ne soit pas bloqué.");
+    msgEmbedSuccess.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+
+    message.author.send({embeds: [msgEmbed]});
+    message.channel.send({embeds: [msgEmbedSuccess]});
     log.print("inventory successfully printed", 1);
 }
 
@@ -1290,7 +1298,7 @@ function rollHelp(message) {
     msgEmbed.addFields({name: "Exemple de commande", value: "jdr roll"});
 
     message.channel.send({embeds: [msgEmbed]});
-    log.print("help message successfully sent", 1)
+    log.print("help message successfully sent", 1);
 }
 
 function execute(message) {
