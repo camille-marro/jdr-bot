@@ -324,39 +324,51 @@
       "money": 9
     },
     {
-      "name": "Perso maxence",
+      "name": "Abraham Alood",
       "id": 0,
       "private": true,
       "idDiscord": "224152021610004480",
       "pseudo": "/",
-      "desc": "Personnage lambda",
+      "desc": "Une bague de basse valeur marchande, faite main avec un métal grossier mais dévoilant une belle marque d’affection de par sa finition, avec leurs initiales gravées dedans",
       "race": "Humain",
-      "job": "Chômeur",
-      "age": 0,
-      "sex": "/",
-      "magic": "Magie du chômage",
+      "job": "Marionnettiste / Sculpteur",
+      "age": 29,
+      "sex": "H",
+      "magic": "Magie des marionnettes",
       "stats": {
-        "Int": "50",
-        "For": "50",
-        "Cha": "30",
-        "Dex": "90",
-        "CS": "70",
-        "MC": "20",
-        "Dis": "60",
-        "Inti": "30",
-        "Sur": "70",
+        "Int": "70",
+        "For": "30",
+        "Cha": "50",
+        "Dex": "85",
+        "CS": "40",
+        "MC": "10",
+        "Dis": "70",
+        "Inti": "10",
+        "Sur": "45",
         "Per": "70",
-        "Soi": "40",
-        "CAC": "50",
-        "CAD": "70",
-        "Ref": "70",
-        "Mag": "50",
+        "Soi": "60",
+        "CAC": "80",
+        "CAD": "10",
+        "Ref": "80",
+        "Mag": "90",
         "Tal": "70"
       },
-      "talent": "Rien faire",
+      "talent": "Poigne",
       "inv": [
+        {
+          "name": "Bague de Gloria",
+          "desc": "Une bague de basse valeur marchande, faite main avec un métal grossier mais dévoilant une belle marque d’affection de par sa finition, avec leurs initiales gravées dedans",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "Valet de carreau",
+          "desc": "Carte magique du jeu de Dreqor",
+          "size": 1,
+          "price": "@TODO"
+        }
       ],
-      "money": 0
+      "money": 20
     },
     {
       "name": "Gloria",
