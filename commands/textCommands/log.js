@@ -6,7 +6,10 @@ const {EmbedBuilder} = require("discord.js");
 
 function printLog(length, message) {
     if (length === undefined) length = 20;
-    const logs = fs.readFileSync(path.resolve(__dirname, "../../logs.txt")).toString();
+    const logsRaw = fs.readFileSync(path.resolve(__dirname, "../../logs.txt")).toString();
+    const lines = logsRaw.split("\n");
+    const reversedLines = lines.reverse();
+    const logs = reversedLines.join('\n');
 
     let msgToSend = "", i = 0;
     logs.split(/\r?\n/).forEach(line => {
