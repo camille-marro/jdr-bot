@@ -1,6 +1,7 @@
+require('dotenv').config();
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://admin:admin@atlascluster.dh20ea9.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.MONGODB_URI;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -23,4 +24,14 @@ async function run() {
         await client.close();
     }
 }
+
+async function listDatabase() {
+    let databases = await client.db().admin().listDatabases();
+    return databases.databases;
+}
+
+module.exports = {
+    listDatabase
+}
+
 run().catch(console.dir);
