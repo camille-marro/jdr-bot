@@ -786,7 +786,7 @@ async function ambiance(message) {
         return;
     }
 
-    let url = "";
+    let url;
     let id;
     switch (args[2]) {
         case "bars":
@@ -932,8 +932,7 @@ function modifyPersonnage(message) {
             msgEmbed.setTitle("Statut modifié avec succès !");
             msgEmbed.setDescription("Le statut de " + personnageToModify["name"] + " a été modifié par : " + commandArgs[2]);
 
-            if (commandArgs[2] === "true") personnageToModify['private'] = true;
-            else personnageToModify['private'] = false;
+            personnageToModify['private'] = commandArgs[2] === "true";
 
             log.print("modifying private status of the character", 1);
             updateData();
@@ -1125,8 +1124,7 @@ function parsePersonnage(message) {
     if (race === "" || race === " " || race === undefined) race = "/";
     if (job === "" || job === " " || job === undefined) job = "/";
     if (sex === "" || sex === " " || sex === undefined) sex = "/";
-    if (isPrivate === "false") isPrivate = false;
-    else isPrivate = true;
+    isPrivate = isPrivate !== "false";
 
     let personnage = {
         "name": name,
