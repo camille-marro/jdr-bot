@@ -640,7 +640,7 @@ function help(message) {
 
     msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr [commande]"});
     msgEmbed.addFields({name: "Paramètre", value: " ", inline: true});
-    msgEmbed.addFields({name: "commande", value: "info / fiche / inv / add / remove / create / payer / gagner / ambiance", inline: true});
+    msgEmbed.addFields({name: "commande", value: "info / fiche / inv / add / remove / create / payer / gagner / ambiance / destin / roll", inline: true});
     msgEmbed.addFields({name: "Exemple de commande", value: "jdr inv"});
 
     message.channel.send({embeds: [msgEmbed]});
@@ -1229,6 +1229,12 @@ function planify(message) {
 
 function destin(message) {
     log.print("tried to draw a faith number", message.author, message.content);
+    let args = message.content.split(" ");
+    if (args[2] === "help") {
+        log.print("asked for help for faith command", message.author, message.content);
+        destinHelp(message);
+        return;
+    }
     let msgEmbed = new EmbedBuilder();
 
     let destin = Math.floor((Math.random() * 4) + 1);
@@ -1240,8 +1246,28 @@ function destin(message) {
     log.print("sending successful message");
 }
 
+function destinHelp(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Destin");
+    msgEmbed.setDescription("Permet de connaître son destin pour une séance");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr destin"});
+    msgEmbed.addFields({name: "Exemple de commande", value: "jdr destin"});
+
+    message.channel.send({embeds: [msgEmbed]});
+    log.print("help message successfully sent", 1)
+}
+
 function roll(message) {
     log.print("tried to roll a dice 100", message.author, message.content);
+    let args = message.content.split(" ");
+    if (args[2] === "help") {
+        log.print("asked help for roll command", message.author, message.content);
+        rollHelp(message);
+        return;
+    }
+
     let msgEmbed = new EmbedBuilder();
 
     let nb = Math.floor((Math.random() * 100) + 1);
@@ -1254,6 +1280,19 @@ function roll(message) {
 
     message.channel.send({embeds: [msgEmbed]});
     log.print("sending successful message");
+}
+
+function rollHelp(message) {
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setColor("#6e0e91");
+    msgEmbed.setTitle("JDR - Roll");
+    msgEmbed.setDescription("Permet de lancer 1 dé à 100 faces");
+    msgEmbed.setFooter({text: "Pour plus d'informations utiliser la commande \"jdr help\""});
+    msgEmbed.addFields({name: "Syntaxe de la commande", value: "jdr roll"});
+    msgEmbed.addFields({name: "Exemple de commande", value: "jdr roll"});
+
+    message.channel.send({embeds: [msgEmbed]});
+    log.print("help message successfully sent", 1)
 }
 
 function execute(message) {
