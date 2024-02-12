@@ -324,6 +324,41 @@
       "money": 9
     },
     {
+      "name": "Perso maxence",
+      "id": 0,
+      "private": true,
+      "idDiscord": "224152021610004480",
+      "pseudo": "/",
+      "desc": "Personnage lambda",
+      "race": "Humain",
+      "job": "Chômeur",
+      "age": 0,
+      "sex": "/",
+      "magic": "Magie du chômage",
+      "stats": {
+        "Int": "50",
+        "For": "50",
+        "Cha": "30",
+        "Dex": "90",
+        "CS": "70",
+        "MC": "20",
+        "Dis": "60",
+        "Inti": "30",
+        "Sur": "70",
+        "Per": "70",
+        "Soi": "40",
+        "CAC": "50",
+        "CAD": "70",
+        "Ref": "70",
+        "Mag": "50",
+        "Tal": "70"
+      },
+      "talent": "Rien faire",
+      "inv": [
+      ],
+      "money": 0
+    },
+    {
       "name": "Gloria",
       "private": false,
       "pseudo": "/",
