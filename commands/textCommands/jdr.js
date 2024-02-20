@@ -1191,10 +1191,19 @@ function planify(message) {
     log.print("tried to planify next jdr session", message.author, message.content);
     let date = new Date();
 
+    let args = message.content.split(" ");
+
     if (date.getDay() === 1) date.setDate(date.getDate() + 1);
     while(date.getDay() !== 1) {
         date.setDate(date.getDate() + 1);
         if (date.getDate() === 1) date.setMonth(date.getMonth() + 1);
+    }
+
+    console.log(date);
+    console.log(date.getMonth())
+
+    if (args[2]) { // ajoute x semaine
+        date.setDate(date.getDate() + (args[2]*7));
     }
 
     let msgEmbed = new EmbedBuilder();
@@ -1202,19 +1211,15 @@ function planify(message) {
     msgEmbed.setColor("#3c9636");
 
     let desc = "<@&770386606146060371> - Comme d'hab ptite réaction pour quand vous êtes dispo : \n\n";
-    desc += ":one: Lundi " + date.getDate() + "/" + date.getMonth() + "\n";
+    desc += ":one: Lundi " + date.getDate() + "/" + (date.getMonth()+1) + "\n";
     date.setDate(date.getDate() + 1);
-    if (date.getDate() === 1) date.setMonth(date.getMonth() + 1);
-    desc += ":two: Mardi " + date.getDate() + "/" + date.getMonth() + "\n";
+    desc += ":two: Mardi " + date.getDate() + "/" + (date.getMonth()+1) + "\n";
     date.setDate(date.getDate() + 1);
-    if (date.getDate() === 1) date.setMonth(date.getMonth() + 1);
-    desc += ":three: Mercredi " + date.getDate() + "/" + date.getMonth() + "\n";
+    desc += ":three: Mercredi " + date.getDate() + "/" + (date.getMonth()+1) + "\n";
     date.setDate(date.getDate() + 1);
-    if (date.getDate() === 1) date.setMonth(date.getMonth() + 1);
-    desc += ":four: Jeudi " + date.getDate() + "/" + date.getMonth() + "\n";
+    desc += ":four: Jeudi " + date.getDate() + "/" + (date.getMonth()+1) + "\n";
     date.setDate(date.getDate() + 1);
-    if (date.getDate() === 1) date.setMonth(date.getMonth() + 1);
-    desc += ":five: Vendredi " + date.getDate() + "/" + date.getMonth() + "\n";
+    desc += ":five: Vendredi " + date.getDate() + "/" + (date.getMonth()+1) + "\n";
     desc += ":x: Si vous êtes pas dispo cette semaine";
     //date.setDate(date.getDate() + 1);
     log.print("sending message", 1);
