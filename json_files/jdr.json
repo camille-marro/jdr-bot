@@ -44,7 +44,7 @@
     {
       "name": "Tara",
       "id": 0,
-      "private": true,
+      "private": false,
       "idDiscord": "489817345712193549",
       "pseudo": "/",
       "desc": "Femme d' 1m76 pour 65kg, très musclée avec une longue tresse brune et des yeux vert. Elle a des gros nénés et des grosses fesses. Elle porte toujours une sacoche avec elle.",
@@ -103,7 +103,7 @@
     {
       "name": "Daniel Lefebvre",
       "id": 0,
-      "private": true,
+      "private": false,
       "idDiscord": "140840339568066561",
       "pseudo": "/",
       "desc": "Immense homme blanc de 2 mètres 20 pour 165kg. Bien joufflu avec des pieds proportionnels à sa taille. Il dégage une forte odeur de poisson.",
@@ -202,7 +202,7 @@
     {
       "name": "Angel",
       "id": 0,
-      "private": true,
+      "private": false,
       "idDiscord": "231895788765052929",
       "pseudo": "/",
       "desc": "Homme d'environ 1m80 musclé. Il est chauve mais possède une barbe. Il porte toujours un capuchon.",
@@ -260,14 +260,44 @@
           "desc": "outil primaire de recherche",
           "size": 1,
           "price": "@TODO"
+        },
+        {
+          "name": "couteau a éviscérer",
+          "desc": "none",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "hellébore de venin",
+          "desc": "none",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "pain sel de saphire",
+          "desc": "none",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "Flamberge des flots",
+          "desc": "none",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "lampe en acier avec une face en verre qui émet de la lumière quand on l’agite",
+          "desc": "none",
+          "size": 1,
+          "price": "@TODO"
         }
       ],
-      "money": 8
+      "money": 5
     },
     {
       "name": "Scar",
       "id": 0,
-      "private": true,
+      "private": false,
       "idDiscord": "144895079897628672",
       "pseudo": "/",
       "desc": "Homme mat, chauve, Vêtu de haillons noirs qui se terminent en un bandeau qu’il peut utiliser pour cacher son visage tah pyke. Ne porte pas d’armure mais de simples tissus basiques et passe partout. Très fort physiquement, mais tente de ne pas attirer les regards. Il porte à sa ceinture 1 gourde d’eau et une gourde de sable, ainsi qu’un cimeterre à la ceinture. Des bottes de cuir usées. Une boucle d’oreille en or représentant l’étoile du nord, symbole de son clan.",
@@ -319,17 +349,47 @@
           "desc": "cette tenue en tissu noir passe partout est ornée d'un bandeau pour cacher son visage",
           "size": 1,
           "price": "@TODO"
+        },
+        {
+          "name": "soupe de tomate",
+          "desc": "une soupe rouge semblable à de la lave",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "agneau épicé",
+          "desc": "une spécialité du Daeman très épicée et pimentée",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "nectar multifruit",
+          "desc": "mélange de jus de fruits",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "armure de cuir magique",
+          "desc": "une armure en cuir magique d'un animal rare, cette armure permet de TRES bien résister à la chaleur",
+          "size": 1,
+          "price": "@TODO"
+        },
+        {
+          "name": "un lingot magique",
+          "desc": "frappé de la magie de la force",
+          "size": 1,
+          "price": "@TODO"
         }
       ],
-      "money": 9
+      "money": 5
     },
     {
       "name": "Abraham Alood",
       "id": 0,
-      "private": true,
+      "private": false,
       "idDiscord": "224152021610004480",
       "pseudo": "/",
-      "desc": "Une bague de basse valeur marchande, faite main avec un métal grossier mais dévoilant une belle marque d’affection de par sa finition, avec leurs initiales gravées dedans",
+      "desc": "Abraham, un jeune homme de 29 ans d’environ 1m80, assez maigre, avec des cheveux noirs qui se rabattent sur le côté. Il a des grands yeux gris, une tenue de marionnettiste.",
       "race": "Humain",
       "job": "Marionnettiste / Sculpteur",
       "age": 29,
@@ -366,9 +426,16 @@
           "desc": "Carte magique du jeu de Dreqor",
           "size": 1,
           "price": "@TODO"
+        },
+        {
+          "name": "plaque de métal",
+          "desc": "une plaque de métal basique pas travaillé",
+          "size": 1,
+          "price": "@TODO"
         }
       ],
-      "money": 20
+      "money": 13,
+      "pp": "https://cdn.discordapp.com/attachments/1179943000999215215/1207779202124750929/Snapchat-567557192.jpg?ex=65e0e309&is=65ce6e09&hm=ba9327ca43544c09c2fb85fcb8e972ac16b6df9f5faee2e3d26df2c9e22c7306&"
     },
     {
       "name": "Gloria",
