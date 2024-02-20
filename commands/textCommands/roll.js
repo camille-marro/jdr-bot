@@ -39,7 +39,7 @@ function roll (message) {
         return;
     }
 
-    //check si options[1] contient un d avant de faire ça :
+    //check si options[1] contient un d'avant de faire ça :
     if (!options[1].includes("d")) {
         msgEmbed.addFields({name : "Erreur de syntaxe", value:"roll [x]d[y] \n avec : x le nombre de lancers et y le nombre de face du dé"});
         msgEmbed.setColor("#ff0000");
