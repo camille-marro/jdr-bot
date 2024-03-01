@@ -18,6 +18,7 @@ const client = new Client({
 let player = Player.singleton(client);
 let config = require('./assets/config.js');
 const game = require("./commands/textCommands/game");
+const pokemonGame = require("./commands/textCommands/pokemon");
 
 /*
 const elochecker = require("./commands/textCommands/lol/elochecker");
@@ -41,6 +42,7 @@ client.on("messageCreate", message => {
     let msg = message.content;
     let prefix = config['config']['prefix'];
     let args = msg.split(" ")
+
     switch(args[0]) {
         case (prefix + "help"):
             let help = require('./commands/textCommands/help.js');
@@ -125,6 +127,14 @@ client.on("messageCreate", message => {
         case (prefix + "game"):
             let game = require("./commands/textCommands/game");
             game.execute(message);
+            break;
+        case (prefix + "pokemon"):
+            let pokemonGame = require("./commands/textCommands/pokemon");
+            pokemonGame.execute(message);
+            break;
+        case (prefix + "p"):
+            let pGame = require("./commands/textCommands/pokemon");
+            pGame.execute(message);
             break;
     }
 });
