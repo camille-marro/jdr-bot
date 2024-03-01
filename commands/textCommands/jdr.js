@@ -1224,16 +1224,17 @@ function planify(message) {
     //date.setDate(date.getDate() + 1);
     log.print("sending message", 1);
     msgEmbed.setDescription(desc);
-        message.channel.send({embeds: [msgEmbed]})
-        .then(embedMessage => {
-            log.print("successfully sent message ! Reacting to the message",1);
-            embedMessage.react('1️⃣');
-            embedMessage.react('2️⃣');
-            embedMessage.react('3️⃣');
-            embedMessage.react('4️⃣');
-            embedMessage.react('5️⃣');
-            embedMessage.react('❌');
-        });
+
+    message.channel.send({embeds: [msgEmbed]})
+    .then(embedMessage => {
+        log.print("successfully sent message ! Reacting to the message",1);
+        embedMessage.react('1️⃣');
+        embedMessage.react('2️⃣');
+        embedMessage.react('3️⃣');
+        embedMessage.react('4️⃣');
+        embedMessage.react('5️⃣');
+        embedMessage.react('❌');
+    });
 
     log.print("successfully reacted to the messsage !", 1);
 }
