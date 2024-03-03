@@ -233,13 +233,13 @@ function parsePokemon(pokemon) {
     randInt -= 25;
     randInt = randInt / 100;
     randInt += 1;
-    let size = (pokemon['size'] * randInt).toFixed(2);
+    let size = parseFloat((pokemon['size'] * randInt).toFixed(2));
 
     randInt = Math.floor(Math.random() * 50) + 1;
     randInt -= 25;
     randInt = randInt / 100;
     randInt += 1;
-    let weight = (pokemon['weight'] * randInt).toFixed(2);
+    let weight = parseFloat((pokemon['weight'] * randInt).toFixed(2));
 
     return {
         "id": pokemon.id,
@@ -592,6 +592,16 @@ async function train(message) {
     let args = message.content.split(" ");
     let player = getPlayerWithId(message.author.id);
 
+    if (!player) {
+        msgEmbed.setTitle("Vous n'avez pas de compte !");
+        msgEmbed.setDescription("Pour vous inscrire utilisez la commande *pokemon start* !");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
     if (!args[2]) {
         let msgEmbed = new EmbedBuilder();
         msgEmbed.setTitle("Veuillez saisir un nom de pokémon à entrainer !");
@@ -614,13 +624,13 @@ async function train(message) {
 
         message.channel.send({embeds: [msgEmbed]});
     } else if (pokemons.length > 1) {
-        choosePokemon(pokemons, message).then(pokemon => {
+        choosePokemonTraining(pokemons, message).then(pokemon => {
             let res = trainPokemon(pokemon);
             resultTraining(message, pokemon, res);
         });
     } else {
         let res = trainPokemon(pokemons[0]);
-        await resultTraining(message, pokemon, res);
+        await resultTraining(message, pokemons[0], res);
     }
 }
 
@@ -634,7 +644,7 @@ async function train(message) {
 async function resultTraining(message, pokemon, res) {
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setTitle("Résultat de votre " + res["training"]);
-    msgEmbed.setDescription("Votre " + pokemon.name + " à gagné " + res["xpWin"] + " points d'xp et est monté de " + res["lvlUp"] + " niveau(x) !");
+    msgEmbed.setDescription("Votre " + pokemon["name"] + " à gagné " + res["xpWin"] + " points d'xp et est monté de " + res["lvlUp"] + " niveau(x) !");
     msgEmbed.setColor("#0293af");
     msgEmbed.setFooter({text:"Pour plus d'informations utiliez la commande *pokemon help*."});
     message.channel.send({embeds: [msgEmbed]});
@@ -690,12 +700,12 @@ async function resultTraining(message, pokemon, res) {
 }
 
 /**
- * Permet de choisir un pokémon quand il y en a plusieurs du même nom dans l'équipe du joueur
+ * Permet de choisir un pokémon quand il y en a plusieurs du même nom dans l'équipe du joueur pour la commande "train"
  * @param pokemons
  * @param message
  * @returns {Promise<Object>}
  */
-function choosePokemon(pokemons, message) {
+function choosePokemonTraining(pokemons, message) {
     return new Promise(async (resolve, reject) => {
         let msgEmbed = createEmbedTrainPokemons(pokemons);
         let msgSent = await message.channel.send({embeds: [msgEmbed]});
@@ -808,6 +818,116 @@ function addExp(pokemon, xp) {
     return lvlUp;
 }
 
+async function infosPokemon(message) {
+    let args = message.content.split(" ");
+    let player = getPlayerWithId(message.author.id);
+
+    if (!player) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Vous n'avez pas de compte !");
+        msgEmbed.setDescription("Pour vous inscrire utilisez la commande *pokemon start* !");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
+    if (!args[2]) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Veuillez saisir un nom de pokémon à entrainer !");
+        msgEmbed.setDescription("La commande s'utilise comme ceci : pokemon info nom_du_pokemon.");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
+    let pokemons = getPlayerPokemonsWithName(player, args[2]);
+    if (!pokemons) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Vous n'avez aucun pokémon de ce nom !");
+        msgEmbed.setDescription("Vérifier qu'il n'y aucune faute de syntaxe ou que vous possédez bien ce pokémon.");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+        message.channel.send({embeds: [msgEmbed]});
+    } else if (pokemons.length > 1) {
+        choosePokemonInfo(pokemons, message).then(pokemon => {
+            let res = trainPokemon(pokemon);
+            resultInfos(message, pokemon);
+        });
+    } else {
+        let res = trainPokemon(pokemons[0]);
+        await resultInfos(message, pokemons[0]);
+    }
+}
+
+function choosePokemonInfo(pokemons, message) {
+    return new Promise(async (resolve, reject) => {
+        let msgEmbed = createEmbedTrainPokemons(pokemons);
+        let msgSent = await message.channel.send({embeds: [msgEmbed]});
+
+        for (let i = 0; i < pokemons.length; i++) {
+            await msgSent.react(emojis[i]);
+        }
+
+        const filter = (reaction, user) => {
+            return emojis.includes(reaction.emoji.name) && !user.bot;
+        };
+
+        let collector = msgSent.createReactionCollector(filter, {time: 15000});
+
+        collector.on('collect', (reaction, user) => {
+            if (user.id === message.author.id) {
+                let i = 0;
+                while (i < pokemons.length) {
+                    if (reaction.emoji.name === emojis[i]) {
+                        collector.stop();
+                        resolve(pokemons[i]);
+                    }
+                    i++;
+                }
+            } else if (!user.bot) {
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setTitle("Vous ne pouvez pas réagir aux messages des autres !");
+                msgEmbed.setDescription("<@" + user.id + "> fait plus ça c'est pas bien !");
+                msgEmbed.setColor("#ff0000");
+                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+                message.channel.send({embeds: [msgEmbed]});
+                collector.stop();
+            }
+        });
+    })
+}
+
+function resultInfos(message, pokemon) {
+    let msgEmbed = new EmbedBuilder();
+    let pokemonInfos = drawPokemonWithId(pokemon["id"]);
+
+    if (pokemon["shiny"]) msgEmbed.setTitle(pokemon["name"] + ":sparkles: (lvl: " + pokemon["level"] + ")");
+    else msgEmbed.setTitle(pokemon["name"] + " (lvl: " + pokemon["level"] + ")");
+    msgEmbed.setColor("#ffffff");
+    msgEmbed.setDescription(pokemonInfos["description"]);
+    msgEmbed.addFields({name:"Sexe", value:pokemon['sex'], inline: true});
+    msgEmbed.addFields({name:"XP", value:(pokemon["xp"] + "/" + Math.pow(pokemon["level"], 2)), inline: true});
+    msgEmbed.addFields({name:" ", value:" "});
+    msgEmbed.addFields({name:"Taille", value:pokemon["size"] + " m", inline: true});
+    msgEmbed.addFields({name:"Poids", value:pokemon["weight"] + " kg", inline: true});
+    msgEmbed.addFields({name:"Stats", value:" "});
+    msgEmbed.addFields({name:"PV", value:pokemon["stats"][0].toString(), inline: true});
+    msgEmbed.addFields({name:"ATT", value:pokemon["stats"][1].toString(), inline: true});
+    msgEmbed.addFields({name:"DEF", value:pokemon["stats"][2].toString(), inline: true});
+    msgEmbed.addFields({name:"ATT SPE", value:pokemon["stats"][3].toString(), inline: true});
+    msgEmbed.addFields({name:"DEF SPE", value:pokemon["stats"][4].toString(), inline: true});
+    msgEmbed.addFields({name:"VIT", value:pokemon["stats"][5].toString(), inline: true});
+    if (pokemon["evolveLvl"] >= 1) msgEmbed.addFields({name:"Prochaine évolution", value: "niveau " + pokemonInfos["evolveLvl"].toString()});
+
+    message.channel.send({embeds: [msgEmbed]});
+}
+
 function execute(message) {
     let args = message.content.split(" ");
     if (args[1] === "test") {
@@ -822,6 +942,8 @@ function execute(message) {
         playerStart(message).then(r => {});
     } else if (args[1] === "train") {
         train(message).then(r => {});
+    } else if (args[1] === "info") {
+        infosPokemon(message).then(r => {});
     }
 }
 
