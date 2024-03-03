@@ -584,8 +584,8 @@ function evolvePokemon(pokemon) {
 }
 
 /**
- * Lance la commande pour entrainer un pokémon
- * @param {Object}message
+ * Fonction qui permet de lancer la commande train
+ * @param message
  * @returns {Promise<void>}
  */
 async function train(message) {
@@ -613,49 +613,25 @@ async function train(message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
 
         message.channel.send({embeds: [msgEmbed]});
-        return;
     } else if (pokemons.length > 1) {
-        // choisir un seul pokémon
-        let msgEmbed = createEmbedTrainPokemons(pokemons);
-        let msgSent = await message.channel.send({embeds: [msgEmbed]});
-
-        for (let i = 0; i < pokemons.length; i++) {
-            await msgSent.react(emojis[i]);
-        }
-
-        const filter = (reaction, user) => {
-            return emojis.includes(reaction.emoji.name) && !user.bot;
-        };
-
-        let collector = msgSent.createReactionCollector(filter, {time: 15000});
-
-        collector.on('collect', (reaction, user) => {
-            if (user.id === message.author.id) {
-                let i = 0;
-                while (i < pokemons.length) {
-                    if (reaction.emoji.name === emojis[i]) {
-                        pokemon = pokemons[i];
-                        break;
-                    }
-                    i++;
-                }
-                collector.stop();
-            } else if (!user.bot) {
-                let msgEmbed = new EmbedBuilder();
-                msgEmbed.setTitle("Vous ne pouvez pas réagir aux messages des autres !");
-                msgEmbed.setDescription("<@" + user.id + "> fait plus ça c'est pas bien !");
-                msgEmbed.setColor("#ff0000");
-                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
-
-                message.channel.send({embeds: [msgEmbed]});
-                collector.stop();
-            }
+        choosePokemon(pokemons, message).then(pokemon => {
+            let res = trainPokemon(pokemon);
+            resultTraining(message, pokemon, res);
         });
     } else {
-        pokemon = pokemons[0];
+        let res = trainPokemon(pokemons[0]);
+        await resultTraining(message, pokemon, res);
     }
-    let res = trainPokemon(pokemon);
+}
 
+/**
+ * Permet d'attendre le choix d'un pokémon et de filtrer les résultats de l'entrainement
+ * @param message
+ * @param pokemon
+ * @param res
+ * @returns {Promise<void>}
+ */
+async function resultTraining(message, pokemon, res) {
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setTitle("Résultat de votre " + res["training"]);
     msgEmbed.setDescription("Votre " + pokemon.name + " à gagné " + res["xpWin"] + " points d'xp et est monté de " + res["lvlUp"] + " niveau(x) !");
@@ -711,6 +687,51 @@ async function train(message) {
     }
 
     updateData();
+}
+
+/**
+ * Permet de choisir un pokémon quand il y en a plusieurs du même nom dans l'équipe du joueur
+ * @param pokemons
+ * @param message
+ * @returns {Promise<Object>}
+ */
+function choosePokemon(pokemons, message) {
+    return new Promise(async (resolve, reject) => {
+        let msgEmbed = createEmbedTrainPokemons(pokemons);
+        let msgSent = await message.channel.send({embeds: [msgEmbed]});
+
+        for (let i = 0; i < pokemons.length; i++) {
+            await msgSent.react(emojis[i]);
+        }
+
+        const filter = (reaction, user) => {
+            return emojis.includes(reaction.emoji.name) && !user.bot;
+        };
+
+        let collector = msgSent.createReactionCollector(filter, {time: 15000});
+
+        collector.on('collect', (reaction, user) => {
+            if (user.id === message.author.id) {
+                let i = 0;
+                while (i < pokemons.length) {
+                    if (reaction.emoji.name === emojis[i]) {
+                        collector.stop();
+                        resolve(pokemons[i]);
+                    }
+                    i++;
+                }
+            } else if (!user.bot) {
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setTitle("Vous ne pouvez pas réagir aux messages des autres !");
+                msgEmbed.setDescription("<@" + user.id + "> fait plus ça c'est pas bien !");
+                msgEmbed.setColor("#ff0000");
+                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+                message.channel.send({embeds: [msgEmbed]});
+                collector.stop();
+            }
+        });
+    })
 }
 
 /**
