@@ -575,12 +575,57 @@ function evolvePokemon(pokemon) {
     pokemon['evolveLvl'] = evolutionPokemon['evolveLvl'];
 
     let msgEmbed = new EmbedBuilder();
-    msgEmbed.setTitle("Félicitations votre " + basePokemon["name"] + "a évolué en " + evolutionPokemon["name"] + " !");
-    msgEmbed.setDescription("Grâce à sa nouvel évolution votre pokémon a gagné en poids et en taille et a peut être des nouveaux types !");
+    msgEmbed.setTitle("Félicitations votre " + basePokemon["name"] + " a évolué en " + pokemon["name"] + " !");
+    msgEmbed.setDescription("Grâce à sa nouvelle évolution votre pokémon a gagné en poids et en taille et a peut être des nouveaux types !");
     msgEmbed.setColor("#08ff00");
     msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
 
     return msgEmbed;
+}
+
+/**
+ * Vérifie si le joueur peut utiliser la commande "train"
+ * @param player - Joueur à vérifier
+ * @returns {EmbedBuilder|boolean} - Renvoie vrai si le joueur peut utiliser la commande sinon renvoie un message embed du message d'erreur
+ */
+function checkTraining(player) {
+    if (player["trainingLeft"] <= 0) {
+        if ((new Date().getTime() - player["lastTraining"]) / (1000 * 60 * 60) >=1 ) {
+            player["trainingLeft"] = 5;
+            return true;
+        } else {
+            let msgEmbed = new EmbedBuilder();
+
+            msgEmbed.setTitle("Vous n'avez plus d'entrainements restants !");
+            msgEmbed.setDescription("Vos entrainements se réinitialisent toutes les heures !, votre prochain entrainement est dans : " + getTrainingTime(player));
+            msgEmbed.setColor("#ff0000");
+            msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+            return msgEmbed;
+        }
+    } else {
+        if ((new Date().getTime() - player["lastTraining"]) / (1000 * 60 * 60) >=1 ) {
+            player["trainingLeft"] = 5;
+            return true;
+        } else return true;
+    }
+}
+
+/**
+ * Renvoie sous forme de string le temps restant avant les prochains entrainements
+ * @param {Object}player - Joueur pour qui il faut calculer le temps
+ * @returns {string} - String du temps restant
+ */
+function getTrainingTime(player) {
+    let diff = new Date().getTime() - player["lastTraining"];
+
+    let finalDiff = 3600000 - diff //3600000 === 1 heure
+
+    const seconds = Math.floor(finalDiff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+
+    return `${hours % 24} heure(s), ${minutes % 60} minute(s) et ${seconds % 60} seconde(s)`;
 }
 
 /**
@@ -599,6 +644,16 @@ async function train(message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
 
         message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
+    let training = checkTraining(player);
+    console.log(training)
+    if (training === true) {
+        player["trainingLeft"]--;
+        player["lastTraining"] = new Date().getTime();
+    } else {
+        message.channel.send({embeds: [training]});
         return;
     }
 
