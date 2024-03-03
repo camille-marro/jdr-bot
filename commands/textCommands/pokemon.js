@@ -233,13 +233,13 @@ function parsePokemon(pokemon) {
     randInt -= 25;
     randInt = randInt / 100;
     randInt += 1;
-    let size = pokemon['size'] * randInt;
+    let size = (pokemon['size'] * randInt).toFixed(2);
 
     randInt = Math.floor(Math.random() * 50) + 1;
     randInt -= 25;
     randInt = randInt / 100;
     randInt += 1;
-    let weight = pokemon['weight'] * randInt;
+    let weight = (pokemon['weight'] * randInt).toFixed(2);
 
     return {
         "id": pokemon.id,
@@ -519,10 +519,16 @@ function createPlayer(author) {
  * @returns {Object|Boolean} - Pokémon associé à l'ID indiqué renvoie false s'il n'existe pas
  */
 function drawPokemonWithId(pokemonId) {
-    let pokemon = pokemonData["pokemons"][pokemonId-1];
+    let pokemon = JSON.parse(JSON.stringify(pokemonData["pokemons"][pokemonId-1]));
     if (!pokemon) return false
     else return pokemon
 }
+
+/**
+ * Entraine un pokémon pour le faire monter de niveau
+ * @param {Object}pokemon - Pokémon à entrainer
+ * @returns {{lvlUp: number, training: string, xpWin: number}} - Renvoie le résultat de l'entraînement sous forme d'objet
+ */
 function trainPokemon(pokemon) {
     let randInt = Math.floor(Math.random() * 9) + 1;
     randInt -= 5;
@@ -537,11 +543,8 @@ function trainPokemon(pokemon) {
     trainingLootTable.add(4, 1);
 
     let training = trainingLootTable.choose();
-
-    let xpWin = enemyPokemonLvl * training;
+    let xpWin = enemyPokemonLvl * training * 2;
     let lvlUp = addExp(pokemon, xpWin);
-
-    updateData();
 
     let trainingStr = "";
     if (training === 1) trainingStr = "entraînement faible";
@@ -552,23 +555,233 @@ function trainPokemon(pokemon) {
     return {"xpWin" : xpWin, "lvlUp": lvlUp, "training" : trainingStr}
 }
 
-function train(message) {
-    // quand on train on met le nom du pokémon a train
-    // faire un message qui demande à l'utilisateur quel pokemon il veut choisir s'il en a plusieurs
-    // ensuite on utilise la fonction trainPokemon()
-    // ensuite on fait un nouveau message avec les résultats de trainPokemon()
+/**
+ * Fait évoluer un pokémon en son évolution en lui ajoutant les bonnes stats
+ * @param pokemon - Pokémon à évoluer
+ * @returns {EmbedBuilder} - Renvoie un message de succès prêt à être envoyé
+ */
+function evolvePokemon(pokemon) {
+    let basePokemon = drawPokemonWithId(pokemon["id"]);
+    let evolutionPokemon = drawPokemonWithId(basePokemon["evolve"]);
+
+    let diffSize = Math.abs(basePokemon["size"] - evolutionPokemon["size"]);
+    let diffWeight = Math.abs(basePokemon["weight"] - evolutionPokemon["weight"]);
+
+    pokemon['size'] += diffSize;
+    pokemon['weight'] += diffWeight;
+    pokemon['name'] = evolutionPokemon['name'];
+    pokemon['types'] = evolutionPokemon['types'];
+    pokemon['id'] = evolutionPokemon['id'];
+    pokemon['evolveLvl'] = evolutionPokemon['evolveLvl'];
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setTitle("Félicitations votre " + basePokemon["name"] + "a évolué en " + evolutionPokemon["name"] + " !");
+    msgEmbed.setDescription("Grâce à sa nouvel évolution votre pokémon a gagné en poids et en taille et a peut être des nouveaux types !");
+    msgEmbed.setColor("#08ff00");
+    msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+    return msgEmbed;
 }
 
+/**
+ * Lance la commande pour entrainer un pokémon
+ * @param {Object}message
+ * @returns {Promise<void>}
+ */
+async function train(message) {
+    let args = message.content.split(" ");
+    let player = getPlayerWithId(message.author.id);
+
+    if (!args[2]) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Veuillez saisir un nom de pokémon à entrainer !");
+        msgEmbed.setDescription("La commande s'utilise comme ceci : pokemon train nom_du_pokemon.");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
+    let pokemons = getPlayerPokemonsWithName(player, args[2]);
+    let pokemon = {};
+    if (!pokemons) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Vous n'avez aucun pokémon de ce nom !");
+        msgEmbed.setDescription("Vérifier qu'il n'y aucune faute de syntaxe ou que vous possédez bien ce pokémon.");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    } else if (pokemons.length > 1) {
+        // choisir un seul pokémon
+        let msgEmbed = createEmbedTrainPokemons(pokemons);
+        let msgSent = await message.channel.send({embeds: [msgEmbed]});
+
+        for (let i = 0; i < pokemons.length; i++) {
+            await msgSent.react(emojis[i]);
+        }
+
+        const filter = (reaction, user) => {
+            return emojis.includes(reaction.emoji.name) && !user.bot;
+        };
+
+        let collector = msgSent.createReactionCollector(filter, {time: 15000});
+
+        collector.on('collect', (reaction, user) => {
+            if (user.id === message.author.id) {
+                let i = 0;
+                while (i < pokemons.length) {
+                    if (reaction.emoji.name === emojis[i]) {
+                        pokemon = pokemons[i];
+                        break;
+                    }
+                    i++;
+                }
+                collector.stop();
+            } else if (!user.bot) {
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setTitle("Vous ne pouvez pas réagir aux messages des autres !");
+                msgEmbed.setDescription("<@" + user.id + "> fait plus ça c'est pas bien !");
+                msgEmbed.setColor("#ff0000");
+                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+                message.channel.send({embeds: [msgEmbed]});
+                collector.stop();
+            }
+        });
+    } else {
+        pokemon = pokemons[0];
+    }
+    let res = trainPokemon(pokemon);
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setTitle("Résultat de votre " + res["training"]);
+    msgEmbed.setDescription("Votre " + pokemon.name + " à gagné " + res["xpWin"] + " points d'xp et est monté de " + res["lvlUp"] + " niveau(x) !");
+    msgEmbed.setColor("#0293af");
+    msgEmbed.setFooter({text:"Pour plus d'informations utiliez la commande *pokemon help*."});
+    message.channel.send({embeds: [msgEmbed]});
+
+    if ((pokemon['evolveLvl'] !== -1) && (pokemon['level'] >= pokemon['evolveLvl'])) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Oh ! Votre pokémon évolue !");
+        msgEmbed.setDescription("Choisissez si vous souhaitez faire évoluer ou non votre pokémon !");
+        msgEmbed.setColor("#fff300");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+        let msgSent = await message.channel.send({embeds: [msgEmbed]});
+
+        await msgSent.react('👍');
+        await msgSent.react('👎');
+
+        const filter = (reaction, user) => {
+            return emojis.includes(reaction.emoji.name) && !user.bot;
+        };
+
+        let collector = msgSent.createReactionCollector(filter, {time:5000});
+        collector.on('collect', (reaction, user) => {
+            if (user.id === message.author.id) {
+                if (reaction.emoji.name === '👎') {
+                    let msgEmbed = new EmbedBuilder();
+                    msgEmbed.setTitle("Vous avez décidé d'annuler l'évolution !");
+                    msgEmbed.setDescription("Votre pokémon ne pourra plus évoluer désormais.");
+                    msgEmbed.setColor("#942cad");
+                    msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+                    message.channel.send({embeds: [msgEmbed]});
+                    cancelEvolve(pokemon);
+                    collector.stop();
+                } else if (reaction.emoji.name === '👍') {
+                    let evolveMsg = evolvePokemon(pokemon);
+                    message.channel.send({embeds: [evolveMsg]});
+                    collector.stop();
+                }
+            } else if (!user.bot) {
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setTitle("Vous ne pouvez pas réagir aux messages des autres !");
+                msgEmbed.setDescription("<@" + user.id + "> fait plus ça c'est pas bien !");
+                msgEmbed.setColor("#ff0000");
+                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+                message.channel.send({embeds: [msgEmbed]});
+                collector.stop();
+            }
+        });
+    }
+
+    updateData();
+}
+
+/**
+ * Annule l'évolution d'un pokémon
+ * @param pokemon - Pokémon à qui annuler l'évolution
+ */
+function cancelEvolve(pokemon) {
+    pokemon["evolveLvl"] = -1;
+}
+
+/**
+ * Créé un message embed pour l'entrainement des pokémons
+ * @param {Object[]}pokemons -
+ * @returns {EmbedBuilder|boolean} - Renvoie faux s'il y a trop de pokémons
+ */
+function createEmbedTrainPokemons(pokemons) {
+    if (pokemons.length > 15) return false;
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setTitle("Choisissez le pokémon à entrainer");
+    msgEmbed.setDescription("Pour choisir le pokémon il suffit de réagir à l'émote attribuée au pokémon voulu");
+    msgEmbed.setColor("#c0763b");
+    msgEmbed.setFooter({text:"Pour plus d'informations utilisez la commande *pokemon help*."});
+    let i = 0;
+    pokemons.forEach(pokemon => {
+        let pokemonName = pokemon.name;
+        if (pokemon.shiny) pokemonName += ":sparkles:";
+        pokemonName += "(lvl: " + pokemon.level + ")";
+        msgEmbed.addFields({name: pokemon.name, value: emojis[i], inline: true});
+        i++;
+    });
+
+    return msgEmbed;
+}
+
+/**
+ * Récupère la liste de pokémon correspondants au nom fournit chez un joueur
+ * @param {Object}player - Joueur chez qui récupérer le ou les pokémons
+ * @param {String}pokemonName - Nom du pokémon à récupérer
+ * @returns {*|boolean|*[]} - Renvoie false si rien n'est trouvé sinon renvoie une liste des pokémons trouvés
+ */
+function getPlayerPokemonsWithName(player, pokemonName) {
+    let pokemons = [];
+    player["pokemons"].forEach(pokemon => {
+        if (pokemon.name.toLowerCase() === pokemonName.toLowerCase()) {
+            pokemons.push(pokemon);
+        }
+    });
+
+    if (pokemons.length >= 1) {
+        return pokemons;
+    } else return false;
+}
+
+/**
+ * Ajoute de l'expérience à un pokémon et le fait monter en niveau
+ * @param {Object}pokemon - Pokémon à qui ajouter de l'expérience
+ * @param {Number}xp - Quantité d'expériences à ajouter
+ * @returns {number} - Renvoie le nombre de niveaux montés
+ */
 function addExp(pokemon, xp) {
     pokemon["xp"] += xp;
 
-    let xpSeuil = Math.pow(pokemon['level'], 3);
+    let xpSeuil = Math.pow(pokemon['level'], 2);
     let lvlUp = 0;
 
     while (pokemon["xp"] >= xpSeuil) {
         pokemon["xp"] -= xpSeuil;
         pokemon['level']++
         lvlUp++;
+        xpSeuil = Math.pow(pokemon['level'], 2);
     }
 
     return lvlUp;
@@ -586,6 +799,8 @@ function execute(message) {
         printPokemons(message);
     } else if (args[1] === "start") {
         playerStart(message).then(r => {});
+    } else if (args[1] === "train") {
+        train(message).then(r => {});
     }
 }
 
