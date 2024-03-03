@@ -51,9 +51,32 @@
             65
           ],
           "shiny": false
+        },
+        {
+          "id": 129,
+          "name": "Magicarpe",
+          "types": [
+            "Eau"
+          ],
+          "level": 1,
+          "xp": 1,
+          "sex": "F",
+          "evolveLvl": 20,
+          "size": "0.90",
+          "weight": "12.50",
+          "stats": [
+            20,
+            10,
+            55,
+            15,
+            20,
+            80,
+            20
+          ],
+          "shiny": false
         }
       ],
-      "lastExplore": 1709260772866
+      "lastExplore": 1709493325801
     },
     {
       "id": 1,
@@ -92,8 +115,8 @@
             "Spectre",
             "Poison"
           ],
-          "level": 3,
-          "xp": 5,
+          "level": 5,
+          "xp": 0,
           "sex": "M",
           "evolveLvl": -1,
           "size": 1.3800000000000001,
@@ -110,30 +133,30 @@
           "shiny": false
         },
         {
-          "id": 148,
-          "name": "Draco",
+          "id": 88,
+          "name": "Tadmorv",
           "types": [
-            "Dragon"
+            "Poison"
           ],
-          "level": 55,
-          "xp": 1,
-          "sex": "M",
-          "evolveLvl": 55,
-          "size": 4.76,
-          "weight": 15.34,
+          "level": 3,
+          "xp": 2,
+          "sex": "F",
+          "evolveLvl": 38,
+          "size": "1.12",
+          "weight": "34.20",
           "stats": [
-            61,
-            84,
-            65,
-            70,
-            70,
-            70,
-            70
+            80,
+            80,
+            50,
+            40,
+            50,
+            25,
+            40
           ],
           "shiny": false
         }
       ],
-      "lastExplore": 1709492068405
+      "lastExplore": 1709493246298
     },
     {
       "id": 2,
@@ -244,9 +267,57 @@
             377
           ],
           "shiny": false
+        },
+        {
+          "id": 83,
+          "name": "Canarticho",
+          "types": [
+            "Normal",
+            "Vol"
+          ],
+          "level": 1,
+          "xp": 1,
+          "sex": "M",
+          "evolveLvl": -1,
+          "size": "0.79",
+          "weight": "14.70",
+          "stats": [
+            52,
+            90,
+            55,
+            58,
+            62,
+            60,
+            377
+          ],
+          "shiny": false
+        },
+        {
+          "id": 94,
+          "name": "Ectoplasma",
+          "types": [
+            "Spectre",
+            "Poison"
+          ],
+          "level": 1,
+          "xp": 1,
+          "sex": "F",
+          "evolveLvl": -1,
+          "size": "1.65",
+          "weight": "46.98",
+          "stats": [
+            60,
+            65,
+            60,
+            130,
+            75,
+            110,
+            130
+          ],
+          "shiny": false
         }
       ],
-      "lastExplore": 1709260956226
+      "lastExplore": 1709493380811
     }
   ],
   "pokemons": [
