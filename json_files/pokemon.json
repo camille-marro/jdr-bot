@@ -17,7 +17,7 @@
           "sex": "M",
           "evolveLvl": -1,
           "size": 0.88,
-          "weight": 31.270000000000003,
+          "weight": 31.27,
           "stats": [
             75,
             100,
@@ -35,8 +35,8 @@
           "types": [
             "Normal"
           ],
-          "level": 1,
-          "xp": 1,
+          "level": 5,
+          "xp": 21,
           "sex": "M",
           "evolveLvl": -1,
           "size": 1.827,
@@ -74,9 +74,33 @@
             20
           ],
           "shiny": false
+        },
+        {
+          "id": 93,
+          "name": "Spectrum",
+          "types": [
+            "Spectre",
+            "Poison"
+          ],
+          "level": 1,
+          "xp": 1,
+          "sex": "M",
+          "evolveLvl": -1,
+          "size": "1.34",
+          "weight": "0.11",
+          "stats": [
+            45,
+            50,
+            45,
+            115,
+            55,
+            95,
+            115
+          ],
+          "shiny": false
         }
       ],
-      "lastExplore": 1709493325801
+      "lastExplore": 1709500029893
     },
     {
       "id": 1,
@@ -95,7 +119,7 @@
           "xp": 1,
           "sex": "F",
           "evolveLvl": -1,
-          "size": 0.9959999999999999,
+          "size": 0.99,
           "weight": 40.28,
           "stats": [
             65,
@@ -119,8 +143,8 @@
           "xp": 0,
           "sex": "M",
           "evolveLvl": -1,
-          "size": 1.3800000000000001,
-          "weight": 36.855000000000004,
+          "size": 1.380,
+          "weight": 36.85,
           "stats": [
             60,
             65,
@@ -142,8 +166,8 @@
           "xp": 2,
           "sex": "F",
           "evolveLvl": 38,
-          "size": "1.12",
-          "weight": "34.20",
+          "size": 1.12,
+          "weight": 34.20,
           "stats": [
             80,
             80,
@@ -154,9 +178,55 @@
             40
           ],
           "shiny": false
+        },
+        {
+          "id": 88,
+          "name": "Tadmorv",
+          "types": [
+            "Poison"
+          ],
+          "level": 3,
+          "xp": 4,
+          "sex": "M",
+          "evolveLvl": 38,
+          "size": 1.12,
+          "weight": 34.20,
+          "stats": [
+            80,
+            80,
+            50,
+            40,
+            50,
+            25,
+            40
+          ],
+          "shiny": false
+        },
+        {
+          "id": 4,
+          "name": "Salamèche",
+          "types": [
+            "Feu"
+          ],
+          "level": 10,
+          "xp": 34,
+          "sex": "M",
+          "evolveLvl": 16,
+          "size": 0.58,
+          "weight": 9.60,
+          "stats": [
+            39,
+            52,
+            43,
+            60,
+            50,
+            65,
+            50
+          ],
+          "shiny": false
         }
       ],
-      "lastExplore": 1709493246298
+      "lastExplore": 1709499951963
     },
     {
       "id": 2,
@@ -175,8 +245,8 @@
           "xp": 1,
           "sex": "M",
           "evolveLvl": 10,
-          "size": 0.666,
-          "weight": 8.200000000000001,
+          "size": 0.66,
+          "weight": 8.20,
           "stats": [
             45,
             25,
@@ -198,7 +268,7 @@
           "xp": 1,
           "sex": "M",
           "evolveLvl": -1,
-          "size": 1.276,
+          "size": 1.27,
           "weight": 29.7,
           "stats": [
             65,
@@ -255,7 +325,7 @@
           "xp": 1,
           "sex": "M",
           "evolveLvl": -1,
-          "size": 0.8560000000000001,
+          "size": 0.85,
           "weight": 13.05,
           "stats": [
             52,
@@ -279,8 +349,8 @@
           "xp": 1,
           "sex": "M",
           "evolveLvl": -1,
-          "size": "0.79",
-          "weight": "14.70",
+          "size": 0.79,
+          "weight": 14.70,
           "stats": [
             52,
             90,
@@ -299,12 +369,12 @@
             "Spectre",
             "Poison"
           ],
-          "level": 1,
-          "xp": 1,
+          "level": 3,
+          "xp": 4,
           "sex": "F",
           "evolveLvl": -1,
-          "size": "1.65",
-          "weight": "46.98",
+          "size": 1.65,
+          "weight": 46.98,
           "stats": [
             60,
             65,
@@ -315,9 +385,112 @@
             130
           ],
           "shiny": false
+        },
+        {
+          "id": 6,
+          "name": "Dracaufeu",
+          "types": [
+            "Feu",
+            "Vol"
+          ],
+          "level": 7,
+          "xp": 12,
+          "sex": "M",
+          "evolveLvl": -1,
+          "size": 1.90,
+          "weight": 82.36,
+          "stats": [
+            78,
+            84,
+            78,
+            109,
+            85,
+            100,
+            85
+          ],
+          "shiny": false
         }
       ],
-      "lastExplore": 1709493380811
+      "lastExplore": 1709499964103
+    },
+    {
+      "id": 4,
+      "discordId": "489817345712193549",
+      "discordName": "chloe3099",
+      "money": 0,
+      "pokemons": [
+        {
+          "id": 56,
+          "name": "Férosinge",
+          "types": [
+            "Combat"
+          ],
+          "level": 1,
+          "xp": 1,
+          "sex": "F",
+          "evolveLvl": 28,
+          "size": 0.53,
+          "weight": 33.32,
+          "stats": [
+            40,
+            80,
+            35,
+            35,
+            45,
+            70,
+            35
+          ],
+          "shiny": false
+        },
+        {
+          "id": 54,
+          "name": "Psykokwak",
+          "types": [
+            "Eau"
+          ],
+          "level": 9,
+          "xp": 53,
+          "sex": "F",
+          "evolveLvl": 33,
+          "size": 0.68,
+          "weight": 17.25,
+          "stats": [
+            50,
+            52,
+            48,
+            65,
+            50,
+            55,
+            50
+          ],
+          "shiny": false
+        },
+        {
+          "id": 75,
+          "name": "Gravalanch",
+          "types": [
+            "Roche",
+            "Sol"
+          ],
+          "level": 1,
+          "xp": 1,
+          "sex": "F",
+          "evolveLvl": -1,
+          "size": 1.00,
+          "weight": 114.45,
+          "stats": [
+            55,
+            95,
+            115,
+            45,
+            45,
+            35,
+            45
+          ],
+          "shiny": false
+        }
+      ],
+      "lastExplore": 1709499959125
     }
   ],
   "pokemons": [
