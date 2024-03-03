@@ -946,8 +946,6 @@ function resultInfos(message, pokemon) {
     let msgEmbed = new EmbedBuilder();
     let pokemonInfos = drawPokemonWithId(pokemon["id"]);
 
-    console.log(pokemon);
-
     if (pokemon["shiny"]) msgEmbed.setTitle(pokemon["name"] + ":sparkles: (lvl: " + pokemon["level"] + ")");
     else msgEmbed.setTitle(pokemon["name"] + " (lvl: " + pokemon["level"] + ")");
     msgEmbed.setColor("#ffffff");
