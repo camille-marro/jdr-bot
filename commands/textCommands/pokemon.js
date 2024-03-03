@@ -248,9 +248,25 @@ function parsePokemon(pokemon) {
     }
 
     let ivs = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
         ivs.push(Math.floor(Math.random() * 31))
     }
+
+    let evolveLvl = false;
+    if (Array.isArray(pokemon["evolveLvl"])) {
+        let i = 0;
+        while (i < pokemon["evolveLvl"].length) {
+            if (pokemon["evolveLvl"][i] !== -1) {
+                evolveLvl = pokemon["evolveLvl"][i];
+                break;
+            }
+            i++;
+        }
+        if (evolveLvl === false) {
+            evolveLvl = -1;
+        }
+    }
+
     return {
         "id": pokemon.id,
         "name" : pokemon.name,
@@ -258,7 +274,7 @@ function parsePokemon(pokemon) {
         "level": 1,
         "xp": 0,
         "sex": sex,
-        "evolveLvl": pokemon.evolveLvl,
+        "evolveLvl": evolveLvl,
         "size": size,
         "weight": weight,
         "stats": stats,
@@ -515,7 +531,9 @@ function createPlayer(author) {
         "discordName": author.username,
         "money": 0,
         "pokemons": [],
-        "lastExplore": 0
+        "lastExplore": 0,
+        "trainingLeft": 5,
+        "lastTraining": 0
     }
 
     pokemonData["players"].push(playerObj);
@@ -573,7 +591,38 @@ function trainPokemon(pokemon) {
  */
 function evolvePokemon(pokemon) {
     let basePokemon = drawPokemonWithId(pokemon["id"]);
-    let evolutionPokemon = drawPokemonWithId(basePokemon["evolve"]);
+    let evolutionPokemon;
+
+    if (Array.isArray(basePokemon["evolve"])) {
+        if (Array.isArray(basePokemon["evolveLvl"])) {
+            let i = 0, evolveFound = false;
+            while (i < basePokemon["evolveLvl"].length) {
+                if (basePokemon["evolveLvl"] !== -1) {
+                    evolutionPokemon = drawPokemonWithId(basePokemon["evolve"][i]);
+                    evolveFound = true;
+                    break;
+                }
+                i++;
+            }
+            if (!evolveFound) {
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setTitle("Votre " + pokemon["name"] + " ne peut pas évoluer !");
+                msgEmbed.setColor("#ff0000");
+                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+                return msgEmbed;
+            }
+        } else {
+            if (basePokemon["evolveLvl"] === -1) {
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setTitle("Votre " + pokemon["name"] + " ne peut pas évoluer !");
+                msgEmbed.setColor("#ff0000");
+                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+                return msgEmbed;
+            }
+        }
+    } else evolutionPokemon = drawPokemonWithId(basePokemon["evolve"]);
 
     let diffSize = Math.abs(basePokemon["size"] - evolutionPokemon["size"]);
     let diffWeight = Math.abs(basePokemon["weight"] - evolutionPokemon["weight"]);
@@ -660,15 +709,6 @@ async function train(message) {
         return;
     }
 
-    let training = checkTraining(player);
-    if (training === true) {
-        player["trainingLeft"]--;
-        player["lastTraining"] = new Date().getTime();
-    } else {
-        message.channel.send({embeds: [training]});
-        return;
-    }
-
     if (!args[2]) {
         let msgEmbed = new EmbedBuilder();
         msgEmbed.setTitle("Veuillez saisir un nom de pokémon à entrainer !");
@@ -677,6 +717,15 @@ async function train(message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
 
         message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
+    let training = checkTraining(player);
+    if (training === true) {
+        player["trainingLeft"]--;
+        player["lastTraining"] = new Date().getTime();
+    } else {
+        message.channel.send({embeds: [training]});
         return;
     }
 
@@ -1035,7 +1084,7 @@ function resultInfos(message, pokemon) {
     msgEmbed.addFields({name:"ATT SPE", value:pokemon["stats"][3].toString(), inline: true});
     msgEmbed.addFields({name:"DEF SPE", value:pokemon["stats"][4].toString(), inline: true});
     msgEmbed.addFields({name:"VIT", value:pokemon["stats"][5].toString(), inline: true});
-    if (pokemon["evolveLvl"] >= 1) msgEmbed.addFields({name:"Prochaine évolution", value: "niveau " + pokemonInfos["evolveLvl"].toString()});
+    if (pokemon["evolveLvl"] >= 1) msgEmbed.addFields({name:"Prochaine évolution", value: "niveau " + pokemon["evolveLvl"].toString()});
 
     message.channel.send({embeds: [msgEmbed]});
 }
@@ -1062,9 +1111,80 @@ function admin(message) {
     if (message.author.id.toString() !== "198381114602160128") return;
     let args = message.content.split(" ");
     if (args[2] === "give") {
-        console.log(args)
         adminGivePokemonToDiscordId(args[3], args[4], message);
+    } else if (args[2] === "resetAll") {
+        resetAllPlayers(message);
+    } else if (args[2] === "reset") {
+        resetPlayer(args[3], message);
+    } else if (args[2] === "resetTraining") {
+        resetTrainingPlayer(args[3], message);
+    } else if (args[2] === "resetExplore") {
+        resetExplorePlayer(args[3], message);
     }
+}
+
+/**
+ * Réinitialise le temps d'exploration d'un joueur avec son ID Discord
+ * @param playerDiscordId - ID Discord du joueur
+ * @param message
+ */
+function resetExplorePlayer(playerDiscordId, message) {
+    let player = getPlayerWithId(playerDiscordId);
+    if (!player) {
+        message.channel.send("Aucun joueur trouvé !");
+        return;
+    }
+
+    player["lastExplore"] = 0;
+    message.channel.send("Le temps d'exploration de <@" + playerDiscordId + "> a été reset avec succès !");
+    updateData();
+}
+
+/**
+ * Réinitialise les entrainements d'un joueur avec son ID Discord
+ * @param playerDiscordId - ID Discord du joueur
+ * @param message
+ */
+function resetTrainingPlayer(playerDiscordId, message) {
+    let player = getPlayerWithId(playerDiscordId);
+    if (!player) {
+        message.channel.send("Aucun joueur trouvé !");
+        return;
+    }
+
+    player["trainingLeft"] = 5;
+    player["lastTraining"] = 0;
+    message.channel.send("Les entraînements de <@" + playerDiscordId + "> ont été reset avec succès !");
+    updateData();
+}
+
+/**
+ * Réinitialise les données d'un joueur en fonction de son ID Discord
+ * @param discordId - ID Discord du joueur
+ * @param message
+ */
+function resetPlayer(discordId, message) {
+    let i = 0;
+    while (i < pokemonData["players"].length) {
+        if (pokemonData["players"][i]["discordId"] === discordId) {
+            pokemonData["players"].splice(i, 1);
+            updateData();
+            message.channel.send("Données du joueur supprimées avec succès !");
+            return;
+        }
+        i++;
+    }
+    message.channel.send("Aucun joueur avec cet ID trouvé !");
+}
+
+/**
+ * Réinitialise toutes les données de tous les joueurs
+ * @param message
+ */
+function resetAllPlayers(message) {
+    pokemonData["players"] = [];
+    message.channel.send("Toutes les données des joueurs ont été supprimées avec succès !");
+    updateData();
 }
 
 /**
@@ -1075,10 +1195,16 @@ function admin(message) {
  */
 function adminGivePokemonToDiscordId(pokemonName, playerDiscordId, message) {
     let player = getPlayerWithId(playerDiscordId);
-    if (!player) message.channel.send("Aucun joueur trouvé !");
+    if (!player) {
+        message.channel.send("Aucun joueur trouvé !");
+        return;
+    }
 
     let pokemon = drawPokemonWithName(pokemonName);
-    if (!pokemon) message.channel.send("Aucun pokémon trouvé !");
+    if (!pokemon) {
+        message.channel.send("Aucun pokémon trouvé !");
+        return;
+    }
 
     catchPokemon(pokemon, player["discordId"]);
     message.channel.send(pokemon["name"] + " a été ajouté avec succès à l'inventaire de <@" + playerDiscordId + ">");
