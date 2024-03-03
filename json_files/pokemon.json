@@ -143,7 +143,7 @@
           "xp": 0,
           "sex": "M",
           "evolveLvl": -1,
-          "size": 1.380,
+          "size": 1.38,
           "weight": 36.85,
           "stats": [
             60,
@@ -167,7 +167,7 @@
           "sex": "F",
           "evolveLvl": 38,
           "size": 1.12,
-          "weight": 34.20,
+          "weight": 34.2,
           "stats": [
             80,
             80,
@@ -190,7 +190,7 @@
           "sex": "M",
           "evolveLvl": 38,
           "size": 1.12,
-          "weight": 34.20,
+          "weight": 34.2,
           "stats": [
             80,
             80,
@@ -213,7 +213,7 @@
           "sex": "M",
           "evolveLvl": 16,
           "size": 0.58,
-          "weight": 9.60,
+          "weight": 9.6,
           "stats": [
             39,
             52,
@@ -224,9 +224,33 @@
             50
           ],
           "shiny": false
+        },
+        {
+          "id": 91,
+          "name": "Crustabri",
+          "types": [
+            "Eau",
+            "Glace"
+          ],
+          "level": 1,
+          "xp": 1,
+          "sex": "F",
+          "evolveLvl": -1,
+          "size": 1.8,
+          "weight": 133.82,
+          "stats": [
+            50,
+            95,
+            180,
+            85,
+            45,
+            70,
+            85
+          ],
+          "shiny": false
         }
       ],
-      "lastExplore": 1709499951963
+      "lastExplore": 1709501500347
     },
     {
       "id": 2,
@@ -246,7 +270,7 @@
           "sex": "M",
           "evolveLvl": 10,
           "size": 0.66,
-          "weight": 8.20,
+          "weight": 8.2,
           "stats": [
             45,
             25,
@@ -350,7 +374,7 @@
           "sex": "M",
           "evolveLvl": -1,
           "size": 0.79,
-          "weight": 14.70,
+          "weight": 14.7,
           "stats": [
             52,
             90,
@@ -397,7 +421,7 @@
           "xp": 12,
           "sex": "M",
           "evolveLvl": -1,
-          "size": 1.90,
+          "size": 1.9,
           "weight": 82.36,
           "stats": [
             78,
@@ -476,7 +500,7 @@
           "xp": 1,
           "sex": "F",
           "evolveLvl": -1,
-          "size": 1.00,
+          "size": 1,
           "weight": 114.45,
           "stats": [
             55,

@@ -246,7 +246,7 @@ function parsePokemon(pokemon) {
         "name" : pokemon.name,
         "types": pokemon.types,
         "level": 1,
-        "xp": 1,
+        "xp": 0,
         "sex": sex,
         "evolveLvl": pokemon.evolveLvl,
         "size": size,
@@ -770,7 +770,7 @@ function createEmbedTrainPokemons(pokemons) {
         let pokemonName = pokemon.name;
         if (pokemon.shiny) pokemonName += ":sparkles:";
         pokemonName += "(lvl: " + pokemon.level + ")";
-        msgEmbed.addFields({name: pokemon.name, value: emojis[i], inline: true});
+        msgEmbed.addFields({name: pokemonName, value: emojis[i], inline: true});
         i++;
     });
 
@@ -818,6 +818,11 @@ function addExp(pokemon, xp) {
     return lvlUp;
 }
 
+/**
+ * Fonction qui permet de lancer la commande info
+ * @param message
+ * @returns {Promise<void>}
+ */
 async function infosPokemon(message) {
     let args = message.content.split(" ");
     let player = getPlayerWithId(message.author.id);
@@ -855,18 +860,22 @@ async function infosPokemon(message) {
         message.channel.send({embeds: [msgEmbed]});
     } else if (pokemons.length > 1) {
         choosePokemonInfo(pokemons, message).then(pokemon => {
-            let res = trainPokemon(pokemon);
             resultInfos(message, pokemon);
         });
     } else {
-        let res = trainPokemon(pokemons[0]);
         await resultInfos(message, pokemons[0]);
     }
 }
 
+/**
+ * Permet de choisir un pokémon quand il y en a plusieurs du même nom dans l'équipe du joueur pour la commande "info"
+ * @param pokemons
+ * @param message
+ * @returns {Promise<unknown>}
+ */
 function choosePokemonInfo(pokemons, message) {
     return new Promise(async (resolve, reject) => {
-        let msgEmbed = createEmbedTrainPokemons(pokemons);
+        let msgEmbed = createEmbedInfoPokemons(pokemons);
         let msgSent = await message.channel.send({embeds: [msgEmbed]});
 
         for (let i = 0; i < pokemons.length; i++) {
@@ -903,9 +912,41 @@ function choosePokemonInfo(pokemons, message) {
     })
 }
 
+/**
+ * Créé un message embed pour afficher les informations des pokémons
+ * @param {Object[]}pokemons -
+ * @returns {EmbedBuilder|boolean} - Renvoie faux s'il y a trop de pokémons
+ */
+function createEmbedInfoPokemons(pokemons) {
+    if (pokemons.length > 15) return false;
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setTitle("Choisissez le pokémon dont il faut afficher les informations");
+    msgEmbed.setDescription("Pour choisir le pokémon il suffit de réagir à l'émote attribuée au pokémon voulu");
+    msgEmbed.setColor("#c0763b");
+    msgEmbed.setFooter({text:"Pour plus d'informations utilisez la commande *pokemon help*."});
+    let i = 0;
+    pokemons.forEach(pokemon => {
+        let pokemonName = pokemon.name;
+        if (pokemon.shiny) pokemonName += ":sparkles:";
+        pokemonName += "(lvl: " + pokemon.level + ")";
+        msgEmbed.addFields({name: pokemonName, value: emojis[i], inline: true});
+        i++;
+    });
+
+    return msgEmbed;
+}
+
+/**
+ * Permet d'attendre le choix d'un pokémon et de filtrer les résultats de l'entrainement
+ * @param message
+ * @param pokemon
+ */
 function resultInfos(message, pokemon) {
     let msgEmbed = new EmbedBuilder();
     let pokemonInfos = drawPokemonWithId(pokemon["id"]);
+
+    console.log(pokemon);
 
     if (pokemon["shiny"]) msgEmbed.setTitle(pokemon["name"] + ":sparkles: (lvl: " + pokemon["level"] + ")");
     else msgEmbed.setTitle(pokemon["name"] + " (lvl: " + pokemon["level"] + ")");
