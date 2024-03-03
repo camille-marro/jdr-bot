@@ -1040,6 +1040,50 @@ function resultInfos(message, pokemon) {
     message.channel.send({embeds: [msgEmbed]});
 }
 
+/**
+ * Renvoie un pokemon en fonction de son nom
+ * @param {String}pokemonName - nom du pokémon à récupérer
+ * @returns {Object|Boolean} - Pokémon associé au nom indiqué renvoie false s'il n'existe pas
+ */
+function drawPokemonWithName(pokemonName) {
+    let i = 0;
+    while (i < pokemonData["pokemons"].length) {
+        if (pokemonData["pokemons"][i]["name"] === pokemonName) return JSON.parse(JSON.stringify(pokemonData["pokemons"][i]));
+        i++;
+    }
+    return false;
+}
+
+/**
+ * Fonction pour choisir quelle commande administrateur est à utiliser
+ * @param message
+ */
+function admin(message) {
+    if (message.author.id.toString() !== "198381114602160128") return;
+    let args = message.content.split(" ");
+    if (args[2] === "give") {
+        console.log(args)
+        adminGivePokemonToDiscordId(args[3], args[4], message);
+    }
+}
+
+/**
+ * Commande administrateur pour donner un pokémon a un joueur avec son ID Discord
+ * @param pokemonName - Nom du pokémon à donner
+ * @param playerDiscordId - ID Discord du joueur
+ * @param message
+ */
+function adminGivePokemonToDiscordId(pokemonName, playerDiscordId, message) {
+    let player = getPlayerWithId(playerDiscordId);
+    if (!player) message.channel.send("Aucun joueur trouvé !");
+
+    let pokemon = drawPokemonWithName(pokemonName);
+    if (!pokemon) message.channel.send("Aucun pokémon trouvé !");
+
+    catchPokemon(pokemon, player["discordId"]);
+    message.channel.send(pokemon["name"] + " a été ajouté avec succès à l'inventaire de <@" + playerDiscordId + ">");
+}
+
 function execute(message) {
     let args = message.content.split(" ");
     if (args[1] === "test") {
@@ -1056,6 +1100,8 @@ function execute(message) {
         train(message).then(r => {});
     } else if (args[1] === "info") {
         infosPokemon(message).then(r => {});
+    } else if (args[1] === "admin") {
+        admin(message);
     }
 }
 
