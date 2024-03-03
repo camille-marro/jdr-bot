@@ -241,6 +241,11 @@ function parsePokemon(pokemon) {
     randInt += 1;
     let weight = parseFloat((pokemon['weight'] * randInt).toFixed(2));
 
+    let stats = [];
+    for (let i = 0; i < pokemon["stats"].length; i++) {
+        if (i === 0) stats.push(Math.ceil(((pokemon["stats"][0] * 2) / 100) + 11));
+        else stats.push(Math.ceil(((pokemon["stats"][0] * 2) / 100) + 5));
+    }
     return {
         "id": pokemon.id,
         "name" : pokemon.name,
@@ -251,7 +256,7 @@ function parsePokemon(pokemon) {
         "evolveLvl": pokemon.evolveLvl,
         "size": size,
         "weight": weight,
-        "stats": pokemon.stats,
+        "stats": stats,
         "shiny": pokemon.shiny
     }
 }
@@ -580,6 +585,8 @@ function evolvePokemon(pokemon) {
     msgEmbed.setColor("#08ff00");
     msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
 
+    updateData();
+
     return msgEmbed;
 }
 
@@ -648,7 +655,6 @@ async function train(message) {
     }
 
     let training = checkTraining(player);
-    console.log(training)
     if (training === true) {
         player["trainingLeft"]--;
         player["lastTraining"] = new Date().getTime();
@@ -859,6 +865,7 @@ function getPlayerPokemonsWithName(player, pokemonName) {
  */
 function addExp(pokemon, xp) {
     pokemon["xp"] += xp;
+    let pokemonCopy = drawPokemonWithId(pokemon["id"])
 
     let xpSeuil = Math.pow(pokemon['level'], 2);
     let lvlUp = 0;
@@ -868,6 +875,11 @@ function addExp(pokemon, xp) {
         pokemon['level']++
         lvlUp++;
         xpSeuil = Math.pow(pokemon['level'], 2);
+
+        pokemon["stats"][0] = Math.ceil(((pokemonCopy["stats"][0] * 2 * pokemon["level"]) / 100) + 10 + pokemon["level"]);
+        for (let i = 0; i < pokemon["stats"].length - 1; i++) {
+            pokemon["stats"][i+1] = Math.ceil(((pokemonCopy["stats"][i+1] * 2 * pokemon["level"]) / 100) + 5);
+        }
     }
 
     return lvlUp;
@@ -1040,7 +1052,6 @@ function execute(message) {
         infosPokemon(message).then(r => {});
     }
 }
-
 
 module.exports = {
     execute
