@@ -246,6 +246,11 @@ function parsePokemon(pokemon) {
         if (i === 0) stats.push(Math.ceil(((pokemon["stats"][0] * 2) / 100) + 11));
         else stats.push(Math.ceil(((pokemon["stats"][0] * 2) / 100) + 5));
     }
+
+    let ivs = [];
+    for (let i = 0; i < 5; i++) {
+        ivs.push(Math.floor(Math.random() * 31))
+    }
     return {
         "id": pokemon.id,
         "name" : pokemon.name,
@@ -257,6 +262,7 @@ function parsePokemon(pokemon) {
         "size": size,
         "weight": weight,
         "stats": stats,
+        "ivs": ivs,
         "shiny": pokemon.shiny
     }
 }
@@ -876,9 +882,9 @@ function addExp(pokemon, xp) {
         lvlUp++;
         xpSeuil = Math.pow(pokemon['level'], 2);
 
-        pokemon["stats"][0] = Math.ceil(((pokemonCopy["stats"][0] * 2 * pokemon["level"]) / 100) + 10 + pokemon["level"]);
+        pokemon["stats"][0] = Math.ceil(((((pokemonCopy["stats"][0] * 2) + pokemon["ivs"][0]) * pokemon["level"]) / 100) + 10 + pokemon["level"]);
         for (let i = 0; i < pokemon["stats"].length - 1; i++) {
-            pokemon["stats"][i+1] = Math.ceil(((pokemonCopy["stats"][i+1] * 2 * pokemon["level"]) / 100) + 5);
+            pokemon["stats"][i+1] = Math.ceil(((((pokemonCopy["stats"][i+1] * 2) + pokemon["ivs"][i+1]) * pokemon["level"]) / 100) + 5);
         }
     }
 
