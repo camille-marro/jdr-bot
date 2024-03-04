@@ -2,6 +2,7 @@ let fs = require('fs');
 const path = require("path");
 const readline = require('readline');
 let LootTable = require("loot-table");
+const {v4: uuid } = require('uuid');
 
 const {EmbedBuilder} = require('discord.js');
 
@@ -257,6 +258,7 @@ function parsePokemon(pokemon) {
     }
 
     return {
+        "uuid": uuid(),
         "id": pokemon.id,
         "name" : pokemon.name,
         "types": pokemon.types,
@@ -2544,7 +2546,15 @@ module.exports = {
 
 
 async function test(message) {
-    console.log("test");
+    let players = pokemonData["players"];
+    players.forEach(player => {
+        player["pokemons"].forEach(pokemon => {
+            pokemon["uuid"] = uuid();
+        })
+    });
+
+    console.log("terminé !");
+    updateData();
 }
 
 const axios = require('axios');
