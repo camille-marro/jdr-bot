@@ -1223,8 +1223,8 @@ function pveMain(message) {
 
     if (!args[3]) {
         let msgEmbed = new EmbedBuilder();
-        msgEmbed.setTitle("Veuillez saisir un nom de pokémon à entrainer !");
-        msgEmbed.setDescription("La commande s'utilise comme ceci : pokemon info nom_du_pokemon.");
+        msgEmbed.setTitle("Veuillez saisir un nom de pokémon à envoyer au combat !");
+        msgEmbed.setDescription("La commande s'utilise comme ceci : pokemon trainPVE nom_du_pokemon.");
         msgEmbed.setColor("#ff0000");
         msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
 
@@ -1554,6 +1554,40 @@ function choosePokemonPVE(pokemons, message) {
     })
 }
 
+/**
+ * Permet de soigner tous les pokémons d'un joueur
+ * @param message
+ */
+function healPokemons(message) {
+    let player = getPlayerWithId(message.author.id);
+
+    if (!player) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Vous n'avez pas de compte !");
+        msgEmbed.setDescription("Pour vous inscrire utilisez la commande *pokemon start* !");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
+    player["pokemons"].forEach(pokemon => {
+        if (pokemon.hasOwnProperty("currentHP")) {
+            pokemon["currentHP"] = pokemon["stats"][0];
+        }
+    });
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setTitle("Tous vos pokémons ont été soignés!");
+    msgEmbed.setColor("#bf62c9");
+    msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+    message.channel.send({embeds: [msgEmbed]});
+
+    updateData();
+}
+
 function execute(message) {
     let args = message.content.split(" ");
     if (args[1] === "test") {
@@ -1572,6 +1606,8 @@ function execute(message) {
         infosPokemon(message).then(r => {});
     } else if (args[1] === "trainPVE") {
         pveMain(message);
+    } else if (args[1] === "heal") {
+        healPokemons(message);
     } else if (args[1] === "admin") {
         admin(message);
     }
