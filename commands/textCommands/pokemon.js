@@ -2007,6 +2007,7 @@ function releasePokemonMain(message) {
     }
 
     selectPokemonToRelease(player, args[2], message).then((pokemonSelected, rej) => {
+        console.log(pokemonSelected)
         if (!pokemonSelected) {
             let msgEmbed = new EmbedBuilder();
             msgEmbed.setTitle("Vous n'avez aucun pokémon de ce nom !");
@@ -2047,7 +2048,7 @@ function releasePokemon(player, pokemon) {
 
 async function selectPokemonToRelease(player, pokemonName, message) {
     return new Promise(async (resolve, reject) => {
-        let pokemons = getPlayerTeamsPokemonsWithName(player, pokemonName);
+        let pokemons = getPlayerPokemonsWithName(player, pokemonName);
         if (pokemons.length > 1) {
             // choisir le pokemon à ajouter
             let msgEmbed = createEmbedCreateTeam(pokemons);
