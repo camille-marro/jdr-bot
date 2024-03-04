@@ -1049,8 +1049,13 @@ function resultInfos(message, pokemon) {
     let msgEmbed = new EmbedBuilder();
     let pokemonInfos = drawPokemonWithId(pokemon["id"]);
 
-    if (pokemon["shiny"]) msgEmbed.setTitle(pokemon["name"] + ":sparkles: (lvl: " + pokemon["level"] + ")");
-    else msgEmbed.setTitle(pokemon["name"] + " (lvl: " + pokemon["level"] + ")");
+    let title = '';
+
+    if (pokemon["shiny"]) title = pokemon["name"] + ":sparkles: (lvl: " + pokemon["level"] + ")";
+    else title = pokemon["name"] + " (lvl: " + pokemon["level"] + ")";
+
+    if (pokemon["currentHP"] === 0) title += " - K.O.";
+    msgEmbed.setTitle(title);
     msgEmbed.setColor("#ffffff");
     msgEmbed.setDescription(pokemonInfos["description"]);
     msgEmbed.addFields({name:"Sexe", value:pokemon['sex'], inline: true});
@@ -1059,7 +1064,7 @@ function resultInfos(message, pokemon) {
     msgEmbed.addFields({name:"Taille", value:pokemon["size"] + " m", inline: true});
     msgEmbed.addFields({name:"Poids", value:pokemon["weight"] + " kg", inline: true});
     msgEmbed.addFields({name:"Stats", value:" "});
-    msgEmbed.addFields({name:"PV", value:pokemon["stats"][0].toString(), inline: true});
+    msgEmbed.addFields({name:"PV", value:pokemon["currentHP"] + "/" + pokemon["stats"][0].toString(), inline: true});
     msgEmbed.addFields({name:"ATT", value:pokemon["stats"][1].toString(), inline: true});
     msgEmbed.addFields({name:"DEF", value:pokemon["stats"][2].toString(), inline: true});
     msgEmbed.addFields({name:"ATT SPE", value:pokemon["stats"][3].toString(), inline: true});
@@ -1249,11 +1254,11 @@ function pveMain(message) {
     } else if (pokemons.length > 1) {
         choosePokemonPVE(pokemons, message).then(pokemon => {
             let enemyPokemon = pveDrawEnemyPokemon(pokemon, difficulty);
-            startCombatPVE(pokemon, enemyPokemon, message).then(r => {});
+            startCombatPVE(pokemon, enemyPokemon, difficulty, message).then(r => {});
         });
     } else {
         let enemyPokemon = pveDrawEnemyPokemon(pokemons[0], difficulty);
-        startCombatPVE(pokemons[0], enemyPokemon, message).then(r => {});
+        startCombatPVE(pokemons[0], enemyPokemon, difficulty, message).then(r => {});
     }
 }
 
@@ -1261,12 +1266,24 @@ function pveMain(message) {
  * Début de la fonction récursive pour le combat en PVE
  * @param myPokemon - Pokémon allié a envoyé au combat
  * @param enemyPokemon - Pokémon ennemi à combattre
+ * @param {number}difficulty - Difficulté du combat
  * @param message
  * @returns {Promise<void>}
  */
-async function startCombatPVE(myPokemon, enemyPokemon, message) {
+async function startCombatPVE(myPokemon, enemyPokemon, difficulty, message) {
+    if (myPokemon["currentHP"] <= 0) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Votre : " + myPokemon["name"] + " est K.O. !");
+        msgEmbed.setDescription("Vous ne pouvez pas combattre avec un pokémon déjà K.O.");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
+        msgEmbed.setColor("#ff0000");
+
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
     let combatObject = {
-        "myPokemonHP": myPokemon["stats"][0],
+        "myPokemonHP": myPokemon["currentHP"],
         "enemyPokemonHP": enemyPokemon["stats"][0],
         "myTurn": true
     }
@@ -1282,7 +1299,7 @@ async function startCombatPVE(myPokemon, enemyPokemon, message) {
     combatPVE(myPokemon, enemyPokemon, combatObject, message).then((res, rej) => {
         let msgEmbed = new EmbedBuilder();
         if (res) {
-            let xpWon = Math.ceil(enemyPokemon.level * 2 * 1.5);
+            let xpWon = Math.ceil(enemyPokemon.level * 2 * 1.5 * difficulty);
             let lvlUp = addExp(myPokemon, xpWon);
 
             msgEmbed.setTitle("Victoire !");
@@ -1486,23 +1503,25 @@ function pveDrawEnemyPokemon(pokemon, difficulty) {
     let xpToAdd = 0;
     if (difficulty === 1) {
         let rand = Math.floor(Math.random() * 3);
-        level = (rand - 1) + pokemon['level'];
+        level = (rand - 3) + pokemon['level'];
         if (level <= 0) level = 1;
         if (level > 100) level = 100;
         for (let i = 0; i < level; i++) xpToAdd += Math.pow(i,2);
     } else if (difficulty === 2) {
-        let rand = Math.floor(Math.random() * 10);
-        level = (rand - 5) + pokemon['level'];
+        let rand = Math.floor(Math.random() * 6);
+        level = (rand - 2) + pokemon['level'];
         if (level <= 0) level = 1;
         if (level > 100) level = 100;
         for (let i = 0; i < level; i++) xpToAdd += Math.pow(i,2);
     } else {
-        let rand = Math.floor(Math.random() * 20);
-        level = (rand - 10) + pokemon['level'];
+        let rand = Math.floor(Math.random() * 10);
+        level = rand + pokemon['level'];
         if (level <= 0) level = 1;
         if (level > 100) level = 100;
         for (let i = 0; i < level; i++) xpToAdd += Math.pow(i,2);
     }
+
+    console.log(level);
 
     addExp(enemyPokemon, xpToAdd);
 
