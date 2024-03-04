@@ -1664,6 +1664,8 @@ function teamManager(message) {
         return;
     }
 
+    refreshTeam(player);
+
     if (args[2] === "create") {
         createTeam(player, message).then(r => {});
     } else if (args[2] === "print") {
@@ -2007,6 +2009,16 @@ function comparePokemon(pokemon1, pokemon2) {
     const str2 = JSON.stringify(pokemon2);
 
     return str1 === str2;
+}
+
+/**
+ * Compare les UUID de deux pokémons
+ * @param {Object}pokemon1
+ * @param {Object}pokemon2
+ * @returns {boolean}
+ */
+function comparePokemonUUID(pokemon1, pokemon2) {
+    return pokemon1["uuid"] === pokemon2["uuid"];
 }
 
 /**
@@ -2507,6 +2519,23 @@ function helpGlobal() {
     msgEmbed.addFields({name: "help", value: "Affiche ce message"});
 
     return msgEmbed;
+}
+
+/**
+ * Permet de relier les objets pokémons présent entre la team et le tableau pokémon
+ * @param {Object}player - Joueur à qui relier les objets
+ */
+function refreshTeam(player) {
+    for (let j = 0; j < player["team"].length; j++) {
+        let i = 0;
+        while (i < player["pokemons"].length) {
+            if (comparePokemonUUID(player["team"][j], player["pokemons"][i])) {
+                player["team"][j] = player["pokemons"][i];
+                break;
+            }
+            i++;
+        }
+    }
 }
 
 function execute(message) {
