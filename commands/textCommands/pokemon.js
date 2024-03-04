@@ -28,7 +28,8 @@ const emojis = [
     "2️⃣",
     "3️⃣",
     "4️⃣",
-    "5️⃣"
+    "5️⃣",
+    "6️⃣"
 ]
 
 /**
@@ -58,7 +59,6 @@ async function exploreGrass(message) {
         return;
     }
     if (!checkTimeExplore(player)) {
-        console.log("trop tot !");
         msgEmbed.setTitle("Vous ne pouvez explorer les hautes herbes qu'une fois par heure");
         msgEmbed.setDescription("Votre prochaine exploration sera disponible dans : " + getWaitingTime(player));
         msgEmbed.setColor("#ff0000");
@@ -102,24 +102,15 @@ async function exploreGrass(message) {
     collector.on('collect', (reaction, user) => {
         if (user.id === message.author.id) {
             if (reaction.emoji.name === '1️⃣') {
-                console.log(user.username + " a réagi avec 1️⃣");
                 msgEmbedCatch = catchPokemon(pokemonsFound[0], message.author.id);
             } else if (reaction.emoji.name === '2️⃣') {
-                console.log(user.username + " a réagi avec 2️⃣");
                 msgEmbedCatch = catchPokemon(pokemonsFound[1], message.author.id);
             } else if (reaction.emoji.name === '3️⃣') {
-                console.log(user.username + " a réagi avec 3️⃣");
                 msgEmbedCatch = catchPokemon(pokemonsFound[2], message.author.id);
             } else if (reaction.emoji.name === '4️⃣') {
-                console.log(user.username + " a réagi avec 4️⃣");
                 msgEmbedCatch = catchPokemon(pokemonsFound[3], message.author.id);
             } else if (reaction.emoji.name === '5️⃣') {
-                console.log(user.username + " a réagi avec 5️⃣");
                 msgEmbedCatch = catchPokemon(pokemonsFound[4], message.author.id);
-            } else {
-                console.log(user);
-                console.log(reaction);
-                console.log(reaction.emoji);
             }
 
             collector.stop("Une personne a réagit !");
@@ -133,10 +124,6 @@ async function exploreGrass(message) {
 
             message.channel.send({embeds: [msgEmbed]});
         }
-    });
-
-    collector.on("end", collected => {
-        console.log(`Fin de la collecte : ${collected.size} réactions collectées.`);
     });
 }
 
@@ -277,6 +264,7 @@ function parsePokemon(pokemon) {
         "evolveLvl": evolveLvl,
         "size": size,
         "weight": weight,
+        "currentHP": stats[0],
         "stats": stats,
         "ivs": ivs,
         "shiny": pokemon.shiny
@@ -293,10 +281,6 @@ function getPokemons(nbRencontres) {
     for (let i = 0; i < nbRencontres; i++) {
         pokemonFounds.push(drawPokemon());
     }
-
-    let names = getPokemonsNames(pokemonFounds);
-
-    console.log(names);
 
     return pokemonFounds;
 }
@@ -487,7 +471,6 @@ async function playerStart(message) {
                         msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
 
                         message.channel.send({embeds: [msgEmbed]});
-                        collector1.stop();
                     }
                 });
 
@@ -514,7 +497,6 @@ async function playerStart(message) {
             msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
 
             message.channel.send({embeds: [msgEmbed]});
-            collector.stop();
         }
     });
 }
@@ -1028,7 +1010,6 @@ function choosePokemonInfo(pokemons, message) {
                 msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
 
                 message.channel.send({embeds: [msgEmbed]});
-                collector.stop();
             }
         });
     })
@@ -1210,6 +1191,369 @@ function adminGivePokemonToDiscordId(pokemonName, playerDiscordId, message) {
     message.channel.send(pokemon["name"] + " a été ajouté avec succès à l'inventaire de <@" + playerDiscordId + ">");
 }
 
+/**
+ * Fonction principale pour la commande de combat en PVE
+ * @param message
+ */
+function pveMain(message) {
+    let args = message.content.split(" ");
+    let player = getPlayerWithId(message.author.id);
+
+    if (!player) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Vous n'avez pas de compte !");
+        msgEmbed.setDescription("Pour vous inscrire utilisez la commande *pokemon start* !");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
+    if (!args[2]) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Veuillez saisir une difficulté !");
+        msgEmbed.setDescription("Les difficultés sont : facile/esay, medium, hard/difficile");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
+    if (!args[3]) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Veuillez saisir un nom de pokémon à entrainer !");
+        msgEmbed.setDescription("La commande s'utilise comme ceci : pokemon info nom_du_pokemon.");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
+    let difficulty;
+    if (args[2] === "facile" || args[2] === "easy") difficulty = 1;
+    else if (args[2] === "medium") difficulty = 2;
+    else difficulty = 3;
+
+    let pokemons = getPlayerPokemonsWithName(player, args[3]);
+    if (!pokemons) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Vous n'avez aucun pokémon de ce nom !");
+        msgEmbed.setDescription("Vérifier qu'il n'y aucune faute de syntaxe ou que vous possédez bien ce pokémon.");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+        message.channel.send({embeds: [msgEmbed]});
+    } else if (pokemons.length > 1) {
+        choosePokemonPVE(pokemons, message).then(pokemon => {
+            let enemyPokemon = pveDrawEnemyPokemon(pokemon, difficulty);
+            startCombatPVE(pokemon, enemyPokemon, message).then(r => {});
+        });
+    } else {
+        let enemyPokemon = pveDrawEnemyPokemon(pokemons[0], difficulty);
+        startCombatPVE(pokemons[0], enemyPokemon, message).then(r => {});
+    }
+}
+
+/**
+ * Début de la fonction récursive pour le combat en PVE
+ * @param myPokemon - Pokémon allié a envoyé au combat
+ * @param enemyPokemon - Pokémon ennemi à combattre
+ * @param message
+ * @returns {Promise<void>}
+ */
+async function startCombatPVE(myPokemon, enemyPokemon, message) {
+    let combatObject = {
+        "myPokemonHP": myPokemon["stats"][0],
+        "enemyPokemonHP": enemyPokemon["stats"][0],
+        "myTurn": true
+    }
+
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setTitle("Vous entrez dans un combat contre : " + enemyPokemon["name"] + " !");
+    msgEmbed.setDescription("Le " + enemyPokemon["name"] + " est de niveau " + enemyPokemon["level"] + " et possède " + enemyPokemon["stats"][0] + " PV.\nBonne chance pour votre combat :)");
+    msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
+    msgEmbed.setColor("#ff5600");
+
+    message.channel.send({embeds: [msgEmbed]});
+
+    combatPVE(myPokemon, enemyPokemon, combatObject, message).then((res, rej) => {
+        let msgEmbed = new EmbedBuilder();
+        if (res) {
+            let xpWon = Math.ceil(enemyPokemon.level * 2 * 1.5);
+            let lvlUp = addExp(myPokemon, xpWon);
+
+            msgEmbed.setTitle("Victoire !");
+            msgEmbed.setDescription("Bravo vous avez gagné votre combat contre " + enemyPokemon.name + " (lvl:" + enemyPokemon.level+") !");
+            msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
+            msgEmbed.setColor("#08ff00");
+            msgEmbed.addFields({name: "Expérience gagnée", value: xpWon.toString(), inline: true});
+            if (lvlUp > 0) msgEmbed.addFields({name: "Niveau(x) gagné(s)", value: lvlUp.toString(), inline: true});
+        } else {
+            console.log("combat perdu !");
+            msgEmbed.setTitle("Défaite !");
+            msgEmbed.setDescription("Pas de chance vous avez perdu votre combat contre " + enemyPokemon.name + " (lvl:" + enemyPokemon.level+") !");
+            msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
+            msgEmbed.setColor("#ce1369");
+        }
+        if (combatObject["myPokemonHP"] < 0) combatObject["myPokemonHP"] = 0;
+        myPokemon["currentHP"] = combatObject["myPokemonHP"];
+
+        message.channel.send({embeds: [msgEmbed]});
+
+        updateData();
+    });
+}
+
+/**
+ * Fonction récursive pour le combat en PVE
+ * @param {Object}myPokemon - Pokémon allié à envoyer au combat
+ * @param {Object}enemyPokemon - Pokémon ennemi à affronter
+ * @param {Object}combatObject - Objet de combat pour garder les informations du combat en cours
+ * @param message
+ * @returns {Promise<unknown>}
+ */
+async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
+    return new Promise(async (resolve, reject) => {
+        if (combatObject["myPokemonHP"] <= 0) {
+            resolve(false);
+            return;
+        } else if (combatObject["enemyPokemonHP"] <= 0) {
+            resolve(true);
+            return;
+        }
+
+        if (!combatObject["myTurn"]) {
+            let rand = Math.floor(Math.random() * 2);
+            let cc = getCC(enemyPokemon["level"], enemyPokemon["stats"][5])
+            let multi = cc;
+            // ajouter à multi le calcul de l'efficacité en fonction des types :)
+
+            let puissanceAttaque = chooseAttackPower();
+            let enemyDamage;
+
+            if (rand === 0) {
+                enemyDamage = Math.ceil(((((((enemyPokemon["level"] * 0.4) + 2) * enemyPokemon["stats"][1] * puissanceAttaque) / myPokemon["stats"][2]) / 50) + 2) * multi);
+            } else {
+                enemyDamage = Math.ceil(((((((enemyPokemon["level"] * 0.4) + 2) * enemyPokemon["stats"][3] * puissanceAttaque) / myPokemon["stats"][4]) / 50) + 2) * multi);
+            }
+
+            damageCombatPokemon(0, combatObject, enemyDamage);
+
+            let msgEmbed = new EmbedBuilder();
+            msgEmbed.setTitle(enemyPokemon["name"] + " vous a attaqué et vous avez perdu " + enemyDamage + " pv !");
+            msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
+            if (cc > 1) {
+                msgEmbed.setDescription("Son attaque vient de porter un coup critique ! La puissance de son attaque était de " + puissanceAttaque);
+                msgEmbed.setColor("#fff300");
+            } else {
+                msgEmbed.setDescription("La puissance de son attaque était de " + puissanceAttaque);
+                msgEmbed.setColor("#ff0000");
+            }
+            msgEmbed.addFields({name:myPokemon["name"], value:combatObject["myPokemonHP"] + "/" + myPokemon["stats"][0] + " PV", inline: true});
+            msgEmbed.addFields({name:enemyPokemon["name"], value:combatObject["enemyPokemonHP"] + "/" + enemyPokemon["stats"][0] + " PV", inline: true});
+            message.channel.send({embeds: [msgEmbed]});
+            
+            combatObject["myTurn"] = true;
+            resolve(combatPVE(myPokemon, enemyPokemon, combatObject, message));
+            return;
+        }
+
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Choisissez si vous voulez faire une attaque normale ou une attaque spéciale !");
+        msgEmbed.setColor("#0823a8");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
+        msgEmbed.addFields({name: "Attaque normale", value: emojis[0], inline: true});
+        msgEmbed.addFields({name: "Attaque spéciale", value: emojis[1], inline: true});
+        //msgEmbed.addFields({name:" ", value:" "});
+        //msgEmbed.addFields({name:"Défense normale", value:emojis[2], inline: true});
+        //msgEmbed.addFields({name:"Défense spéciale", value:emojis[3], inline: true});
+
+        let msgSent = await message.channel.send({embeds: [msgEmbed]});
+
+        for (let i = 0; i < 2; i++) await msgSent.react(emojis[i]);
+
+        const filter = (reaction, user) => {
+            return emojis.includes(reaction.emoji.name) && !user.bot;
+        };
+
+        const collector = msgSent.createReactionCollector(filter, {time: 15000});
+
+        collector.on("collect", (reaction, user) => {
+            if (user.id === message.author.id) {
+                let cc = getCC(myPokemon["level"], myPokemon["stats"][5])
+                let multi = cc;
+                // ajouter à multi le calcul de l'efficacité en fonction des types :)
+
+                let puissanceAttaque = chooseAttackPower();
+                let myDamage;
+                if (reaction.emoji.name === emojis[0]) {
+                    myDamage = Math.ceil(((((((myPokemon["level"] * 0.4) + 2) * myPokemon["stats"][1] * puissanceAttaque) / enemyPokemon["stats"][2]) / 50) + 2) * multi);
+                } else if (reaction.emoji.name === emojis[1]) {
+                    myDamage = Math.ceil(((((((myPokemon["level"] * 0.4) + 2) * myPokemon["stats"][3] * puissanceAttaque) / enemyPokemon["stats"][4]) / 50) + 2) * multi);
+                }
+
+                damageCombatPokemon(1, combatObject, myDamage);
+                combatObject["myTurn"] = false;
+
+                let msgEmbed = new EmbedBuilder();
+                if (cc > 1) {
+                    msgEmbed.setDescription("Votre attaque vient de porter un coup critique ! La puissance de votre attaque était de " + puissanceAttaque);
+                    msgEmbed.setColor("#fff300");
+                } else {
+                    msgEmbed.setDescription("La puissance de votre attaque était de " + puissanceAttaque);
+                    msgEmbed.setColor("#ff5600");
+                }
+
+                msgEmbed.setTitle("Votre " + myPokemon["name"].toLowerCase() + " a attaqué et vous avez infligé " + myDamage + " points de dégâts !");
+                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
+                msgEmbed.addFields({name:myPokemon["name"], value:combatObject["myPokemonHP"] + "/" + myPokemon["stats"][0] + " PV", inline: true});
+                msgEmbed.addFields({name:enemyPokemon["name"], value:combatObject["enemyPokemonHP"] + "/" + enemyPokemon["stats"][0] + " PV", inline: true});
+
+                message.channel.send({embeds: [msgEmbed]});
+
+                collector.stop();
+            } else if (!user.bot) {
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setTitle("Vous ne pouvez pas réagir aux messages des autres !");
+                msgEmbed.setDescription("<@" + user.id + "> fait plus ça c'est pas bien !");
+                msgEmbed.setColor("#ff0000");
+                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+                message.channel.send({embeds: [msgEmbed]});
+            }
+        });
+
+        collector.on("end", collected => {
+            resolve(combatPVE(myPokemon, enemyPokemon, combatObject, message));
+            return;
+        });
+
+    });
+}
+
+/**
+ * Inflige des dégâts selon la cible du combat PVE
+ * @param {Number}target - Si 0 la cilbe est le pokémon allié sinon c'est le pokémon ennemi
+ * @param {Object}combatObject - Objet de combat pour garder les informations du combat en cours
+ * @param {Number}damage - Dégâts à infliger
+ */
+function damageCombatPokemon(target, combatObject, damage) {
+    if (target === 0) {
+        combatObject["myPokemonHP"] -= damage;
+    } else {
+        combatObject["enemyPokemonHP"] -= damage;
+    }
+}
+
+/**
+ * Fonction pour déterminer la puissance d'une attaque aléatoirement
+ * @returns {number} - Puissance de l'attaque
+ */
+function chooseAttackPower() {
+    let rand = Math.floor(Math.random() * 11) + 1;
+    return rand*10;
+}
+
+/**
+ * Fonction pour déterminer la puissance d'un coup critique et s'il a lieu ou non
+ * @param {Number}level - Niveau du pokémon
+ * @param {Number}speed - Vitesse du pokémon
+ * @param {Number}modif=1 - Modificateur de chance
+ * @returns {number} - Modificateur de dégâts du coup critique
+ */
+function getCC(level, speed, modif = 1) {
+    let damageMulti = ((2*level)+5)/(2*level);
+    let rand = Math.floor(Math.random() * 256);
+    let chance = (Math.floor(speed/2) * modif);
+    if (chance >= 255) chance = 254;
+
+    if (chance > rand) return damageMulti;
+    else return 1;
+}
+
+/**
+ * Choisit un pokémon ennemi aléatoire et détermine son niveau en fonction du niveau de difficulté
+ * @param {Object}pokemon - Pokémon allié
+ * @param {Number}difficulty - Niveau de difficulté
+ * @returns {{types: *, eggGroups, level: number, sex: string, weight, description, stade: (number|string|*), evolve: (number|string|*), evolveLvl: (number|string|*), eggHatchTime: *, size, stats: *, name, id, category: *, talents: ((*|Window.jQuery|string)[]|*)}}
+ */
+function pveDrawEnemyPokemon(pokemon, difficulty) {
+    let enemyPokemon = parsePokemon(drawPokemon());
+    let level = 0;
+    let xpToAdd = 0;
+    if (difficulty === 1) {
+        let rand = Math.floor(Math.random() * 3);
+        level = (rand - 1) + pokemon['level'];
+        if (level <= 0) level = 1;
+        if (level > 100) level = 100;
+        for (let i = 0; i < level; i++) xpToAdd += Math.pow(i,2);
+    } else if (difficulty === 2) {
+        let rand = Math.floor(Math.random() * 10);
+        level = (rand - 5) + pokemon['level'];
+        if (level <= 0) level = 1;
+        if (level > 100) level = 100;
+        for (let i = 0; i < level; i++) xpToAdd += Math.pow(i,2);
+    } else {
+        let rand = Math.floor(Math.random() * 20);
+        level = (rand - 10) + pokemon['level'];
+        if (level <= 0) level = 1;
+        if (level > 100) level = 100;
+        for (let i = 0; i < level; i++) xpToAdd += Math.pow(i,2);
+    }
+
+    addExp(enemyPokemon, xpToAdd);
+
+    return enemyPokemon;
+}
+
+/**
+ * Fonction pour choisir le pokémon à envoyer au combat quand plusieurs sont trouvés
+ * @param {Object[]}pokemons - Liste des pokémons à sélectionner
+ * @param message
+ * @returns {Promise<unknown>}
+ */
+function choosePokemonPVE(pokemons, message) {
+    return new Promise(async (resolve, reject) => {
+        let msgEmbed = createEmbedInfoPokemons(pokemons);
+        let msgSent = await message.channel.send({embeds: [msgEmbed]});
+
+        for (let i = 0; i < pokemons.length; i++) {
+            await msgSent.react(emojis[i]);
+        }
+
+        const filter = (reaction, user) => {
+            return emojis.includes(reaction.emoji.name) && !user.bot;
+        };
+
+        let collector = msgSent.createReactionCollector(filter, {time: 15000});
+
+        collector.on('collect', (reaction, user) => {
+            if (user.id === message.author.id) {
+                let i = 0;
+                while (i < pokemons.length) {
+                    if (reaction.emoji.name === emojis[i]) {
+                        collector.stop();
+                        resolve(pokemons[i]);
+                    }
+                    i++;
+                }
+            } else if (!user.bot) {
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setTitle("Vous ne pouvez pas réagir aux messages des autres !");
+                msgEmbed.setDescription("<@" + user.id + "> fait plus ça c'est pas bien !");
+                msgEmbed.setColor("#ff0000");
+                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+                message.channel.send({embeds: [msgEmbed]});
+                collector.stop();
+            }
+        });
+    })
+}
+
 function execute(message) {
     let args = message.content.split(" ");
     if (args[1] === "test") {
@@ -1226,6 +1570,8 @@ function execute(message) {
         train(message).then(r => {});
     } else if (args[1] === "info") {
         infosPokemon(message).then(r => {});
+    } else if (args[1] === "trainPVE") {
+        pveMain(message);
     } else if (args[1] === "admin") {
         admin(message);
     }
@@ -1237,39 +1583,7 @@ module.exports = {
 
 
 async function test(message) {
-    let msgEmbed = new EmbedBuilder();
-    msgEmbed.setTitle("Test");
-    msgEmbed.setDescription("test");
-
-    const messageSent = await message.channel.send({embeds: [msgEmbed]});
-
-    await messageSent.react('1️⃣');
-    await messageSent.react('2️⃣');
-    await messageSent.react('3️⃣');
-
-    const filter = (reaction, user) => {
-        return ['1️⃣', '2️⃣', '3️⃣'].includes(reaction.emoji.name) && !user.bot;
-    };
-
-    const collector = messageSent.createReactionCollector(filter, {time: 15000});
-
-    collector.on('collect', (reaction, user) => {
-        if (reaction.emoji.name === '1️⃣') {
-            console.log(user.username + " a réagi avec 1️⃣");
-        } else if (reaction.emoji.name === '2️⃣') {
-            console.log(user.username + " a réagi avec 2️⃣");
-        } else if (reaction.emoji.name === '3️⃣') {
-            console.log(user.username + " a réagi avec 3️⃣");
-        } else {
-            console.log(user);
-            console.log(reaction);
-            console.log(reaction.emoji);
-        }
-    });
-
-    collector.on("end", collected => {
-        console.log(`Fin de la collecte : ${collected.size} réactions collectées.`);
-    });
+    console.log("test");
 }
 
 const axios = require('axios');
