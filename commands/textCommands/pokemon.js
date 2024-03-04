@@ -1991,6 +1991,10 @@ function createTeamMessage(message) {
     message.channel.send({embeds: [msgEmbed]});
 }
 
+/**
+ * Permet de relâcher un pokémon
+ * @param message
+ */
 function releasePokemonMain(message) {
     let player = getPlayerWithId(message.author.id);
     let args = message.content.split(" ");
@@ -2034,6 +2038,12 @@ function releasePokemonMain(message) {
     });
 }
 
+/**
+ * Supprime un pokémon de la liste de pokémon d'un joueur
+ * @param {Object}player - Joueur à qui supprimer un pokémon
+ * @param {Object}pokemon - Pokémon à supprimer
+ * @returns {boolean} - Renvoie vrai si le pokémon est supprimé renvoie faux sinon
+ */
 function releasePokemon(player, pokemon) {
     let i = 0;
     while (i < player["pokemons"].length) {
@@ -2046,6 +2056,13 @@ function releasePokemon(player, pokemon) {
     return false;
 }
 
+/**
+ * Permet de faire choisir au joueur le pokémon à relâcher
+ * @param {Object}player - Joueur qui doit choisir
+ * @param {String}pokemonName - Nom du pokémon à relâcher
+ * @param message
+ * @returns {Promise<unknown>}
+ */
 async function selectPokemonToRelease(player, pokemonName, message) {
     return new Promise(async (resolve, reject) => {
         let pokemons = getPlayerPokemonsWithName(player, pokemonName);
