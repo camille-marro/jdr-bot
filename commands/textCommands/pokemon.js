@@ -252,6 +252,8 @@ function parsePokemon(pokemon) {
         if (evolveLvl === false) {
             evolveLvl = -1;
         }
+    } else {
+        evolveLvl = pokemon["evolveLvl"];
     }
 
     return {
