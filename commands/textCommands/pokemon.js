@@ -533,6 +533,7 @@ function createPlayer(author) {
  */
 function drawPokemonWithId(pokemonId) {
     let pokemon = JSON.parse(JSON.stringify(pokemonData["pokemons"][pokemonId-1]));
+    pokemon["shiny"] = Math.floor(Math.random() * 127) === 1; // si on a 1 pokemon["shiny"] = true sinon = false
     if (!pokemon) return false
     else return pokemon
 }
@@ -1084,7 +1085,11 @@ function resultInfos(message, pokemon) {
 function drawPokemonWithName(pokemonName) {
     let i = 0;
     while (i < pokemonData["pokemons"].length) {
-        if (pokemonData["pokemons"][i]["name"] === pokemonName) return JSON.parse(JSON.stringify(pokemonData["pokemons"][i]));
+        if (pokemonData["pokemons"][i]["name"] === pokemonName) {
+            let pokemon = JSON.parse(JSON.stringify(pokemonData["pokemons"][i]));
+            pokemon["shiny"] = Math.floor(Math.random() * 127) === 1; // si on a 1 pokemon["shiny"] = true sinon = false
+            return pokemon;
+        }
         i++;
     }
     return false;
@@ -1107,7 +1112,25 @@ function admin(message) {
         resetTrainingPlayer(args[3], message);
     } else if (args[2] === "resetExplore") {
         resetExplorePlayer(args[3], message);
+    } else if (args[2] === "giveXP") {
+        giveXpToPokemon(args[3], args[4], args[5], message);
     }
+}
+
+function giveXpToPokemon(xpAmount, pokemonName, playerId, message) {
+    let player = getPlayerWithId(playerId);
+    if (!player) {
+        message.channel.send("Aucun joueur trouvé !");
+        return;
+    }
+
+    let pokemons = getPlayerPokemonsWithName(player, pokemonName);
+    selectPokemon(player, pokemons, message).then((pokemonSelected, rej) => {
+        let lvlUp = addExp(pokemonSelected, parseInt(xpAmount));
+        message.channel.send(xpAmount + " point d'xp ont été ajoutés au " + pokemonSelected.name + " de <@" + playerId + ">. Il a gagné " + lvlUp + " niveau(x).");
+        updateData();
+    })
+
 }
 
 /**
@@ -2066,6 +2089,56 @@ function releasePokemon(player, pokemon) {
 async function selectPokemonToRelease(player, pokemonName, message) {
     return new Promise(async (resolve, reject) => {
         let pokemons = getPlayerPokemonsWithName(player, pokemonName);
+        if (pokemons.length > 1) {
+            // choisir le pokemon à ajouter
+            let msgEmbed = createEmbedCreateTeam(pokemons);
+            let msgSent = await message.channel.send({embeds: [msgEmbed]});
+
+            for (let i = 0; i < pokemons.length; i++) {
+                await msgSent.react(emojis[i]);
+            }
+
+            const filter = (reaction, user) => {
+                return emojis.includes(reaction.emoji.name) && !user.bot;
+            };
+
+            let collector = msgSent.createReactionCollector(filter, {time: 15000});
+
+            collector.on('collect', (reaction, user) => {
+                if (user.id === message.author.id) {
+                    let i = 0;
+                    while (i < pokemons.length) {
+                        if (reaction.emoji.name === emojis[i]) {
+                            collector.stop();
+                            resolve(pokemons[i]);
+                            return;
+                        }
+                        i++;
+                    }
+                } else if (!user.bot) {
+                    let msgEmbed = new EmbedBuilder();
+                    msgEmbed.setTitle("Vous ne pouvez pas réagir aux messages des autres !");
+                    msgEmbed.setDescription("<@" + user.id + "> fait plus ça c'est pas bien !");
+                    msgEmbed.setColor("#ff0000");
+                    msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+                    message.channel.send({embeds: [msgEmbed]});
+                }
+            });
+
+        } else resolve(pokemons[0]);
+    });
+}
+
+/**
+ * Permet à l'utilsateur de choisir un pokémon parmi une liste de pokémons
+ * @param {Object}player - Joueur qui doit choisir
+ * @param {Object[]}pokemons - Liste des pokémons à choisir
+ * @param message
+ * @returns {Promise<unknown>}
+ */
+async function selectPokemon(player, pokemons, message) {
+    return new Promise(async (resolve, reject) => {
         if (pokemons.length > 1) {
             // choisir le pokemon à ajouter
             let msgEmbed = createEmbedCreateTeam(pokemons);
