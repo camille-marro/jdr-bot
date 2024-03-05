@@ -3171,8 +3171,8 @@ module.exports = {
     execute
 }
 
-
 async function test(message) {
+    let args = message.content.split(" ");
     /*pokemonData["arenes"] = [
         {
             "name": "Arène 1",
@@ -3187,9 +3187,9 @@ async function test(message) {
     */
     //await scarpCapacity();
     //await flemme();
-    //let args = message.content.split(" ");
     //await capaciteUnique(args[2]);
-    oui();
+    //oui();
+    //prout();
 }
 
 const axios = require('axios');
@@ -3230,14 +3230,18 @@ async function scarpCapacity() {
             //console.log(`${capIndex}, ${capName}, ${capType}, ${capCat}`);
         });
 
-        for (const capacite of resArray) {
-            if (capacite.name === "Osmerang" || capacite.name === "Pilonnage" || capacite.name === "Regard Médusant" || capacite.name === "Souplesse") continue;
+        for (let capacite of resArray) {
+            if (capacite.name === "Osmerang" || capacite.name === "Pilonnage" || capacite.name === "Regard Médusant" || capacite.name === "Souplesse" || capacite.name === "Blizzard" || capacite.name === "Déflagration" || capacite.name === "Fatal-Foudre" || capacite.name === "Lance-Soleil" || capacite.name === "Laser Glace" || capacite.name === "Mur Lumière" || capacite.name === "Psyko" || capacite.name === "Reflet" || capacite.name === "Séisme" || capacite.name === "Tonnerre" || capacite.name === "Tunnel" || capacite.name === "Ultralaser") continue;
             console.log("getting pokémons for " + capacite.name);
-            let response;
-            if (capacite.name.split(" ").length > 1) {
-                response = await axios.get("https://www.pokepedia.fr/" + capacite.name.split(" ").join("_"));
-            } else response = await axios.get("https://www.pokepedia.fr/" + capacite.name);
 
+            let linkName = ";"
+            if (capacite.name === "Bouclier" || capacite.name === "Brouillard" || capacite.name === "Clonage" || capacite.name === "Métronome" || capacite.name === "Puissance" || capacite.name === "Riposte" || capacite.name === "Sacrifice" || capacite.name === "Vol") {
+                linkName = capacite.name + "_(capacité)";
+            } else if (capacite.name.split(" ").length > 1) {
+                linkName = capacite.name.split(" ").join("_");
+            } else linkName = capacite.name;
+
+            let response = await axios.get("https://www.pokepedia.fr/" + linkName);
             const html = response.data;
 
             const $ = cheerio.load(html);
@@ -3246,7 +3250,7 @@ async function scarpCapacity() {
             let precision = $('#mw-content-text > div.mw-parser-output > table.tableaustandard.ficheinfo > tbody > tr:nth-child(12) > td').text().split(" ")[0]
 
             let pokemons = [];
-            let tbody = $('#mw-content-text > div.mw-parser-output > table.capacité-niveau').eq(1).find('tbody');
+            let tbody = $('#mw-content-text > div.mw-parser-output > table.capacité-niveau').eq(0).find('tbody');
             $(tbody).find('tr').each((index, element) => {
                 const tds = $(element).find('td');
                 for (let i = 0; i < (tds.length)/2; i++) {
@@ -3275,16 +3279,24 @@ async function scarpCapacity() {
             if (Number.isNaN(precisionInt)) precisionInt = 0;
             capacite["precision"] = precisionInt;
             capacite["pokemons"] = pokemons;
+
+            if (pokemons.length === 0) {
+                console.log("sexe");
+                capacite["pokemons"] = await capaciteUnique("https://www.pokepedia.fr/" + linkName + "/Génération_7#Pokémon_apprenant_la_capacité");
+            }
         }
 
         console.log("terminé !");
-        fs.writeFileSync(path.resolve(__dirname, "../../json_files/pokemonCapacites.json"), JSON.stringify(resArray));
+        //console.log(resArray);
+        fs.writeFileSync(path.resolve(__dirname, "../../json_files/pokemonCapacitesV2.json"), JSON.stringify(resArray));
 
         // pour chaque capacité récup PP, Puissance, Précision, Liste pokémon apprenant capacité
-
+        //oui2(resArray);
     } catch (err) {
         console.error(err);
     }
+
+
 }
 
 async function capaciteUnique(link) {
@@ -3319,7 +3331,9 @@ async function capaciteUnique(link) {
         }
     });
 
-    capacite["pp"] = parseInt(pp);
+    let ppInt = parseInt(pp);
+    if (Number.isNaN(ppInt)) ppInt = 0
+    capacite["pp"] = ppInt;
 
     let puissanceInt = parseInt(puissance);
     if (Number.isNaN(puissanceInt)) puissanceInt = 0;
@@ -3330,7 +3344,7 @@ async function capaciteUnique(link) {
     capacite["precision"] = precisionInt;
     capacite["pokemons"] = pokemons;
 
-    console.log("\"pokemons\": [")
+    /*console.log("\"pokemons\": [")
     capacite["pokemons"].forEach(pokemon => {
         console.log("  {");
         console.log("    \"id\": " + pokemon["id"] + ",");
@@ -3338,7 +3352,9 @@ async function capaciteUnique(link) {
         console.log("    \"level\": " + pokemon["level"] + "");
         console.log("  },");
     });
-    console.log("]");
+    console.log("]");*/
+
+    return capacite["pokemons"];
 }
 
 async function scarpPokemons() {
@@ -3573,10 +3589,59 @@ async function flemme() {
 }
 
 function oui() {
-    const rawdata = fs.readFileSync(path.resolve(__dirname, "../../json_files/pokemonCapacites.json"));
+    const rawdata = fs.readFileSync(path.resolve(__dirname, "../../json_files/pokemonCapacitesV2.json"));
     let data = JSON.parse(rawdata);
 
     data.forEach(capacite => {
-        if (capacite["pokemons"].length === 0) console.log(capacite.name);
+        if (!capacite.hasOwnProperty("pokemons")) console.log(capacite.name + " ** ");
+        else if (capacite["pokemons"].length === 0) console.log(capacite.name);
     })
+}
+
+function prout() {
+    let rawData = fs.readFileSync(path.resolve(__dirname, "../../json_files/pokemonCapacitesV2.json"));
+    let capacitesData = JSON.parse(rawData);
+    rawData = fs.readFileSync(path.resolve(__dirname, "../../json_files/pokemonTestListe.json"));
+    let pokemons = JSON.parse(rawData);
+
+    pokemons.forEach(pokemon => {
+        pokemon["capacites"] = Array.from({ length: 100}, () => []);
+    });
+
+    let i = 0
+    capacitesData.forEach(capacite => {
+        console.log("capacite [" + i + "] : " + capacite.name);
+        let pokemonsCap = capacite["pokemons"];
+        pokemonsCap.forEach(pokemon => {
+            if (pokemon.id > 151) return;
+            let pokemonToAddCapacity = getPokemonWithName(pokemon.name, pokemons);
+            if (!pokemonToAddCapacity) return;
+
+            pokemonToAddCapacity["capacites"][pokemon.level].push(parseCapacite(capacite));
+        });
+
+        i++;
+    });
+
+    fs.writeFileSync(path.resolve(__dirname, "../../json_files/pokemonTestListe.json"), JSON.stringify(pokemons));
+    console.log("terminé !");
+}
+
+function parseCapacite(capacite) {
+    return {
+        "index": capacite.index,
+        "name": capacite.name,
+        "type": capacite.type,
+        "category": capacite.category,
+        "pp": capacite.pp,
+        "puissance": capacite.puissance,
+        "precision": capacite.precision
+    }
+}
+
+function getPokemonWithName(pokemonName, pokemons) {
+    for (const pokemon of pokemons) {
+        if (pokemon.name === pokemonName) return pokemon;
+    }
+    return false;
 }
