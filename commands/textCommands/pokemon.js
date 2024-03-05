@@ -1392,9 +1392,12 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
 
         if (!combatObject["myTurn"]) {
             let rand = Math.floor(Math.random() * 2);
-            let cc = getCC(enemyPokemon["level"], enemyPokemon["stats"][5])
-            let multi = cc;
-            // ajouter à multi le calcul de l'efficacité en fonction des types :)
+            let cc = getCC(enemyPokemon["level"], enemyPokemon["stats"][5]);
+
+            // ATTENTION EN DESSOUS CHANGER enemyPokemon["types"][0] PAR TYPE DE L'ATTAQUE
+
+            let avantageType = getMultiAvantageType(enemyPokemon["types"][0], myPokemon["types"]);
+            let multi = cc * avantageType;
 
             let puissanceAttaque = chooseAttackPower();
             let enemyDamage;
@@ -1468,8 +1471,13 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
                     return;
                 }
                 let cc = getCC(myPokemon["level"], myPokemon["stats"][5])
-                let multi = cc;
-                // ajouter à multi le calcul de l'efficacité en fonction des types :)
+
+
+                // ATTENTION EN DESSOUS CHANGER myPokemon["types"][0] PAR TYPE DE L'ATTAQUE
+
+                let avantageType = getMultiAvantageType(myPokemon["types"][0], enemyPokemon["types"]);
+                let multi = cc * avantageType;
+
 
                 let puissanceAttaque = chooseAttackPower();
                 let myDamage;
@@ -1516,6 +1524,493 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
         });
 
     });
+}
+
+/**
+ * Récupère le multiplicateur d'attaque en fonction du type de l'attaque et du ou des types du défenseur
+ * @param {String}typeAtt - Type de l'attaque
+ * @param {String[]}typesDefs - Tableau du ou des types du défenseur
+ * @returns {number} - Renvoie le multiplicateur
+ */
+function getMultiAvantageType(typeAtt, typesDefs) {
+    let multi = 1;
+    typesDefs.forEach(typeDef => {
+        switch(typeAtt) {
+            case "Acier":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*0.5
+                        break;
+                    case "Eau":
+                        multi = multi*0.5
+                        break;
+                    case "Électrik":
+                        multi = multi*0.5
+                        break;
+                    case "Fée":
+                        multi = multi*2
+                        break;
+                    case "Feu":
+                        multi = multi*0.5
+                        break;
+                    case "Glace":
+                        multi = multi*2
+                        break;
+                    case "Roche":
+                        multi = multi*2
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Combat":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*2
+                        break;
+                    case "Fée":
+                        multi = multi*0.5
+                        break;
+                    case "Glace":
+                        multi = multi*2
+                        break;
+                    case "Insecte":
+                        multi = multi*0.5
+                        break;
+                    case "Normal":
+                        multi = multi*2
+                        break;
+                    case "Poison":
+                        multi = multi*0.5
+                        break;
+                    case "Psy":
+                        multi = multi*0.5
+                        break;
+                    case "Roche":
+                        multi = multi*2
+                        break;
+                    case "Spectre":
+                        multi = 0
+                        break;
+                    case "Ténèbres":
+                        multi = multi*2
+                        break;
+                    case "Vol":
+                        multi = multi*0.5
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Dragon":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*0.5
+                        break;
+                    case "Dragon":
+                        multi = multi*2
+                        break;
+                    case "Fée":
+                        multi = 0
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Eau":
+                switch(typeDef) {
+                    case "Dragon":
+                        multi = multi*0.5
+                        break;
+                    case "Eau":
+                        multi = multi*0.5
+                        break;
+                    case "Feu":
+                        multi = multi*2
+                        break;
+                    case "Plante":
+                        multi = multi*0.5
+                        break;
+                    case "Roche":
+                        multi = multi*2
+                        break;
+                    case "Sol":
+                        multi = multi*2
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Électrik":
+                switch(typeDef) {
+                    case "Dragon":
+                        multi = multi*0.5
+                        break;
+                    case "Eau":
+                        multi = multi*2
+                        break;
+                    case "Électrik":
+                        multi = multi*0.5
+                        break;
+                    case "Plante":
+                        multi = multi*0.5
+                        break;
+                    case "Sol":
+                        multi = 0
+                        break;
+                    case "Vol":
+                        multi = multi*2
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Fée":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*0.5
+                        break;
+                    case "Combat":
+                        multi = multi*2
+                        break;
+                    case "Dragon":
+                        multi = multi*2
+                        break;
+                    case "Feu":
+                        multi = multi*0.5
+                        break;
+                    case "Poison":
+                        multi = multi*0.5
+                        break;
+                    case "Ténèbres":
+                        multi = multi*0.5
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Feu":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*2
+                        break;
+                    case "Dragon":
+                        multi = multi*0.5
+                        break;
+                    case "Eau":
+                        multi = multi*0.5
+                        break;
+                    case "Feu":
+                        multi = multi*0.5
+                        break;
+                    case "Glace":
+                        multi = multi*2
+                        break;
+                    case "Insecte":
+                        multi = multi*2
+                        break;
+                    case "Plante":
+                        multi = multi*2
+                        break;
+                    case "Roche":
+                        multi = multi*0.5
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Glace":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*0.5
+                        break;
+                    case "Dragon":
+                        multi = multi*2
+                        break;
+                    case "Eau":
+                        multi = multi*0.5
+                        break;
+                    case "Feu":
+                        multi = multi*0.5
+                        break;
+                    case "Glace":
+                        multi = multi*0.5
+                        break;
+                    case "Plante":
+                        multi = multi*2
+                        break;
+                    case "Sol":
+                        multi = multi*2
+                        break;
+                    case "Vol":
+                        multi = multi*2
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Insecte":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*0.5
+                        break;
+                    case "Combat":
+                        multi = multi*0.5
+                        break;
+                    case "Fée":
+                        multi = multi*0.5
+                        break;
+                    case "Feu":
+                        multi = multi*0.5
+                        break;
+                    case "Plante":
+                        multi = multi*2
+                        break;
+                    case "Poison":
+                        multi = multi*0.5
+                        break;
+                    case "Psy":
+                        multi = multi*2
+                        break;
+                    case "Spectre":
+                        multi = multi*0.5
+                        break;
+                    case "Ténèbres":
+                        multi = multi*2
+                        break;
+                    case "Vol":
+                        multi = multi*0.5
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Normal":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*0.5
+                        break;
+                    case "Roche":
+                        multi = multi*0.5
+                        break;
+                    case "Spectre":
+                        multi = 0
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Plante":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*0.5
+                        break;
+                    case "Dragon":
+                        multi = multi*0.5
+                        break;
+                    case "Eau":
+                        multi = multi*2
+                        break;
+                    case "Feu":
+                        multi = multi*0.5
+                        break;
+                    case "Insecte":
+                        multi = multi*0.5
+                        break;
+                    case "Plante":
+                        multi = multi*0.5
+                        break;
+                    case "Poison":
+                        multi = multi*0.5
+                        break;
+                    case "Roche":
+                        multi = multi*2
+                        break;
+                    case "Sol":
+                        multi = multi*2
+                        break;
+                    case "Vol":
+                        multi = multi*0.5
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Poison":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = 0
+                        break;
+                    case "Fée":
+                        multi = multi*2
+                        break;
+                    case "Plante":
+                        multi = multi*2
+                        break;
+                    case "Poison":
+                        multi = multi*0.5
+                        break;
+                    case "Roche":
+                        multi = multi*0.5
+                        break;
+                    case "Sol":
+                        multi = multi*0.5
+                        break;
+                    case "Spectre":
+                        multi = multi*0.5
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Psy":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*0.5
+                        break;
+                    case "Combat":
+                        multi = multi*2
+                        break;
+                    case "Poison":
+                        multi = multi*2
+                        break;
+                    case "Psy":
+                        multi = multi*0.5
+                        break;
+                    case "Ténèbres":
+                        multi = 0
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Roche":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*0.5
+                        break;
+                    case "Combat":
+                        multi = multi*0.5
+                        break;
+                    case "Feu":
+                        multi = multi*2
+                        break;
+                    case "Glace":
+                        multi = multi*2
+                        break;
+                    case "Insecte":
+                        multi = multi*2
+                        break;
+                    case "Sol":
+                        multi = multi*0.5
+                        break;
+                    case "Vol":
+                        multi = multi*2
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Sol":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*2
+                        break;
+                    case "Électrik":
+                        multi = multi*2
+                        break;
+                    case "Feu":
+                        multi = multi*2
+                        break;
+                    case "Insecte":
+                        multi = multi*0.5
+                        break;
+                    case "Plante":
+                        multi = multi*0.5
+                        break;
+                    case "Poison":
+                        multi = multi*2
+                        break;
+                    case "Roche":
+                        multi = multi*2
+                        break;
+                    case "Vol":
+                        multi = 0
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Spectre":
+                switch(typeDef) {
+                    case "Normal":
+                        multi = 0
+                        break;
+                    case "Psy":
+                        multi = multi*2
+                        break;
+                    case "Spectre":
+                        multi = multi*2
+                        break;
+                    case "Ténèbres":
+                        multi = multi*0.5
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Ténèbres":
+                switch(typeDef) {
+                    case "Combat":
+                        multi = multi*0.5
+                        break;
+                    case "Fée":
+                        multi = multi*0.5
+                        break;
+                    case "Psy":
+                        multi = multi*2
+                        break;
+                    case "Spectre":
+                        multi = multi*2
+                        break;
+                    case "Ténèbres":
+                        multi = multi*0.5
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "Vol":
+                switch(typeDef) {
+                    case "Acier":
+                        multi = multi*0.5
+                        break;
+                    case "Combat":
+                        multi = multi*2
+                        break;
+                    case "Électrik":
+                        multi = multi*0.5
+                        break;
+                    case "Insecte":
+                        multi = multi*2
+                        break;
+                    case "Plante":
+                        multi = multi*2
+                        break;
+                    case "Roche":
+                        multi = multi*0.5
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+    });
+
+    return multi;
+
 }
 
 /**
