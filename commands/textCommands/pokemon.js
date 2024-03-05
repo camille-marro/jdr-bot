@@ -160,7 +160,6 @@ function checkTimeExplore(player) {
  */
 function setExploreTime(player) {
     player["lastExplore"] = new Date().getTime();
-    //updateData();
 }
 
 /**
@@ -1116,7 +1115,20 @@ function admin(message) {
         resetExplorePlayer(args[3], message);
     } else if (args[2] === "giveXP") {
         giveXpToPokemon(args[3], args[4], args[5], message);
+    } else if (args[2] === "heal") {
+        adminHeal(args[3], message);
     }
+}
+
+function adminHeal(playerId, message) {
+    let player = getPlayerWithId(playerId);
+    if (!player) {
+        message.channel.send("Aucun joueur avec cet ID !");
+        return;
+    }
+
+    healAllPokemons(player);
+    message.channel.send("Tous les pokémons de <@" + playerId + "> ont été soignés avec succès !");
 }
 
 /**
@@ -1318,7 +1330,9 @@ async function startCombatPVE(myPokemon, enemyPokemon, difficulty, message) {
     let combatObject = {
         "myPokemonHP": myPokemon["currentHP"],
         "enemyPokemonHP": enemyPokemon["stats"][0],
-        "myTurn": true
+        "myTurn": true,
+        "fuite": false,
+        "fuiteCpt": 0
     }
 
     let msgEmbed = new EmbedBuilder();
@@ -1334,7 +1348,6 @@ async function startCombatPVE(myPokemon, enemyPokemon, difficulty, message) {
         if (res) {
             let xpWon = Math.ceil(enemyPokemon.level * 2 * 1.5 * difficulty);
             let lvlUp = addExp(myPokemon, xpWon);
-
             msgEmbed.setTitle("Victoire !");
             msgEmbed.setDescription("Bravo vous avez gagné votre combat contre " + enemyPokemon.name + " (lvl:" + enemyPokemon.level+") !");
             msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
@@ -1342,7 +1355,6 @@ async function startCombatPVE(myPokemon, enemyPokemon, difficulty, message) {
             msgEmbed.addFields({name: "Expérience gagnée", value: xpWon.toString(), inline: true});
             if (lvlUp > 0) msgEmbed.addFields({name: "Niveau(x) gagné(s)", value: lvlUp.toString(), inline: true});
         } else {
-            console.log("combat perdu !");
             msgEmbed.setTitle("Défaite !");
             msgEmbed.setDescription("Pas de chance vous avez perdu votre combat contre " + enemyPokemon.name + " (lvl:" + enemyPokemon.level+") !");
             msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
@@ -1372,6 +1384,9 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
             return;
         } else if (combatObject["enemyPokemonHP"] <= 0) {
             resolve(true);
+            return;
+        } else if (combatObject["fuite"]) {
+            resolve(false);
             return;
         }
 
@@ -1417,13 +1432,12 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
         msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
         msgEmbed.addFields({name: "Attaque normale", value: emojis[0], inline: true});
         msgEmbed.addFields({name: "Attaque spéciale", value: emojis[1], inline: true});
-        //msgEmbed.addFields({name:" ", value:" "});
-        //msgEmbed.addFields({name:"Défense normale", value:emojis[2], inline: true});
+        msgEmbed.addFields({name:"Fuite", value:emojis[2], inline: true});
         //msgEmbed.addFields({name:"Défense spéciale", value:emojis[3], inline: true});
 
         let msgSent = await message.channel.send({embeds: [msgEmbed]});
 
-        for (let i = 0; i < 2; i++) await msgSent.react(emojis[i]);
+        for (let i = 0; i < 3; i++) await msgSent.react(emojis[i]);
 
         const filter = (reaction, user) => {
             return emojis.includes(reaction.emoji.name) && !user.bot;
@@ -1433,6 +1447,26 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
 
         collector.on("collect", (reaction, user) => {
             if (user.id === message.author.id) {
+                if (reaction.emoji.name === emojis[2]) {
+                    combatObject["fuiteCpt"]++;
+                    combatObject["myTurn"] = false;
+
+                    let msgEmbed = new EmbedBuilder();
+                    console.log("fuiteCpt : " + combatObject["fuiteCpt"]);
+                    let fuite = canEscape(myPokemon, enemyPokemon, combatObject["fuiteCpt"]);
+                    if (fuite) {
+                        msgEmbed.setColor("#11985c");
+                        msgEmbed.setTitle("Vous prenez la fuite !");
+                        combatObject["fuite"] = true;
+                    } else {
+                        msgEmbed.setColor("#00ce5e");
+                        msgEmbed.setTitle("Fuite impossible !");
+                    }
+
+                    message.channel.send({embeds: [msgEmbed]});
+                    collector.stop();
+                    return;
+                }
                 let cc = getCC(myPokemon["level"], myPokemon["stats"][5])
                 let multi = cc;
                 // ajouter à multi le calcul de l'efficacité en fonction des types :)
@@ -1485,6 +1519,25 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
 }
 
 /**
+ * Détermine si un pokémon peut s'enfuir d'un combat
+ * @param {Object}myPokemon - Pokémon qui doit s'enfuir
+ * @param {Object}enemyPokemon - Pokémon ennemi
+ * @param {Number}multi=1 - Multiplicateur de chance d'évasion
+ * @returns {boolean} - Renvoie vrai si le pokémon peut s'enfuir renvoie faux sinon
+ */
+function canEscape(myPokemon, enemyPokemon, multi= 1) {
+    let A = myPokemon["stats"][5]*32
+    let B = Math.floor(enemyPokemon["stats"][5]/4)%255;
+    let chance = (Math.floor(A/B)+30)*multi;
+
+    if (chance > 255) return true;
+
+    let rand = Math.floor(Math.random() * 256);
+
+    return rand <= chance;
+}
+
+/**
  * Inflige des dégâts selon la cible du combat PVE
  * @param {Number}target - Si 0 la cilbe est le pokémon allié sinon c'est le pokémon ennemi
  * @param {Object}combatObject - Objet de combat pour garder les informations du combat en cours
@@ -1503,7 +1556,7 @@ function damageCombatPokemon(target, combatObject, damage) {
  * @returns {number} - Puissance de l'attaque
  */
 function chooseAttackPower() {
-    let rand = Math.floor(Math.random() * 11) + 1;
+    let rand = Math.floor(Math.random() * 10) + 1;
     return rand*10;
 }
 
@@ -1553,8 +1606,6 @@ function pveDrawEnemyPokemon(pokemon, difficulty) {
         if (level > 100) level = 100;
         for (let i = 0; i < level; i++) xpToAdd += Math.pow(i,2);
     }
-
-    console.log(level);
 
     addExp(enemyPokemon, xpToAdd);
 
@@ -1607,7 +1658,7 @@ function choosePokemonPVE(pokemons, message) {
 }
 
 /**
- * Permet de soigner tous les pokémons d'un joueur
+ * Fonction pour lancer la commande heal
  * @param message
  */
 function healPokemons(message) {
@@ -1624,7 +1675,7 @@ function healPokemons(message) {
         return;
     }
 
-    if (!checkTimeheal(player)) {
+    if (!checkTimeHeal(player)) {
         let msgEmbed = new EmbedBuilder();
         msgEmbed.setTitle("Vous ne pouvez soigner vos pokémons qu'une fois par heure");
         msgEmbed.setDescription("Votre prochain soin sera disponible dans : " + getHealingTime(player));
@@ -1635,11 +1686,7 @@ function healPokemons(message) {
         return;
     }
 
-    player["pokemons"].forEach(pokemon => {
-        if (pokemon.hasOwnProperty("currentHP")) {
-            pokemon["currentHP"] = pokemon["stats"][0];
-        }
-    });
+    healAllPokemons(player);
 
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setTitle("Tous vos pokémons ont été soignés!");
@@ -1648,6 +1695,21 @@ function healPokemons(message) {
 
     message.channel.send({embeds: [msgEmbed]});
 
+
+}
+
+/**
+ * Soigne tous les pokémons d'un joueur
+ * @param {Object}player - Joueur dont il faut soigner les pokémons
+ */
+function healAllPokemons(player) {
+    player["pokemons"].forEach(pokemon => {
+        if (pokemon.hasOwnProperty("currentHP")) {
+            pokemon["currentHP"] = pokemon["stats"][0];
+        }
+    });
+
+    player["lastHeal"] = new Date().getTime();
     updateData();
 }
 
@@ -1672,6 +1734,7 @@ function teamManager(message) {
 
     if (!player.hasOwnProperty("team")) {
         createTeamMessage(message);
+        player["team"] = [];
         return;
     }
 
@@ -1725,7 +1788,6 @@ function removePokemonFromPlayerTeam(player, pokemon) {
 
     let i = 0;
     while (i < team.length) {
-        console.log(team[i] === pokemon);
         if (comparePokemon(team[i], pokemon)) {
             team.splice(i, 1);
             let msgEmbed = new EmbedBuilder();
@@ -1852,8 +1914,14 @@ function printTeam(player, message) {
     msgEmbed.setColor("#285eb2");
     msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
     player["team"].forEach(pokemon => {
-        if (pokemon["shiny"]) msgEmbed.addFields({name: pokemon.name + ":sparkles:", value: "(lvl:" + pokemon.level+ ")", inline: true});
-        else msgEmbed.addFields({name: pokemon.name, value: "(lvl:" + pokemon.level+ ")", inline: true});
+        let name;
+        let value;
+        if (pokemon["shiny"]) name = pokemon.name + ":sparkles: (lvl:" + pokemon.level+ ")";
+        else name = pokemon.name + " (lvl:" + pokemon.level + ")";
+        if (pokemon["currentHP"] > 0) value = pokemon["currentHP"] + "/" + pokemon["stats"][0] + " HP";
+        else value = "K.O.";
+
+        msgEmbed.addFields({name: name, value: value, inline: true});
     });
 
     message.channel.send({embeds: [msgEmbed]});
@@ -1986,7 +2054,6 @@ function addPokemonToPlayerTeam(player, pokemon) {
 
     let i = 0;
     while (i < team.length) {
-        console.log(team[i] === pokemon);
         if (comparePokemon(team[i], pokemon)) {
             let msgEmbed = new EmbedBuilder();
             msgEmbed.setTitle(pokemon.name + " appartient déjà à votre équipe !");
@@ -2066,7 +2133,6 @@ function releasePokemonMain(message) {
     }
 
     selectPokemonToRelease(player, args[2], message).then((pokemonSelected, rej) => {
-        console.log(pokemonSelected)
         if (!pokemonSelected) {
             let msgEmbed = new EmbedBuilder();
             msgEmbed.setTitle("Vous n'avez aucun pokémon de ce nom !");
@@ -2217,7 +2283,7 @@ async function selectPokemon(player, pokemons, message) {
  * @param {Object}player - Joueur à vérifier
  * @returns {boolean} - Renvoie true si le heal est possible sinon renvoie false
  */
-function checkTimeheal(player) {
+function checkTimeHeal(player) {
     return ((new Date().getTime() - player["lastHeal"]) / (1000 * 60 * 60)) >= 1;
 }
 
@@ -2411,7 +2477,7 @@ function helpHeal() {
     let msgEmbed = new EmbedBuilder();
 
     msgEmbed.setTitle("Pokémon - Heal");
-    msgEmbed.setDescription("Permet de soigner ses pokémons !");
+    msgEmbed.setDescription("Permet de soigner ses pokémons ! Vous ne pouvez soigner vos pokémons qu'une fois toutes les heures");
     msgEmbed.setFooter({text: "pour plus d'informations utilisez la commande \"pokemon help\"."});
     msgEmbed.setColor("#6e0e91");
     msgEmbed.addFields({name: "Syntaxe de la commande", value: "pokemon heal"});
@@ -2591,7 +2657,7 @@ function execute(message) {
         train(message).then(r => {});
     } else if (args[1] === "info") {
         infosPokemon(message).then(r => {});
-    } else if (args[1] === "trainPVE") {
+    } else if (args[1] === "trainPVE" || args[1] === "trainpve") {
         pveMain(message);
     } else if (args[1] === "heal") {
         healPokemons(message);
@@ -2612,17 +2678,173 @@ module.exports = {
 
 
 async function test(message) {
-    let players = pokemonData["players"];
-    players.forEach(player => {
-        player["lastHeal"] = 0;
-    });
+    /*pokemonData["arenes"] = [
+        {
+            "name": "Arène 1",
+            "pokemons": [],
+            "badge": "Badge 1"
+        }
+    ]
 
     console.log("terminé !");
     updateData();
+
+    */
+    //await scarpCapacity();
+    //await flemme();
+    //let args = message.content.split(" ");
+    //await capaciteUnique(args[2]);
+    oui();
 }
 
 const axios = require('axios');
 const cheerio = require('cheerio');
+
+async function scarpCapacity() {
+    try {
+        const response = await axios.get("https://www.pokepedia.fr/Liste_des_capacités");
+        const html = response.data;
+
+        const $ = cheerio.load(html);
+        let tbody = $('tbody')['1'];
+
+        let i = 0;
+        let resArray = [];
+        let finished = false;
+        $(tbody).find('tr').each((index, element) => {
+            if (i === 0) {
+                i++;
+                return;
+            } else i++;
+            if (finished) return;
+            const tds = $(element).find('td');
+            let capIndex = $(tds[1]).text();
+            let capName = $(tds[2]).text();
+            let capType = $(tds[3]).find('a').attr('title').split(" ")[0];
+            let capCatSplit = $(tds[4]).find('a').attr('title').split(" ");
+            let capCat = capCatSplit[capCatSplit.length - 1];
+
+            let finalObj = {
+                "index": capIndex,
+                "name": capName,
+                "type": capType,
+                "category": capCat
+            }
+            resArray.push(finalObj);
+            if (finalObj["name"] === "Yoga") finished = true;
+            //console.log(`${capIndex}, ${capName}, ${capType}, ${capCat}`);
+        });
+
+        for (const capacite of resArray) {
+            if (capacite.name === "Osmerang" || capacite.name === "Pilonnage" || capacite.name === "Regard Médusant" || capacite.name === "Souplesse") continue;
+            console.log("getting pokémons for " + capacite.name);
+            let response;
+            if (capacite.name.split(" ").length > 1) {
+                response = await axios.get("https://www.pokepedia.fr/" + capacite.name.split(" ").join("_"));
+            } else response = await axios.get("https://www.pokepedia.fr/" + capacite.name);
+
+            const html = response.data;
+
+            const $ = cheerio.load(html);
+            let pp = $('#mw-content-text > div.mw-parser-output > table.tableaustandard.ficheinfo > tbody > tr:nth-child(10) > td').text().split(" ")[0];
+            let puissance = $('#mw-content-text > div.mw-parser-output > table.tableaustandard.ficheinfo > tbody > tr:nth-child(11) > td').text();
+            let precision = $('#mw-content-text > div.mw-parser-output > table.tableaustandard.ficheinfo > tbody > tr:nth-child(12) > td').text().split(" ")[0]
+
+            let pokemons = [];
+            let tbody = $('#mw-content-text > div.mw-parser-output > table.capacité-niveau').eq(1).find('tbody');
+            $(tbody).find('tr').each((index, element) => {
+                const tds = $(element).find('td');
+                for (let i = 0; i < (tds.length)/2; i++) {
+                    let pokemon = $(tds[i*2]);
+                    let pokemonId = parseInt($(pokemon).find('.miniat-poke').text().split(" ")[0]);
+                    let pokemonName = $(pokemon).find('.miniat-poke > a').attr("title")
+                    let pokemonLvlRaw = $(tds[(i*2)+1]).text();
+                    let pokemonLvl = 0;
+                    if (pokemonLvlRaw !== "Départ") pokemonLvl = parseInt(pokemonLvlRaw.split(".")[1]);
+
+                    pokemons.push({
+                        'id': pokemonId,
+                        "name": pokemonName,
+                        'level': pokemonLvl
+                    });
+                }
+            });
+
+            capacite["pp"] = parseInt(pp);
+
+            let puissanceInt = parseInt(puissance);
+            if (Number.isNaN(puissanceInt)) puissanceInt = 0;
+            capacite["puissance"] = puissanceInt;
+
+            let precisionInt = parseInt(precision);
+            if (Number.isNaN(precisionInt)) precisionInt = 0;
+            capacite["precision"] = precisionInt;
+            capacite["pokemons"] = pokemons;
+        }
+
+        console.log("terminé !");
+        fs.writeFileSync(path.resolve(__dirname, "../../json_files/pokemonCapacites.json"), JSON.stringify(resArray));
+
+        // pour chaque capacité récup PP, Puissance, Précision, Liste pokémon apprenant capacité
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+async function capaciteUnique(link) {
+    let capacite = {};
+    const response = await axios.get(link);
+
+    const html = response.data;
+
+    const $ = cheerio.load(html);
+    let pp = $('#mw-content-text > div.mw-parser-output > table.tableaustandard.ficheinfo > tbody > tr:nth-child(10) > td').text().split(" ")[0];
+    let puissance = $('#mw-content-text > div.mw-parser-output > table.tableaustandard.ficheinfo > tbody > tr:nth-child(11) > td').text();
+    let precision = $('#mw-content-text > div.mw-parser-output > table.tableaustandard.ficheinfo > tbody > tr:nth-child(12) > td').text().split(" ")[0]
+
+    let pokemons = [];
+    let tbody = $('table.capacité-niveau').eq(0).find('tbody');
+
+    $(tbody).find('tr').each((index, element) => {
+        const tds = $(element).find('td');
+        for (let i = 0; i < (tds.length)/2; i++) {
+            let pokemon = $(tds[i*2]);
+            let pokemonId = parseInt($(pokemon).find('.miniat-poke').text().split(" ")[0]);
+            let pokemonName = $(pokemon).find('.miniat-poke > a').attr("title")
+            let pokemonLvlRaw = $(tds[(i*2)+1]).text();
+            let pokemonLvl = 0;
+            if (pokemonLvlRaw !== "Départ") pokemonLvl = parseInt(pokemonLvlRaw.split(".")[1]);
+
+            pokemons.push({
+                'id': pokemonId,
+                "name": pokemonName,
+                'level': pokemonLvl
+            });
+        }
+    });
+
+    capacite["pp"] = parseInt(pp);
+
+    let puissanceInt = parseInt(puissance);
+    if (Number.isNaN(puissanceInt)) puissanceInt = 0;
+    capacite["puissance"] = puissanceInt;
+
+    let precisionInt = parseInt(precision);
+    if (Number.isNaN(precisionInt)) precisionInt = 0;
+    capacite["precision"] = precisionInt;
+    capacite["pokemons"] = pokemons;
+
+    console.log("\"pokemons\": [")
+    capacite["pokemons"].forEach(pokemon => {
+        console.log("  {");
+        console.log("    \"id\": " + pokemon["id"] + ",");
+        console.log("    \"name\": \"" + pokemon["name"] + "\",");
+        console.log("    \"level\": " + pokemon["level"] + "");
+        console.log("  },");
+    });
+    console.log("]");
+}
 
 async function scarpPokemons() {
     let pokemonTab = [
@@ -2833,4 +3055,33 @@ function askQuestion(question) {
             resolve(answer);
         });
     });
+}
+
+async function flemme() {
+    let pokemons = []
+    for (let i = 0; i < 43; i++) {
+        let nom = await askQuestion("Nom du pokémon : ");
+        let level = await askQuestion("Level : ");
+        pokemons.push({
+            "id": 0,
+            "name": nom,
+            "level": level
+        });
+    }
+
+    for (const pokemon of pokemons) {
+        pokemon["id"] = parseInt(await askQuestion("Id de " + pokemon.name + " : "));
+    }
+
+    console.log('\n\n\n');
+    console.log(pokemons);
+}
+
+function oui() {
+    const rawdata = fs.readFileSync(path.resolve(__dirname, "../../json_files/pokemonCapacites.json"));
+    let data = JSON.parse(rawdata);
+
+    data.forEach(capacite => {
+        if (capacite["pokemons"].length === 0) console.log(capacite.name);
+    })
 }
