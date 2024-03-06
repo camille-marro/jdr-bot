@@ -144,3 +144,4 @@ logs.txt
 json_files/pokemonListe.json
 json_files/pokemonCopy.json
 json_files/pokemonTestListe.json
+commands/textCommands/pokemon.js
