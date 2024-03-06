@@ -19,6 +19,7 @@ let player = Player.singleton(client);
 let config = require('./assets/config.js');
 const game = require("./commands/textCommands/game");
 const pokemonGame = require("./commands/textCommands/pokemon");
+const pGame = require("./commands/textCommands/pokemon/main");
 
 /*
 const elochecker = require("./commands/textCommands/lol/elochecker");
@@ -128,13 +129,13 @@ client.on("messageCreate", message => {
             let game = require("./commands/textCommands/game");
             game.execute(message);
             break;
-        case (prefix + "pokemon"):
-            let pokemonGame = require("./commands/textCommands/pokemon");
-            pokemonGame.execute(message);
-            break;
         case (prefix + "p"):
-            let pGame = require("./commands/textCommands/pokemon");
+            let pGame = require("./commands/textCommands/pokemon/main");
             pGame.execute(message);
+            break;
+        case (prefix + "pokemon"):
+            let pokemonGame = require("./commands/textCommands/pokemon/main");
+            pokemonGame.execute(message);
             break;
     }
 });
