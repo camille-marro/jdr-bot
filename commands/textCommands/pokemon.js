@@ -955,10 +955,16 @@ async function addExp(pokemon, xp, message) {
             lvlUp++;
             xpSeuil = Math.pow(pokemon['level'], 2);
 
+            let hpBeforeLvlUp = pokemon["stats"][0];
+
             pokemon["stats"][0] = Math.ceil(((((pokemonCopy["stats"][0] * 2) + pokemon["ivs"][0]) * pokemon["level"]) / 100) + 10 + pokemon["level"]);
             for (let i = 0; i < pokemon["stats"].length - 1; i++) {
                 pokemon["stats"][i + 1] = Math.ceil(((((pokemonCopy["stats"][i + 1] * 2) + pokemon["ivs"][i + 1]) * pokemon["level"]) / 100) + 5);
             }
+
+            let hpAfterLvlUp = pokemon["stats"][0];
+            let diffHp = hpAfterLvlUp - hpBeforeLvlUp;
+            pokemon["currentHP"] += diffHp;
 
             // demander à remplacer ou juste ignorer
             // message avec 5 emotes 1 pour chaque compétence à modifier et 1 pour ignorer
@@ -1307,8 +1313,9 @@ function adminHeal(playerId, message) {
         message.channel.send("Aucun joueur avec cet ID !");
         return;
     }
-
+    let healTime = player["lastHeal"];
     healAllPokemons(player);
+    player["lastHeal"] = healTime;
     message.channel.send("Tous les pokémons de <@" + playerId + "> ont été soignés avec succès !");
 }
 
