@@ -728,6 +728,7 @@ async function train(message) {
     let player = getPlayerWithId(message.author.id);
 
     if (!player) {
+        let msgEmbed = new EmbedBuilder();
         msgEmbed.setTitle("Vous n'avez pas de compte !");
         msgEmbed.setDescription("Pour vous inscrire utilisez la commande *pokemon start* !");
         msgEmbed.setColor("#ff0000");
@@ -1108,9 +1109,6 @@ function chooseNewCapacite(pokemon, capacite, message) {
 async function infosPokemon(message) {
     let args = message.content.split(" ");
     let player = getPlayerWithId(message.author.id);
-
-    //message.channel.send("La commande est pas dispo faudrait que je reset les pokémons de tous le monde et flemme :)");
-    //return;
 
     if (!player) {
         let msgEmbed = new EmbedBuilder();
