@@ -256,6 +256,13 @@ function parsePokemon(pokemon) {
         evolveLvl = pokemon["evolveLvl"];
     }
 
+    let capacities = getCapacities(pokemon.name, 0);
+    if (capacities.length > 4) {
+        capacities = getRandomCapacities(capacities, 4);
+    }
+
+    console.log(capacities);
+
     return {
         "uuid": uuid(),
         "id": pokemon.id,
@@ -268,10 +275,33 @@ function parsePokemon(pokemon) {
         "size": size,
         "weight": weight,
         "currentHP": stats[0],
+        "shiny": pokemon.shiny,
         "stats": stats,
         "ivs": ivs,
-        "shiny": pokemon.shiny
+        "capacities": capacities
     }
+}
+
+function getRandomCapacities(capacities, nb) {
+    let finalCap = [];
+
+    for (let i = 0; i < nb; i++) {
+        let rand = Math.floor(Math.random() * capacities.length);
+        finalCap.push(capacities[rand]);
+        capacities.splice(rand, 1);
+    }
+
+    return finalCap;
+}
+
+/**
+ * Récupère sous forme de tableau les compétences d'un pokémons pour un niveau donné
+ * @param {String}pokemonName - Nom du pokémon
+ * @param {Number}pokemonLvl - Niveau du pokémon
+ * @returns {[]}
+ */
+function getCapacities(pokemonName, pokemonLvl) {
+    return (drawPokemonWithName(pokemonName)["capacites"][pokemonLvl]);
 }
 
 /**
@@ -319,11 +349,23 @@ function drawPokemon() {
  * @param {Object}message
  */
 function printPokemons(message) {
-    let player = getPlayerWithId(message.author.id);
-    if (!player) {
-        message.channel.send("Vous n'êtes pas inscrit dans le jeu !");
-        return;
+    let args = message.content.split(" ");
+
+    let player;
+    if (args[2]) {
+        player = getPlayerWithId(args[2].slice(2, args[2].length-1));
+        if (!player) {
+            message.channel.send("Aucun joueur avec cet id trouvé !");
+            return;
+        }
+    } else {
+        player = getPlayerWithId(message.author.id);
+        if (!player) {
+            message.channel.send("Vous n'êtes pas inscrit dans le jeu !");
+            return;
+        }
     }
+
 
     let pokemonsCounted = countPokemons(player["pokemons"], true);
     let msgPokemon = "Voici la liste de vos pokémons :\n";
@@ -518,7 +560,8 @@ function createPlayer(author) {
         "pokemons": [],
         "lastExplore": 0,
         "trainingLeft": 5,
-        "lastTraining": 0
+        "lastTraining": 0,
+        "lastHeal": 0
     }
 
     pokemonData["players"].push(playerObj);
@@ -920,6 +963,11 @@ function addExp(pokemon, xp) {
         for (let i = 0; i < pokemon["stats"].length - 1; i++) {
             pokemon["stats"][i+1] = Math.ceil(((((pokemonCopy["stats"][i+1] * 2) + pokemon["ivs"][i+1]) * pokemon["level"]) / 100) + 5);
         }
+
+        // check pour des nouvelles compétences
+        // ajoutez si compétences < 4
+        // demander à remplacer ou juste ignorer
+        // message avec 5 emotes 1 pour chaque compétence a modifier et 1 pour ignorer
     }
 
     return lvlUp;
@@ -933,6 +981,9 @@ function addExp(pokemon, xp) {
 async function infosPokemon(message) {
     let args = message.content.split(" ");
     let player = getPlayerWithId(message.author.id);
+
+    //message.channel.send("La commande est pas dispo faudrait que je reset les pokémons de tous le monde et flemme :)");
+    //return;
 
     if (!player) {
         let msgEmbed = new EmbedBuilder();
@@ -1073,6 +1124,15 @@ function resultInfos(message, pokemon) {
     msgEmbed.addFields({name:"ATT SPE", value:pokemon["stats"][3].toString(), inline: true});
     msgEmbed.addFields({name:"DEF SPE", value:pokemon["stats"][4].toString(), inline: true});
     msgEmbed.addFields({name:"VIT", value:pokemon["stats"][5].toString(), inline: true});
+    msgEmbed.addFields({name:"\nCompétences", value:" "});
+
+    let i = 1;
+    pokemon["capacities"].forEach(capacity => {
+        msgEmbed.addFields({name:capacity.name, value:"Attaque " + capacity.category + "\nPuissance : " + capacity.puissance + "\nPrecision : " + capacity.precision + " %", inline:true});
+        if ((i % 2) === 0) msgEmbed.addFields({name:" ", value:" "});
+        i++;
+    })
+
     if (pokemon["evolveLvl"] >= 1) msgEmbed.addFields({name:"Prochaine évolution", value: "niveau " + pokemon["evolveLvl"].toString()});
 
     message.channel.send({embeds: [msgEmbed]});
@@ -1115,6 +1175,8 @@ function admin(message) {
         resetExplorePlayer(args[3], message);
     } else if (args[2] === "giveXP") {
         giveXpToPokemon(args[3], args[4], args[5], message);
+    } else if (args[2] === "giveLvl") {
+        giveLvlToPokemon(args[3], args[4], args[5], message);
     } else if (args[2] === "heal") {
         adminHeal(args[3], message);
     }
@@ -1149,6 +1211,31 @@ function giveXpToPokemon(xpAmount, pokemonName, playerId, message) {
     selectPokemon(player, pokemons, message).then((pokemonSelected, rej) => {
         let lvlUp = addExp(pokemonSelected, parseInt(xpAmount));
         message.channel.send(xpAmount + " point d'xp ont été ajoutés au " + pokemonSelected.name + " de <@" + playerId + ">. Il a gagné " + lvlUp + " niveau(x).");
+        updateData();
+    })
+
+}
+
+/**
+ * Ajoute un montant de niveau au pokémon d'un joueur
+ * @param {Number}xpAmount - Montant de niveau à ajouter
+ * @param {String}pokemonName - Nom du pokémon à qui ajouter les niveaux
+ * @param {BigInteger}playerId - ID Discord du joueur
+ * @param message
+ */
+function giveLvlToPokemon(lvlToAdd, pokemonName, playerId, message) {
+    let player = getPlayerWithId(playerId);
+    if (!player) {
+        message.channel.send("Aucun joueur trouvé !");
+        return;
+    }
+
+    let pokemons = getPlayerPokemonsWithName(player, pokemonName);
+    selectPokemon(player, pokemons, message).then((pokemonSelected, rej) => {
+        let xpAmount = 0;
+        for (let i = 0; i < lvlToAdd; i++) xpAmount += Math.pow(i, 2);
+        let lvlUp = addExp(pokemonSelected, xpAmount);
+        message.channel.send(lvlUp + " niveau(x) ont été ajouté(s) au " + pokemonSelected.name + " de <@" + playerId + ">.");
         updateData();
     })
 
@@ -1274,7 +1361,7 @@ function pveMain(message) {
     if (!args[3]) {
         let msgEmbed = new EmbedBuilder();
         msgEmbed.setTitle("Veuillez saisir un nom de pokémon à envoyer au combat !");
-        msgEmbed.setDescription("La commande s'utilise comme ceci : pokemon trainPVE nom_du_pokemon.");
+        msgEmbed.setDescription("La commande s'utilise comme ceci : pokemon trainPVE difficulté nom_du_pokemon.");
         msgEmbed.setColor("#ff0000");
         msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
 
@@ -1391,19 +1478,19 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
         }
 
         if (!combatObject["myTurn"]) {
-            let rand = Math.floor(Math.random() * 2);
             let cc = getCC(enemyPokemon["level"], enemyPokemon["stats"][5]);
+            let attack = chooseRandomAttack(enemyPokemon);
+            let avantageType = getMultiAvantageType(attack["type"], myPokemon["types"]);
 
-            // ATTENTION EN DESSOUS CHANGER enemyPokemon["types"][0] PAR TYPE DE L'ATTAQUE
-
-            let avantageType = getMultiAvantageType(enemyPokemon["types"][0], myPokemon["types"]);
             let multi = cc * avantageType;
 
-            let puissanceAttaque = chooseAttackPower();
+            let puissanceAttaque = attack["puissance"];
             let enemyDamage;
 
-            if (rand === 0) {
+            if (attack["category"] === "physique") {
                 enemyDamage = Math.ceil(((((((enemyPokemon["level"] * 0.4) + 2) * enemyPokemon["stats"][1] * puissanceAttaque) / myPokemon["stats"][2]) / 50) + 2) * multi);
+            } else if (attack['catageory'] === "statut") {
+                enemyDamage = 0;
             } else {
                 enemyDamage = Math.ceil(((((((enemyPokemon["level"] * 0.4) + 2) * enemyPokemon["stats"][3] * puissanceAttaque) / myPokemon["stats"][4]) / 50) + 2) * multi);
             }
@@ -1411,15 +1498,23 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
             damageCombatPokemon(0, combatObject, enemyDamage);
 
             let msgEmbed = new EmbedBuilder();
-            msgEmbed.setTitle(enemyPokemon["name"] + " vous a attaqué et vous avez perdu " + enemyDamage + " pv !");
-            msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
+            let descriptionStr = "";
             if (cc > 1) {
-                msgEmbed.setDescription("Son attaque vient de porter un coup critique ! La puissance de son attaque était de " + puissanceAttaque);
+                descriptionStr += "Coup Critique ! ";
                 msgEmbed.setColor("#fff300");
-            } else {
-                msgEmbed.setDescription("La puissance de son attaque était de " + puissanceAttaque);
-                msgEmbed.setColor("#ff0000");
+            } else msgEmbed.setColor("#b62626");
+            if (avantageType === 0) {
+                descriptionStr += `${attack.name} n'affecte pas ${myPokemon.name} ... `;
+            } else if (avantageType < 1) {
+                descriptionStr += `${attack.name} n'est pas très efficace ... `;
+            } else if (avantageType > 1) {
+                descriptionStr += `${attack.name} est super efficace ! `;
             }
+            descriptionStr += "La puissance de " + attack.name + " était de " + puissanceAttaque;
+
+            msgEmbed.setTitle(enemyPokemon["name"] + " vous a attaqué et vous avez perdu " + enemyDamage + " pv !");
+            msgEmbed.setDescription(descriptionStr);
+            msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
             msgEmbed.addFields({name:myPokemon["name"], value:combatObject["myPokemonHP"] + "/" + myPokemon["stats"][0] + " PV", inline: true});
             msgEmbed.addFields({name:enemyPokemon["name"], value:combatObject["enemyPokemonHP"] + "/" + enemyPokemon["stats"][0] + " PV", inline: true});
             message.channel.send({embeds: [msgEmbed]});
@@ -1433,10 +1528,13 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
         msgEmbed.setTitle("Choisissez si vous voulez faire une attaque normale ou une attaque spéciale !");
         msgEmbed.setColor("#0823a8");
         msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
-        msgEmbed.addFields({name: "Attaque normale", value: emojis[0], inline: true});
-        msgEmbed.addFields({name: "Attaque spéciale", value: emojis[1], inline: true});
-        msgEmbed.addFields({name:"Fuite", value:emojis[2], inline: true});
-        //msgEmbed.addFields({name:"Défense spéciale", value:emojis[3], inline: true});
+
+        for (let i = 0; i < myPokemon["capacities"].length; i++) {
+            msgEmbed.addFields({name:myPokemon["capacities"][i]["name"] + " (" + myPokemon["capacities"][i]["type"] + ")", value:emojis[i], inline: true});
+            if ((i%2) === 1) msgEmbed.addFields({name:" ", value:" "});
+        }
+
+        msgEmbed.addFields({name:"Fuite", value:emojis[myPokemon["capacities"].length]});
 
         let msgSent = await message.channel.send({embeds: [msgEmbed]});
 
@@ -1450,12 +1548,11 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
 
         collector.on("collect", (reaction, user) => {
             if (user.id === message.author.id) {
-                if (reaction.emoji.name === emojis[2]) {
+                if (reaction.emoji.name === emojis[myPokemon["capacities"].length]) {
                     combatObject["fuiteCpt"]++;
                     combatObject["myTurn"] = false;
 
                     let msgEmbed = new EmbedBuilder();
-                    console.log("fuiteCpt : " + combatObject["fuiteCpt"]);
                     let fuite = canEscape(myPokemon, enemyPokemon, combatObject["fuiteCpt"]);
                     if (fuite) {
                         msgEmbed.setColor("#11985c");
@@ -1475,15 +1572,26 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
 
                 // ATTENTION EN DESSOUS CHANGER myPokemon["types"][0] PAR TYPE DE L'ATTAQUE
 
-                let avantageType = getMultiAvantageType(myPokemon["types"][0], enemyPokemon["types"]);
+                let i = 0;
+                while (i < 4) {
+                    if (reaction.emoji.name === emojis[i]) {
+                        break;
+                    }
+                    i++;
+                }
+
+                let attack = getPokemonAttack(myPokemon, i);
+
+                let avantageType = getMultiAvantageType(attack["type"], enemyPokemon["types"]);
                 let multi = cc * avantageType;
 
-
-                let puissanceAttaque = chooseAttackPower();
+                let puissanceAttaque = attack["puissance"];
                 let myDamage;
-                if (reaction.emoji.name === emojis[0]) {
+                if (attack['category'] === "physique") {
                     myDamage = Math.ceil(((((((myPokemon["level"] * 0.4) + 2) * myPokemon["stats"][1] * puissanceAttaque) / enemyPokemon["stats"][2]) / 50) + 2) * multi);
-                } else if (reaction.emoji.name === emojis[1]) {
+                } else if (attack['catageory'] === "statut") {
+                    myDamage = 0;
+                } else {
                     myDamage = Math.ceil(((((((myPokemon["level"] * 0.4) + 2) * myPokemon["stats"][3] * puissanceAttaque) / enemyPokemon["stats"][4]) / 50) + 2) * multi);
                 }
 
@@ -1491,15 +1599,22 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
                 combatObject["myTurn"] = false;
 
                 let msgEmbed = new EmbedBuilder();
+                let descriptionStr = "";
                 if (cc > 1) {
-                    msgEmbed.setDescription("Votre attaque vient de porter un coup critique ! La puissance de votre attaque était de " + puissanceAttaque);
+                    descriptionStr += "Coup Critique ! ";
                     msgEmbed.setColor("#fff300");
-                } else {
-                    msgEmbed.setDescription("La puissance de votre attaque était de " + puissanceAttaque);
-                    msgEmbed.setColor("#ff5600");
+                } else msgEmbed.setColor("#ff5600");
+                if (avantageType === 0) {
+                    descriptionStr += `${attack.name} n'affecte pas ${enemyPokemon.name} ... `;
+                } else if (avantageType < 1) {
+                    descriptionStr += `${attack.name} n'est pas très efficace ... `;
+                } else if (avantageType > 1) {
+                    descriptionStr += `${attack.name} est super efficace ! `;
                 }
+                descriptionStr += "La puissance de " + attack.name + " était de " + puissanceAttaque;
 
                 msgEmbed.setTitle("Votre " + myPokemon["name"].toLowerCase() + " a attaqué et vous avez infligé " + myDamage + " points de dégâts !");
+                msgEmbed.setDescription(descriptionStr);
                 msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
                 msgEmbed.addFields({name:myPokemon["name"], value:combatObject["myPokemonHP"] + "/" + myPokemon["stats"][0] + " PV", inline: true});
                 msgEmbed.addFields({name:enemyPokemon["name"], value:combatObject["enemyPokemonHP"] + "/" + enemyPokemon["stats"][0] + " PV", inline: true});
@@ -1524,6 +1639,14 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
         });
 
     });
+}
+
+function getPokemonAttack(pokemon, index) {
+    return pokemon["capacities"][index];
+}
+
+function chooseRandomAttack(pokemon) {
+    return pokemon["capacities"][Math.floor(Math.random() * pokemon["capacities"].length)];
 }
 
 /**
@@ -3637,11 +3760,4 @@ function parseCapacite(capacite) {
         "puissance": capacite.puissance,
         "precision": capacite.precision
     }
-}
-
-function getPokemonWithName(pokemonName, pokemons) {
-    for (const pokemon of pokemons) {
-        if (pokemon.name === pokemonName) return pokemon;
-    }
-    return false;
 }
