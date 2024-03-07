@@ -278,7 +278,7 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
         }
 
         let msgEmbed = new EmbedBuilder();
-        msgEmbed.setTitle("Choisissez si vous voulez faire une attaque normale ou une attaque spéciale !");
+        msgEmbed.setTitle("Choisissez votre attaque !");
         msgEmbed.setColor("#0823a8");
         msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
 
