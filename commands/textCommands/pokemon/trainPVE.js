@@ -251,25 +251,32 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
             damageCombatPokemon(0, combatObject, enemyDamage);
 
             let msgEmbed = new EmbedBuilder();
-            let descriptionStr = "";
+            let descriptionStr = enemyPokemon["name"] + " utilise " + attack.name + ".";
             if (cc > 1) {
-                descriptionStr += "Coup Critique ! ";
+                descriptionStr += " Coup Critique !";
                 msgEmbed.setColor("#fff300");
-            } else msgEmbed.setColor("#b62626");
+            } else msgEmbed.setColor("#ff0000");
             if (avantageType === 0) {
-                descriptionStr += `${attack.name} n'affecte pas ${myPokemon.name} ... `;
+                descriptionStr += ` Cela n'affecte pas ${myPokemon.name} ... `;
             } else if (avantageType < 1) {
-                descriptionStr += `${attack.name} n'est pas très efficace ... `;
+                descriptionStr += " Ce n'est pas très efficace ... ";
             } else if (avantageType > 1) {
-                descriptionStr += `${attack.name} est super efficace ! `;
+                descriptionStr += " C'est super efficace ! ";
             }
-            descriptionStr += "La puissance de " + attack.name + " était de " + puissanceAttaque;
+            //descriptionStr += "La puissance de " + attack.name + " était de " + puissanceAttaque;
 
-            msgEmbed.setTitle(enemyPokemon["name"] + " vous a attaqué et vous avez perdu " + enemyDamage + " pv !");
-            msgEmbed.setDescription(descriptionStr);
+            //msgEmbed.setTitle(enemyPokemon["name"] + " a infligé " + enemyDamage + " pv !");
+            //msgEmbed.setDescription(descriptionStr);
+
+            msgEmbed.setTitle(descriptionStr);
             msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
-            msgEmbed.addFields({name:myPokemon["name"], value:combatObject["myPokemonHP"] + "/" + myPokemon["stats"][0] + " PV", inline: true});
-            msgEmbed.addFields({name:enemyPokemon["name"], value:combatObject["enemyPokemonHP"] + "/" + enemyPokemon["stats"][0] + " PV", inline: true});
+
+            //msgEmbed.addFields({name:myPokemon["name"], value:combatObject["myPokemonHP"] + "/" + myPokemon["stats"][0] + " PV", inline: true});
+            msgEmbed.addFields({name:myPokemon["name"], value:getStringHPLeft(combatObject["myPokemonHP"], myPokemon["stats"][0]), inline: true});
+
+            //msgEmbed.addFields({name:enemyPokemon["name"], value:combatObject["enemyPokemonHP"] + "/" + enemyPokemon["stats"][0] + " PV", inline: true});
+            msgEmbed.addFields({name:enemyPokemon["name"], value:getStringHPLeft(combatObject["enemyPokemonHP"], enemyPokemon["stats"][0]), inline: true});
+
             message.channel.send({embeds: [msgEmbed]});
 
             combatObject["myTurn"] = true;
@@ -349,25 +356,31 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
                 combatObject["myTurn"] = false;
 
                 let msgEmbed = new EmbedBuilder();
-                let descriptionStr = "";
+                let descriptionStr = myPokemon["name"] + " utilise " + attack.name + ".";
                 if (cc > 1) {
-                    descriptionStr += "Coup Critique ! ";
+                    descriptionStr += " Coup Critique !";
                     msgEmbed.setColor("#fff300");
                 } else msgEmbed.setColor("#ff5600");
                 if (avantageType === 0) {
-                    descriptionStr += `${attack.name} n'affecte pas ${enemyPokemon.name} ... `;
+                    descriptionStr += ` Cela n'affecte pas ${enemyPokemon.name} ... `;
                 } else if (avantageType < 1) {
-                    descriptionStr += `${attack.name} n'est pas très efficace ... `;
+                    descriptionStr += " Ce n'est pas très efficace ... ";
                 } else if (avantageType > 1) {
-                    descriptionStr += `${attack.name} est super efficace ! `;
+                    descriptionStr += " C'est super efficace ! ";
                 }
-                descriptionStr += "La puissance de " + attack.name + " était de " + puissanceAttaque;
+                //descriptionStr += "La puissance de " + attack.name + " était de " + puissanceAttaque;
 
-                msgEmbed.setTitle("Votre " + myPokemon["name"].toLowerCase() + " a attaqué et vous avez infligé " + myDamage + " points de dégâts !");
-                msgEmbed.setDescription(descriptionStr);
+                //msgEmbed.setTitle("Votre " + myPokemon["name"].toLowerCase() + " a infligé " + myDamage + " points de dégâts !");
+                //msgEmbed.setDescription(descriptionStr);
+                msgEmbed.setTitle(descriptionStr);
                 msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande \"pokemon help\"."});
-                msgEmbed.addFields({name:myPokemon["name"], value:combatObject["myPokemonHP"] + "/" + myPokemon["stats"][0] + " PV", inline: true});
-                msgEmbed.addFields({name:enemyPokemon["name"], value:combatObject["enemyPokemonHP"] + "/" + enemyPokemon["stats"][0] + " PV", inline: true});
+
+
+                //msgEmbed.addFields({name:myPokemon["name"], value:combatObject["myPokemonHP"] + "/" + myPokemon["stats"][0] + " PV", inline: true});
+                msgEmbed.addFields({name:myPokemon["name"], value: getStringHPLeft(combatObject["myPokemonHP"],myPokemon["stats"][0]), inline: true});
+
+                //msgEmbed.addFields({name:enemyPokemon["name"], value:combatObject["enemyPokemonHP"] + "/" + enemyPokemon["stats"][0] + " PV", inline: true});
+                msgEmbed.addFields({name:enemyPokemon["name"], value:getStringHPLeft(combatObject["enemyPokemonHP"], enemyPokemon["stats"][0]), inline: true});
 
                 message.channel.send({embeds: [msgEmbed]});
 
@@ -389,6 +402,22 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
         });
 
     });
+}
+
+function getStringHPLeft(currentHP, maxHP) {
+    let percent = (currentHP/maxHP)*100;
+    let nbSquare = Math.floor(percent / 10);
+
+    let finalStr = "";
+
+    for (let i = 0; i < 10; i++) {
+        if (i > nbSquare) finalStr += ":black_large_square: ";
+        else if (i > 1 && i <= 4) finalStr += ":orange_square: ";
+        else if (i > 4) finalStr += ":green_square: ";
+        else finalStr += ":red_square: ";
+    }
+
+    return finalStr;
 }
 
 /**
