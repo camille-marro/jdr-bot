@@ -291,7 +291,7 @@ async function combatPVE(myPokemon, enemyPokemon, combatObject, message) {
 
         let msgSent = await message.channel.send({embeds: [msgEmbed]});
 
-        for (let i = 0; i < 5; i++) await msgSent.react(emojis[i]);
+        for (let i = 0; i < myPokemon["capacities"].length + 1; i++) await msgSent.react(emojis[i]);
 
         const filter = (reaction, user) => {
             return emojis.includes(reaction.emoji.name) && !user.bot;
