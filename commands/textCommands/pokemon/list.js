@@ -1,4 +1,4 @@
-let { getPlayerWithId } = require("./assets");
+let { getPlayerWithId, drawPokemonWithName} = require("./assets");
 
 /**
  * Affiche la liste des pokémons possédés par le joueur
@@ -28,6 +28,11 @@ function printPokemons(message) {
 
     let pokemonsSortedName = Object.keys(pokemonsCounted);
     pokemonsSortedName.forEach(pokemonName => {
+        let pokemon = drawPokemonWithName(pokemonName);
+        pokemon["types"].forEach(type => {
+            msgPokemon += parseTypeEmoji(type);
+        });
+        msgPokemon += " - "
         if (pokemonName.endsWith("_S")) {
             pokemonName = pokemonName.slice(0, pokemonName.length-2);
             msgPokemon += pokemonName + ":sparkles: (x" + pokemonsCounted[pokemonName + "_S"] + ")\n";
@@ -37,6 +42,27 @@ function printPokemons(message) {
     });
 
     message.channel.send(msgPokemon);
+}
+
+function parseTypeEmoji(type) {
+    if (type === "Acier") return "<:Acier:1215135697128657018>";
+    else if (type === "Combat") return "<:Combat:1215135651192766504>";
+    else if (type === "Dragon") return "<:Dragon:1215135626215563304>";
+    else if (type === "Eau") return "<:Eau:1215135602828382248>";
+    else if (type === "Électrik") return "<:lectrik:1215135549195816980>";
+    else if (type === "Fée") return "<:Fe:1215135530346352640>";
+    else if (type === "Feu") return "<:Feu:1215135505130323978>";
+    else if (type === "Glace") return "<:Glace:1215135472775335946>";
+    else if (type === "Insecte") return "<:Insecte:1215135448733581412>";
+    else if (type === "Normal") return "<:Normal:1215135420086485002>";
+    else if (type === "Plante") return "<:Plante:1215135393578618880>";
+    else if (type === "Poison") return "<:Poison:1215135368849002556>";
+    else if (type === "Psy") return "<:Psy:1215135346296361041>";
+    else if (type === "Roche") return "<:Roche:1215135325907583076>";
+    else if (type === "Sol") return "<:Sol:1215135303426379787>";
+    else if (type === "Spectre") return "<:Spectre:1215135276347953163>";
+    else if (type === "Ténèbres") return "<:Tnbres:1215135203022872626>";
+    else if (type === "Vol") return "<:Vol:1215135178301767711>";
 }
 
 /**
