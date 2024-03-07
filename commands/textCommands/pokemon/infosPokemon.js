@@ -109,11 +109,16 @@ function resultInfos(message, pokemon) {
 
     if (pokemon["shiny"]) title = pokemon["name"] + ":sparkles: (lvl: " + pokemon["level"] + ")";
     else title = pokemon["name"] + " (lvl: " + pokemon["level"] + ")";
-
+    if (pokemon["types"].length > 1) {
+        title += " - " + pokemon["types"][0] + " et " + pokemon["types"][1];
+    } else {
+        title += " - " + pokemon["types"][0];
+    }
     if (pokemon["currentHP"] === 0) title += " - K.O.";
     msgEmbed.setTitle(title);
     msgEmbed.setColor("#ffffff");
     msgEmbed.setDescription(pokemonInfos["description"]);
+
     msgEmbed.addFields({name:"Sexe", value:pokemon['sex'], inline: true});
     msgEmbed.addFields({name:"XP", value:(pokemon["xp"] + "/" + Math.pow(pokemon["level"], 2)), inline: true});
     msgEmbed.addFields({name:" ", value:" "});
