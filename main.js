@@ -17,9 +17,6 @@ const client = new Client({
 
 let player = Player.singleton(client);
 let config = require('./assets/config.js');
-const game = require("./commands/textCommands/game");
-const pokemonGame = require("./commands/textCommands/pokemon");
-const pGame = require("./commands/textCommands/pokemon/main");
 
 /*
 const elochecker = require("./commands/textCommands/lol/elochecker");
@@ -96,10 +93,6 @@ client.on("messageCreate", message => {
         case (prefix + "remove"):
             let remove = require("./commands/textCommands/music/remove");
             remove.remove(message);
-            break;
-        case (prefix + "playlist"):
-            let playlist = require("./commands/textCommands/music/playlist");
-            playlist.execute(message);
             break;
         case (prefix + "jdr"):
             let jdr = require("./commands/textCommands/jdr");
