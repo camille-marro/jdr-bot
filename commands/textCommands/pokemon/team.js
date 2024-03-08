@@ -1,6 +1,6 @@
 const {EmbedBuilder} = require('discord.js');
 
-let { getPlayerWithId, comparePokemonUUID, updateData, comparePokemon, getPlayerPokemonsWithName } = require("./assets");
+let { getPlayerWithId, comparePokemonUUID, updateData, comparePokemon, getPlayerPokemonsWithName, refreshTeam } = require("./assets");
 const { emojis } = require("./utils");
 
 /**
@@ -55,23 +55,6 @@ function createTeamMessage(message) {
     msgEmbed.setColor("#00ce5e");
 
     message.channel.send({embeds: [msgEmbed]});
-}
-
-/**
- * Permet de relier les objets pokémons présent entre la team et le tableau pokémon
- * @param {Object}player - Joueur à qui relier les objets
- */
-function refreshTeam(player) {
-    for (let j = 0; j < player["team"].length; j++) {
-        let i = 0;
-        while (i < player["pokemons"].length) {
-            if (comparePokemonUUID(player["team"][j], player["pokemons"][i])) {
-                player["team"][j] = player["pokemons"][i];
-                break;
-            }
-            i++;
-        }
-    }
 }
 
 /**
