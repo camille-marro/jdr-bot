@@ -22,6 +22,16 @@ function releasePokemonMain(message) {
         return;
     }
 
+    if (!args[2]) {
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Vous devez préciser le nom du pokémon à relâcher !");
+        msgEmbed.setColor("#ff0000");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande pokemon help."});
+
+        message.channel.send({embeds: [msgEmbed]});
+        return;
+    }
+
     selectPokemonToRelease(player, args[2], message).then((pokemonSelected, rej) => {
         if (!pokemonSelected) {
             let msgEmbed = new EmbedBuilder();
