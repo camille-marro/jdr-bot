@@ -28,7 +28,11 @@ function printPokemons(message) {
 
     let pokemonsSortedName = Object.keys(pokemonsCounted);
     pokemonsSortedName.forEach(pokemonName => {
-        let pokemon = drawPokemonWithName(pokemonName);
+        let pokemon;
+        if (pokemonName[pokemonName.length-1] === 'S') {
+            pokemon = drawPokemonWithName(pokemonName.slice(0, pokemonName.length - 2));
+        } else pokemon = drawPokemonWithName(pokemonName);
+
         pokemon["types"].forEach(type => {
             msgPokemon += parseTypeEmoji(type);
         });
