@@ -25,7 +25,7 @@ function trainPVE(message) {
     if (!args[2]) {
         let msgEmbed = new EmbedBuilder();
         msgEmbed.setTitle("Veuillez saisir une difficulté !");
-        msgEmbed.setDescription("Les difficultés sont : facile/esay, medium, hard/difficile");
+        msgEmbed.setDescription("Les difficultés sont : facile/easy, medium, hard/difficile");
         msgEmbed.setColor("#ff0000");
         msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
 
@@ -416,6 +416,8 @@ function getStringHPLeft(currentHP, maxHP) {
         else if (i > 4) finalStr += ":green_square: ";
         else finalStr += ":red_square: ";
     }
+
+    finalStr += "\n" + currentHP + " / " + maxHP;
 
     return finalStr;
 }
