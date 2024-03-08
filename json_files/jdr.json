@@ -98,7 +98,7 @@
           "price": "@TODO"
         }
       ],
-      "money": 30
+      "money": 0
     },
     {
       "name": "Daniel Lefebvre",
@@ -280,19 +280,19 @@
           "price": "@TODO"
         },
         {
-          "name": "Flamberge des flots",
+          "name": "lampe en acier avec une face en verre qui émet de la lumière quand on l’agite",
           "desc": "none",
           "size": 1,
           "price": "@TODO"
         },
         {
-          "name": "lampe en acier avec une face en verre qui émet de la lumière quand on l’agite",
-          "desc": "none",
+          "name": "poing éclaire",
+          "desc": "fait apparaitre un éclaire après plusieurs coup de poing sur un ennemie",
           "size": 1,
           "price": "@TODO"
         }
       ],
-      "money": 5
+      "money": 0
     },
     {
       "name": "Scar",
@@ -375,13 +375,13 @@
           "price": "@TODO"
         },
         {
-          "name": "un lingot magique",
-          "desc": "frappé de la magie de la force",
+          "name": "dague magique force +",
+          "desc": "none",
           "size": 1,
           "price": "@TODO"
         }
       ],
-      "money": 5
+      "money": 0
     },
     {
       "name": "Abraham Alood",
@@ -432,9 +432,15 @@
           "desc": "une plaque de métal basique pas travaillé",
           "size": 1,
           "price": "@TODO"
+        },
+        {
+          "name": "Flamberge des Flots",
+          "desc": "épée magique dont la lame imite le mouvement des vagues",
+          "size": 1,
+          "price": "@TODO"
         }
       ],
-      "money": 13,
+      "money": 0,
       "pp": "https://cdn.discordapp.com/attachments/1179943000999215215/1207779202124750929/Snapchat-567557192.jpg?ex=65e0e309&is=65ce6e09&hm=ba9327ca43544c09c2fb85fcb8e972ac16b6df9f5faee2e3d26df2c9e22c7306&"
     },
     {
