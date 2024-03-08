@@ -5,6 +5,7 @@ const {EmbedBuilder} = require('discord.js');
 
 const log = require('../../../assets/log');
 const { loadPokemonData, emojis } = require('./utils');
+const {getPlayerWithId, refreshTeam} = require("./assets");
 
 let { exploreGrass } = require('./explore');
 let { printPokemons } = require('./list');
@@ -17,6 +18,7 @@ let { releasePokemonMain } = require('./release');
 let { help } = require('./help')
 let { playerStart } = require('./start');
 let { admin } = require('./admin');
+let { defi } = require('./defi');
 
 let pokemonData;
 
@@ -52,6 +54,8 @@ function execute(message) {
         teamManager(message);
     } else if (args[1] === "release") {
         releasePokemonMain(message);
+    } else if (args[1] === "defi") {
+        defi(message);
     } else if (args[1] === "admin") {
         admin(message);
     } else if (args[1] === "help") {
