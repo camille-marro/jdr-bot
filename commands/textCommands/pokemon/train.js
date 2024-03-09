@@ -2,7 +2,7 @@ const LootTable = require("loot-table");
 
 const {EmbedBuilder} = require('discord.js');
 
-let { addExp, getPlayerWithId, getPlayerPokemonsWithName, updateData, drawPokemonWithId } = require("./assets");
+let { addExp, getPlayerWithId, getPlayerPokemonsWithName, updateData, drawPokemonWithId, checkLearning} = require("./assets");
 const { emojis } = require("./utils");
 
 /**
@@ -46,7 +46,6 @@ async function train(message) {
     }
 
     let pokemons = getPlayerPokemonsWithName(player, args[2]);
-    let pokemon = {};
     if (!pokemons) {
         let msgEmbed = new EmbedBuilder();
         msgEmbed.setTitle("Vous n'avez aucun pokémon de ce nom !");
@@ -113,9 +112,13 @@ async function resultTraining(message, pokemon, res) {
                     cancelEvolve(pokemon);
                     collector.stop();
                 } else if (reaction.emoji.name === '👍') {
-                    let evolveMsg = evolvePokemon(pokemon);
-                    message.channel.send({embeds: [evolveMsg]});
-                    collector.stop();
+                    console.log(pokemon);
+                    let evolveMsg = evolvePokemon(pokemon, message);
+                    evolvePokemon(pokemon, message).then(res => {
+                        message.channel.send({embeds: [res]});
+                        collector.stop();
+                    });
+                    console.log(pokemon);
                 }
             } else if (!user.bot) {
                 let msgEmbed = new EmbedBuilder();
@@ -177,65 +180,59 @@ function choosePokemonTraining(pokemons, message) {
     })
 }
 
-/**
- * Fait évoluer un pokémon en son évolution en lui ajoutant les bonnes stats
- * @param pokemon - Pokémon à évoluer
- * @returns {EmbedBuilder} - Renvoie un message de succès prêt à être envoyé
- */
-function evolvePokemon(pokemon) {
-    let basePokemon = drawPokemonWithId(pokemon["id"]);
-    let evolutionPokemon;
+function evolvePokemon(pokemon, message) {
+    return new Promise(async (resolve, reject) => {
+        console.log("evolvePokemon");
+        let basePokemon = drawPokemonWithId(pokemon["id"]);
+        let evolutionPokemon;
 
-    if (Array.isArray(basePokemon["evolve"])) {
-        if (Array.isArray(basePokemon["evolveLvl"])) {
-            let i = 0, evolveFound = false;
-            while (i < basePokemon["evolveLvl"].length) {
-                if (basePokemon["evolveLvl"] !== -1) {
-                    evolutionPokemon = drawPokemonWithId(basePokemon["evolve"][i]);
-                    evolveFound = true;
-                    break;
+        if (Array.isArray(basePokemon["evolve"])) {
+            if (Array.isArray(basePokemon["evolveLvl"])) {
+                let i = 0, evolveFound = false;
+                while (i < basePokemon["evolveLvl"].length) {
+                    if (basePokemon["evolveLvl"] !== -1) {
+                        evolutionPokemon = drawPokemonWithId(basePokemon["evolve"][i]);
+                        evolveFound = true;
+                        break;
+                    }
+                    i++;
                 }
-                i++;
+                if (!evolveFound) {
+                    let msgEmbed = new EmbedBuilder();
+                    msgEmbed.setTitle("Votre " + pokemon["name"] + " ne peut pas évoluer !");
+                    msgEmbed.setColor("#ff0000");
+                    msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+                    return msgEmbed;
+                }
+            } else {
+                if (basePokemon["evolveLvl"] === -1) {
+                    let msgEmbed = new EmbedBuilder();
+                    msgEmbed.setTitle("Votre " + pokemon["name"] + " ne peut pas évoluer !");
+                    msgEmbed.setColor("#ff0000");
+                    msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+
+                    return msgEmbed;
+                }
             }
-            if (!evolveFound) {
-                let msgEmbed = new EmbedBuilder();
-                msgEmbed.setTitle("Votre " + pokemon["name"] + " ne peut pas évoluer !");
-                msgEmbed.setColor("#ff0000");
-                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+        } else evolutionPokemon = drawPokemonWithId(basePokemon["evolve"]);
 
-                return msgEmbed;
-            }
-        } else {
-            if (basePokemon["evolveLvl"] === -1) {
-                let msgEmbed = new EmbedBuilder();
-                msgEmbed.setTitle("Votre " + pokemon["name"] + " ne peut pas évoluer !");
-                msgEmbed.setColor("#ff0000");
-                msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+        let diffSize = parseFloat(Math.abs(basePokemon["size"] - evolutionPokemon["size"]).toFixed(2));
+        let diffWeight = parseFloat(Math.abs(basePokemon["weight"] - evolutionPokemon["weight"]).toFixed(2));
 
-                return msgEmbed;
-            }
-        }
-    } else evolutionPokemon = drawPokemonWithId(basePokemon["evolve"]);
+        pokemon['size'] += diffSize;
+        pokemon['weight'] += diffWeight;
+        pokemon['name'] = evolutionPokemon['name'];
+        pokemon['types'] = evolutionPokemon['types'];
+        pokemon['id'] = evolutionPokemon['id'];
+        pokemon['evolveLvl'] = evolutionPokemon['evolveLvl'];
 
-    let diffSize = Math.abs(basePokemon["size"] - evolutionPokemon["size"]);
-    let diffWeight = Math.abs(basePokemon["weight"] - evolutionPokemon["weight"]);
-
-    pokemon['size'] += diffSize;
-    pokemon['weight'] += diffWeight;
-    pokemon['name'] = evolutionPokemon['name'];
-    pokemon['types'] = evolutionPokemon['types'];
-    pokemon['id'] = evolutionPokemon['id'];
-    pokemon['evolveLvl'] = evolutionPokemon['evolveLvl'];
-
-    let msgEmbed = new EmbedBuilder();
-    msgEmbed.setTitle("Félicitations votre " + basePokemon["name"] + " a évolué en " + pokemon["name"] + " !");
-    msgEmbed.setDescription("Grâce à sa nouvelle évolution votre pokémon a gagné en poids et en taille et a peut être des nouveaux types !");
-    msgEmbed.setColor("#08ff00");
-    msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
-
-    updateData();
-
-    return msgEmbed;
+        let msgEmbed = new EmbedBuilder();
+        msgEmbed.setTitle("Félicitations votre " + basePokemon["name"] + " a évolué en " + pokemon["name"] + " !");
+        msgEmbed.setDescription("Grâce à sa nouvelle évolution votre pokémon a gagné en poids et en taille et a peut être des nouveaux types !");
+        msgEmbed.setColor("#08ff00");
+        msgEmbed.setFooter({text: "Pour plus d'informations utilisez la commande *pokemon help*."});
+    });
 }
 
 /**

@@ -9,7 +9,7 @@ const {getPlayerWithId, refreshTeam} = require("./assets");
 
 let { exploreGrass } = require('./explore');
 let { printPokemons } = require('./list');
-let { train } = require('./train');
+let { trainMain } = require('./train2');
 let { infosPokemon } = require('./infosPokemon');
 let { pveMain } = require('./trainPVE');
 let { healPokemons } = require('./heal');
@@ -44,7 +44,7 @@ function execute(message) {
     } else if (args[1] === "start") {
         playerStart(message).then(r => {});
     } else if (args[1] === "train") {
-        train(message).then(r => {});
+        trainMain(message).then(r => {});
     } else if (args[1] === "info") {
         infosPokemon(message).then(r => {});
     } else if (args[1] === "trainPVE" || args[1] === "trainpve") {
