@@ -303,7 +303,7 @@ function helpGlobal() {
     let msgEmbed = new EmbedBuilder();
 
     msgEmbed.setTitle("Help - Pokémon");
-    msgEmbed.setDescription("Commandes pour jouer au pokémon grâce au bot wouhou ! Pour chaque commande il y existe un menu help pour l'afficher utiliser la commande *pokemon [commande] help*.");
+    msgEmbed.setDescription("Commandes pour jouer au pokémon grâce au bot wouhou ! Pour chaque commande il y existe un menu help pour l'afficher utiliser la commande *pokemon help [commande]*.");
     msgEmbed.setFooter({text: "pour plus d'informations utilisez la commande \"pokemon help\"."});
     msgEmbed.setColor("#6e0e91");
     msgEmbed.addFields({name: "start", value: "Pour commencer l'aventure pokémon"});
