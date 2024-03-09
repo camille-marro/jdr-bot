@@ -19,6 +19,7 @@ let { help } = require('./help')
 let { playerStart } = require('./start');
 let { admin } = require('./admin');
 let { defi } = require('./defi');
+let { test } = require('./test');
 
 let pokemonData;
 
@@ -32,9 +33,9 @@ try {
 
 function execute(message) {
     let args = message.content.split(" ");
-    /*if (args[1] === "test") {
+    if (args[1] === "test") {
         test(message);
-    } else */if (args[1] === "explore") {
+    } else if (args[1] === "explore") {
         exploreGrass(message).then(r => {});
     }/* else if (args[1] === "scrap" && message.author.id.toString() === "198381114602160128") {
         scarpPokemons().then(r => {});
