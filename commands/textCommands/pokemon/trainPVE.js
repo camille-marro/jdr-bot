@@ -411,7 +411,8 @@ function getStringHPLeft(currentHP, maxHP) {
     let finalStr = "";
 
     for (let i = 0; i < 10; i++) {
-        if (i > nbSquare) finalStr += ":black_large_square: ";
+        if (currentHP === 0) finalStr += ":black_large_square: ";
+        else if (i > nbSquare) finalStr += ":black_large_square: ";
         else if (i > 1 && i <= 4) finalStr += ":orange_square: ";
         else if (i > 4) finalStr += ":green_square: ";
         else finalStr += ":red_square: ";
