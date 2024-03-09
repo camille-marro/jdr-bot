@@ -1007,11 +1007,9 @@ function changePokemon(player, isPlayer, combatObject, message) {
 
         let msgSent = await message.channel.send({embeds: [msgEmbed]});
 
-        for (let i = 0; i < playerTeam.length; i++) {
+        for (let i = 0; i < playerTeam.length+1; i++) {
             await msgSent.react(emojis[i]);
         }
-
-        await  msgSent.react(emojis[playerTeam.length]);
 
         const filter = (reaction, user) => {
             return emojis.includes(reaction.emoji.name) && !user.bot;
