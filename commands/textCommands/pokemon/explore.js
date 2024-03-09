@@ -2,6 +2,7 @@ const {EmbedBuilder} = require('discord.js');
 
 let assets = require("./assets");
 const { emojis } = require("./utils");
+const {getPlayerPokemonsWithName} = require("./assets");
 
 
 /**
@@ -40,10 +41,13 @@ async function exploreGrass(message) {
     msgEmbed.setDescription("Si vous souhaitez attraper un des ces pokémons réagissez avec l'émoji correspondant");
     msgEmbed.setColor("#f8f055");
     for (let i = 0; i < nbRencontres; i++) {
+        let checkPokemon = getPlayerPokemonsWithName(player, pokemonsFound[i].name);
+        let newStr = "";
+        if (!checkPokemon) newStr = " *(new)*"
         if (pokemonsFound[i]["shiny"]) {
-            msgEmbed.addFields({name: pokemonsFound[i].name + " :sparkles:", value: emojis[i], inline: true});
+            msgEmbed.addFields({name: pokemonsFound[i].name + " :sparkles:" + newStr, value: emojis[i], inline: true});
         } else {
-            msgEmbed.addFields({name: pokemonsFound[i].name, value: emojis[i], inline: true});
+            msgEmbed.addFields({name: pokemonsFound[i].name + newStr, value: emojis[i], inline: true});
         }
 
     }
