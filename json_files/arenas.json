@@ -1,0 +1,3249 @@
+[
+  {
+    "name": "Argenta",
+    "badge": "Roche",
+    "type": "Roche",
+    "lvlConseil": 14,
+    "nbPokemonConseil": 2,
+    "typeConseil": ["Eau", "Plante"],
+    "dresseurs": [
+      {
+        "name": "Sergei",
+        "win": 220,
+        "pokemons": [
+          {
+            "uuid": "a4f77a93-242a-43a4-bcd2-6685f131a55c",
+            "id": 50,
+            "name": "Taupiqueur",
+            "types": [ "Sol" ],
+            "level": 11,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": 26,
+            "size": 0.23,
+            "weight": 0.74,
+            "currentHP": 24,
+            "shiny": false,
+            "stats": [
+              24, 18,  14, 16,
+              18, 28, -1
+            ],
+            "ivs": [ 7, 1, 25, 22, 24, 16 ],
+            "capacities": [
+              {
+                "index": "010",
+                "name": "Griffe",
+                "type": "Normal",
+                "category": "physique",
+                "pp": 35,
+                "puissance": 40,
+                "precision": 100
+              },
+              {
+                "index": "028",
+                "name": "Jet de Sable",
+                "type": "Sol",
+                "category": "statut",
+                "pp": 15,
+                "puissance": 0,
+                "precision": 100
+              },
+              {
+                "index": "045",
+                "name": "Rugissement",
+                "type": "Normal",
+                "category": "statut",
+                "pp": 40,
+                "puissance": 0,
+                "precision": 100
+              }
+            ]
+          },
+          {
+            "uuid": "ec298f2c-90b6-4618-8a5f-3e64481a51f4",
+            "id": 27,
+            "name": "Sabelette",
+            "types": [ "Sol" ],
+            "level": 11,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": 22,
+            "size": 0.65,
+            "weight": 13.8,
+            "currentHP": 34,
+            "shiny": false,
+            "stats": [
+              34, 23,  27, 13,
+              14, 17, -1
+            ],
+            "ivs": [ 18, 10, 25, 29, 20, 26 ],
+            "capacities": [
+              {
+                "index": "111",
+                "name": "Boul'Armure",
+                "type": "Normal",
+                "category": "statut",
+                "pp": 40,
+                "puissance": 0,
+                "precision": 0
+              },
+              {
+                "index": "010",
+                "name": "Griffe",
+                "type": "Normal",
+                "category": "physique",
+                "pp": 35,
+                "puissance": 40,
+                "precision": 100
+              },
+              {
+                "index": "040",
+                "name": "Dard-Venin",
+                "type": "Poison",
+                "category": "physique",
+                "pp": 35,
+                "puissance": 15,
+                "precision": 100
+              },
+              {
+                "index": "028",
+                "name": "Jet de Sable",
+                "type": "Sol",
+                "category": "statut",
+                "pp": 15,
+                "puissance": 0,
+                "precision": 100
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "champion": {
+      "name" : "Pierre",
+      "win": 1386,
+      "pokemons": [
+        {
+          "uuid": "92a74331-521f-46ab-a3fd-0dba67833c16",
+          "id": 74,
+          "name": "Racaillou",
+          "types": [
+            "Roche",
+            "Sol"
+          ],
+          "level": 12,
+          "xp": 0,
+          "sex": "M",
+          "evolveLvl": 25,
+          "size": 0.48,
+          "weight": 24.2,
+          "currentHP": 36,
+          "shiny": false,
+          "stats": [
+            36,
+            27,
+            32,
+            16,
+            16,
+            13,
+            0
+          ],
+          "ivs": [
+            30,
+            18,
+            25,
+            28,
+            26,
+            24
+          ],
+          "capacities": [
+            {
+              "index": "111",
+              "name": "Boul'Armure",
+              "type": "Normal",
+              "category": "statut",
+              "pp": 40,
+              "puissance": 0,
+              "precision": 0
+            },
+            {
+              "index": "033",
+              "name": "Charge",
+              "type": "Normal",
+              "category": "physique",
+              "pp": 35,
+              "puissance": 40,
+              "precision": 100
+            }
+          ]
+        },
+        {
+          "uuid": "965d31b6-663d-4d18-a836-6fd984646951",
+          "id": 95,
+          "name": "Onix",
+          "types": [
+            "Roche",
+            "Sol"
+          ],
+          "level": 14,
+          "xp": 0,
+          "sex": "M",
+          "evolveLvl": -1,
+          "size": 8.01,
+          "weight": 165.9,
+          "currentHP": 35,
+          "shiny": false,
+          "stats": [
+            35,
+            20,
+            53,
+            16,
+            20,
+            27,
+            -1
+          ],
+          "ivs": [
+            20,
+            17,
+            20,
+            18,
+            14,
+            11
+          ],
+          "capacities": [
+            {
+              "index": "106",
+              "name": "Armure",
+              "type": "Normal",
+              "category": "statut",
+              "pp": 30,
+              "puissance": 0,
+              "precision": 0
+            },
+            {
+              "index": "033",
+              "name": "Charge",
+              "type": "Normal",
+              "category": "physique",
+              "pp": 35,
+              "puissance": 40,
+              "precision": 100
+            },
+            {
+              "index": "020",
+              "name": "Étreinte",
+              "type": "Normal",
+              "category": "physique",
+              "pp": 20,
+              "puissance": 15,
+              "precision": 85
+            },
+            {
+              "index": "117",
+              "name": "Patience",
+              "type": "Normal",
+              "category": "physique",
+              "pp": 10,
+              "puissance": 0,
+              "precision": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "Azuria",
+    "badge": "Cascade",
+    "type": "Eau",
+    "lvlConseil": 21,
+    "nbPokemonConseil": 2,
+    "typeConseil": ["Plante", "Électrik"],
+    "dresseurs": [
+      {
+        "name": "Sigfried",
+        "win": 80,
+        "pokemons": [
+          {
+            "uuid": "386e8039-8de0-403c-bfc9-b367fa47bf1c",
+            "id": 116,
+            "name": "Hypotrempe",
+            "types": [
+              "Eau"
+            ],
+            "level": 16,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": 32,
+            "size": 0.44,
+            "weight": 6.64,
+            "currentHP": 39,
+            "shiny": false,
+            "stats": [39,19,31,28,14,27,-1],
+            "ivs": [17,2,22,0,2,13],
+            "capacities": [
+              {
+                "index" : "043",
+                "name" : "Groz'Yeux",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 30,
+                "puissance" : 0,
+                "precision" : 100
+              },
+              {
+                "index" : "055",
+                "name" : "Pistolet à O",
+                "type" : "Eau",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "108",
+                "name" : "Brouillard",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 20,
+                "puissance" : 0,
+                "precision" : 100
+              },
+              {
+                "index" : "116",
+                "name" : "Puissance",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 30,
+                "puissance" : 0,
+                "precision" : 0
+              }
+            ]
+          },
+          {
+            "uuid": "a6764829-1cd2-48fc-90f2-80860eccd88a",
+            "id": 90,
+            "name": "Kokiyas",
+            "types": [
+              "Eau"
+            ],
+            "level": 16,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.27,
+            "weight": 3.84,
+            "currentHP": 40,
+            "shiny": false,
+            "stats": [40,29,38,22,14,22,-1],
+            "ivs": [22,16,1,11,5,25],
+            "capacities": [
+              {
+                "index" : "033",
+                "name" : "Charge",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "055",
+                "name" : "Pistolet à O",
+                "type" : "Eau",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "110",
+                "name" : "Repli",
+                "type" : "Eau",
+                "category" : "statut",
+                "pp" : 40,
+                "puissance" : 0,
+                "precision" : 0
+              },
+              {
+                "index" : "043",
+                "name" : "Groz'Yeux",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 30,
+                "puissance" : 0,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Diana",
+        "win": 380,
+        "pokemons": [
+          {
+            "uuid": "86714c1b-34e9-48fe-b2a3-c266f6bf11b8",
+            "id": 118,
+            "name": "Poissirène",
+            "types": [
+              "Eau"
+            ],
+            "level": 19,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": 33,
+            "size": 0.67,
+            "weight": 11.7,
+            "currentHP": 51,
+            "shiny": false,
+            "stats": [51,32,31,24,26,30,-1],
+            "ivs": [23,8,14,30,10,3],
+            "capacities": [
+              {
+                "index" : "039",
+                "name" : "Mimi-Queue",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 30,
+                "puissance" : 0,
+                "precision" : 100
+              },
+              {
+                "index" : "064",
+                "name" : "Picpic",
+                "type" : "Vol",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 35,
+                "precision" : 100
+              },
+              {
+                "index" : "048",
+                "name" : "Ultrason",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 20,
+                "puissance" : 0,
+                "precision" : 55
+              },
+              {
+                "index" : "030",
+                "name" : "Koud'Korne",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 65,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "champion": {
+      "name" : "Ondine",
+      "win": 2079,
+      "pokemons": [
+        {
+          "uuid": "33a8977a-95e4-4b21-b103-204cbab1534f",
+          "id": 120,
+          "name": "Stari",
+          "types": [
+            "Eau"
+          ],
+          "level": 18,
+          "xp": 0,
+          "sex": "F",
+          "evolveLvl": -1,
+          "size": 0.82,
+          "weight": 31.39,
+          "currentHP": 43,
+          "shiny": false,
+          "stats": [43,26,26,31,27,39,-1],
+          "ivs": [20,24,4,4,11,17],
+          "capacities": [
+            {
+              "index" : "033",
+              "name" : "Charge",
+              "type" : "Normal",
+              "category" : "physique",
+              "pp" : 35,
+              "puissance" : 40,
+              "precision" : 100
+            },
+            {
+              "index" : "055",
+              "name" : "Pistolet à O",
+              "type" : "Eau",
+              "category" : "spéciale",
+              "pp" : 25,
+              "puissance" : 40,
+              "precision" : 100
+            }
+          ]
+        },
+        {
+          "uuid": "1abe5ad9-4cca-4170-b2fc-353b4d8fd9e5",
+          "id": 121,
+          "name": "Staross",
+          "types": [
+            "Eau",
+            "Psy"
+          ],
+          "level": 21,
+          "xp": 0,
+          "sex": "F",
+          "evolveLvl": -1,
+          "size": 0.94,
+          "weight": 70.4,
+          "currentHP": 62,
+          "shiny": false,
+          "stats": [62,40,42,49,42,60,-1],
+          "ivs": [27,16,6,6,5,30],
+          "capacities": [
+            {
+              "index" : "033",
+              "name" : "Charge",
+              "type" : "Normal",
+              "category" : "physique",
+              "pp" : 35,
+              "puissance" : 40,
+              "precision" : 100
+            },
+            {
+              "index" : "055",
+              "name" : "Pistolet à O",
+              "type" : "Eau",
+              "category" : "spéciale",
+              "pp" : 25,
+              "puissance" : 40,
+              "precision" : 100
+            },
+            {
+              "index" : "061",
+              "name" : "Bulles d'O",
+              "type" : "Eau",
+              "category" : "spéciale",
+              "pp" : 20,
+              "puissance" : 65,
+              "precision" : 100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "Carmin sur Mer",
+    "badge": "Foudre",
+    "type": "Électrik",
+    "lvlConseil": 24,
+    "nbPokemonConseil": 3,
+    "typeConseil": ["Sol"],
+    "dresseurs": [
+      {
+        "name": "Carlos",
+        "win": 500,
+        "pokemons": [
+          {
+            "uuid": "eb6b1266-eda1-4195-b687-c60cad586a8a",
+            "id": 81,
+            "name": "Magnéti",
+            "types": [
+              "Électrik",
+              "Acier"
+            ],
+            "level": 20,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": 30,
+            "size": 0.31,
+            "weight": 6.72,
+            "currentHP": 44,
+            "shiny": false,
+            "stats": [44,25,37,48,28,26,-1],
+            "ivs": [18,30,20,23,4,13],
+            "capacities": [
+              {
+                "index" : "033",
+                "name" : "Charge",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "084",
+                "name" : "Éclair",
+                "type" : "Électrik",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "048",
+                "name" : "Ultrason",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 20,
+                "puissance" : 0,
+                "precision" : 55
+              },
+              {
+                "index" : "086",
+                "name" : "Cage Éclair",
+                "type" : "Électrik",
+                "category" : "statut",
+                "pp" : 20,
+                "puissance" : 0,
+                "precision" : 90
+              }
+            ]
+          },
+          {
+            "uuid": "5e356d4f-49ac-41c3-adaf-ac1ee5d6ae9e",
+            "id": 100,
+            "name": "Voltorbe",
+            "types": [
+              "Électrik"
+            ],
+            "level": 20,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": 30,
+            "size": 0.5,
+            "weight": 8.11,
+            "currentHP": 52,
+            "shiny": false,
+            "stats": [52,20,27,29,31,46,-1],
+            "ivs": [26,11,10,10,16,2],
+            "capacities": [
+              {
+                "index" : "033",
+                "name" : "Charge",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "084",
+                "name" : "Éclair",
+                "type" : "Électrik",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "129",
+                "name" : "Météores",
+                "type" : "Normal",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 60,
+                "precision" : 0
+              },
+              {
+                "index" : "103",
+                "name" : "Grincement",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 40,
+                "puissance" : 0,
+                "precision" : 85
+              }
+            ]
+          },
+          {
+            "uuid": "ced02afe-b6c0-4496-9f39-aea5621c750b",
+            "id": 100,
+            "name": "Voltorbe",
+            "types": [
+              "Électrik"
+            ],
+            "level": 26,
+            "xp": 36,
+            "sex": "F",
+            "evolveLvl": 30,
+            "size": 0.47,
+            "weight": 10.19,
+            "currentHP": 57,
+            "shiny": false,
+            "stats": [57,25,35,36,37,62,-1],
+            "ivs": [0,14,15,8,11,19],
+            "capacities": [
+              {
+                "index" : "033",
+                "name" : "Charge",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "084",
+                "name" : "Éclair",
+                "type" : "Électrik",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "049",
+                "name" : "Sonic Boom",
+                "type" : "Normal",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 0,
+                "precision" : 90
+              },
+              {
+                "index" : "103",
+                "name" : "Grincement",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 40,
+                "puissance" : 0,
+                "precision" : 85
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Harpo",
+        "win": 630,
+        "pokemons": [
+          {
+            "uuid": "5f1f9a59-9d90-4176-be07-38bb77694523",
+            "id": 25,
+            "name": "Pikachu",
+            "types": [
+              "Électrik"
+            ],
+            "level": 20,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 0.34,
+            "weight": 6.84,
+            "currentHP": 45,
+            "shiny": false,
+            "stats": [45,30,27,31,26,41,-1],
+            "ivs": [3,13,28,29,5,0],
+            "capacities": [
+              {
+                "index" : "084",
+                "name" : "Éclair",
+                "type" : "Électrik",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "104",
+                "name" : "Reflet",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 0
+              },
+              {
+                "index" : "045",
+                "name" : "Rugissement",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 40,
+                "puissance" : 0,
+                "precision" : 100
+              },
+              {
+                "index" : "098",
+                "name" : "Vive-Attaque",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              }
+            ]
+          },
+          {
+            "uuid": "7230c710-7c18-4e35-87fd-691a3bff24dc",
+            "id": 25,
+            "name": "Pikachu",
+            "types": [
+              "Électrik"
+            ],
+            "level": 20,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.44,
+            "weight": 7.5,
+            "currentHP": 45,
+            "shiny": false,
+            "stats": [45,31,24,31,26,43,-1],
+            "ivs": [4,16,11,29,1,9],
+            "capacities": [
+              {
+                "index" : "084",
+                "name" : "Éclair",
+                "type" : "Électrik",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "039",
+                "name" : "Mimi-Queue",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 30,
+                "puissance" : 0,
+                "precision" : 100
+              },
+              {
+                "index" : "104",
+                "name" : "Reflet",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 0
+              },
+              {
+                "index" : "098",
+                "name" : "Vive-Attaque",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Hugues",
+        "win": 1610,
+        "pokemons": [
+          {
+            "uuid": "1da651da-37e8-4825-87b5-6cd84a237131",
+            "id": 25,
+            "name": "Pikachu",
+            "types": [
+              "Électrik"
+            ],
+            "level": 23,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.46,
+            "weight": 5.28,
+            "currentHP": 54,
+            "shiny": false,
+            "stats": [54,31,28,29,29,47,-1],
+            "ivs": [21,2,18,3,4,1],
+            "capacities": [
+              {
+                "index" : "084",
+                "name" : "Éclair",
+                "type" : "Électrik",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "086",
+                "name" : "Cage Éclair",
+                "type" : "Électrik",
+                "category" : "statut",
+                "pp" : 20,
+                "puissance" : 0,
+                "precision" : 90
+              },
+              {
+                "index" : "104",
+                "name" : "Reflet",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 0
+              },
+              {
+                "index" : "098",
+                "name" : "Vive-Attaque",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "champion": {
+      "name" : "Major Bob",
+      "win": 2376,
+      "pokemons": [
+        {
+          "uuid": "1517fce7-640b-4be7-9c06-ab5b953e35aa",
+          "id": 100,
+          "name": "Voltorbe",
+          "types": [
+            "Électrik"
+          ],
+          "level": 23,
+          "xp": 0,
+          "sex": "F",
+          "evolveLvl": 30,
+          "size": 0.51,
+          "weight": 8.01,
+          "currentHP": 58,
+          "shiny": false,
+          "stats": [58,24,30,33,37,58,-1],
+          "ivs": [26,19,6,11,25,29],
+          "capacities": [
+            {
+              "index" : "033",
+              "name" : "Charge",
+              "type" : "Normal",
+              "category" : "physique",
+              "pp" : 35,
+              "puissance" : 40,
+              "precision" : 100
+            },
+            {
+              "index" : "049",
+              "name" : "Sonic Boom",
+              "type" : "Normal",
+              "category" : "spéciale",
+              "pp" : 20,
+              "puissance" : 0,
+              "precision" : 90
+            },
+            {
+              "index" : "103",
+              "name" : "Grincement",
+              "type" : "Normal",
+              "category" : "statut",
+              "pp" : 40,
+              "puissance" : 0,
+              "precision" : 85
+            }
+          ]
+        },
+        {
+          "uuid": "ce44f023-755d-4cae-bb1d-93d0c59d5e0e",
+          "id": 25,
+          "name": "Pikachu",
+          "types": [
+            "Électrik"
+          ],
+          "level": 20,
+          "xp": 0,
+          "sex": "M",
+          "evolveLvl": -1,
+          "size": 0.49,
+          "weight": 7.5,
+          "currentHP": 44,
+          "shiny": false,
+          "stats": [44,30,26,26,31,42,-1],
+          "ivs": [0,14,21,1,27,3],
+          "capacities": [
+            {
+              "index" : "084",
+              "name" : "Éclair",
+              "type" : "Électrik",
+              "category" : "spéciale",
+              "pp" : 30,
+              "puissance" : 40,
+              "precision" : 100
+            },
+            {
+              "index" : "086",
+              "name" : "Cage Éclair",
+              "type" : "Électrik",
+              "category" : "statut",
+              "pp" : 20,
+              "puissance" : 0,
+              "precision" : 90
+            },
+            {
+              "index" : "045",
+              "name" : "Rugissement",
+              "type" : "Normal",
+              "category" : "statut",
+              "pp" : 40,
+              "puissance" : 0,
+              "precision" : 100
+            },
+            {
+              "index" : "098",
+              "name" : "Vive-Attaque",
+              "type" : "Normal",
+              "category" : "physique",
+              "pp" : 30,
+              "puissance" : 40,
+              "precision" : 100
+            }
+          ]
+        },
+        {
+          "uuid": "749cab37-9c7d-411e-badc-520f6543e6db",
+          "id": 26,
+          "name": "Raichu",
+          "types": [
+            "Électrik"
+          ],
+          "level": 1,
+          "xp": 0,
+          "sex": "F",
+          "evolveLvl": -1,
+          "size": 1,
+          "weight": 28.8,
+          "currentHP": 13,
+          "shiny": false,
+          "stats": [13,7,7,7,7,7,7],
+          "ivs": [14,17,5,22,12,18],
+          "capacities": [
+            {
+              "index" : "084",
+              "name" : "Éclair",
+              "type" : "Électrik",
+              "category" : "spéciale",
+              "pp" : 30,
+              "puissance" : 40,
+              "precision" : 100
+            },
+            {
+              "index" : "086",
+              "name" : "Cage Éclair",
+              "type" : "Électrik",
+              "category" : "statut",
+              "pp" : 20,
+              "puissance" : 0,
+              "precision" : 90
+            },
+            {
+              "index" : "045",
+              "name" : "Rugissement",
+              "type" : "Normal",
+              "category" : "statut",
+              "pp" : 40,
+              "puissance" : 0,
+              "precision" : 100
+            },
+            {
+              "index" : "085",
+              "name" : "Tonnerre",
+              "type" : "Électrik",
+              "category" : "spéciale",
+              "pp" : 15,
+              "puissance" : 90,
+              "precision" : 100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "Céladopole",
+    "badge": "Prisme",
+    "type": "Plante",
+    "lvlConseil": 29,
+    "nbPokemonConseil": 4,
+    "typeConseil": ["Feu"],
+    "dresseurs": [
+      {
+        "name": "Katy",
+        "win": 345,
+        "pokemons": [
+          {
+            "uuid": "c05bd214-0629-4051-9d89-a9e48d3a76e2",
+            "id": 69,
+            "name": "Chétiflor",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 23,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 0.71,
+            "weight": 4.44,
+            "currentHP": 57,
+            "shiny": false,
+            "stats": [57,42,24,44,20,31,-1],
+            "ivs": [3,7,11,28,5,30],
+            "capacities": [
+              {
+                "index" : "022",
+                "name" : "Fouet Lianes",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 45,
+                "precision" : 100
+              },
+              {
+                "index" : "051",
+                "name" : "Acide",
+                "type" : "Poison",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "035",
+                "name" : "Ligotage",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 20,
+                "puissance" : 15,
+                "precision" : 90
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              }
+            ]
+          },
+          {
+            "uuid": "bee7c4e9-148a-4c5d-ad2b-1c1dab80c662",
+            "id": 70,
+            "name": "Boustiflor",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 23,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 1.03,
+            "weight": 5.31,
+            "currentHP": 67,
+            "shiny": false,
+            "stats": [67,48,33,51,30,36,-1],
+            "ivs": [14,5,19,28,16,23],
+            "capacities": [
+              {
+                "index" : "022",
+                "name" : "Fouet Lianes",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 45,
+                "precision" : 100
+              },
+              {
+                "index" : "078",
+                "name" : "Para-Spore",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 30,
+                "puissance" : 0,
+                "precision" : 75
+              },
+              {
+                "index" : "035",
+                "name" : "Ligotage",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 20,
+                "puissance" : 15,
+                "precision" : 90
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Élodie",
+        "win": 1470,
+        "pokemons": [
+          {
+            "uuid": "ab76cf05-2fb8-4d1c-9080-b723bd2b10fd",
+            "id": 43,
+            "name": "Mystherbe",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 21,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 0.4,
+            "weight": 6.53,
+            "currentHP": 52,
+            "shiny": false,
+            "stats": [52,31,32,39,34,23,-1],
+            "ivs": [6,20,14,9,4,22],
+            "capacities": [
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              },
+              {
+                "index" : "071",
+                "name" : "Vole-Vie",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 20,
+                "precision" : 100
+              },
+              {
+                "index" : "051",
+                "name" : "Acide",
+                "type" : "Poison",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "072",
+                "name" : "Méga-Sangsue",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 15,
+                "puissance" : 40,
+                "precision" : 100
+              }
+            ]
+          },
+          {
+            "uuid": "23ff5bcd-060e-4ac8-98aa-bccead82a5ee",
+            "id": 43,
+            "name": "Mystherbe",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 21,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.58,
+            "weight": 6.43,
+            "currentHP": 56,
+            "shiny": false,
+            "stats": [56,29,32,42,37,24,-1],
+            "ivs": [29,11,17,25,20,28],
+            "capacities": [
+              {
+                "index" : "078",
+                "name" : "Para-Spore",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 30,
+                "puissance" : 0,
+                "precision" : 75
+              },
+              {
+                "index" : "071",
+                "name" : "Vole-Vie",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 20,
+                "precision" : 100
+              },
+              {
+                "index" : "051",
+                "name" : "Acide",
+                "type" : "Poison",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "072",
+                "name" : "Méga-Sangsue",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 15,
+                "puissance" : 40,
+                "precision" : 100
+              }
+            ]
+          },
+          {
+            "uuid": "59c93ef2-f055-4423-b951-2c723636073e",
+            "id": 69,
+            "name": "Chétiflor",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 21,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.77,
+            "weight": 3.2,
+            "currentHP": 55,
+            "shiny": false,
+            "stats": [55,42,23,41,20,23,-1],
+            "ivs": [13,25,13,30,8,3],
+            "capacities": [
+              {
+                "index" : "022",
+                "name" : "Fouet Lianes",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 45,
+                "precision" : 100
+              },
+              {
+                "index" : "074",
+                "name" : "Croissance",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 20,
+                "puissance" : 0,
+                "precision" : 0
+              },
+              {
+                "index" : "035",
+                "name" : "Ligotage",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 20,
+                "puissance" : 15,
+                "precision" : 90
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              }
+            ]
+          },
+          {
+            "uuid": "53e7ed29-152b-48d4-a616-87eb4a697081",
+            "id": 69,
+            "name": "Chétiflor",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 21,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.88,
+            "weight": 4.36,
+            "currentHP": 54,
+            "shiny": false,
+            "stats": [54,43,24,41,24,24,-1],
+            "ivs": [5,29,16,27,28,7],
+            "capacities": [
+              {
+                "index" : "022",
+                "name" : "Fouet Lianes",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 45,
+                "precision" : 100
+              },
+              {
+                "index" : "078",
+                "name" : "Para-Spore",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 30,
+                "puissance" : 0,
+                "precision" : 75
+              },
+              {
+                "index" : "035",
+                "name" : "Ligotage",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 20,
+                "puissance" : 15,
+                "precision" : 90
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Marie",
+        "win": 1680,
+        "pokemons": [
+          {
+            "uuid": "fd2af1c3-1d15-4552-ab92-149136f05c20",
+            "id": 69,
+            "name": "Chétiflor",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 24,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.84,
+            "weight": 4.48,
+            "currentHP": 62,
+            "shiny": false,
+            "stats": [62,44,26,46,25,29,-1],
+            "ivs": [14,9,14,28,23,18],
+            "capacities": [
+              {
+                "index" : "022",
+                "name" : "Fouet Lianes",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 45,
+                "precision" : 100
+              },
+              {
+                "index" : "051",
+                "name" : "Acide",
+                "type" : "Poison",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "077",
+                "name" : "Poudre Toxik",
+                "type" : "Poison",
+                "category" : "statut",
+                "pp" : 35,
+                "puissance" : 0,
+                "precision" : 75
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              }
+            ]
+          },
+          {
+            "uuid": "4585d1a9-2ffc-4d7b-ba5a-ddbd8517c684",
+            "id": 69,
+            "name": "Chétiflor",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 24,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.6,
+            "weight": 4,
+            "currentHP": 59,
+            "shiny": false,
+            "stats": [59,46,23,44,21,25,-1],
+            "ivs": [2,18,2,21,6,0],
+            "capacities": [
+              {
+                "index" : "022",
+                "name" : "Fouet Lianes",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 45,
+                "precision" : 100
+              },
+              {
+                "index" : "077",
+                "name" : "Poudre Toxik",
+                "type" : "Poison",
+                "category" : "statut",
+                "pp" : 35,
+                "puissance" : 0,
+                "precision" : 75
+              },
+              {
+                "index" : "035",
+                "name" : "Ligotage",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 20,
+                "puissance" : 15,
+                "precision" : 90
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Lisa",
+        "win": 480,
+        "pokemons": [
+          {
+            "uuid": "39f8f333-1c08-43ef-8fd0-465da12230f1",
+            "id": 1,
+            "name": "Bulbizarre",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 24,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 0.76,
+            "weight": 8,
+            "currentHP": 58,
+            "shiny": false,
+            "stats": [58,31,32,41,39,31,-1],
+            "ivs": [6,10,13,20,8,17],
+            "capacities": [
+              {
+                "index" : "036",
+                "name" : "Bélier",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 20,
+                "puissance" : 90,
+                "precision" : 85
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              },
+              {
+                "index" : "022",
+                "name" : "Fouet Lianes",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 45,
+                "precision" : 100
+              },
+              {
+                "index" : "075",
+                "name" : "Tranch'Herbe",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 55,
+                "precision" : 95
+              }
+            ]
+          },
+          {
+            "uuid": "11d84592-a965-4cb5-9df0-d3f10d994ffb",
+            "id": 2,
+            "name": "Herbizarre",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 24,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": 32,
+            "size": 0.92,
+            "weight": 12.74,
+            "currentHP": 68,
+            "shiny": false,
+            "stats": [68,38,42,46,47,38,-1],
+            "ivs": [21,11,25,10,12,17],
+            "capacities": [
+              {
+                "index" : "033",
+                "name" : "Charge",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "075",
+                "name" : "Tranch'Herbe",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 55,
+                "precision" : 95
+              },
+              {
+                "index" : "022",
+                "name" : "Fouet Lianes",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 45,
+                "precision" : 100
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Tina",
+        "win": 1820,
+        "pokemons": [
+          {
+            "uuid": "642964bd-4b35-434a-b174-49f4931f0ab4",
+            "id": 102,
+            "name": "Noeunoeuf",
+            "types": [
+              "Plante",
+              "Psy"
+            ],
+            "level": 26,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 0.39,
+            "weight": 2.6,
+            "currentHP": 73,
+            "shiny": false,
+            "stats": [73,29,49,44,35,31,-1],
+            "ivs": [22,10,6,30,25,17],
+            "capacities": [
+              {
+                "index" : "093",
+                "name" : "Choc Mental",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 50,
+                "precision" : 100
+              },
+              {
+                "index" : "140",
+                "name" : "Pilonnage",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 20,
+                "puissance" : 15,
+                "precision" : 85
+              },
+              {
+                "index" : "071",
+                "name" : "Vole-Vie",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 20,
+                "precision" : 100
+              },
+              {
+                "index" : "072",
+                "name" : "Méga-Sangsue",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 15,
+                "puissance" : 40,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Laurence",
+        "win": 840,
+        "pokemons": [
+          {
+            "uuid": "126d0a03-c446-4823-a291-98068a981fcb",
+            "id": 70,
+            "name": "Boustiflor",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 24,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 1.09,
+            "weight": 6.85,
+            "currentHP": 67,
+            "shiny": false,
+            "stats": [67,50,31,48,34,38,-1],
+            "ivs": [6,4,5,8,29,25],
+            "capacities": [
+              {
+                "index" : "022",
+                "name" : "Fouet Lianes",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 45,
+                "precision" : 100
+              },
+              {
+                "index" : "051",
+                "name" : "Acide",
+                "type" : "Poison",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "035",
+                "name" : "Ligotage",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 20,
+                "puissance" : 15,
+                "precision" : 90
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              }
+            ]
+          },
+          {
+            "uuid": "774b616b-c544-4944-bbac-60293b949e30",
+            "id": 44,
+            "name": "Ortide",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 24,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.67,
+            "weight": 9.72,
+            "currentHP": 70,
+            "shiny": false,
+            "stats": [70,39,44,53,42,25,-1],
+            "ivs": [26,10,22,26,1,3],
+            "capacities": [
+              {
+                "index" : "051",
+                "name" : "Acide",
+                "type" : "Poison",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              },
+              {
+                "index" : "071",
+                "name" : "Vole-Vie",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 20,
+                "precision" : 100
+              },
+              {
+                "index" : "072",
+                "name" : "Méga-Sangsue",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 15,
+                "puissance" : 40,
+                "precision" : 100
+              }
+            ]
+          },
+          {
+            "uuid": "c6e790ec-eb1f-4ca5-85ff-98535499a232",
+            "id": 2,
+            "name": "Herbizarre",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 24,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": 32,
+            "size": 1.03,
+            "weight": 10.66,
+            "currentHP": 65,
+            "shiny": false,
+            "stats": [65,39,36,45,49,36,-1],
+            "ivs": [6,17,1,6,23,7],
+            "capacities": [
+              {
+                "index" : "033",
+                "name" : "Charge",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              },
+              {
+                "index" : "022",
+                "name" : "Fouet Lianes",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 45,
+                "precision" : 100
+              },
+              {
+                "index" : "075",
+                "name" : "Tranch'Herbe",
+                "type" : "Plante",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 55,
+                "precision" : 95
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Tamia",
+        "win": 345,
+        "pokemons": [
+          {
+            "uuid": "36d4ab31-3c01-4511-b1ce-3bc13e8ce445",
+            "id": 43,
+            "name": "Mystherbe",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 23,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.46,
+            "weight": 5.78,
+            "currentHP": 55,
+            "shiny": false,
+            "stats": [55,31,31,40,40,26,-1],
+            "ivs": [5,10,0,0,21,28],
+            "capacities": [
+              {
+                "index" : "078",
+                "name" : "Para-Spore",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 30,
+                "puissance" : 0,
+                "precision" : 75
+              },
+              {
+                "index" : "071",
+                "name" : "Vole-Vie",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 20,
+                "precision" : 100
+              },
+              {
+                "index" : "051",
+                "name" : "Acide",
+                "type" : "Poison",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "072",
+                "name" : "Méga-Sangsue",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 15,
+                "puissance" : 40,
+                "precision" : 100
+              }
+            ]
+          },
+          {
+            "uuid": "5d35244c-b0c1-4983-9d50-d75730492180",
+            "id": 44,
+            "name": "Ortide",
+            "types": [
+              "Plante",
+              "Poison"
+            ],
+            "level": 23,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 0.84,
+            "weight": 8.6,
+            "currentHP": 63,
+            "shiny": false,
+            "stats": [63,41,45,49,44,28,-1],
+            "ivs": [8,26,30,17,16,19],
+            "capacities": [
+              {
+                "index" : "051",
+                "name" : "Acide",
+                "type" : "Poison",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "079",
+                "name" : "Poudre Dodo",
+                "type" : "Plante",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 75
+              },
+              {
+                "index" : "071",
+                "name" : "Vole-Vie",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 20,
+                "precision" : 100
+              },
+              {
+                "index" : "072",
+                "name" : "Méga-Sangsue",
+                "type" : "Plante",
+                "category" : "spéciale",
+                "pp" : 15,
+                "puissance" : 40,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "champion": {
+      "name" : "Érika",
+      "win": 2871,
+      "pokemons": [
+        {
+          "uuid": "d6f805b3-221b-4ec9-bda7-4e2ebf1e57dc",
+          "id": 71,
+          "name": "Empiflor",
+          "types": [
+            "Plante",
+            "Poison"
+          ],
+          "level": 29,
+          "xp": 0,
+          "sex": "M",
+          "evolveLvl": -1,
+          "size": 1.58,
+          "weight": 16.12,
+          "currentHP": 89,
+          "shiny": false,
+          "stats": [89,72,44,66,54,53,-1],
+          "ivs": [11,18,3,9,26,25],
+          "capacities": [
+            {
+              "index" : "079",
+              "name" : "Poudre Dodo",
+              "type" : "Plante",
+              "category" : "statut",
+              "pp" : 15,
+              "puissance" : 0,
+              "precision" : 75
+            },
+            {
+              "index" : "075",
+              "name" : "Tranch'Herbe",
+              "type" : "Plante",
+              "category" : "physique",
+              "pp" : 25,
+              "puissance" : 55,
+              "precision" : 95
+            },
+            {
+              "index": "077",
+              "name": "Poudre Toxik",
+              "type": "Poison",
+              "category": "statut",
+              "pp": 35,
+              "puissance": 0,
+              "precision": 75
+            },
+            {
+              "index": "035",
+              "name": "Ligotage",
+              "type": "Normal",
+              "category": "physique",
+              "pp": 20,
+              "puissance": 15,
+              "precision": 90
+            }
+          ]
+        },
+        {
+          "uuid": "2f8e339c-4855-4873-80ac-04370e21b2b1",
+          "id": 114,
+          "name": "Saquedeneu",
+          "types": [
+            "Plante"
+          ],
+          "level": 24,
+          "xp": 0,
+          "sex": "F",
+          "evolveLvl": -1,
+          "size": 1.13,
+          "weight": 41.65,
+          "currentHP": 67,
+          "shiny": false,
+          "stats": [67,32,67,57,31,35,-1],
+          "ivs": [4,0,28,14,28,2],
+          "capacities": [
+            {
+              "index" : "132",
+              "name" : "Constriction",
+              "type" : "Normal",
+              "category" : "physique",
+              "pp" : 35,
+              "puissance" : 10,
+              "precision" : 100
+            },
+            {
+              "index" : "020",
+              "name" : "Étreinte",
+              "type" : "Normal",
+              "category" : "physique",
+              "pp" : 20,
+              "puissance" : 15,
+              "precision" : 85
+            }
+          ]
+        },
+        {
+          "uuid": "03f1e78f-1c1a-4b2e-ac3e-f25813d9e03e",
+          "id": 45,
+          "name": "Rafflesia",
+          "types": [
+            "Plante",
+            "Poison"
+          ],
+          "level": 29,
+          "xp": 0,
+          "sex": "M",
+          "evolveLvl": -1,
+          "size": 1.45,
+          "weight": 16.37,
+          "currentHP": 84,
+          "shiny": false,
+          "stats": [84,56,57,70,65,40,-1],
+          "ivs": [4,15,8,2,25,18],
+          "capacities": [
+            {
+              "index" : "072",
+              "name" : "Méga-Sangsue",
+              "type" : "Plante",
+              "category" : "spéciale",
+              "pp" : 15,
+              "puissance" : 40,
+              "precision" : 100
+            },
+            {
+              "index": "080",
+              "name": "Danse Fleurs",
+              "type": "Plante",
+              "category": "spéciale",
+              "pp": 10,
+              "puissance": 120,
+              "precision": 100
+            },
+            {
+              "index": "079",
+              "name": "Poudre Dodo",
+              "type": "Plante",
+              "category": "statut",
+              "pp": 15,
+              "puissance": 0,
+              "precision": 75
+            },
+            {
+              "index": "077",
+              "name": "Poudre Toxik",
+              "type": "Poison",
+              "category": "statut",
+              "pp": 35,
+              "puissance": 0,
+              "precision": 75
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "Parmanie",
+    "badge": "Âme",
+    "type": "Poison",
+    "lvlConseil": 42,
+    "nbPokemonConseil": 4,
+    "typeConseil": ["Psy", "Sol"],
+    "dresseurs": [
+      {
+        "name": "Vicente",
+        "win": 1190,
+        "pokemons": [
+          {
+            "uuid": "c2b6389c-5c0d-4eca-a75f-27c3751c3f8f",
+            "id": 64,
+            "name": "Kadabra",
+            "types": [
+              "Psy"
+            ],
+            "level": 34,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 1.63,
+            "weight": 54.24,
+            "currentHP": 72,
+            "shiny": false,
+            "stats": [72,30,27,92,58,83,-1],
+            "ivs": [1,3,2,14,14,17],
+            "capacities": [
+              {
+                "index" : "093",
+                "name" : "Choc Mental",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 50,
+                "precision" : 100
+              },
+              {
+                "index" : "050",
+                "name" : "Entrave",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 20,
+                "puissance" : 0,
+                "precision" : 100
+              },
+              {
+                "index" : "105",
+                "name" : "Soin",
+                "type" : "Normal",
+                "category" : "statut",
+                "pp" : 5,
+                "puissance" : 0,
+                "precision" : 100
+              },
+              {
+                "index" : "060",
+                "name" : "Rafale Psy",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 65,
+                "precision" : 100
+              }
+            ]
+          },
+          {
+            "uuid": "f3d407fe-686e-4970-bf19-9f86f19cfebd",
+            "id": 96,
+            "name": "Soporifik",
+            "types": [
+              "Psy"
+            ],
+            "level": 34,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 1.13,
+            "weight": 39.53,
+            "currentHP": 86,
+            "shiny": false,
+            "stats": [86,41,43,37,72,39,-1],
+            "ivs": [2,9,20,7,15,14],
+            "capacities": [
+              {
+                "index" : "001",
+                "name" : "Écras'Face",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "139",
+                "name" : "Gaz Toxik",
+                "type" : "Poison",
+                "category" : "statut",
+                "pp" : 40,
+                "puissance" : 0,
+                "precision" : 90
+              },
+              {
+                "index" : "060",
+                "name" : "Rafale Psy",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 65,
+                "precision" : 100
+              },
+              {
+                "index" : "029",
+                "name" : "Coup d'Boule",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 15,
+                "puissance" : 70,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Melvin",
+        "win": 1330,
+        "pokemons": [
+          {
+            "uuid": "06281880-354e-4cb6-8e7d-b8d8a3a06f38",
+            "id": 97,
+            "name": "Hypnomade",
+            "types": [
+              "Psy"
+            ],
+            "level": 38,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 1.65,
+            "weight": 86.18,
+            "currentHP": 124,
+            "shiny": false,
+            "stats": [124,68,66,72,103,64,-1],
+            "ivs": [29,18,19,30,27,19],
+            "capacities": [
+              {
+                "index" : "029",
+                "name" : "Coup d'Boule",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 15,
+                "puissance" : 70,
+                "precision" : 100
+              },
+              {
+                "index" : "001",
+                "name" : "Écras'Face",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "139",
+                "name" : "Gaz Toxik",
+                "type" : "Poison",
+                "category" : "statut",
+                "pp" : 40,
+                "puissance" : 0,
+                "precision" : 90
+              },
+              {
+                "index" : "060",
+                "name" : "Rafale Psy",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 65,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Chris",
+        "win": 1085,
+        "pokemons": [
+          {
+            "uuid": "28a8a326-ffe8-4133-8ca7-928e9064c4c8",
+            "id": 64,
+            "name": "Kadabra",
+            "types": [
+              "Psy"
+            ],
+            "level": 31,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 1.44,
+            "weight": 54.24,
+            "currentHP": 76,
+            "shiny": false,
+            "stats": [76,36,29,83,53,75,-1],
+            "ivs": [30,30,15,9,13,14],
+            "capacities": [
+              {
+                "index" : "093",
+                "name" : "Choc Mental",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 50,
+                "precision" : 100
+              },
+              {
+                "index" : "060",
+                "name" : "Rafale Psy",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 65,
+                "precision" : 100
+              },
+              {
+                "index" : "134",
+                "name" : "Télékinésie",
+                "type" : "Psy",
+                "category" : "statut",
+                "pp" : 15,
+                "puissance" : 0,
+                "precision" : 80
+              },
+              {
+                "index" : "115",
+                "name" : "Protection",
+                "type" : "Psy",
+                "category" : "statut",
+                "pp" : 20,
+                "puissance" : 0,
+                "precision" : 0
+              }
+            ]
+          },
+          {
+            "uuid": "86901918-f9a4-4910-8fe7-32455227f514",
+            "id": 96,
+            "name": "Soporifik",
+            "types": [
+              "Psy"
+            ],
+            "level": 31,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 1.14,
+            "weight": 27.22,
+            "currentHP": 87,
+            "shiny": false,
+            "stats": [87,37,36,34,70,41,-1],
+            "ivs": [27,6,9,7,28,30],
+            "capacities": [
+              {
+                "index" : "001",
+                "name" : "Écras'Face",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "060",
+                "name" : "Rafale Psy",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 65,
+                "precision" : 100
+              },
+              {
+                "index" : "093",
+                "name" : "Choc Mental",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 50,
+                "precision" : 100
+              },
+              {
+                "index" : "029",
+                "name" : "Coup d'Boule",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 15,
+                "puissance" : 70,
+                "precision" : 100
+              }
+            ]
+          },
+          {
+            "uuid": "9d1f0b3f-90cc-4c70-a30c-664fb192b257",
+            "id": 96,
+            "name": "Soporifik",
+            "types": [
+              "Psy"
+            ],
+            "level": 31,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.95,
+            "weight": 39.53,
+            "currentHP": 79,
+            "shiny": false,
+            "stats": [79,41,40,36,66,36,-1],
+            "ivs": [0,19,20,11,14,15],
+            "capacities": [
+              {
+                "index" : "001",
+                "name" : "Écras'Face",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "060",
+                "name" : "Rafale Psy",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 65,
+                "precision" : 100
+              },
+              {
+                "index" : "093",
+                "name" : "Choc Mental",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 50,
+                "precision" : 100
+              },
+              {
+                "index" : "029",
+                "name" : "Coup d'Boule",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 15,
+                "puissance" : 70,
+                "precision" : 100
+              }
+            ]
+          },
+          {
+            "uuid": "1e394257-c7df-4ecd-8908-92197ffa3c27",
+            "id": 96,
+            "name": "Soporifik",
+            "types": [
+              "Psy"
+            ],
+            "level": 31,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 0.94,
+            "weight": 34.67,
+            "currentHP": 85,
+            "shiny": false,
+            "stats": [85,41,42,33,64,37,-1],
+            "ivs": [21,20,27,4,8,19],
+            "capacities": [
+              {
+                "index" : "001",
+                "name" : "Écras'Face",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "060",
+                "name" : "Rafale Psy",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 65,
+                "precision" : 100
+              },
+              {
+                "index" : "093",
+                "name" : "Choc Mental",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 50,
+                "precision" : 100
+              },
+              {
+                "index" : "029",
+                "name" : "Coup d'Boule",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 15,
+                "puissance" : 70,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Edgard",
+        "win": 1320,
+        "pokemons": [
+          {
+            "uuid": "03c68d5c-0094-4fce-a9a0-fc94786747b8",
+            "id": 24,
+            "name": "Arbok",
+            "types": [
+              "Poison"
+            ],
+            "level": 33,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 2.98,
+            "weight": 57.2,
+            "currentHP": 89,
+            "shiny": false,
+            "stats": [89,68,60,49,58,60,-1],
+            "ivs": [19,0,27,2,0,4],
+            "capacities": [
+              {
+                "index" : "051",
+                "name" : "Acide",
+                "type" : "Poison",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "035",
+                "name" : "Ligotage",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 20,
+                "puissance" : 15,
+                "precision" : 90
+              },
+              {
+                "index" : "040",
+                "name" : "Dard-Venin",
+                "type" : "Poison",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 15,
+                "precision" : 100
+              },
+              {
+                "index" : "044",
+                "name" : "Morsure",
+                "type" : "Ténèbres",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 60,
+                "precision" : 100
+              }
+            ]
+          },
+          {
+            "uuid": "4ace68f1-92f7-4172-bbf7-c9557b188e29",
+            "id": 28,
+            "name": "Sablaireau",
+            "types": [
+              "Sol"
+            ],
+            "level": 33,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.92,
+            "weight": 30.09,
+            "currentHP": 100,
+            "shiny": false,
+            "stats": [100,72,84,44,48,53,-1],
+            "ivs": [20,2,18,27,19,15],
+            "capacities": [
+              {
+                "index" : "154",
+                "name" : "Combo-Griffe",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 15,
+                "puissance" : 18,
+                "precision" : 80
+              },
+              {
+                "index" : "010",
+                "name" : "Griffe",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "040",
+                "name" : "Dard-Venin",
+                "type" : "Poison",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 15,
+                "precision" : 100
+              },
+              {
+                "index" : "129",
+                "name" : "Météores",
+                "type" : "Normal",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 60,
+                "precision" : 0
+              }
+            ]
+          },
+          {
+            "uuid": "56dc95b9-ec75-427d-a2ff-f7b0d74f4b78",
+            "id": 24,
+            "name": "Arbok",
+            "types": [
+              "Poison"
+            ],
+            "level": 33,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 3.36,
+            "weight": 73.45,
+            "currentHP": 93,
+            "shiny": false,
+            "stats": [93,69,58,55,61,58,-1],
+            "ivs": [30,3,21,20,10,0],
+            "capacities": [
+              {
+                "index" : "051",
+                "name" : "Acide",
+                "type" : "Poison",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "035",
+                "name" : "Ligotage",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 20,
+                "puissance" : 15,
+                "precision" : 90
+              },
+              {
+                "index" : "040",
+                "name" : "Dard-Venin",
+                "type" : "Poison",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 15,
+                "precision" : 100
+              },
+              {
+                "index" : "044",
+                "name" : "Morsure",
+                "type" : "Ténèbres",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 60,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Phil",
+        "win": 1360,
+        "pokemons": [
+          {
+            "uuid": "5948833f-8b03-454c-817a-223aa1fffaf4",
+            "id": 24,
+            "name": "Arbok",
+            "types": [
+              "Poison"
+            ],
+            "level": 34,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 3.22,
+            "weight": 73.45,
+            "currentHP": 94,
+            "shiny": false,
+            "stats": [94,71,57,51,64,67,-1],
+            "ivs": [27,2,13,5,13,22],
+            "capacities": [
+              {
+                "index" : "051",
+                "name" : "Acide",
+                "type" : "Poison",
+                "category" : "spéciale",
+                "pp" : 30,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "035",
+                "name" : "Ligotage",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 20,
+                "puissance" : 15,
+                "precision" : 90
+              },
+              {
+                "index" : "040",
+                "name" : "Dard-Venin",
+                "type" : "Poison",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 15,
+                "precision" : 100
+              },
+              {
+                "index" : "044",
+                "name" : "Morsure",
+                "type" : "Ténèbres",
+                "category" : "physique",
+                "pp" : 25,
+                "puissance" : 60,
+                "precision" : 100
+              }
+            ]
+          },
+          {
+            "uuid": "4408e3fb-6f82-4893-9f3e-394bcbb06426",
+            "id": 28,
+            "name": "Sablaireau",
+            "types": [
+              "Sol"
+            ],
+            "level": 34,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.87,
+            "weight": 29.2,
+            "currentHP": 102,
+            "shiny": false,
+            "stats": [102,74,87,43,46,56,-1],
+            "ivs": [20,1,20,21,8,20],
+            "capacities": [
+              {
+                "index" : "129",
+                "name" : "Météores",
+                "type" : "Normal",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 60,
+                "precision" : 0
+              },
+              {
+                "index" : "154",
+                "name" : "Combo-Griffe",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 15,
+                "puissance" : 18,
+                "precision" : 80
+              },
+              {
+                "index" : "040",
+                "name" : "Dard-Venin",
+                "type" : "Poison",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 15,
+                "precision" : 100
+              },
+              {
+                "index" : "010",
+                "name" : "Griffe",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Robert",
+        "win": 1190,
+        "pokemons": [
+          {
+            "uuid": "e635e7d2-8bef-4e19-8adc-290fb5ffb590",
+            "id": 96,
+            "name": "Soporifik",
+            "types": [
+              "Psy"
+            ],
+            "level": 34,
+            "xp": 0,
+            "sex": "F",
+            "evolveLvl": -1,
+            "size": 0.83,
+            "weight": 25.27,
+            "currentHP": 93,
+            "shiny": false,
+            "stats": [93,42,41,36,73,35,-1],
+            "ivs": [22,10,15,4,20,4],
+            "capacities": [
+              {
+                "index" : "060",
+                "name" : "Rafale Psy",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 65,
+                "precision" : 100
+              },
+              {
+                "index" : "139",
+                "name" : "Gaz Toxik",
+                "type" : "Poison",
+                "category" : "statut",
+                "pp" : 40,
+                "puissance" : 0,
+                "precision" : 90
+              },
+              {
+                "index" : "093",
+                "name" : "Choc Mental",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 25,
+                "puissance" : 50,
+                "precision" : 100
+              },
+              {
+                "index" : "029",
+                "name" : "Coup d'Boule",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 15,
+                "puissance" : 70,
+                "precision" : 100
+              }
+            ]
+          },
+          {
+            "uuid": "2b8ef0cc-c633-4675-bbfc-669c837e5a3e",
+            "id": 97,
+            "name": "Hypnomade",
+            "types": [
+              "Psy"
+            ],
+            "level": 34,
+            "xp": 0,
+            "sex": "M",
+            "evolveLvl": -1,
+            "size": 1.81,
+            "weight": 68.8,
+            "currentHP": 109,
+            "shiny": false,
+            "stats": [109,56,61,58,90,51,-1],
+            "ivs": [20,4,24,8,18,0],
+            "capacities": [
+              {
+                "index" : "095",
+                "name" : "Hypnose",
+                "type" : "Psy",
+                "category" : "statut",
+                "pp" : 20,
+                "puissance" : 0,
+                "precision" : 60
+              },
+              {
+                "index" : "001",
+                "name" : "Écras'Face",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 35,
+                "puissance" : 40,
+                "precision" : 100
+              },
+              {
+                "index" : "029",
+                "name" : "Coup d'Boule",
+                "type" : "Normal",
+                "category" : "physique",
+                "pp" : 15,
+                "puissance" : 70,
+                "precision" : 100
+              },
+              {
+                "index" : "060",
+                "name" : "Rafale Psy",
+                "type" : "Psy",
+                "category" : "spéciale",
+                "pp" : 20,
+                "puissance" : 65,
+                "precision" : 100
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "champion": {
+      "name" : "Koga",
+      "win": 4257,
+      "pokemons": [
+        {
+          "uuid": "5983635a-539b-4bbe-bc41-fda55428a076",
+          "id": 109,
+          "name": "Smogo",
+          "types": [
+            "Poison"
+          ],
+          "level": 37,
+          "xp": 0,
+          "sex": "F",
+          "evolveLvl": -1,
+          "size": 0.56,
+          "weight": 1.06,
+          "currentHP": 82,
+          "shiny": false,
+          "stats": [82,62,79,61,49,33,-1],
+          "ivs": [13,22,9,30,27,5],
+          "capacities": [
+            {
+              "index" : "033",
+              "name" : "Charge",
+              "type" : "Normal",
+              "category" : "physique",
+              "pp" : 35,
+              "puissance" : 40,
+              "precision" : 100
+            },
+            {
+              "index" : "124",
+              "name" : "Détritus",
+              "type" : "Poison",
+              "category" : "spéciale",
+              "pp" : 20,
+              "puissance" : 65,
+              "precision" : 100
+            },
+            {
+              "index" : "123",
+              "name" : "Purédpois",
+              "type" : "Poison",
+              "category" : "spéciale",
+              "pp" : 20,
+              "puissance" : 30,
+              "precision" : 70
+            },
+            {
+              "index" : "108",
+              "name" : "Brouillard",
+              "type" : "Normal",
+              "category" : "statut",
+              "pp" : 20,
+              "puissance" : 0,
+              "precision" : 100
+            }
+          ]
+        },
+        {
+          "uuid": "222b383b-db22-4963-9767-00e3c57b5866",
+          "id": 109,
+          "name": "Smogo",
+          "types": [
+            "Poison"
+          ],
+          "level": 37,
+          "xp": 0,
+          "sex": "M",
+          "evolveLvl": -1,
+          "size": 0.47,
+          "weight": 1.14,
+          "currentHP": 79,
+          "shiny": false,
+          "stats": [79,65,83,56,41,42,-1],
+          "ivs": [5,30,19,17,6,29],
+          "capacities": [
+            {
+              "index" : "033",
+              "name" : "Charge",
+              "type" : "Normal",
+              "category" : "physique",
+              "pp" : 35,
+              "puissance" : 40,
+              "precision" : 100
+            },
+            {
+              "index" : "124",
+              "name" : "Détritus",
+              "type" : "Poison",
+              "category" : "spéciale",
+              "pp" : 20,
+              "puissance" : 65,
+              "precision" : 100
+            },
+            {
+              "index" : "123",
+              "name" : "Purédpois",
+              "type" : "Poison",
+              "category" : "spéciale",
+              "pp" : 20,
+              "puissance" : 30,
+              "precision" : 70
+            },
+            {
+              "index" : "108",
+              "name" : "Brouillard",
+              "type" : "Normal",
+              "category" : "statut",
+              "pp" : 20,
+              "puissance" : 0,
+              "precision" : 100
+            }
+          ]
+        },
+        {
+          "uuid": "1d161b72-f42c-46f5-97d1-a4a25c10c899",
+          "id": 110,
+          "name": "Smogogo",
+          "types": [
+            "Poison"
+          ],
+          "level": 43,
+          "xp": 0,
+          "sex": "M",
+          "evolveLvl": -1,
+          "size": 1.26,
+          "weight": 11.59,
+          "currentHP": 113,
+          "shiny": false,
+          "stats": [113,87,109,85,71,67,-1],
+          "ivs": [9,10,1,14,12,24],
+          "capacities": [
+            {
+              "index" : "124",
+              "name" : "Détritus",
+              "type" : "Poison",
+              "category" : "spéciale",
+              "pp" : 20,
+              "puissance" : 65,
+              "precision" : 100
+            },
+            {
+              "index" : "120",
+              "name" : "Destruction",
+              "type" : "Normal",
+              "category" : "physique",
+              "pp" : 5,
+              "puissance" : 200,
+              "precision" : 100
+            },
+            {
+              "index" : "092",
+              "name" : "Toxik",
+              "type" : "Poison",
+              "category" : "statut",
+              "pp" : 10,
+              "puissance" : 0,
+              "precision" : 90
+            },
+            {
+              "index" : "123",
+              "name" : "Purédpois",
+              "type" : "Poison",
+              "category" : "spéciale",
+              "pp" : 20,
+              "puissance" : 30,
+              "precision" : 70
+            }
+          ]
+        },
+        {
+          "uuid": "7fee605e-ab11-4141-a48d-56e22b6102c4",
+          "id": 89,
+          "name": "Grotadmorv",
+          "types": [
+            "Poison"
+          ],
+          "level": 39,
+          "xp": 0,
+          "sex": "F",
+          "evolveLvl": -1,
+          "size": 1.03,
+          "weight": 22.8,
+          "currentHP": 138,
+          "shiny": false,
+          "stats": [138,87,64,63,90,53,-1],
+          "ivs": [18,0,1,18,17,22],
+          "capacities": [
+            {
+              "index" : "107",
+              "name" : "Lilliput",
+              "type" : "Normal",
+              "category" : "statut",
+              "pp" : 10,
+              "puissance" : 0,
+              "precision" : 0
+            },
+            {
+              "index" : "139",
+              "name" : "Gaz Toxik",
+              "type" : "Poison",
+              "category" : "statut",
+              "pp" : 40,
+              "puissance" : 0,
+              "precision" : 90
+            },
+            {
+              "index" : "124",
+              "name" : "Détritus",
+              "type" : "Poison",
+              "category" : "spéciale",
+              "pp" : 20,
+              "puissance" : 65,
+              "precision" : 100
+            },
+            {
+              "index" : "050",
+              "name" : "Entrave",
+              "type" : "Normal",
+              "category" : "statut",
+              "pp" : 20,
+              "puissance" : 0,
+              "precision" : 100
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

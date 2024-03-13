@@ -9,7 +9,7 @@ const {getPlayerWithId, refreshTeam} = require("./assets");
 
 let { exploreGrass } = require('./explore');
 let { printPokemons } = require('./list');
-let { trainMain } = require('./train2');
+let { trainMain } = require('./train');
 let { infosPokemon } = require('./infosPokemon');
 let { pveMain } = require('./trainPVE');
 let { healPokemons } = require('./heal');
@@ -20,6 +20,7 @@ let { playerStart } = require('./start');
 let { admin } = require('./admin');
 let { defi } = require('./defi');
 let { test } = require('./test');
+let {arenaMain} = require("./arena");
 
 let pokemonData;
 
@@ -57,6 +58,8 @@ function execute(message) {
         releasePokemonMain(message);
     } else if (args[1] === "defi") {
         defi(message);
+    } else if (args[1] === "arene" || args[1] === "arène") {
+        arenaMain(message);
     } else if (args[1] === "admin") {
         admin(message);
     } else if (args[1] === "help") {
