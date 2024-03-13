@@ -812,9 +812,8 @@ async function ambiance(message) {
             url = jdrData['ambiances']['exploration'][id];
             break;
 
-        case "combat":
-            id = Math.floor(Math.random() * jdrData['ambiances']['combat'].length);
-            url = jdrData['bars'][id];
+        case "s5":
+            url = jdrData['ambiances']["s5"][0];
             break;
 
         default:
@@ -1337,7 +1336,22 @@ function execute(message) {
         destin(message);
     } else if (args[1] === "roll") {
         roll(message);
+    } else if (args[1] === "start" && message.author.id.toString() === "198381114602160128") {
+        playSeance(message).then(r => {});
     }
+}
+
+function playSeance(message) {
+    let args = message.content.split(" ");
+    return new Promise(async () => {
+        let sons = jdrData["sons seance"];
+        const player = useMasterPlayer();
+        await player.extractors.loadDefault();
+        for (const son of sons) {
+            let url = await player.search(son);
+            await player.play(message.member.voice.channel, url, {leaveOnEmpty: true});
+        }
+    });
 }
 
 module.exports = {
