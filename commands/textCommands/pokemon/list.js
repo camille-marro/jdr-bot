@@ -44,6 +44,15 @@ function printPokemons(message) {
             msgPokemon += pokemonName + " (x" + pokemonsCounted[pokemonName] + ")\n";
         }
     });
+    if (msgPokemon.length >= 2000) {
+        let max = Math.ceil(msgPokemon.length / 2000);
+        let msgPokemonSplit = msgPokemon.split("\n");
+        for (let i = 0; i < max; i++) {
+            let msgPokemon1 = msgPokemonSplit.slice(i*Math.floor(msgPokemonSplit.length/max), (i+1)*Math.floor(msgPokemonSplit.length/max)).join("\n");
+            message.channel.send(msgPokemon1);
+        }
+        return;
+    }
 
     message.channel.send(msgPokemon);
 }
