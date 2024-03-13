@@ -238,7 +238,6 @@ async function addExp(pokemon, xp, message) {
 
 function checkEvolution(pokemon, message) {
     return new Promise(async (resolve, reject) => {
-        console.log(pokemon)
         if ((pokemon["level"] >= pokemon["evolveLvl"]) && (pokemon["evolveLvl"] !== -1)) {
             let pokemonBeforeEvolve = JSON.parse(JSON.stringify(pokemon));
 
@@ -796,7 +795,8 @@ function refreshTeam(player) {
 
 function getPlayerTeam(player) {
     refreshTeam(player);
-    return player["team"];
+    if (player.hasOwnProperty("team")) return player["team"];
+    else return false;
 }
 
 module.exports = {
