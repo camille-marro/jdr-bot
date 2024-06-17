@@ -9,6 +9,7 @@
 /dataSources.local.xml
 
 # Logs
+logs.txt
 logs
 *.log
 npm-debug.log*
@@ -140,7 +141,6 @@ dist
 .pnp.*
 
 #useless datas
-logs.txt
 json_files/pokemonListe.json
 json_files/pokemonCopy.json
 json_files/pokemonTestListe.json
