@@ -24,10 +24,10 @@ function upscale(channel, image_name) {
                 "width": parseInt(res.data.parameters["Size-1"]),
                 "height": parseInt(res.data.parameters["Size-2"]),
                 "enable_hr": true,
-                "denoising_strength": 0.4,
-                "hr_scale": 2,
-                "hr_upscaler": "4xUltrasharp_4xUltrasharpV10",
-                "hr_second_pass_steps": 15
+                "denoising_strength": parameters["denoising_strength"],
+                "hr_scale": parameters["hr_scale"],
+                "hr_upscaler": parameters["hr_upscaler"],
+                "hr_second_pass_steps": parameters["hr_second_pass_steps"]
             }
 
             let msgEmbed = new EmbedBuilder();
