@@ -51,6 +51,9 @@ Configuration :
  - movie : share movie with the Discord server
  - jdr : special commands created for personal uses, described lower
  - game : a little game where you can loot weapons and try to kill your friend on the server
+ - pokemon : a little game where you can capture pokemons and battle with your friends
+ - av : play a "choose-your-own-adventure" book style adventure
+ - imagine : generate image with Stable Diffusion
 
 There is also what I call "voice commands", these are special voice channel that you can interact with for specific behaviour. \
 Here the list :
