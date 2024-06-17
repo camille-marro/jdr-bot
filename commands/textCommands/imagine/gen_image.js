@@ -55,7 +55,7 @@ async function gen_image(description, message) {
 
     let payload = {
         "prompt": description + "<lora:add-detail-xl:0.8>",
-        "negative_prompt": "FastNegativeV2, easynegative",
+        "negative_prompt": "FastNegativeV2, easynegative, " + parameters["negative_prompt"],
         "steps": parameters["steps"],
         "sampler_name": parameters["sampler_name"],
         "cfg_scale": parameters["cfg_scale"],

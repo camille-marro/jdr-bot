@@ -53,6 +53,17 @@ function change_config(message) {
         name = name.slice(0, -1);
         parameters["sampler_name"] = name;
         sendSuccessMessage("Sampler modifié", message);
+    } else if (args[2] === "negative") {
+        if (!args[3]) {
+            sendErrorMessage("Spécifiez le negative prompt !", message);
+            return;
+        }
+        let negative_prompt = "";
+        for (let i = 3; i < args.length; i += 1) {
+            negative_prompt += args[i] + " ";
+        }
+        negative_prompt = negative_prompt.slice(0, -1);
+        parameters["negative_prompt"] = negative_prompt;
     } else if (args[2] === "model") {
         if (!args[3]) {
             sendErrorMessage("Spécifiez un model !", message);
