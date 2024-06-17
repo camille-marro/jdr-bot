@@ -145,6 +145,7 @@ json_files/pokemonListe.json
 json_files/pokemonCopy.json
 json_files/pokemonTestListe.json
 json_files/pokemonCapacitesV2.json
+json_files/livre hero/
 commands/textCommands/pokemon.js
 commands/textCommands/pokemon/test.js
 commands/textCommands/imagine/images
