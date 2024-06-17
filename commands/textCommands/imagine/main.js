@@ -2,6 +2,7 @@ const axios = require("axios");
 
 const { imagine } = require('./gen_image');
 const { change_config } = require('./change_config');
+const { help } = require('./help');
 
 function test(message) {
     let args = message.content.split(" ");
@@ -44,7 +45,10 @@ function execute(message) {
         change_config(message);
         return;
     } else if (args[1] === "test") {
-        test(message);
+        //test(message);
+        return;
+    } else if (args[1] === "help") {
+        help(message);
         return;
     }
 
