@@ -147,3 +147,4 @@ json_files/pokemonTestListe.json
 json_files/pokemonCapacitesV2.json
 commands/textCommands/pokemon.js
 commands/textCommands/pokemon/test.js
+commands/textCommands/imagine/images
