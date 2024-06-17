@@ -76,8 +76,6 @@ async function gen_image(description, message) {
         .then(async res => {
             clearInterval(interval);
 
-            console.log(messageSent.id);
-
             for (let i = 0; i < res.data.images.length; i++) {
                 let image_link = path.resolve(__dirname, "./images/" + messageSent.id + "_" + (i + 1) + ".png");
                 fs.writeFileSync(image_link, res.data.images[i], {encoding: "base64"});
