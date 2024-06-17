@@ -1,8 +1,10 @@
 const {Client, GatewayIntentBits } = require('discord.js');
 const {Player} = require("discord-player");
-require('dotenv').config();
 
+const { clearImages} = require("./assets/clear_images");
 let log = require('./assets/log');
+
+require('dotenv').config();
 
 const client = new Client({
     intents: [
@@ -39,7 +41,7 @@ client.on("ready", function() {
 client.on("messageCreate", message => {
     let msg = message.content;
     let prefix = config['config']['prefix'];
-    let args = msg.split(" ")
+    let args = msg.split(" ");
 
     switch(args[0]) {
         case (prefix + "help"):
@@ -130,6 +132,14 @@ client.on("messageCreate", message => {
             let pokemonGame = require("./commands/textCommands/pokemon/main");
             pokemonGame.execute(message);
             break;
+        case (prefix + "av"):
+            let aventure = require("./commands/textCommands/livre hero/main");
+            aventure.execute(message);
+            break;
+        case (prefix + "imagine"):
+            let imagine = require("./commands/textCommands/imagine/main");
+            imagine.execute(message);
+            break;
     }
 });
 
@@ -181,6 +191,8 @@ client.login(process.env.BOT_TOKEN)
         console.log("|- Connected to Discord server");
         config.printConfig(config.config);
         log.print("Connected to Discord server", 1);
+        clearImages();
+        log.print("AI generated images cleared", 1);
     })
     .catch(e => {
         console.log("|- Can't login : verify discord token");
