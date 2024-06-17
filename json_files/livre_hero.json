@@ -1,0 +1,31 @@
+[
+  {
+    "discordId": "198381114602160128",
+    "chapter": 1,
+    "page": 1,
+    "personnage": {
+      "name": "Brolnir",
+      "stats": {
+        "Int": "40",
+        "For": "80",
+        "Cha": "50",
+        "Dex": "70",
+        "CS": "60",
+        "MC": "60",
+        "Dis": "50",
+        "Inti": "50",
+        "Sur": "60",
+        "Per": "60",
+        "Soi": "50",
+        "CAC": "70",
+        "CAD": "30",
+        "Ref": "70",
+        "Mag": "0",
+        "Tal": "70"
+      },
+      "talent": "",
+      "money": 10
+    },
+    "dead": false
+  }
+]
