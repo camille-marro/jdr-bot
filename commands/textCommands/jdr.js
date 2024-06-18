@@ -358,7 +358,6 @@ function addInventory(message) {
         return;
     }
 
-
     let newItemRaw = "";
     for(let i = 2; i < args.length; i++) newItemRaw += args[i] + " ";
     newItemRaw = newItemRaw.slice(0,-1); // supprime le dernier " "
