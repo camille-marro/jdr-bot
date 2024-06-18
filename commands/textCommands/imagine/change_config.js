@@ -64,6 +64,7 @@ function change_config(message) {
         }
         negative_prompt = negative_prompt.slice(0, -1);
         parameters["negative_prompt"] = negative_prompt;
+        sendSuccessMessage("Negative prompt modifié", message);
     } else if (args[2] === "model") {
         if (!args[3]) {
             sendErrorMessage("Spécifiez un model !", message);
