@@ -26,6 +26,8 @@ function resetStory(player) {
 
 function resetPlayer(player) {
     delete player["personnage"];
+    player["chapter"] = 1;
+    player["page"] = 1;
 }
 
 function resetMain(message, player, players) {

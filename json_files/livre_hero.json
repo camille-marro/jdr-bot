@@ -2,7 +2,7 @@
   {
     "discordId": "198381114602160128",
     "chapter": 1,
-    "page": 1,
+    "page": 15,
     "personnage": {
       "name": "Brolnir",
       "stats": {
@@ -26,6 +26,6 @@
       "talent": "",
       "money": 10
     },
-    "dead": false
+    "dead": true
   }
 ]
