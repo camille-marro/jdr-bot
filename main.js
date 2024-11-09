@@ -1,6 +1,7 @@
-const {Client, GatewayIntentBits } = require('discord.js');
-const {Player} = require("discord-player");
+const path = require("node:path");
+const fs = require("node:fs");
 
+const {Client, Collection, GatewayIntentBits, Events} = require('discord.js');
 const { clearImages} = require("./assets/clear_images");
 let log = require('./assets/log');
 
@@ -17,7 +18,6 @@ const client = new Client({
     ]
 });
 
-let player = Player.singleton(client);
 let config = require('./assets/config.js');
 
 /*
@@ -38,12 +38,12 @@ client.on("ready", function() {
 });
 */
 
-client.on("messageCreate", message => {
+client.on("messageCreate", async message => {
     let msg = message.content;
     let prefix = config['config']['prefix'];
     let args = msg.split(" ");
 
-    switch(args[0]) {
+    switch (args[0]) {
         case (prefix + "help"):
             let help = require('./commands/textCommands/help.js');
             help.help(message);
@@ -191,7 +191,7 @@ client.login(process.env.BOT_TOKEN)
         console.log("|- Connected to Discord server");
         config.printConfig(config.config);
         log.print("Connected to Discord server", 1);
-        clearImages();
+        //clearImages();
         log.print("AI generated images cleared", 1);
     })
     .catch(e => {
