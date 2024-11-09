@@ -150,3 +150,4 @@ json_files/ia_params.json
 commands/textCommands/pokemon.js
 commands/textCommands/pokemon/test.js
 commands/textCommands/imagine/images
+test
