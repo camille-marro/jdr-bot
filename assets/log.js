@@ -14,7 +14,7 @@ function print(text, user=1, content) {
 
     let finalStr = prefix + "\n" + text + "\n" + commande + "\n";
     if (content === undefined) finalStr = prefix + "\n" + text + "\n";
-    fs.appendFileSync("data/logs.txt", finalStr);
+    fs.appendFileSync("logs.txt", finalStr);
 }
 
 module.exports = {
