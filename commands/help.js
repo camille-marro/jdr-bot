@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const log = require("../../assets/log");
+const log = require("../assets/log");
 
 function start(command) {
     let msgEmbed = new EmbedBuilder();

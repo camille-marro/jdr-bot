@@ -9,7 +9,7 @@
 /dataSources.local.xml
 
 # Logs
-logs.txt
+data/logs.txt
 logs
 *.log
 npm-debug.log*
