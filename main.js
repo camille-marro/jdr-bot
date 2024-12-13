@@ -56,16 +56,11 @@ client.on(Events.InteractionCreate, async interaction => {
 
 
 client.login(process.env.BOT_TOKEN)
-    .then(r => {
+    .then(() => {
         console.log("|- Connected to Discord server");
-        log.print("Connected to Discord server", 1);
-        //clearImages();
-        log.print("AI generated images cleared", 1);
     })
     .catch(e => {
-        console.log("|- Can't login : verify discord token");
         console.error(e);
-        log.print("Can't login : verify discord token", 1, e);
     });
 
 module.exports = {
