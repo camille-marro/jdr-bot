@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes} = require('sequelize');
 require('dotenv').config();
 
-const sequelize = new Sequelize('process.env.DB_NAME', 'process.env.DB_USER', 'process.env.DB_PASSWORD', {
-    host: 'process.env.DB_HOST',
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+    host: process.env.DB_HOST,
     dialect: 'mariadb',
     logging: false,
 });
@@ -55,6 +55,18 @@ const PokemonTypes = sequelize.define('PokemonType', {
     typeID: { type: DataTypes.INTEGER, allowNull: false },
 }, { tableName: 'pokemonTypes', timestamps: false, });
 
+const PokemonPlayers = sequelize.define('PokemonPlayers', {
+    ID: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
+    IDDiscordID: { type: DataTypes.INTEGER, allowNull: false },
+    lastExplore: { type: 'TIMESTAMP', defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), allowNull: false },
+}, { tableName: 'pokemonPlayers', timestamps: false, });
+
+const PokemonPokedex = sequelize.define('PokemonPokedex', {
+    ID: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
+    IDPlayer: { type: DataTypes.INTEGER, allowNull: false },
+    IDPokemon: { type: DataTypes.INTEGER, allowNull: false },
+}, { tableName: 'pokemonPokedex', timestamps: false, });
+
 module.exports = {
-    Pokemon, Capacity, Types, PokemonCapacities, PokemonTypes
+    Pokemon, Capacity, Types, PokemonCapacities, PokemonTypes, PokemonPlayers
 }
