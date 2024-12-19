@@ -57,7 +57,7 @@ const PokemonTypes = sequelize.define('PokemonType', {
 
 const PokemonPlayers = sequelize.define('PokemonPlayers', {
     ID: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
-    IDDiscordID: { type: DataTypes.INTEGER, allowNull: false },
+    IDDiscord: { type: DataTypes.INTEGER, allowNull: false },
     lastExplore: { type: 'TIMESTAMP', defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), allowNull: false },
 }, { tableName: 'pokemonPlayers', timestamps: false, });
 
