@@ -20,7 +20,7 @@ async function createPlayer(id) {
 
 async function setTimeExplore(player) {
     let timeStamp = new Date().getTime();
-    timeStamp += 3600000; // 3600000 = 1 heure
+    // timeStamp += 3600000; // 3600000 = 1 heure // à mettre que pour le local
 
     await PokemonPlayers.update(
         { lastExplore: timeStamp},
