@@ -16,7 +16,6 @@ async function exploreGrass(player) {
     let pokemons = await drawPokemon(3);
 
     return [true, pokemons];
-
 }
 
 function getWaitingTime(player) {
