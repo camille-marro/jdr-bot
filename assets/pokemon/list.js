@@ -4,7 +4,8 @@ async function getPlayerPokemons(player) {
     let rawPokemons = await PokemonGenerated.findAll({
         where: {
             IDPlayer: player["ID"]
-        }
+        },
+        order: ['name', 'level']
     });
 
     let pokemons = [];
