@@ -67,6 +67,127 @@ const PokemonPokedex = sequelize.define('PokemonPokedex', {
     IDPokemon: { type: DataTypes.INTEGER, allowNull: false },
 }, { tableName: 'pokemonPokedex', timestamps: false, });
 
+const PokemonGenerated = sequelize.define('PokemonGenerated', {
+    ID: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+    },
+    IDPokemon: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    IDPlayer: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    sex: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    size: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
+    weight: {
+        type: DataTypes.FLOAT,
+        allowNull: false
+    },
+    level: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    xp: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    type1: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    type2: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    currentHp: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    maxHp: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    attack: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    defense: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    speAttack: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    speDefense: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    speed: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    IDComp1: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    IDComp2: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    IDComp3: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    IDComp4: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    IVHp: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    IVAttack: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    IVDefense: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    IVSpeAttack: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    IVSpeDefense: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    IVSpeed: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    shiny: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    }
+}, { tableName: 'pokemonGenerated', timestamps: false, });
+
 module.exports = {
-    sequelize, Pokemon, Capacity, Types, PokemonCapacities, PokemonTypes, PokemonPlayers, PokemonPokedex
+    sequelize, Pokemon, Capacity, Types, PokemonCapacities, PokemonTypes, PokemonPlayers, PokemonPokedex, PokemonGenerated
 }
