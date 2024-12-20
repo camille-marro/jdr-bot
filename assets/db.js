@@ -63,7 +63,7 @@ const PokemonPlayers = sequelize.define('PokemonPlayers', {
 
 const PokemonPokedex = sequelize.define('PokemonPokedex', {
     ID: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
-    IDPlayer: { type: DataTypes.INTEGER, allowNull: false },
+    IDPlayer: { type: DataTypes.STRING, allowNull: false },
     IDPokemon: { type: DataTypes.INTEGER, allowNull: false },
 }, { tableName: 'pokemonPokedex', timestamps: false, });
 
