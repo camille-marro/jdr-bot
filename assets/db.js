@@ -144,7 +144,7 @@ const PokemonGenerated = sequelize.define('PokemonGenerated', {
     },
     IDComp1: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     IDComp2: {
         type: DataTypes.INTEGER,
