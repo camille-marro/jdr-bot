@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, ButtonStyle, ActionRowBuilder, ButtonBuilder, EmbedBuilder} = require("discord.js");
 
-const { getPlayer, createPlayer, setTimeExplore } = require('../../assets/pokemon/checkPlayer.js');
+const { getPlayer, createPlayer, setTimeExplore, getPokemons } = require('../../assets/pokemon/checkPlayer.js');
 const { catchPokemon } = require('../../assets/pokemon/addPokemon.js');
 const { exploreGrass } = require('../../assets/pokemon/explore');
 
@@ -50,7 +50,7 @@ async function explore(interaction, player)  {
                     msgEmbed.setTitle("Bravo vous avez attrapé un : " + res[1][i]['pokemon']["name"] + " !");
                     msgEmbed.setColor("Green");
 
-                    await catchPokemon(player, res[1][i]['pokemon']);
+                    await catchPokemon(player, res[1][i]['pokemon'], res[1][i]['types']);
                     await setTimeExplore(player);
 
                     await interaction.editReply({
@@ -66,6 +66,8 @@ async function explore(interaction, player)  {
                 components: [],
                 embeds: []
             });
+
+            console.error(e);
         }
     } else {
         interaction.reply({embeds: [res[1]]});
@@ -79,7 +81,7 @@ module.exports = {
         .addStringOption(option =>
             option
                 .setName("option")
-                .setDescription("Commande du jeu à faire. Voici la liste : explore")
+                .setDescription("Commande du jeu à faire. Voici la liste : explore, list")
                 .setRequired(true)
         )
     ,
@@ -93,5 +95,8 @@ module.exports = {
 
         let option = interaction.options.getString('option');
         if (option === "explore") await explore(interaction, player);
+        else if (option === "list") {
+            await getPokemons(player);
+        }
     }
 }
