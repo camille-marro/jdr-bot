@@ -3,6 +3,7 @@ const { SlashCommandBuilder, ButtonStyle, ActionRowBuilder, ButtonBuilder, Embed
 const { getPlayer, createPlayer, setTimeExplore, getPokemons } = require('../../assets/pokemon/checkPlayer.js');
 const { catchPokemon } = require('../../assets/pokemon/addPokemon.js');
 const { exploreGrass } = require('../../assets/pokemon/explore');
+const { getPlayerPokemons } = require('../../assets/pokemon/list');
 
 async function explore(interaction, player)  {
     let res = await exploreGrass(player);
@@ -58,6 +59,8 @@ async function explore(interaction, player)  {
                         components: [],
                         embeds: [msgEmbed]
                     });
+
+                    // @TODO : choix des compétences pour le nouveau pokémon si y'a plus de 4 compétences au niv 1
                 }
             }
         } catch (e) {
@@ -72,6 +75,21 @@ async function explore(interaction, player)  {
     } else {
         interaction.reply({embeds: [res[1]]});
     }
+}
+
+async function list(interaction, player)  {
+    let pokemons = await getPlayerPokemons(player);
+    let finalStr = "";
+
+    for (let pokemon of pokemons) {
+        if (pokemon["shiny"]) finalStr += ":sparkles: ";
+        finalStr += pokemon["name"] + " (" + pokemon["sex"] + ") - niv : " + pokemon["level"]
+        finalStr += "\n";
+    }
+
+    interaction.reply({
+        content: finalStr,
+    });
 }
 
 module.exports = {
@@ -95,8 +113,6 @@ module.exports = {
 
         let option = interaction.options.getString('option');
         if (option === "explore") await explore(interaction, player);
-        else if (option === "list") {
-            await getPokemons(player);
-        }
+        else if (option === "list") await list(interaction, player);
     }
 }
