@@ -25,7 +25,7 @@ async function catchPokemon(player, pokemon, types) {
 
     let sex;
     if (pokemon["sex"] != null) {
-        if (pokemon["sex"] <= (Math.floor(Math.random() * (1000 - 1 + 1)) + 1)) sex = ["M"];
+        if (pokemon["sex"] <= (Math.floor(Math.random() * (1000 - 1 + 1)) + 1)) sex = "M";
         else sex = "F";
     } else sex = "/";
 
