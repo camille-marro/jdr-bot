@@ -1,9 +1,8 @@
 const { SlashCommandBuilder, ButtonStyle, ActionRowBuilder, ButtonBuilder, EmbedBuilder} = require("discord.js");
 
-const { getPlayer, createPlayer, setTimeExplore, getPokemons } = require('../../assets/pokemon/checkPlayer.js');
-const { catchPokemon } = require('../../assets/pokemon/addPokemon.js');
+const { getPlayer, createPlayer, setTimeExplore, getPlayerPokemons } = require('../../assets/pokemon/handlePlayer.js');
+const { catchPokemon } = require('../../assets/pokemon/handlePokemon.js');
 const { exploreGrass } = require('../../assets/pokemon/explore');
-const { getPlayerPokemons } = require('../../assets/pokemon/list');
 
 async function explore(interaction, player)  {
     let res = await exploreGrass(player);

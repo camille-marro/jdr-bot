@@ -1,4 +1,4 @@
-const { drawPokemon } = require('./drawPokemon.js');
+const { drawPokemon } = require('./handlePokemon.js');
 const {EmbedBuilder} = require("discord.js");
 
 async function exploreGrass(player) {

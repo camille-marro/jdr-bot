@@ -1,4 +1,5 @@
 const { PokemonPlayers } = require('../db.js');
+const {PokemonGenerated} = require("../db");
 
 async function getPlayer(id) {
     let player = await PokemonPlayers.findAll({
@@ -32,6 +33,22 @@ async function setTimeExplore(player) {
     );
 }
 
+async function getPlayerPokemons(player) {
+    let rawPokemons = await PokemonGenerated.findAll({
+        where: {
+            IDPlayer: player["ID"]
+        },
+        order: ['name', 'level']
+    });
+
+    let pokemons = [];
+    for (let pokemon of rawPokemons) {
+        pokemons.push(pokemon["dataValues"]);
+    }
+
+    return pokemons;
+}
+
 module.exports = {
-    getPlayer, createPlayer, setTimeExplore
+    getPlayer, createPlayer, setTimeExplore, getPlayerPokemons
 }
