@@ -1,9 +1,8 @@
-const { SlashCommandBuilder, ButtonStyle, ActionRowBuilder, ButtonBuilder, EmbedBuilder} = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js");
 
 const { getPlayer, createPlayer } = require('../../assets/pokemon/handlePlayer.js');
 const { explore } = require('../../assets/pokemon/explore');
 const { list } = require('../../assets/pokemon/list');
-
 
 module.exports = {
     data: new SlashCommandBuilder()

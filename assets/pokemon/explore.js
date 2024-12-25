@@ -1,6 +1,5 @@
-const {EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle} = require("discord.js");
-const { catchPokemon, drawPokemon } = require("./handlePokemon");
-const { setTimeExplore } = require("./handlePlayer");
+const {EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { catchPokemon, drawPokemon, checkNewComp } = require("./handlePokemon");
 
 async function explore(interaction, player)  {
     let res = await exploreGrass(player);
@@ -40,16 +39,16 @@ async function explore(interaction, player)  {
         const collectorFilter = i => i.user.id === interaction.user.id;
 
         try {
-            const confirmation = await response.awaitMessageComponent({ filter: collectorFilter, time: 60_000 });
+            const confirmation = await response.awaitMessageComponent({filter: collectorFilter, time: 60_000});
 
             for (let i = 0; i < res[1].length; i++) {
                 if (confirmation.customId === ('pokemon' + i)) {
                     let msgEmbed = new EmbedBuilder();
                     msgEmbed.setTitle("Bravo vous avez attrapé un : " + res[1][i]['pokemon']["name"] + " !");
-                    msgEmbed.setColor("Green");
+                    msgEmbed.setColor("Yellow");
 
-                    await catchPokemon(player, res[1][i]['pokemon'], res[1][i]['types']);
-                    await setTimeExplore(player);
+                    let newPokemon = await catchPokemon(player, res[1][i]['pokemon'], res[1][i]['types']);
+                    // await setTimeExplore(player);
 
                     await interaction.editReply({
                         content: '',
@@ -57,7 +56,13 @@ async function explore(interaction, player)  {
                         embeds: [msgEmbed]
                     });
 
-                    // @TODO : choix des compétences pour le nouveau pokémon si y'a plus de 4 compétences au niv 1
+                    await checkNewComp(interaction, newPokemon["dataValues"]);
+
+                    await interaction.editReply({
+                        content: '',
+                        components: [],
+                        embeds: [msgEmbed]
+                    });
                 }
             }
         } catch (e) {
@@ -69,6 +74,7 @@ async function explore(interaction, player)  {
 
             console.error(e);
         }
+
     } else {
         interaction.reply({embeds: [res[1]]});
     }

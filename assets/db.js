@@ -31,6 +31,7 @@ const Pokemon = sequelize.define('Pokemon', {
 const Capacity = sequelize.define('Capacity', {
     ID: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
     name: { type: DataTypes.STRING, allowNull: false },
+    type: { type: DataTypes.STRING, allowNull: false },
     category: { type: DataTypes.STRING, allowNull: false },
     pp: { type: DataTypes.INTEGER, allowNull: false },
     power: { type: DataTypes.INTEGER, allowNull: false },
