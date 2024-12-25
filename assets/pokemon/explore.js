@@ -1,5 +1,6 @@
 const {EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const { catchPokemon, drawPokemon, checkNewComp } = require("./handlePokemon");
+const { setTimeExplore } = require("./handlePlayer");
 
 async function explore(interaction, player)  {
     let res = await exploreGrass(player);
@@ -48,7 +49,7 @@ async function explore(interaction, player)  {
                     msgEmbed.setColor("Yellow");
 
                     let newPokemon = await catchPokemon(player, res[1][i]['pokemon'], res[1][i]['types']);
-                    // await setTimeExplore(player);
+                    await setTimeExplore(player);
 
                     await interaction.editReply({
                         content: '',
