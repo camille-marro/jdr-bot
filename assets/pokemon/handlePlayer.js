@@ -1,5 +1,4 @@
-const { PokemonPlayers } = require('../db.js');
-const {PokemonGenerated} = require("../db");
+const { PokemonPlayers, PokemonGenerated } = require('../db.js');
 
 async function getPlayer(id) {
     let player = await PokemonPlayers.findAll({
