@@ -60,6 +60,8 @@ const PokemonPlayers = sequelize.define('PokemonPlayers', {
     ID: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
     IDDiscord: { type: DataTypes.INTEGER, allowNull: false },
     lastExplore: { type: DataTypes.DATE, allowNull: false },
+    lastTraining: { type: DataTypes.DATE, allowNull: false },
+    trainingLeft: { type: DataTypes.INTEGER, allowNull: false },
 }, { tableName: 'pokemonPlayers', timestamps: false, });
 
 const PokemonPokedex = sequelize.define('PokemonPokedex', {
