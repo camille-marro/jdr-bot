@@ -37,6 +37,7 @@ module.exports = {
 
         if (!player) {
             await createPlayer(interaction.user.id);
+            player = await getPlayer(interaction.user.id);
         }
 
         let option = interaction.options.getSubcommand();
