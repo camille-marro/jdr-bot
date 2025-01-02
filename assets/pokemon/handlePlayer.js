@@ -15,7 +15,9 @@ async function getPlayer(id) {
 async function createPlayer(id) {
     await PokemonPlayers.create({
         IDDiscord: id,
-        lastExplore: 0
+        lastExplore: 0,
+        lastTraining: 0,
+        trainingLeft: 0
     });
 }
 
