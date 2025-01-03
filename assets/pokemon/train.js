@@ -83,7 +83,7 @@ async function train(interaction, player) {
                     });
                 } else {
                     interaction.reply({
-                        content: "prout",
+                        content: "",
                         components: [],
                         embeds: [msgEmbed],
                     });

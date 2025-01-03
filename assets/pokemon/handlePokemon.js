@@ -58,7 +58,6 @@ async function catchPokemon(player, pokemon, types) {
     });
 }
 
-
 async function getCompsAtLevel(pokemonID, level) {
     let rawCapacities = await PokemonCapacities.findAll({
         where: {
