@@ -1,9 +1,8 @@
-const { SlashCommandBuilder } = require("discord.js");
-
-const { getPlayer, createPlayer } = require('../../assets/pokemon/handlePlayer.js');
-const { explore } = require('../../assets/pokemon/explore');
-const { list } = require('../../assets/pokemon/list');
-const { train } = require('../../assets/pokemon/train');
+const {SlashCommandBuilder} = require("discord.js");
+const {createPlayer, getPlayer} = require("../../assets/pokemon/player");
+const {explore} = require("../../assets/pokemon/explore");
+const {train} = require("../../assets/pokemon/train");
+const {list} = require("../../assets/pokemon/list");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -27,22 +26,19 @@ module.exports = {
                     option
                         .setName("pokemon")
                         .setDescription("Pokémon à entraîner")
+                        .setRequired(true)
                 )
         )
-
     ,
 
     async execute(interaction) {
         let player = await getPlayer(interaction.user.id);
 
-        if (!player) {
-            await createPlayer(interaction.user.id);
-            player = await getPlayer(interaction.user.id);
-        }
+        if (player === null) player = await createPlayer(interaction.user.id);
 
         let option = interaction.options.getSubcommand();
         if (option === "explore") await explore(interaction, player);
         else if (option === "list") await list(interaction, player);
-        else if (option === "train") await train(interaction, player)
+        else if (option === "train") await train(interaction, player);
     }
 }
