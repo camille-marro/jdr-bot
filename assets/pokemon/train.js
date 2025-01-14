@@ -1,7 +1,6 @@
-const {PokemonGenerated, PokemonPlayers} = require("../db");
-const {choosePokemon, checkTraining, getTrainingTime} = require("./handlePlayer");
-const {addXp, checkLearning, learnCapacity} = require("./handlePokemon");
 const {EmbedBuilder} = require("discord.js");
+const {PokemonGenerated} = require("../db");
+const {choosePokemon, addXp, getNewComp, chooseNewComp} = require("./pokemon");
 
 async function train(interaction, player) {
     if (!checkTraining(player)) {
@@ -17,28 +16,24 @@ async function train(interaction, player) {
         });
 
         return;
-    } else player["trainingLeft"]--;
+    }
 
-    let reply = false;
-    let pokemonName  = interaction.options.getString('pokemon');
+    let pokemonName = interaction.options.getString('pokemon');
     pokemonName = pokemonName.charAt(0).toUpperCase() + pokemonName.substring(1).toLowerCase();
 
     let playerPokemons = await PokemonGenerated.findAll({
         where: {
             IDPlayer: player.ID,
             name: pokemonName
-        }
+        },
+        order: [
+            ['level', 'DESC']
+        ]
     });
 
     let pokemon;
-
     if (playerPokemons.length > 1) {
-        let pokemons = [];
-        for (let pokemon of playerPokemons) {
-            pokemons.push(pokemon["dataValues"]);
-        }
-        reply = true;
-        pokemon = await choosePokemon(player, pokemons, interaction);
+        pokemon = await choosePokemon(interaction, playerPokemons);
     } else if (playerPokemons.length === 0) {
         let msgEmbed = new EmbedBuilder();
         msgEmbed.setTitle("Vous n'avez aucun pokémon appelé : " + pokemonName + " !");
@@ -52,75 +47,116 @@ async function train(interaction, player) {
 
         return;
     } else {
-        pokemon = playerPokemons[0]["dataValues"];
+        pokemon = playerPokemons[0];
     }
+
+    player.lastTraining = new Date().getTime();
+    player.trainingLeft--
+    player.save();
 
     let randInt = Math.floor(Math.random() * 9) + 1;
     randInt -= 5;
 
-    let enemyPokemonLvl = pokemon['level'] + randInt;
+    let enemyPokemonLvl = pokemon.level + randInt;
     if (enemyPokemonLvl <= 0) enemyPokemonLvl = 1;
 
     let xpTable = [1, 1, 1, 1, 2, 2, 2, 3, 3, 4];
     let xpMultiplier = xpTable[Math.floor(Math.random() * xpTable.length)];
 
-    let xpWin = enemyPokemonLvl * xpMultiplier * 2;
-    let levelUp = await addXp(pokemon, xpWin);
+    let xpWin = enemyPokemonLvl * xpMultiplier * 200;
+    let levelUp = addXp(pokemon, xpWin);
+
+    let finalLevel = pokemon.level;
 
     for (let i = 0; i < levelUp; i++) {
-        let newCapacities = await checkLearning(interaction, pokemon);
-        if (newCapacities.length >= 1) {
-            for (let capacity of newCapacities) {
-                let result = await learnCapacity(interaction, pokemon, capacity, reply);
+        pokemon.level = finalLevel - levelUp + i + 1;
+        let newComps = await getNewComp(pokemon);
 
-                if (result[0]) reply = true;
-                let msgEmbed = result[1];
-                if (reply) {
-                    interaction.editReply({
-                        content: "",
-                        components: [],
-                        embeds: [msgEmbed],
-                    });
-                } else {
-                    interaction.reply({
-                        content: "",
-                        components: [],
-                        embeds: [msgEmbed],
-                    });
+        if (newComps.length >= 1) {
+            for (let comp of newComps) {
+                let learned = false;
+                if (pokemon.IDComp1 === null) {
+                    pokemon.IDComp1 = comp.capacityID;
+                    learned = true;
                 }
+                else if (pokemon.IDComp2 === null) {
+                    pokemon.IDComp2 = comp.capacityID;
+                    learned = true;
+                }
+                else if (pokemon.IDComp3 === null) {
+                    pokemon.IDComp3 = comp.capacityID;
+                    learned = true;
+                }
+                else if (pokemon.IDComp4 === null) {
+                    pokemon.IDComp4 = comp.capacityID;
+                    learned = true;
+                }
+
+                if (learned) {
+                    let msgEmbed = new EmbedBuilder();
+                    msgEmbed.setTitle("Votre " + pokemon.name + " a appris une nouvelle compétence !");
+                    msgEmbed.setColor("Red");
+                    msgEmbed.setDescription("**" + comp.name + " (" + comp.type + ")**\n" +
+                        "Attaque " + comp.category + " avec une puissance de " + comp.power + " et une précision de " + comp.preci + "."
+                    );
+                    if (interaction.replied) {
+                        await interaction.followUp({
+                            content: "",
+                            components: [],
+                            embeds: [msgEmbed],
+                        });
+                    } else {
+                        await interaction.reply({
+                            content: "",
+                            components: [],
+                            embeds: [msgEmbed],
+                        });
+                    }
+
+                } else await chooseNewComp(interaction, pokemon, comp);
             }
         }
     }
+
+    pokemon.level = finalLevel;
+    pokemon.save();
 
     let msgEmbed = new EmbedBuilder();
     msgEmbed.setTitle("Votre " + pokemon["name"] + " a gagné " + levelUp + " niveau(x) et " + xpWin + " points d'expérience !");
     msgEmbed.setColor("Yellow");
 
-    if (reply) {
-        interaction.followUp({
+    if (interaction.replied) {
+        await interaction.followUp({
             content: "",
             components: [],
             embeds: [msgEmbed],
         });
     } else {
-        interaction.reply({
+        await interaction.reply({
             content: "",
             components: [],
             embeds: [msgEmbed],
         });
     }
+}
 
-    PokemonPlayers.update(
-        {
-            trainingLeft: player["trainingLeft"],
-            lastTraining: new Date().getTime(),
-        },
-        {
-            where: {
-                ID: player["ID"],
-            }
-        }
-    )
+function checkTraining(player) {
+    if ((new Date().getTime() - player.trainingLeft) / (1000 * 60 * 60) >= 1) {
+        player.trainingLeft = 5;
+        return true;
+    } else return player.trainingLeft > 0;
+}
+
+function getTrainingTime(player) {
+    let diff = new Date().getTime() - player.trainingLeft;
+
+    let finalDiff = 3600000 - diff //3600000 === 1 heure
+
+    const seconds = Math.floor(finalDiff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+
+    return `${hours % 24} heure(s), ${minutes % 60} minute(s) et ${seconds % 60} seconde(s)`;
 }
 
 module.exports = {

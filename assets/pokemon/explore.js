@@ -1,105 +1,107 @@
-const {EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const { catchPokemon, drawPokemon, checkNewComp } = require("./handlePokemon");
-const { setTimeExplore } = require("./handlePlayer");
+const {canExplore, setTimeExplore} = require("./player");
+const {EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder} = require("discord.js");
+const {genXPokemon, catchPokemon, getNewComp, chooseNewComp} = require("./pokemon");
 
-async function explore(interaction, player)  {
-    let res = await exploreGrass(player);
-    if (res[0]) {
-        let row = new ActionRowBuilder();
-
-        let msgEmbed = new EmbedBuilder();
-        msgEmbed.setTitle("Vous avez croisé 3 pokémons dans les hautes herbes !");
-        msgEmbed.setColor("Aqua");
-
-        for (let i = 0; i < res[1].length; i++) {
-            let pokemon = res[1][i]["pokemon"];
-            let types = res[1][i]["types"];
-
-            let typeStr = "";
-            for (let type of types) {
-                typeStr += type["name"][0].toUpperCase() + type["name"].substring(1);
-                typeStr += " - ";
-            }
-            typeStr = typeStr.substring(0, typeStr.length - 2);
-
-            let button = new ButtonBuilder()
-                .setCustomId("pokemon" + i)
-                .setLabel("Attraper " + pokemon["name"] + " !")
-                .setStyle(ButtonStyle.Secondary);
-
-            row.addComponents(button);
-            msgEmbed.addFields({name: pokemon["name"], value: typeStr, inline: true});
-        }
-
-        let response = await interaction.reply({
-            content: '',
-            components: [row],
-            embeds: [msgEmbed]
-        });
-
-        const collectorFilter = i => i.user.id === interaction.user.id;
-
-        try {
-            const confirmation = await response.awaitMessageComponent({filter: collectorFilter, time: 60_000});
-
-            for (let i = 0; i < res[1].length; i++) {
-                if (confirmation.customId === ('pokemon' + i)) {
-                    let msgEmbed = new EmbedBuilder();
-                    msgEmbed.setTitle("Bravo vous avez attrapé un : " + res[1][i]['pokemon']["name"] + " !");
-                    msgEmbed.setColor("Yellow");
-
-                    let newPokemon = await catchPokemon(player, res[1][i]['pokemon'], res[1][i]['types']);
-                    await setTimeExplore(player);
-
-                    await interaction.editReply({
-                        content: '',
-                        components: [],
-                        embeds: [msgEmbed]
-                    });
-
-                    await checkNewComp(interaction, newPokemon["dataValues"]);
-
-                    await interaction.editReply({
-                        content: '',
-                        components: [],
-                        embeds: [msgEmbed]
-                    });
-                }
-            }
-        } catch (e) {
-            await interaction.editReply({
-                content: 'Aucune confirmation après 1 minute, annulation de la commande.',
-                components: [],
-                embeds: []
-            });
-
-            console.error(e);
-        }
-
-    } else {
-        interaction.reply({embeds: [res[1]]});
-    }
-}
-
-async function exploreGrass(player) {
-    let timeStamp = new Date().getTime();
-
-    if (((timeStamp - player["lastExplore"]) / (1000 * 60 * 60)) < 1) {
+async function explore(interaction, player) {
+    if (!canExplore(player)) {
         let msgEmbed = new EmbedBuilder();
         msgEmbed.setTitle("Vous ne pouvez explorer les hautes herbes qu'une fois par heure");
         msgEmbed.setDescription("Votre prochaine exploration sera disponible dans : " + getWaitingTime(player));
         msgEmbed.setColor("#ff0000");
 
-        return [false, msgEmbed];
+        interaction.reply({
+            content: "",
+            components: [],
+            embeds: [msgEmbed],
+        });
+
+        return;
     }
 
-    let pokemons = await drawPokemon(3);
+    let randInt = Math.floor(Math.random() * 2) + 3;
 
-    return [true, pokemons];
+    let pokemons = await genXPokemon(randInt);
+    let msgEmbed = new EmbedBuilder();
+    msgEmbed.setTitle("Vous avez croisé " + randInt + " pokémons dans les hautes herbes !");
+    msgEmbed.setColor("Aqua");
+
+    let row = new ActionRowBuilder();
+
+    for (let i = 0; i < pokemons.length; i++) {
+        let pokemon = pokemons[i];
+
+        let button = new ButtonBuilder()
+            .setCustomId("pokemon" + i)
+            .setLabel("Attraper " + pokemon.name)
+            .setStyle(ButtonStyle.Secondary);
+
+        row.addComponents(button);
+
+        let title;
+        if (pokemon.shiny) title = ":sparkles: " + pokemon.name;
+        else title = pokemon.name;
+
+        let types = pokemon.type1 + " - " + pokemon.type2;
+
+        msgEmbed.addFields({name: title, value: types, inline: true});
+    }
+
+    let response = await interaction.reply({
+        content: '',
+        components: [row],
+        embeds: [msgEmbed]
+    });
+
+    const collectorFilter = i => i.user.id === interaction.user.id;
+
+    try {
+        const confirmation = await response.awaitMessageComponent({filter: collectorFilter, time: 60_000});
+
+        for (let i = 0; i < pokemons.length; i++) {
+            if (confirmation.customId === ('pokemon' + i)) {
+                let msgEmbed = new EmbedBuilder();
+                msgEmbed.setTitle("Bravo vous avez attrapé un " + pokemons[i].name + " !");
+                msgEmbed.setColor("Yellow");
+
+                let newPokemon = await catchPokemon(player, pokemons[i]);
+                setTimeExplore(player);
+
+                await interaction.editReply({
+                    content: '',
+                    components: [],
+                    embeds: [msgEmbed]
+                });
+
+                let newComps = await getNewComp(newPokemon);
+                // ajouter les new comps et si +4 replace
+                for (let i = 0; i < newComps.length; i++) {
+                    // if i >=4
+                    if (i >= 4) {
+                        // choose comp
+                        await chooseNewComp(interaction, newPokemon, newComps[i]);
+                    } else {
+                        let newComp = newComps[i];
+                        let key = "IDComp" + (i + 1);
+                        newPokemon[key] = newComp.ID;
+                    }
+                }
+
+                newPokemon.save();
+            }
+        }
+    } catch (e) {
+        console.error(e);
+
+        await interaction.editReply({
+            content: 'Aucune confirmation après 1 minute, annulation de la commande.',
+            components: [],
+            embeds: []
+        });
+    }
 }
 
 function getWaitingTime(player) {
-    let diff = new Date().getTime() - player["lastExplore"];
+    let diff = new Date().getTime() - player.lastExplore;
 
     let finalDiff = 3600000 - diff //3600000 === 1 heure
 
@@ -112,4 +114,4 @@ function getWaitingTime(player) {
 
 module.exports = {
     explore
-};
+}

@@ -1,4 +1,4 @@
-const {getPlayerPokemons} = require("./handlePlayer");
+const {getPlayerPokemons} = require("./player");
 
 async function list(interaction, player)  {
     let pokemons = await getPlayerPokemons(player);
@@ -7,6 +7,8 @@ async function list(interaction, player)  {
     if (pokemons.length < 1) {
         finalStr = "Vous n'avez aucun pokémon.";
     }
+
+    //TODO: pagination
 
     for (let pokemon of pokemons) {
         if (pokemon["shiny"]) finalStr += ":sparkles: ";
