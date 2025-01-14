@@ -63,7 +63,7 @@ async function train(interaction, player) {
     let xpTable = [1, 1, 1, 1, 2, 2, 2, 3, 3, 4];
     let xpMultiplier = xpTable[Math.floor(Math.random() * xpTable.length)];
 
-    let xpWin = enemyPokemonLvl * xpMultiplier * 200;
+    let xpWin = enemyPokemonLvl * xpMultiplier * 2;
     let levelUp = addXp(pokemon, xpWin);
 
     let finalLevel = pokemon.level;
