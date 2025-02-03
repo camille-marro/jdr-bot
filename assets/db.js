@@ -191,6 +191,36 @@ const PokemonGenerated = sequelize.define('PokemonGenerated', {
     }
 }, { tableName: 'pokemonGenerated', timestamps: false, });
 
+const JDRSession = sequelize.define('JDRSession', {
+    ID: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    IDUser: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    universe: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    setting: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    history: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        defaultValue: ""
+    },
+    status: {
+        type: DataTypes.ENUM('active', 'terminee'),
+        allowNull: false,
+        defaultValue: 'active'
+    }
+}, {tableName: 'JDRSession', timestamps: false});
+
 module.exports = {
-    sequelize, Pokemon, Capacity, Types, PokemonCapacities, PokemonTypes, PokemonPlayers, PokemonPokedex, PokemonGenerated
+    sequelize, Pokemon, Capacity, Types, PokemonCapacities, PokemonTypes, PokemonPlayers, PokemonPokedex, PokemonGenerated, JDRSession
 }
