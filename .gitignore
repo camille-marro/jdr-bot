@@ -151,3 +151,7 @@ commands/textCommands/pokemon.js
 commands/textCommands/pokemon/test.js
 commands/textCommands/imagine/images
 test
+res
+onlypokemons.json
+pokemonCapacitesV2.json
+test.js
