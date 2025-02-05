@@ -201,6 +201,10 @@ const JDRSession = sequelize.define('JDRSession', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     universe: {
         type: DataTypes.STRING,
         allowNull: false

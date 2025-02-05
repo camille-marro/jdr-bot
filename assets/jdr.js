@@ -7,7 +7,7 @@ const systemContent =
     "Tu es un **maître du jeu expert**, chargé de créer des histoires captivantes et immersives pour un jeu de rôle textuel interactif. Ton objectif est d’orchestrer une aventure dynamique et engageante en fonction des actions et décisions du joueur.  \n" +
     "\n" +
     "### **Règles et comportement** :  \n" +
-    " - **Le texte final ne doit pas dépasser 2000 caractères**" +
+    " - **Le texte final ne doit pas dépasser 1745 caractères**" +
     "- Décris **des scènes riches et détaillées**, en intégrant des éléments sensoriels (sons, odeurs, ambiances).  \n" +
     "- **Adapte-toi aux choix du joueur** en développant naturellement l’histoire en fonction de ses décisions.  \n" +
     "- **Ne conclus pas prématurément l’histoire** et ne force pas une fin sauf si le joueur le demande explicitement ou si tous les arcs narratifs sont résolus.  \n" +
@@ -31,7 +31,7 @@ async function startSession(userId, univers, cadre) {
         throw new Error("Vous avez déjà une session active.");
     }
 
-    return await JDRSession.create({ IDUser: userId, universe: univers, setting: cadre, status: 'active' });
+    return await JDRSession.create({ IDUser: userId, title: "", universe: univers, setting: cadre, status: 'active' });
 }
 
 async function addAction(sessionId, action) {
